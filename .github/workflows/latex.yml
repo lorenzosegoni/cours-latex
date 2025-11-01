@@ -18,7 +18,7 @@ jobs:
       - name: Compile LaTeX
         uses: xu-cheng/latex-action@v3
         with:
-          root_file: cours1/Cours.tex
+          root_file: Modelisation déterministe/Cours.tex
           latexmk_use_lualatex: false
           latexmk_shell_escape: true
 
@@ -26,7 +26,7 @@ jobs:
       - name: Move PDF to root for GitHub Pages
         run: |
           mkdir -p public
-          cp cours1/Cours.pdf public/Cours.pdf
+          cp Modelisation déterministe/Cours.pdf public/Cours.pdf
           cp index.html public/index.html
           cp -r sty public/sty
 
