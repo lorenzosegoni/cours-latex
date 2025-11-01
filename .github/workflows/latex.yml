@@ -1,0 +1,38 @@
+name: 📘 Compile LaTeX and Deploy to Pages
+
+on:
+  push:
+    branches:
+      - main  # compile dès qu'on pousse sur la branche principale
+
+jobs:
+  build_latex:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Étape 1 : Télécharger ton dépôt
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Étape 2 : Compiler le fichier LaTeX
+      - name: Compile LaTeX
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: cours1/Cours.tex
+          latexmk_use_lualatex: false
+          latexmk_shell_escape: true
+
+      # Étape 3 : Copier le PDF compilé dans le dossier racine
+      - name: Move PDF to root for GitHub Pages
+        run: |
+          mkdir -p public
+          cp cours1/Cours.pdf public/Cours.pdf
+          cp index.html public/index.html
+          cp -r sty public/sty
+
+      # Étape 4 : Déployer sur GitHub Pages
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
