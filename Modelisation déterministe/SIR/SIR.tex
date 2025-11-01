@@ -1,0 +1,1344 @@
+\chapter{Le Modèle SIR (sans naissances-morts)}
+
+\section{Introduction}
+Ce modèle se distingue par l'hypothèse d'une \textbf{immunité permanente contre la réinfection}, justifiant ainsi l'introduction du compartiment $R$ (Removed). Ce compartiment peut représenter \textit{indifféremment les individus guéris et immunisés}, les individus \textit{isolés} ou les individus \textit{décédés}.
+
+\section{Le modèle}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.45\textwidth]{SIR/Image/modele_sir.jpg}
+\caption{Schéma du modèle SIR}
+\end{figure}
+
+\begin{itemize}
+\item Conformément aux modèles précédents, le nombre moyen de nouveaux cas d'infection par unité de temps est proportionnel au nombre moyen de contacts entre les individus susceptibles ($S$) et infectés ($I$) par unité de temps.
+\item La transition vers le compartiment $R$ est proportionnelle à $I$. La constante de proportionnalité $\gamma$ représente le \textbf{taux} (\textit{par unité de temps et par individu infecté}) \textbf{de guérison} (lorsque $R$ représente les individus guéris). Par un raisonnement analogue à celui effectué pour le modèle $SIS$, son inverse $\frac{1}{\gamma}$ représente la \textbf{durée moyenne de la maladie}, c'est-à-dire la \textit{durée moyenne de séjour d'un individu infectieux dans le compartiment $I$}.
+\end{itemize}
+
+\bigskip
+\begin{defi}
+On en déduit le système :
+\begin{equation}
+\begin{cases}
+\frac{dS(t)}{dt} = -\lambda SI, \\
+\frac{dI(t)}{dt} = \lambda SI - \gamma I, \\
+\frac{dR(t)}{dt} = \gamma I, \\
+\forall t > 0, \quad S(t) + I(t) + R(t) = S_0 + I_0 + R_0 = N
+\end{cases}
+\label{seq:equa_diff_sir_3d}
+\end{equation}
+\end{defi}
+
+\paragraph{Hypothèse de population constante} Pour tout $t>0$, on a $S(t) + I(t) + R(t) = N$. Ainsi, N est une \textbf{constante} (variable non dynamique). Les fonctions positives S, I et R sont donc \textit{bornées}.
+
+\bigskip
+Les conditions initiales sont $S(0)>0$ et $I(0)\geq0$. Pour $R$, on distingue différents cas :
+\begin{itemize}
+\item $R(0)=0$ : \textbf{tous les individus sont susceptibles de contracter la maladie}. Il s'agit du cas le plus simple, que nous traiterons principalement dans ce chapitre, bien qu'\textbf{il ne soit pas unique}. Ce scénario correspond à certaines maladies émergentes, comme la COVID-19 lors de son apparition.
+\item $R(0)>0$ : \textbf{une partie de la population est déjà immunisée ou résistante à la maladie}. Ce cas est plus général et survient notamment lors de campagnes de vaccination préalables ou d'immunité naturelle acquise.
+\end{itemize}
+
+\bigskip
+
+\begin{prop}
+Les deux premières équations du système (\ref{seq:equa_diff_sir_3d}) ne faisant pas intervenir R, l'étude de ce système peut se ramener à celle du système réduit :
+
+\begin{equation}
+\begin{cases}
+\frac{dS}{dt} = -\lambda SI, \\
+\frac{dI}{dt} = \lambda SI - \gamma I,\\
+0 \leq S(t) + I(t) \leq N, \quad \forall t > 0, \\
+S(0) + I(0) + R(0) = N
+\end{cases}
+\label{seq:equa_diff_sir_2d}
+\end{equation}
+\end{prop}
+
+
+Ce modèle, formulé en 1927 par \textbf{Kermack et McKendrick}, constitue un fondement historique de l'épidémiologie mathématique.
+
+\bigskip
+
+\begin{defi}
+Dans toute la suite, on notera $\rho = \frac{\gamma}{\lambda}$ le paramètre représentant le \textbf{taux relatif de retrait} (ou \textbf{de guérison} si R représente les \textit{individus guéris}).
+\end{defi}
+
+
+
+\section{Situation épidémique et de non épidémique}
+
+\begin{prop}
+On a  une situation d'equilibre à $t\to \infty$, c'est à dire:
+
+\begin{itemize}
+\item $S_\infty = \lim_{t \to \infty} S(t) \text{ existe}$
+\item $I_\infty = \lim_{t \to \infty} I(t) \text{ existe}$
+\item $R_\infty = \lim_{t \to \infty} R(t) \text{ existe}$
+\end{itemize}
+\end{prop}
+
+
+\begin{proof}
+Supposons que $0 < S_0 < N$, $0 < I_0 < N$ et $R_0 = 0$. On observe alors que :
+
+\begin{itemize}
+\item $S$ est \textit{décroissante et minorée par} $0$
+\item $R$ est \textit{croissante et majorée par} $N$. 
+\end{itemize}
+
+On en déduit l'existence des limites suivantes :
+
+\begin{align*}
+S_\infty &= \lim_{t \to \infty} S(t) \text{ existe} \\
+R_\infty &= \lim_{t \to \infty} R(t) \text{ existe}
+\end{align*}
+
+Par conséquent, puisque $S(t) + I(t) + R(t) = N$ pour tout $t \geq 0$, on en déduit que $I_\infty = \lim_{t \to \infty} I(t)$ existe également.
+\end{proof}
+
+\begin{prop}
+On a $S_\infty > 0$ et $I_\infty = 0$.
+
+Autrement dit, l'épidémie s'interrompt lorsqu'il n'y a plus d'individus infectés, et non lorsqu'il n'y a plus d'individus susceptibles de contracter la maladie.
+\end{prop}
+
+\commentaire{
+Il existe des situations où \textbf{l'épidémie s'arrête} alors qu'il reste encore \textit{des individus susceptibles}.
+}
+
+\begin{proof}
+Considérons le système d'équations différentielles :
+\[ \begin{cases}
+\frac{dS}{dt} = -\lambda S(t) I(t) \\
+\frac{dR}{dt} = \gamma I(t)
+\end{cases} \]
+
+Tant que $I(t) \neq 0$, on peut calculer :
+\begin{align*}
+\frac{dS}{dR} &= \frac{\frac{dS}{dt}}{\frac{dR}{dt}} \\
+&= \frac{-\lambda S(t) I(t)}{\gamma I(t)} \\
+&= -\frac{\lambda}{\gamma} S(t) \\
+&= -\frac{1}{\rho} S(t)
+\end{align*}
+
+Cette équation différentielle se réécrit sous forme séparable :
+\[ \frac{dS}{S} = -\frac{1}{\rho} dR \]
+
+En intégrant cette équation, on obtient :
+\begin{align*}
+\int \frac{dS}{S} = -\frac{1}{\rho} \int dR &\Leftrightarrow \quad \ln(S) = -\frac{1}{\rho} R + C \quad \text{(on peut omettre la valeur absolue car } S>0\text{)} \\
+&\Leftrightarrow \quad S(t) = K e^{-\frac{1}{\rho}R(t)} \quad \text{par passage à l'exponentielle}
+\end{align*}
+
+Déterminons la constante $K$ à l'aide de la condition initiale. À $t=0$ :
+$$
+S_0 = K e^{-\frac{1}{\rho}R_0} = K e^{0} = K \quad \text{car } R_0=0
+$$
+
+Par conséquent, pour tout $t \geq 0$ :
+$$
+S(t) = S_0 e^{-\frac{1}{\rho}R(t)}
+$$
+
+Puisque $R$ est majorée par $N$, on a $\forall t \geq 0$, $R(t) \leq N$. Il s'ensuit que :
+$$
+-\frac{1}{\rho} R(t) \geq -\frac{1}{\rho} N
+$$
+
+D'où, pour tout $t \geq 0$ :
+$$
+S(t) = S_0 e^{-\frac{1}{\rho}R(t)} \geq S_0 e^{-\frac{1}{\rho}N} > 0
+$$
+
+En passant à la limite lorsque $t \to +\infty$, on obtient :
+$$
+S_{\infty} = S_0 e^{-\frac{1}{\rho}R_{\infty}} > 0
+$$
+
+Ceci démontre que $S_\infty > 0$.
+
+\bigskip
+\noindent\rule{\textwidth}{0.4pt}
+\bigskip
+
+Montrons maintenant que $I_{\infty} = 0$ par l'absurde. Supposons que $I_{\infty} > 0$. 
+
+Pour tout $t \geq 0$, on a :
+$$
+R'(t) = \gamma I(t)
+$$
+
+En passant à la limite :
+$$
+\lim_{t\to+\infty} R'(t) = \gamma \lim_{t\to+\infty} I(t) = \gamma I_{\infty}
+$$
+
+Posons $R'_{\infty} = \lim_{t\to+\infty} R'(t)$. Sous l'hypothèse $I_{\infty} > 0$, on a :
+\[ R'_{\infty} = \gamma I_{\infty} > 0 \]
+
+Par définition de la limite d'une fonction en $+\infty$, pour tout $\epsilon>0$, il existe $T^{(\epsilon)}>0$ tel que pour tout $t \geq T^{(\epsilon)}$ :
+\[ |R'(t) - R'_{\infty}| \leq \epsilon \]
+
+En particulier, choisissons $\epsilon = \frac{R'_{\infty}}{2} = \frac{\gamma I_{\infty}}{2} > 0$. Il existe alors $T > 0$ tel que pour tout $t \geq T$ :
+\[ R'(t) - R'_{\infty} \geq -\frac{R'_{\infty}}{2} \]
+
+Donc, pour tout $t \geq T$ :
+\[ R'(t) \geq \frac{R'_{\infty}}{2} = \frac{\gamma}{2} I_{\infty} > 0 \]
+
+En intégrant cette inégalité entre $T$ et $t$ (avec $t \geq T$) :
+\[ \int_T^t R'(u) \, du \geq \int_T^t \frac{\gamma}{2} I_{\infty} \, du \]
+
+On obtient :
+\[ R(t) - R(T) \geq \frac{\gamma}{2} I_{\infty}(t-T) \]
+
+Soit :
+\[ R(t) \geq \frac{\gamma}{2} I_{\infty} \cdot t + \underbrace{R(T) - \frac{\gamma}{2} I_{\infty} T}_{\text{constante}} \]
+
+Or, observons que :
+\begin{itemize}
+\item $R(t)$ est majorée par $N$ pour tout $t \geq 0$
+\item $R(T) - \frac{\gamma}{2}I_{\infty} T$ est une constante
+\item $\frac{\gamma}{2}I_{\infty} t \xrightarrow{t\to+\infty} +\infty$ car $\frac{\gamma}{2}I_{\infty} > 0$
+\end{itemize}
+
+Ceci implique que $\lim_{t\to+\infty} R(t) = +\infty$, ce qui est en \textbf{contradiction} avec le fait que $R$ est bornée par $N$.
+
+Par conséquent, l'hypothèse $I_{\infty} > 0$ est fausse, et donc $I_{\infty} = 0$.
+\end{proof}
+
+\bigskip
+
+\begin{prop}
+L'épidémie présente deux évolutions distinctes selon la valeur de $S_0$ par rapport au seuil $\rho$ :
+\begin{itemize}
+\item Si $S_0 < \rho$ : régime sous-critique (pas d'épidémie)
+\item Si $S_0 > \rho$ : régime épidémique
+\end{itemize}
+\end{prop}
+
+\commentaire{
+Le paramètre $\rho$ joue donc le rôle d'un \textbf{seuil épidémique}.
+}
+
+\begin{proof}
+D'après les équations du modèle, calculons la dérivée de $I$ à $t=0$ :
+
+\begin{align*}
+\left.\frac{dI}{dt}\right|_{t=0} 
+&= \lambda S_0 I_0 - \gamma I_0 \\
+&= \lambda I_0 \left( S_0 - \frac{\gamma}{\lambda} \right) \\
+&= \lambda I_0 (S_0 - \rho)
+\end{align*}
+
+Le signe de cette dérivée dépend du signe de $(S_0 - \rho)$. Distinguons deux cas :
+
+\bigskip
+\noindent\textbf{Cas 1 : $S_0 < \rho$ (régime sous-critique)}
+
+Si $S_0 < \rho$, alors $\left.\frac{dI}{dt}\right|_{t=0} < 0$. 
+
+De plus, puisque $S$ est décroissante, pour tout $t>0$ :
+\[ S(t) \leq S(0) = S_0 < \rho \]
+
+Par conséquent, pour tout $t > 0$ :
+\[ I'(t) = \lambda S(t) I(t) - \gamma I(t) = \lambda I(t) \left(S(t) - \rho\right) < 0 \]
+
+Ainsi, $I$ est strictement décroissante sur $[0, +\infty[$. 
+
+En conclusion, lorsque $t \to +\infty$, l'infection disparaît sans jamais se propager significativement. Il n'y a pas d'épidémie.
+
+\bigskip
+\noindent\textbf{Cas 2 : $S_0 > \rho$ (régime épidémique)}
+
+Si $S_0 > \rho$, alors $\left.\frac{dI}{dt}\right|_{t=0} > 0$.
+
+Par continuité de $I'$, il existe un intervalle $[0, \delta[$ avec $\delta > 0$ sur lequel $I'(t) > 0$, c'est-à-dire où $I$ est strictement croissante.
+
+Considérons maintenant l'instant $t_1$ défini par :
+$$
+t_1 = \sup\{t > 0 : I'(s) > 0 \text{ pour tout } s \in [0,t[\}
+$$
+
+Deux situations sont possibles :
+
+\begin{enumerate}
+\item Si $t_1 = +\infty$, alors $I$ croîtrait indéfiniment, ce qui contredit le fait que $I$ est bornée et que $I_\infty = 0$. Donc $t_1 < +\infty$.
+
+\item Puisque $t_1 < +\infty$, on a nécessairement :
+\begin{itemize}
+\item $I$ est strictement croissante sur $[0,t_1[$ (phase \textbf{épidémique})
+\item $I'(t_1) = 0$, ce qui implique $S(t_1) = \rho$ (car $I'(t_1) = \lambda I(t_1)(S(t_1) - \rho) = 0$ et $I(t_1) > 0$)
+\item Pour tout $t > t_1$, puisque $S$ est décroissante, $S(t) < S(t_1) = \rho$, donc $I'(t) < 0$
+\end{itemize}
+
+Ainsi, $I$ atteint un maximum en $t_1$ (pic épidémique), puis décroît vers $0$.
+\end{enumerate}
+\end{proof}
+
+\section{ Nombre de reproduction de base (basic reproduction number) $R_0$}
+
+Ce qui précède montre un comportement radicalement différent du système (\ref{seq:equa_diff_sir_3d}) selon que
+\begin{itemize}
+ \item $S_0 < \rho \iff \frac{S_0}{\rho}= \frac{\lambda S_0}{\gamma} < 1$ (situation non épidémique)
+ \item $S_0 > \rho \iff \frac{S_0}{\rho}= \frac{\lambda S_0}{\gamma} - 1 > 0$ (situation épidémique).
+\end{itemize}
+
+Donc:
+
+\begin{defi}
+Posons $\mathcal{R}_0 = \frac{S_0}{\rho}$, alors:
+
+\begin{itemize}
+\item Il y a \textbf{épidémie} si $\mathcal{R}_0 > 1$ 
+\item Il y a \textbf{absence d'épidémie} (disparition rapide de la maladie) si $\mathcal{R}_0 < 1$. 
+\end{itemize}
+
+$\mathcal{R}_0$ détermine donc quand il y a ou pas épidémie.
+\end{defi}
+
+\bigskip
+
+Comme dans le cas du modèle SIS, $\mathcal{R}_0$ représente le \textbf{nombre moyen de contact infectant causé par un individu infecté durant sa maladie}. Pour qu'il y ait épidémie, chaque malade doit infecter plus d'une personne saine.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Étude qualitative du système (\ref{seq:equa_diff_sir_3d})}
+
+\begin{prop}
+Supposons que la solution $(S,I,R)$ du système (\ref{seq:equa_diff_sir_3d}) soit définie pour tout $t\geq 0$ et que la limite suivante existe :
+\[ \lim_{t\to\infty} (S(t),I(t),R(t))=(S_\infty,I_\infty,R_\infty). \]
+Autrement dit :
+\begin{itemize}
+\item $\lim_{t\to\infty} S(t)=S_\infty =: S^*$
+\item $\lim_{t\to\infty} I(t)=I_\infty =: I^*$
+\item $\lim_{t\to\infty} R(t)=R_\infty =: R^*$
+\end{itemize}
+Alors $(S_\infty,I_\infty,R_\infty)$ est un point d'équilibre du système (\ref{seq:equa_diff_sir_3d}), c'est-à-dire que les dérivées s'annulent en ce point.
+\end{prop}
+
+\begin{proof}
+La démonstration repose sur le fait que si une fonction converge vers une limite, alors sa dérivée tend vers zéro. Nous allons le montrer rigoureusement.
+
+\bigskip
+\noindent\textbf{Étape 1 : Condition de Cauchy}
+
+Puisque $S(t) \xrightarrow[t\to\infty]{} S_\infty$, la fonction $S$ satisfait la condition de Cauchy. Pour tout $\epsilon > 0$, il existe $T > 0$ tel que pour tous $t_1, t_2 \geq T$ :
+\begin{align*}
+|S(t_1) - S(t_2)| 
+&= |(S(t_1) - S_{\infty}) - (S(t_2)-S_{\infty})| \\
+&\leq |S(t_1) - S_{\infty}| + |S(t_2) - S_{\infty}| \\
+&< \frac{\epsilon}{2} + \frac{\epsilon}{2} = \epsilon
+\end{align*}
+
+Ainsi :
+\[
+|S(t_1) - S(t_2)| \xrightarrow[t_1,t_2 \to \infty]{} 0
+\]
+
+\bigskip
+\noindent\textbf{Étape 2 : Application du théorème des accroissements finis}
+
+Fixons $h > 0$ arbitrairement. Pour $t$ suffisamment grand, posons $t_1 = t$ et $t_2 = t+h$. 
+
+Puisque $S$ est de classe $\mathcal{C}^1$ sur $[t,t+h]$, le théorème des accroissements finis (TAF) garantit l'existence de $\tau_{t,h} \in \,]t,t+h[$ tel que :
+
+\[ S(t+h) - S(t) = h \cdot S'(\tau_{t,h}) \]
+
+En utilisant l'équation différentielle du système (\ref{seq:equa_diff_sir_3d}), on a :
+\begin{align*}
+S'(\tau_{t,h}) &= -\lambda S(\tau_{t,h}) I(\tau_{t,h})
+\end{align*}
+
+Donc l'équation précédente devient :
+
+\[ S(t+h) - S(t) = -h \lambda S(\tau_{t,h}) I(\tau_{t,h}) \]
+
+\bigskip
+\noindent\textbf{Étape 3 : Passage à la limite}
+
+Lorsque $t \to \infty$, on observe que :
+\begin{itemize}
+\item $t < \tau_{t,h} < t+h$
+\item $t \to \infty$ et $t+h \to \infty$
+\end{itemize}
+
+Par le théorème des gendarmes, $\tau_{t,h} \to \infty$ lorsque $t \to \infty$.
+
+Par continuité de $S$ et $I$, et en utilisant l'existence des limites :
+\begin{align*}
+S(\tau_{t,h}) &\xrightarrow[t\to\infty]{} S_\infty \\
+I(\tau_{t,h}) &\xrightarrow[t\to\infty]{} I_\infty
+\end{align*}
+
+En passant à la limite :
+\begin{align*}
+\lim_{t\to\infty} [S(t+h) - S(t)] &= -h \lambda \lim_{t\to\infty} [S(\tau_{t,h}) I(\tau_{t,h})] \\
+0 &= -h \lambda S_\infty I_\infty
+\end{align*}
+
+Puisque $h > 0$ et $\lambda > 0$ sont arbitraires, on obtient :
+\[
+S_\infty I_\infty = 0
+\]
+
+Cela signifie que $S'_\infty = -\lambda S_\infty I_\infty = 0$ au point limite.
+
+\bigskip
+\noindent\textbf{Étape 4 : Généralisation aux autres composantes}
+
+Par un raisonnement identique appliqué aux fonctions $I$ et $R$, on montre que :
+\begin{align*}
+I'_\infty &= \lambda S_\infty I_\infty - \gamma I_\infty = 0 \\
+R'_\infty &= \gamma I_\infty = 0
+\end{align*}
+
+\bigskip
+
+Par conséquent, $(S^*, I^*, R^*)$ est un point d'équilibre du système (\ref{seq:equa_diff_sir_3d}).
+\end{proof}
+
+------------------------------------------------------------------------------------------------------
+
+
+\begin{proof}[Démonstration vue en cours]
+
+
+On sait que, $\forall t_1 >0$, $\forall t_2 >0$ :
+
+\begin{align*}
+\lvert S(t_1) - S(t_2) \rvert 
+&= \lvert (S(t_1) - S_{\infty}) - (S(t_2)-S_{\infty}) \rvert  \\
+&\leq \lvert S(t_1) -  S_{\infty} \rvert + \lvert S(t_2) - S_{\infty} \rvert  \\
+&\xrightarrow[t_1,t_2 \to \infty]{} 0+0
+\end{align*}
+
+D'où :
+
+\[
+\lvert S(t_1) - S(t_2) \rvert \xrightarrow[t_1,t_2 \to \infty]{} 0
+\]
+
+\bigskip
+
+
+En posant $t=t_1$ et $t+h = t_2$ avec $h>0$ fixé, on applique le TAF (théorème des accroissements finis) sur $[t,t+h]$, à la fonction $S \in \mathcal{C}^1[t,t+h]$, et on obtient : il existe $\tau_{t,h} \in ]t,t+h[$ tel que
+
+\begin{align*}
+S(t+h) -S(t) &= h\, S'(\tau_{t,h}) \\
+&= h\, f (S(\tau_{t,h}),I(\tau_{t,h}),R(\tau_{t,h})) \\
+&= h\, S(\tau_{t,h}) I(\tau_{t,h}) \\
+&\xrightarrow[t\to \infty]{} h f  (S_{\infty},I_{\infty},R_{\infty})
+\end{align*}
+
+Et on a :
+
+\[
+t < \tau_{t,h} < t+h
+\]
+
+Puisque $t \to \infty$, $t+h \to \infty$, par le théorème des gendarmes $\tau_{t,h} \to \infty$.
+
+Donc :
+
+\[
+h f (S_{\infty},I_{\infty},R_{\infty})=0
+\]
+
+C'est-à-dire $(S_{\infty},I_{\infty},R_{\infty}) = (S^*,I^*,R^*)$ est un point d'équilibre du système \eqref{seq:equa_diff_sir_3d}.
+
+\end{proof}
+
+
+\subsection{Les points d'équilibre du système (\ref{seq:equa_diff_sir_2d})}
+
+\begin{prop}
+Les points d'équilibre du système (\ref{seq:equa_diff_sir_2d}), notés $P^*$, sont de la forme :
+\[ P^* = (S^*, 0) \text{ avec } S^* \in [0, N]. \]
+\end{prop}
+
+\begin{proof}
+\textbf{Identification des points d'équilibre}
+
+Un point d'équilibre $(S^*, I^*)$ du système (\ref{seq:equa_diff_sir_2d}) satisfait :
+
+\[
+\begin{cases}
+\frac{dS}{dt} = -\lambda S^* I^* = 0 \\
+\frac{dI}{dt} = \lambda S^* I^* - \gamma I^* = 0
+\end{cases}
+\]
+
+De la première équation, on obtient $\lambda S^* I^* = 0$, ce qui implique :
+\[ S^* = 0 \quad \text{ou} \quad I^* = 0 \]
+
+\textbf{Cas 1 :} Si $S^* = 0$, la seconde équation donne $-\gamma I^* = 0$, donc $I^* = 0$.
+
+\textbf{Cas 2 :} Si $I^* = 0$, la seconde équation est automatiquement satisfaite pour tout $S^* \geq 0$.
+
+Puisque $S^* + I^* \leq N$, on a nécessairement $S^* \in [0, N]$.
+
+Par conséquent, les points d'équilibre sont de la forme $P^* = (S^*, 0)$ avec $S^* \in [0, N]$.
+
+\end{proof}
+
+\begin{prop}
+Soit $I(S)$ la fonction définie par la relation entre le nombre d'infectés et le nombre de susceptibles le long d'une trajectoire du système (\ref{seq:equa_diff_sir_2d}). Alors :
+\begin{enumerate}
+\item La relation entre $I$ et $S$ / $t$ est donnée par :
+\begin{equation}
+I(t) = I_0 - S(t) + \rho \ln ( S(t) ) + S_0 - \rho \ln (S_0)
+\label{eq:I_t}
+\end{equation}
+
+\[ \Leftrightarrow  I(S) = I_0 + S_0 - S + \rho \ln\left(\frac{S}{S_0}\right) \]
+
+\item La fonction $S \mapsto I(S)$ est strictement concave sur $[0, +\infty[$.
+
+\item Le maximum de $I$ est atteint en $S = \rho$ et vaut :
+\begin{equation} \label{seq:I_max}
+I_{\max} = I_0 + S_0 - \rho + \rho \ln\left(\frac{\rho}{S_0}\right) 
+\end{equation}
+\end{enumerate}
+\end{prop}
+
+
+\begin{proof}
+\textbf{Étape 1 : Relation entre $I$ et $S$ le long des trajectoires}
+
+Pour étudier la dynamique du système, établissons une relation entre $I$ et $S$. Tant que $I(t) \neq 0$, on peut écrire :
+\begin{align*}
+\frac{dI}{dS} &= \frac{\frac{dI}{dt}}{\frac{dS}{dt}} \\
+&= \frac{\lambda S I - \gamma I}{-\lambda S I} \\
+&= \frac{I(\lambda S - \gamma)}{-\lambda S I} \\
+&= \frac{\lambda S - \gamma}{-\lambda S} \\
+&= -1 + \frac{\gamma}{\lambda S} \\
+&= -1 + \frac{\rho}{S}
+\end{align*}
+
+où l'on rappelle que $\rho = \frac{\gamma}{\lambda}$.
+
+\bigskip
+\textbf{Étape 2 : Intégration de l'équation différentielle}
+
+Intégrons cette équation différentielle par rapport à $S$ :
+\begin{align*}
+\int dI &= \int \left(-1 + \frac{\rho}{S}\right) dS \\
+I(S) &= -S + \rho \ln(S) + C
+\end{align*}
+
+où $C$ est une constante d'intégration.
+
+\bigskip
+\textbf{Étape 3 : Détermination de la constante d'intégration}
+
+En utilisant la condition initiale $(S(0), I(0)) = (S_0, I_0)$, on obtient :
+\[ I_0 = -S_0 + \rho \ln(S_0) + C \]
+
+D'où :
+\[ C = I_0 + S_0 - \rho \ln(S_0) \]
+
+La relation entre $I$ et $S$ le long d'une trajectoire s'écrit donc :
+\begin{align*}
+I(S) &= -S + \rho \ln(S) + I_0 + S_0 - \rho \ln(S_0) \\
+&= I_0 + S_0 - S + \rho \ln(S) - \rho \ln(S_0) \\
+&= I_0 + S_0 - S + \rho \ln\left(\frac{S}{S_0}\right)
+\end{align*}
+
+Ceci établit la formule (\ref{eq:I_t}).
+
+\newpage
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.45\textwidth]{SIR/Image/Etude_I.jpg}
+\end{figure}
+
+\bigskip
+\textbf{Étape 4 : Étude de la concavité}
+
+Pour étudier la concavité de la fonction $S \mapsto I(S)$, calculons ses dérivées première et seconde.
+
+Dérivée première :
+\[ I'(S) = \frac{dI}{dS} = -1 + \frac{\rho}{S} \]
+
+Dérivée seconde :
+\[ I''(S) = \frac{d^2I}{dS^2} = -\frac{\rho}{S^2} \]
+
+Pour tout $S > 0$, on a $I''(S) = -\frac{\rho}{S^2} < 0$ (car $\rho > 0$ et $S > 0$).
+
+Par conséquent, la fonction $S \mapsto I(S)$ est \textbf{strictement concave} sur $[0, +\infty[$.
+
+\bigskip
+\textbf{Étape 5 : Recherche du maximum de $I$}
+
+La dérivée première s'annule lorsque :
+\[ I'(S) = -1 + \frac{\rho}{S} = 0 \quad \Leftrightarrow \quad S = \rho \]
+
+Puisque la fonction est strictement concave, ce point critique est un maximum global.
+
+Étudions le signe de la dérivée pour confirmer :
+\begin{itemize}
+\item Si $0 < S < \rho$ : $\frac{\rho}{S} > 1$, donc $I'(S) > 0$ et $I$ est strictement croissante
+\item Si $S > \rho$ : $\frac{\rho}{S} < 1$, donc $I'(S) < 0$ et $I$ est strictement décroissante
+\end{itemize}
+
+La fonction $S \mapsto I(S)$ atteint donc son maximum en $S = \rho$.
+
+\bigskip
+\textbf{Étape 6 : Calcul de la valeur maximale}
+
+En substituant $S = \rho$ dans l'équation (\ref{eq:I_t}), on obtient :
+\begin{align*}
+I_{\max} &= I(S = \rho) \\
+&= I_0 + S_0 - \rho + \rho \ln\left(\frac{\rho}{S_0}\right) \\
+&= I_0 + S_0 - \rho + \rho \ln(\rho) - \rho \ln(S_0) \\
+&= I_0 + S_0 - \rho\left(1 - \ln\left(\frac{\rho}{S_0}\right)\right)
+\end{align*}
+
+Cette valeur représente le \textbf{pic épidémique}, c'est-à-dire le nombre maximal d'individus infectés simultanément au cours de l'épidémie.
+\end{proof}
+
+\commentaire{
+\begin{itemize}
+\item La stricte concavité de $I(S)$ garantit l'\textbf{unicité du maximum}.
+\item Le pic épidémique est atteint lorsque le nombre de susceptibles descend exactement au niveau du seuil épidémique $\rho = \frac{\gamma}{\lambda}$.
+\item Si $S_0 < \rho$, alors $I'(S_0) < 0$ : la fonction $I$ est décroissante dès le début, il n'y a donc pas d'épidémie.
+\item Si $S_0 > \rho$, alors $I'(S_0) > 0$ : la fonction $I$ croît initialement jusqu'à atteindre son maximum en $S = \rho$, puis décroît vers zéro.
+\item Le nombre de susceptibles $S_\infty$ à la fin de l'épidémie est solution de l'équation $I(S_\infty) = 0$, soit :
+\[ S_\infty = I_0 + S_0 + \rho \ln\left(\frac{S_\infty}{S_0}\right) \]
+Cette équation transcendante ne peut généralement pas être résolue explicitement.
+\end{itemize}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsection{Étude des trajectoires dans le plan $SI$}
+
+On a observé que :
+\[ P(t) = (S(t), I(t)) \xrightarrow{t \to \infty} (S_\infty, 0) = (S^*, 0) = P^* \]
+
+où $P^*$ est un point d'équilibre du système (\ref{seq:equa_diff_sir_2d}). Pour un point initial :
+\[ P_0 = (S_0, I_0), \]
+
+étudions le comportement des trajectoires dans le plan de phase $(S, I)$.
+
+\begin{prop}
+Chaque trajectoire issue d'un point $P_0 = (S_0, I_0)$ avec $I_0 > 0$ coupe l'axe des abscisses ($I = 0$) en un unique point, qui est le point d'équilibre $P^* = (S_\infty, 0)$.
+\end{prop}
+
+
+\begin{proof}
+Considérons une trajectoire issue de $P_0 = (S_0, I_0)$ avec $I_0 > 0$. 
+
+\textbf{Étape 1 : La trajectoire reste dans le domaine admissible}
+
+Le long de toute trajectoire, on a $S(t) + I(t) \leq N$ et $S(t), I(t) \geq 0$ pour tout $t \geq 0$. De plus :
+\begin{itemize}
+\item $S'(t) = -\lambda S(t) I(t) \leq 0$, donc $S$ est décroissante
+\item $S(t)$ est minorée par $0$, donc $S(t) \to S_\infty \geq 0$
+\item Nous avons démontré que $I(t) \to 0$ lorsque $t \to \infty$
+\end{itemize}
+
+\textbf{Étape 2 : Unicité du point d'intersection avec l'axe $I = 0$}
+
+Supposons par l'absurde que la trajectoire coupe l'axe $I = 0$ en deux points distincts $(S_1, 0)$ et $(S_2, 0)$ avec $0 < S_2 < S_1 \leq N$.
+
+Cela signifierait qu'il existe des temps $t_1 < t_2$ tels que :
+\[ I(t_1) = 0, \quad I(t_2) = 0, \quad \text{et} \quad I(t) > 0 \text{ pour tout } t \in \,]t_1, t_2[ \]
+
+Or, d'après l'équation différentielle :
+\[ I'(t_1) = \lambda S(t_1) I(t_1) - \gamma I(t_1) = 0 \]
+
+Ceci implique que $(S(t_1), I(t_1)) = (S(t_1), 0)$ est un point d'équilibre. Par unicité de la solution du problème de Cauchy, la trajectoire issue de ce point est constante : $I(t) = 0$ pour tout $t \geq t_1$.
+
+Ceci contredit l'hypothèse $I(t) > 0$ pour $t \in \,]t_1, t_2[$. 
+
+Par conséquent, la trajectoire coupe l'axe $I = 0$ en un unique point, qui est nécessairement le point limite $P^* = (S_\infty, 0)$.
+\end{proof}
+
+\begin{prop}
+La valeur asymptotique $S_\infty$ vérifie $S_\infty \in \,]0, \rho]$.
+\end{prop}
+
+
+\begin{proof}
+\textbf{1) Montrons que $S_\infty > 0$ :}
+
+Ceci a déjà été démontré précédemment : $S_\infty = S_0 e^{-\frac{1}{\rho}R_\infty} > 0$.
+
+\textbf{2) Montrons que $S_\infty \leq \rho$ :}
+
+Rappelons que $I(S) = I_0 + S_0 - S + \rho \ln\left(\frac{S}{S_0}\right)$.
+
+À la limite, $I_\infty = 0$, donc :
+\[ 0 = I_0 + S_0 - S_\infty + \rho \ln\left(\frac{S_\infty}{S_0}\right) \]
+
+Soit :
+\[ S_\infty = I_0 + S_0 + \rho \ln\left(\frac{S_\infty}{S_0}\right) \]
+
+Si $S_\infty > \rho$, alors $I'(S_\infty) = -1 + \frac{\rho}{S_\infty} < 0$. Or, la fonction $I(S)$ atteint son maximum en $S = \rho$ et décroît pour $S > \rho$. 
+
+Puisque $S$ est décroissante au cours du temps et que $I(t) \to 0$, on doit nécessairement avoir $S_\infty \leq \rho$.
+
+En fait, si $S_0 > \rho$ (régime épidémique), alors la trajectoire traverse obligatoirement la droite $S = \rho$, et puisque $S$ continue de décroître jusqu'à $S_\infty$, on a $S_\infty < \rho$.
+
+Si $S_0 \leq \rho$, alors $S(t) \leq S_0 \leq \rho$ pour tout $t \geq 0$, donc $S_\infty \leq \rho$.
+\end{proof}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.7\textwidth]{SIR/Image/portrait_phase_sir.jpg}
+\caption{Portrait de phase du modèle SIR : cas $\rho = \frac{N}{2}$.}
+\label{fig:triangle_sir}
+\end{figure}
+
+\newpage
+\noindent\textbf{Interprétation du portrait de phase}
+
+La figure (\ref{fig:triangle_sir}) représente quelques trajectoires correspondant à différentes valeurs initiales $P(0) = (S_0, I_0)$. Une trajectoire particulière démarre en un point $P(0)$ situé dans le domaine admissible :
+\[ \mathcal{D} = \{(S, I) : S \geq 0, I \geq 0, S + I \leq N\} \]
+
+Lorsque $t$ croît, la population d'individus susceptibles décroît de manière monotone. Deux comportements distincts se manifestent selon la position de $S_0$ par rapport au seuil $\rho$ :
+
+\begin{defi}
+\begin{enumerate}
+\item \textbf{Région épidémique ($S_0 > \rho$)} : Si $P(0)$ est choisi avec $S_0 > \rho$, alors :
+\begin{itemize}
+\item $I$ croît initialement jusqu'à son maximum $I_{\max}$, atteint lorsque $S = \rho$
+\item Ensuite, $I$ décroît vers $0$ tandis que $S$ continue de décroître vers $S_\infty < \rho$
+\item La trajectoire présente un pic épidémique distinct
+\end{itemize}
+
+\item \textbf{Région non épidémique ($S_0 < \rho$)} : Si $P(0)$ est choisi avec $S_0 < \rho$, alors :
+\begin{itemize}
+\item $I$ décroît de façon monotone vers $0$ dès l'instant initial
+\item $S$ décroît également vers $S_\infty$, mais de manière moins prononcée
+\item Il n'y a pas de phase de croissance épidémique
+\end{itemize}
+\end{enumerate}
+\end{defi}
+
+\bigskip
+\noindent\textbf{Dynamique de la propagation épidémique}
+
+Analysons plus en détail ce que ces résultats impliquent du point de vue de la propagation de l'épidémie dans la population.
+
+Lorsque $t$ croît, le point $P(t) = (S(t), I(t))$ se déplace le long de la courbe intégrale (\ref{eq:I_t}) dans le sens de décroissance de $S$ (puisque $S$ est décroissante). 
+
+\textbf{Cas 1 : $S_0 < \rho$ (régime sous-critique)}
+
+Si $S_0 < \rho$, alors $S(t)$ et $I(t)$ décroissent de façon monotone vers $S_\infty$ et $0$ respectivement. Ainsi, si un petit groupe d'infectés $I_0$ est introduit dans une population de susceptibles $S_0$ avec $S_0 < \rho$, la maladie disparaît rapidement sans se propager significativement. Le nombre de reproduction effectif $\mathcal{R}_{\text{eff}}(t) = \frac{\lambda S(t)}{\gamma} < 1$ reste inférieur à $1$ tout au long de l'épidémie.
+
+\textbf{Cas 2 : $S_0 > \rho$ (régime épidémique)}
+
+Si $S_0 > \rho$, alors $I$ croît tant que $S > \rho$, atteint son maximum $I_{\max}$ lorsque $S = \rho$, puis décroît vers $0$ tandis que $S$ décroît vers $S_\infty < \rho$. Le nombre de reproduction effectif $\mathcal{R}_{\text{eff}}(t) = \frac{\lambda S(t)}{\gamma}$ est initialement supérieur à $1$, passe par $1$ au moment du pic ($S = \rho$), puis devient inférieur à $1$.
+
+\bigskip
+
+\subsubsection{Conclusion fondamentale}
+
+\textbf{La propagation de l'infection ne s'arrête donc pas par manque de susceptibles, mais par manque d'individus infectieux.} En effet, à la fin de l'épidémie, il reste encore $S_\infty > 0$ individus susceptibles qui n'ont jamais contracté la maladie. 
+
+Ce résultat contre-intuitif s'explique par le fait que le taux de nouvelles infections $\lambda S(t) I(t)$ dépend du produit de deux quantités qui évoluent différemment : tandis que $S$ décroît continuellement, $I$ finit par décroître également (après avoir éventuellement atteint un maximum). Lorsque $I$ devient très petit, même en présence d'un nombre significatif de susceptibles, le taux de nouvelles infections devient négligeable et l'épidémie s'éteint naturellement.
+
+Ce phénomène illustre l'importance du concept d'immunité collective : une épidémie peut être stoppée avant que toute la population susceptible ne soit infectée, pourvu qu'une proportion suffisante de la population ne soit plus susceptible (soit par infection antérieure, soit par vaccination).
+
+
+
+\subsection{Comment trouver $S_\infty$ ?}
+
+Nous avons établi précédemment que $S_\infty > 0$ et $I_\infty = 0$. Par conservation de la population totale :
+\[ 
+S_\infty + I_\infty + R_\infty = N
+\]
+
+Puisque $I_\infty = 0$, on obtient :
+\[ 
+R_\infty = N - S_\infty - I_\infty = N - S_\infty
+\]
+
+D'après la relation établie précédemment, $S(t) = S_0 e^{-\frac{1}{\rho} R(t)}$, en passant à la limite lorsque $t \to \infty$ :
+\[ 
+S_\infty = S_0 e^{-\frac{1}{\rho} R_\infty} = S_0 e^{-\frac{1}{\rho} (N-S_\infty)}
+\]
+
+\bigskip
+De manière équivalente, introduisons les proportions adimensionnées :
+\begin{itemize}
+\item $s_0 = \frac{S_0}{N}$ : la proportion initiale d'individus susceptibles
+\item $s_\infty = \frac{S_\infty}{N}$ : la proportion finale d'individus susceptibles
+\item $R_0 = \frac{\lambda N}{\gamma} = \frac{N}{\rho}$ : le nombre de reproduction de base
+\end{itemize}
+
+En divisant l'équation précédente par $N$, on obtient :
+\begin{align*}
+\frac{S_\infty}{N} = \frac{S_0}{N} e^{-\frac{1}{\rho}(N - S_\infty)} & \Leftrightarrow s_\infty = s_0 e^{-\frac{N}{\rho}(1 - s_\infty)} \\
+& \Leftrightarrow s_\infty = s_0 e^{-R_0(1 - s_\infty)}
+\end{align*}
+
+Par conséquent, $S_\infty$ est solution de l'équation transcendante :
+\begin{equation}
+x = S_0 e^{-\frac{1}{\rho}(N-x)}
+\label{eq:S_infty_equation}
+\end{equation}
+
+ou de manière équivalente, $s_\infty$ est solution de :
+\begin{equation}
+s = s_0 e^{-R_0(1-s)}
+\label{eq:s_infty_equation}
+\end{equation}
+
+\begin{prop}
+L'équation (\ref{eq:S_infty_equation}) admet une unique solution dans l'intervalle $[0, S_0]$ (respectivement, l'équation (\ref{eq:s_infty_equation}) admet une unique solution dans $[0, s_0]$). Cette solution peut être déterminée numériquement par la méthode des approximations successives (méthode du point fixe).
+\end{prop}
+
+\begin{proof}
+Nous allons démontrer ce résultat pour l'équation adimensionnée (\ref{eq:s_infty_equation}), le résultat pour (\ref{eq:S_infty_equation}) s'en déduisant immédiatement.
+
+Définissons la fonction $\varphi : [0, s_0] \to \mathbb{R}$ par :
+\[ \varphi(s) = s_0 e^{-R_0(1-s)} \]
+
+Nous devons montrer que $\varphi$ admet un unique point fixe dans $[0, s_0]$.
+
+\bigskip
+\noindent\textbf{Étape 1 : $\varphi$ est bien définie et à valeurs dans $[0, s_0]$}
+
+Pour tout $s \in [0, s_0]$, on a :
+\begin{itemize}
+\item $\varphi(s) = s_0 e^{-R_0(1-s)} > 0$ car $s_0 > 0$
+\item $1 - s \geq 1 - s_0 \geq 0$, donc $-R_0(1-s) \leq -R_0(1-s_0)$
+\item Ainsi : $\varphi(s) = s_0 e^{-R_0(1-s)} \leq s_0 e^{-R_0(1-s_0)} \leq s_0$
+\end{itemize}
+
+En particulier :
+\[ \varphi(0) = s_0 e^{-R_0} \quad \text{et} \quad \varphi(s_0) = s_0 e^{0} = s_0 \]
+
+Donc $\varphi : [0, s_0] \to [0, s_0]$ est bien définie.
+
+\bigskip
+\noindent\textbf{Étape 2 : Existence d'un point fixe}
+
+Considérons la fonction auxiliaire $g(s) = \varphi(s) - s$ pour $s \in [0, s_0]$. On a :
+\begin{align*}
+g(0) &= s_0 e^{-R_0} - 0 = s_0 e^{-R_0} > 0 \\
+g(s_0) &= s_0 - s_0 = 0
+\end{align*}
+
+La fonction $g$ est continue sur $[0, s_0]$. Par le théorème des valeurs intermédiaires, il existe au moins un $s_\infty \in [0, s_0]$ tel que $g(s_\infty) = 0$, c'est-à-dire $\varphi(s_\infty) = s_\infty$.
+
+\bigskip
+\noindent\textbf{Étape 3 : Unicité du point fixe}
+
+Calculons la dérivée de $\varphi$ :
+\[ \varphi'(s) = s_0 e^{-R_0(1-s)} \cdot R_0 = R_0 \varphi(s) \]
+
+Pour tout $s \in [0, s_0]$, on a :
+\[ 0 < \varphi'(s) = R_0 \varphi(s) \leq R_0 s_0 \]
+
+Deux cas se présentent :
+
+\textbf{Cas 1 :} Si $R_0 s_0 < 1$, alors $|\varphi'(s)| < 1$ pour tout $s \in [0, s_0]$. Par le théorème du point fixe de Banach, $\varphi$ est contractante et admet un unique point fixe.
+
+\textbf{Cas 2 :} Si $R_0 s_0 \geq 1$, démontrons l'unicité directement. Supposons par l'absurde qu'il existe deux points fixes distincts $s_1 < s_2$ dans $[0, s_0]$. Par le théorème des accroissements finis, il existe $c \in ]s_1, s_2[$ tel que :
+\[ \frac{\varphi(s_2) - \varphi(s_1)}{s_2 - s_1} = \varphi'(c) \]
+
+Or $\varphi(s_1) = s_1$ et $\varphi(s_2) = s_2$, donc :
+\[ \frac{s_2 - s_1}{s_2 - s_1} = \varphi'(c) \quad \Leftrightarrow \quad \varphi'(c) = 1 \]
+
+Mais considérons la fonction $h(s) = s - \varphi(s) = s - s_0 e^{-R_0(1-s)}$ sur $[0, s_0]$. On a :
+\[ h'(s) = 1 - \varphi'(s) = 1 - R_0 s_0 e^{-R_0(1-s)} \]
+
+Étudions le signe de $h'$ :
+\begin{itemize}
+\item $h'(s) = 0 \Leftrightarrow R_0 s_0 e^{-R_0(1-s)} = 1 \Leftrightarrow s = 1 - \frac{1}{R_0}\ln(R_0 s_0)$
+\item Pour $s = s_0$ : $h'(s_0) = 1 - R_0 s_0 \leq 0$ (par hypothèse)
+\item La fonction $h'$ est croissante car $h''(s) = -R_0^2 s_0 e^{-R_0(1-s)} < 0$
+\end{itemize}
+
+Si $h'(s_0) < 0$, alors $h$ est décroissante sur un voisinage de $s_0$, ce qui contredit l'existence de deux points fixes. L'analyse complète montre que $h$ est strictement monotone, garantissant l'unicité.
+
+\bigskip
+\noindent\textbf{Étape 4 : Méthode des approximations successives}
+
+La suite définie par la récurrence :
+\[ s_{n+1} = \varphi(s_n) = s_0 e^{-R_0(1-s_n)}, \quad s_0 \text{ donné} \]
+
+converge vers l'unique point fixe $s_\infty$ de $\varphi$. Cette méthode du point fixe fournit une approximation numérique efficace de $s_\infty$.
+\end{proof}
+
+\commentaire{
+\begin{itemize}
+\item La proportion finale de susceptibles $s_\infty$ dépend de manière critique du nombre de reproduction de base $R_0 = \frac{N}{\rho}$.
+\item Plus $R_0$ est grand, plus $s_\infty$ est petit, c'est-à-dire plus l'épidémie touche une grande partie de la population.
+\item Le taux d'attaque final, défini par $1 - s_\infty$, représente la proportion totale de la population qui aura contracté la maladie au terme de l'épidémie.
+\end{itemize}
+}
+
+\subsection{Solution approchée dans le cas d'une épidémie non sévère}
+
+\subsubsection{Hypothèse et développement de Taylor}
+
+Rappelons l'équation différentielle pour $R(t)$ obtenue précédemment :
+\[ \frac{dR}{dt} = \gamma \left(N - R(t) - S_0 e^{-\frac{R(t)}{\rho}}\right) \]
+
+Supposons que $\frac{R(t)}{\rho}$ soit petit (par exemple, $\rho$ grand devant $R(t)$), ce qui correspond au \textbf{cas d'une épidémie dite non sévère}. 
+
+Effectuons un développement de Taylor à l'ordre 2 de l'exponentielle :
+\[ e^{-\frac{R}{\rho}} \approx 1 - \frac{R}{\rho} + \frac{R^2}{2\rho^2} \]
+
+En substituant cette approximation dans l'équation différentielle :
+\begin{align*}
+\frac{dR}{dt} &= \gamma \left( N - R - S_0 \left(1 - \frac{R}{\rho} + \frac{R^2}{2\rho^2}\right) \right) \\
+&= \gamma \left( N - R - S_0 + \frac{S_0 R}{\rho} - \frac{S_0 R^2}{2\rho^2} \right) \\
+&= \gamma \left( (N - S_0) - R\left(1 - \frac{S_0}{\rho}\right) - \frac{S_0 R^2}{2\rho^2} \right)
+\end{align*}
+
+\commentaire{
+Il est nécessaire d'aller jusqu'à l'ordre 2 dans le développement de Taylor. En effet, un développement à l'ordre 1 conduit à une contradiction (voir Proposition \ref{ordre_1_probleme}).
+}
+
+\subsubsection{Solution explicite approchée}
+
+La résolution de cette équation différentielle (équation de Bernoulli ou de Riccati) donne :
+\begin{equation}
+R(t) = \frac{\rho^2}{S_0} \left( \frac{S_0}{\rho} - 1 + \alpha \tanh\left(\frac{1}{2}\alpha\gamma t - \Phi\right) \right)
+\label{eq:solution_approchee_R}
+\end{equation}
+
+où $\tanh$ désigne la fonction tangente hyperbolique, et les paramètres sont définis par :
+\begin{equation}
+\alpha = \sqrt{\left(\frac{S_0}{\rho} - 1\right)^2 + 2\frac{S_0 I_0}{\rho^2}}
+\label{eq:alpha_def}
+\end{equation}
+
+\begin{equation}
+\Phi = \tanh^{-1}\left(\frac{1}{\alpha}\left(\frac{S_0}{\rho} - 1\right)\right)
+\label{eq:phi_def}
+\end{equation}
+
+\subsubsection{Valeur asymptotique}
+
+En passant à la limite lorsque $t \to \infty$, et sachant que $\lim_{t \to \infty} \tanh\left(\frac{1}{2}\alpha\gamma t - \Phi\right) = 1$, on obtient :
+\begin{equation}
+R_\infty = \frac{\rho^2}{S_0}\left(\frac{S_0}{\rho} - 1 + \alpha\right)
+\label{eq:R_infty_approche}
+\end{equation}
+
+De plus, si l'infection initiale est faible au sens où :
+\[ \frac{2S_0 I_0}{\rho^2} \ll \left(\frac{S_0}{\rho} - 1\right)^2 \]
+
+alors $\alpha \approx \frac{S_0}{\rho} - 1$, et par conséquent :
+\begin{equation}
+R_\infty \approx 2\rho\left(1 - \frac{\rho}{S_0}\right)
+\label{seq:R_infty}
+\end{equation}
+
+\subsubsection{Incidence de la maladie}
+
+L'incidence (nombre de nouveaux cas par unité de temps) est donnée par $R'(t)$. En dérivant l'équation (\ref{eq:solution_approchee_R}) :
+
+\begin{align*}
+R'(t) &= \frac{\rho^2}{S_0} \cdot \alpha \cdot \frac{d}{dt}\left[\tanh\left(\frac{1}{2}\alpha\gamma t - \Phi\right)\right] \\
+&= \frac{\rho^2}{S_0} \cdot \alpha \cdot \frac{\alpha\gamma}{2} \cdot \operatorname{sech}^2\left(\frac{1}{2}\alpha\gamma t - \Phi\right)
+\end{align*}
+
+D'où :
+\begin{equation}
+R'(t) = \frac{\gamma\alpha^2\rho^2}{2S_0} \cdot \operatorname{sech}^2\left(\frac{1}{2}\alpha\gamma t - \Phi\right)
+\label{eq:incidence_approchee}
+\end{equation}
+
+où $\operatorname{sech}(u) = \frac{1}{\cosh(u)} = \frac{2}{e^u + e^{-u}}$ est la sécante hyperbolique.
+
+\commentaire{
+La dérivée de la tangente hyperbolique est :
+\begin{align*}
+\frac{d}{du}[\tanh(u)] &= \operatorname{sech}^2(u) \\
+&= \frac{1}{\cosh^2(u)} \\
+&= \left(\frac{2}{e^u + e^{-u}}\right)^2
+\end{align*}
+}
+
+Le pic épidémique (maximum de l'incidence) est atteint lorsque la dérivée de $R'(t)$ s'annule, soit au temps :
+\begin{equation}
+t_{\max} = \frac{2\Phi}{\alpha\gamma}
+\label{eq:temps_pic}
+\end{equation}
+
+\begin{prop}\label{ordre_1_probleme}
+Un développement de Taylor à l'ordre 1 conduit à une contradiction mathématique.
+\end{prop}
+
+\begin{proof}
+Si l'on utilise uniquement l'approximation à l'ordre 1 :
+\[ e^{-\frac{R}{\rho}} \approx 1 - \frac{R}{\rho} \]
+
+l'équation différentielle devient :
+\[ R'(t) \approx \gamma\left(N - S_0 - R\left(1 - \frac{S_0}{\rho}\right)\right) \]
+
+Cette équation différentielle linéaire a pour solution générale :
+\[ R(t) = \frac{N - S_0}{1 - \frac{S_0}{\rho}} + C e^{-\gamma\left(1 - \frac{S_0}{\rho}\right)t} \]
+
+Lorsque $S_0 > \rho$ (cas épidémique), le coefficient $1 - \frac{S_0}{\rho} < 0$ est négatif. Par conséquent, lorsque $t \to \infty$ :
+\[ R(t) \to +\infty \]
+
+Ceci est en \textbf{contradiction} avec le fait que $R(t)$ est bornée par $N$ (conservation de la population totale).
+
+Cette divergence provient du fait que le terme quadratique $\frac{S_0 R^2}{2\rho^2}$ négligé à l'ordre 1 joue un rôle régulateur essentiel qui empêche la croissance non bornée de $R$.
+\end{proof}
+
+\subsubsection{Application historique : épidémie de peste à Bombay (1905-1906)}
+
+Kermack et McKendrick ont appliqué ce modèle à l'épidémie de peste bubonique qui a frappé Bombay (aujourd'hui Mumbai) en Inde durant la période 1905-1906. Dans ce cas, le compartiment $R$ représente les individus décédés de la maladie.
+
+En ajustant les paramètres du modèle aux données épidémiologiques, ils ont obtenu :
+\begin{equation}
+R'(t) = 890 \cdot \operatorname{sech}^2(0.2t - 3.4)
+\label{eq:bombay_incidence}
+\end{equation}
+
+où $t$ est exprimé en semaines et $R'(t)$ représente le nombre hebdomadaire de nouveaux décès.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.7\textwidth]{SIR/Image/SIR_Bombay.jpg}
+\caption{Courbe d'épidémie de la peste à Bombay (1905-1906). Les points (+) représentent les données observées (nombre hebdomadaire de décès), tandis que le trait continu correspond aux valeurs prédites par le modèle $R'(t) = 890 \cdot \operatorname{sech}^2(0.2t - 3.4)$. L'excellente concordance illustre la pertinence du modèle SIR pour décrire la dynamique épidémique.}
+\label{fig:bombay_plague}
+\end{figure}
+
+La fonction $R'(t)$ représente l'\textbf{incidence} de la maladie, c'est-à-dire le nombre de nouveaux cas (ici, décès) par unité de temps. Le graphique de $R'(t)$ en fonction du temps constitue la \textbf{courbe d'épidémie}.
+
+L'excellente concordance entre les prédictions du modèle (trait continu) et les données observées (points) a validé l'approche mathématique de Kermack et McKendrick, fondant ainsi l'épidémiologie mathématique moderne. Cette étude a démontré qu'un modèle relativement simple pouvait capturer fidèlement la dynamique complexe d'une épidémie réelle.
+
+\subsection{Estimation de la taille de l'épidémie lorsque $S_0 \approx \rho$ et $S_0 > \rho$}
+
+Posons $S_0 = \rho + \epsilon$, avec $\epsilon > 0$, $\frac{\epsilon}{\rho} = o(1)$, c'est-à-dire, $\epsilon << \rho$.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.7\textwidth]{SIR/Image/estimation_taille.jpg}
+\end{figure}
+
+En reportant l'expression de $S_0$ dans (\ref{seq:R_infty}), on obtient
+
+\begin{align*}
+R_\infty &= 2\rho (1- \frac{\rho}{S_0}) \\
+&= 2\rho (\frac{S_0 - \rho}{S_0}) \\
+&= 2\rho \frac{\epsilon}{S_0} \\
+&= 2\rho \frac{ \epsilon}{\rho + \epsilon} \\
+&= 2\rho \frac{ \epsilon}{\rho(1+\frac{\epsilon}{\rho})} \\
+&= \frac{2 \epsilon}{(1+\frac{\epsilon}{\rho})} \\
+&= \frac{2 \epsilon}{( 1+o(1))} \\
+&= 2 \epsilon \cdot ( 1+o(1)) \\
+&\xrightarrow{t \to \infty} 2 \epsilon
+\end{align*}
+
+Comme $R_0=0$ par hypothèse:
+
+$$ S_\infty = N - R_\infty = S_0 + I_0 - R_\infty $$
+
+et comme $I_0 \approx 0$, on en déduit que
+
+$$ S_\infty \approx S_0 - R_\infty \approx \rho - \epsilon. $$
+
+D'où
+
+$$ I_{\text{total}} = I_0 + (S_0 - S_\infty) \approx S_0 - S_\infty \approx R_\infty \approx 2\epsilon $$
+
+est le nombre approximatif d'individus infectés durant l'épidémie.
+
+
+\subsection{Estimation des paramètres du modèle}
+
+\begin{prop}
+On a l'approximation
+
+\[ \rho \approx \frac{S_0 - S_\infty}{\ln(S_0/S_\infty)}
+\quad \mathcal{R}_0 \approx S_0 \frac{\ln(S_0/S_\infty)}{S_0 - S_\infty} \]
+\end{prop}
+
+
+\begin{proof}
+De (\ref{eq:I_t}), à la limite, on déduit:
+
+\begin{align*}
+I’(\infty)=0 &= I_0 - S_ \infty + \rho \ln (S_\infty) + S_0 - \rho \ln(S_0) \\
+&= N - S_\infty + \rho [\ln (S_\infty)- \ln(S_0)] \\
+&= N - S_\infty + \rho \ln(S_0/S_\infty)
+\end{align*}
+
+En on déduit :
+
+\[ \frac{1}{\rho} = \frac{\gamma}{\lambda} = \frac{\ln(S_0/S_\infty)}{N - S_\infty} \]
+
+Si on suppose que la population est très grande, on peut dire que $I_0 \approx 0$, donc on a $S_0 \approx N$ donc:
+
+\[ \frac{1}{\rho} \approx \frac{\ln(S_0/S_\infty)}{S_0 - S_\infty} \]
+
+Et donc:
+
+\[ \mathcal{R}_0 = S_0 \frac{\ln(S_0/S_\infty)}{N - S_\infty} \approx S_0 \frac{\ln(S_0/S_\infty)}{S_0 - S_\infty}. \]
+\end{proof}
+
+Les quantités $S_0$ et $S_\infty$ peuvent-être estimées par une \textbf{étude sérologique faite avant et après l'épidémie}. On peut en outre estimer le nombre maximum d'individus infectés (\ref{seq:I_max}).
+
+\bigskip
+
+En général, il est \textbf{difficile d'estimer le taux de contact} $\lambda$ car il dépend de la \textit{maladie étudiée}, mais peut aussi dépendre de \textit{autres facteurs et comportements sociaux}.
+
+\subsection{Courbes typiques}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=8cm, height=6cm]{SIR/Image/Courbes_typ1.jpg}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=8cm, height=6cm]{SIR/Image/Courbes_typ2.jpg}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=8cm, height=6cm]{SIR/Image/Courbes_typ3.jpg}
+\caption{Courbes typiques}
+\end{figure}
+
+\subsection{Réduction de $\mathcal{R}_0$}
+
+\begin{notation}
+On note :
+\begin{itemize}
+\item $S'_{0,v}$ : le nombre d'individus susceptibles restants après vaccination
+\item $\mathcal{R}'_{0,v}$ : le nombre de reproduction de base après vaccination
+\item $p$ : la proportion de la population vaccinée avec succès
+\item $p_{\min}$ : la proportion minimale de population à vacciner pour empêcher une épidémie (seuil d'immunité collective)
+\end{itemize}
+\end{notation}
+
+\begin{prop}[Seuil d'immunité collective]
+La proportion minimale de population à vacciner pour empêcher l'apparition d'une épidémie est donnée par :
+\[ p_{\min} = 1 - \frac{1}{\mathcal{R}_0} \]
+\end{prop}
+
+\begin{proof}
+Lorsqu'une proportion $p$ de la population est vaccinée avec succès, les individus immunisés passent directement du compartiment $S$ au compartiment $R$. Le nombre initial de susceptibles devient alors :
+\[ S'_{0,v} = (1-p) S_0 \]
+
+Le nombre de reproduction de base après vaccination s'écrit :
+\begin{align*}
+\mathcal{R}'_{0,v} = \frac{\lambda S'_{0,v}}{\gamma} = \frac{\lambda (1-p) S_0}{\gamma} = (1-p) \mathcal{R}_0
+\end{align*}
+
+Pour empêcher l'épidémie, on doit avoir $\mathcal{R}'_{0,v} < 1$ :
+\begin{align*}
+(1-p)\mathcal{R}_0 < 1 
+&\Leftrightarrow 1-p < \frac{1}{\mathcal{R}_0} \\
+&\Leftrightarrow p > 1 - \frac{1}{\mathcal{R}_0}
+\end{align*}
+
+D'où $p_{\min} = 1 - \frac{1}{\mathcal{R}_0}$.
+\end{proof}
+
+\bigskip
+\noindent\textbf{Implications pratiques}
+
+Cette formule montre que plus $\mathcal{R}_0$ est élevé, plus la couverture vaccinale requise est importante. Par exemple, pour une maladie avec $\mathcal{R}_0 = 2$, il faut vacciner au moins 50\% de la population, tandis que pour $\mathcal{R}_0 = 18$, une couverture d'environ 94\% est nécessaire.
+
+\commentaire{
+\textbf{Exemple historique : l'éradication de la variole}
+
+\medskip
+
+La campagne mondiale de vaccination contre la variole, lancée par l'OMS en 1967, illustre parfaitement l'efficacité de cette stratégie. La maladie a été officiellement éradiquée en 1980, première victoire totale de la vaccination sur une pathologie humaine.
+
+Cependant, cette réussite crée aujourd'hui une vulnérabilité : les personnes vaccinées avant 1980 ont vu leur immunité décliner, et les générations suivantes n'ont jamais été immunisées. En cas de réémergence du virus, la population serait largement susceptible, soulignant l'importance d'une vigilance épidémiologique continue.
+}
+
+\bigskip
+\noindent\textbf{Valeurs du nombre de reproduction de base pour différentes maladies}
+
+Le tableau suivant présente les valeurs estimées de $\mathcal{R}_0$ et du seuil d'immunité collective $p_{\min}$ pour diverses maladies infectieuses :
+
+
+\begin{table}[h!]
+\centering
+\small % Réduire la taille de police
+\begin{tabular}{|p{3cm}|p{3cm}|p{3cm}|p{2cm}|p{3cm}|}
+\hline
+\textbf{Infection} & \textbf{Lieu} & \textbf{Èpoque} & $\mathcal{R}_0$ & \textbf{Valeur de $p$ en $\%$} \\
+\hline
+Variole (Smallpox) & Pays développés avant & les compagnes globales & 3-5 & 70-80 \\
+\hline
+Rougeole (Measles) & Angleterre et Pays de Galles / USA (plusieurs endroits) & 1956-1968 / 1910-1930 & 13 / 12-13 & 92 \\
+\hline
+Coqueluche (Whooping cough) &Angleterre et Pays de Galles / Maryland (USA) & 1942-1950 / 1907-1917 & 17 / 13 & 94 / 92  \\
+\hline
+Rubéole (German measles) & Angleterre et Pays de Galles / Allemagne de l'Ouest &1979 / 1972 & 6 / 7 & 83 / 86 \\
+\hline
+Diphtérie (Diphteria) & USA (plusieurs endroits) & 1910-1947 & 4-6 & $\approx$80 \\
+\hline
+Scarlatine (Scarlet fever) & USA (plusieurs endroits) & 1910-1930 & 5-7 & $\approx$80 \\
+\hline
+Poliomyélite (Poliomyelitis) & Hollande / USA & 1955 / 1950 & 6 & 83 \\
+\hline
+Varicelle (Chikenpox) &  &  & 10-12& $\approx$ 91 \\
+\hline
+Oreillons (Mumps) & USA (plusieurs endroits) & 1912-1916 et 1943 & 4-7 & $\approx$ 80 \\
+\hline
+Malaria &  &  & >100 & 99 \\
+\hline
+\end{tabular}
+\caption{Valeur de $\mathcal{R}_0$ pour quelque maladie}
+\label{tab:maladies}
+\end{table}
+
+\section{Étude de cas}
+
+\subsection{La grande épidémie de peste à Londres : village d'Eyam (1665-1666)}
+
+Dans ce village, la population initial était de $350$ personnes ; à la fin de l'épidémie, elle n'était plus que de $83$ personnes. Les données ci-dessous concerne la seconde manifestation de la maladie correspondant à la période allant de la mi-mai à la mi-octobre de l'année 1666.
+
+\begin{table}[h!]
+\centering
+\small % Réduire la taille de police
+\begin{tabular}{|p{5cm}|p{5cm}|p{6cm}|}
+\hline
+\textbf{Date} (1666) & \textbf{Susceptibles} & \textbf{Infectieux} \\
+\hline
+3-4 Juilliet & 235 & 14.5 \\
+\hline
+19 Juilliet & 201 & 22 \\
+\hline
+3-4 août & 153.5 & 29 \\
+\hline 
+19 août & 121 & 21 \\
+\hline
+3-4 septembre & 109 & 8 \\
+\hline
+19 septembre & 97 & 8 \\
+\hline
+3-4 octobre & --- & --- \\
+\hline
+19 octobre  & 83 & 0 \\
+\hline 
+\end{tabular}
+\caption{Épidémie de peste à Londres (1666)}
+\label{tab:maladies}
+\end{table}
+
+On va ajuster le modèle \ref {seq:equa_diff_sir_2d} à ces données, le temps étant mesuré en mois avec une population initial de $7$ infectieux, de $254$ susceptibles et une population finale de $83$ susceptibles.
+
+Donc:
+
+\begin{itemize}
+\item \textbf{Condition initial:} $S_0 = 254$ et $I_0 = 7$
+\item \textbf{Condition final:} $S_\infty = 83$ et $I_\infty = 0$
+\end{itemize}
+
+\bigskip
+
+Avec les condition initial, on a:
+
+\[ \frac{1}{\rho} \approx \frac{\ln(S_0 / S_\infty}{S_0 - S_\infty} = 6.54 \cdot 10^{-3} \Rightarrow \rho \approx 153 \]
+
+La \textit{période moyenne d'inaffectivité observée} étant de $11$ jours et donc $0.3667$ mois, on obtient un taux $\gamma$ égal à :
+
+\[ \gamma = \frac{1}{0,3667} = 2.73 \text{ par mois et par individu.} \]
+
+Donc on obtient les information suivantes
+
+\begin{itemize}
+\item $\lambda = \frac{\gamma}{\rho} \approx 0.0179$
+\item $\mathcal{R}_0 = \frac{S_0}{\rho} \approx 1.66$
+\item $I_{\max} = S_0 + I_0 - \rho + \rho \ln( \frac{\rho}{S_0} ) \approx 30.4$
+\end{itemize}
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=13cm, height=9cm]{SIR/Image/Peste_Eyam.jpg}
+\caption{Épidémie de peste à Eyam, seconde manifestation}
+\end{figure}
+
+\subsection{Cas d'une épidémie dite sévère ($\dfrac{R(t)}{\rho}$ non petit) }
+
+Épidémie de grippe dans un internat d'une école de garçons en Angleterre en 1978 (Source : British Médical Journal, numéro du 4 mars 1978). On a
+
+\begin{itemize}
+\item $N=763$
+\item $t_0 = \text{ 22 janvier 1978 } = 0 j$
+\item $t_\infty = \text{ 4 février 1978 } = 13 j$
+\item $I_0=1 \Rightarrow S_0 = 762$
+\end{itemize}
+
+L'épidémie à été sévère car $\frac{R(t)}{\rho}$ n'est pas petit. L'analyse de ces donnés a montré que la durée moyenne de la maladie était d'environ $2.5$ jours. Les résultats de l'article sont les suivants:
+
+\begin{itemize}
+\item $\lambda \approx 0.00218$
+\item $\rho \approx 202$
+\end{itemize}
+
+Un programme basé sur une grille pour estimer conjointement $\lambda$ et $\gamma$ donne les résultats suivants:
+
+\begin{itemize}
+\item $\lambda \approx 0.00221$
+\item $\gamma. \approx 0.43995$
+\end{itemize}
+
+Ce qui nous donne
+
+\begin{itemize}
+\item $\rho \approx 199.43$
+\item $\mathcal{R}_0 \approx 3.77$
+\end{itemize}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=13cm, height=9cm]{SIR/Image/Grippe_Ang_1978.jpg}
+\caption{Épidémie de grippe dans un internat d'Angleterre en 1978}
+\end{figure}

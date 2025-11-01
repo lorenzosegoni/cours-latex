@@ -1,0 +1,412 @@
+\chapter{Le Modèle \textit{SI}}
+
+\section{Introduction}
+
+L'infection se propage par \textbf{contact} entre les membres d'une communauté mais au travers de laquelle, il n'y a pas de «retrait» (morts, isolés, ...).
+
+\smallskip
+
+\textbf{À la fin, tous les individus susceptibles deviennent infectés.}
+
+\smallskip
+
+Ces hypothèses sont réductrices dans la plupart des situations mais peuvent-être approximativement appliquées dans les situations où :
+
+\begin{hypothese}
+\begin{enumerate}
+\item la maladie est \textbf{hautement infectieuse} mais \textbf{pas} \textit{suffisamment grave} pour les cas de retraits par mort ou isolation,
+\item \textbf{aucun infecté ne guérit} de la maladie durant la partie majeure de l'épidémie,
+\end{enumerate}
+\end{hypothese}
+
+C'est la cas de certaines infections peu graves de l'appareil respiratoire.
+
+Il faut remarqué que pour toute maladie, le \textbf{modèle SI est vrai en court terme}.
+
+\section{Le modèle}
+
+On peut rapresenter ce problème de cette façon:
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.45\textwidth]{SI/Image/modele_si.jpg}
+\caption{Schéma modéle SI}
+\end{figure}
+
+\newpage
+
+\begin{defi}
+On peut donc en déduire le système différentielle;
+
+\begin{equation}
+\label{eq:si_system}
+\begin{cases}
+\frac{dS(t)}{dt} = -\lambda SI, \\
+\frac{dI(t)}{dt} = \lambda SI \\
+\forall t , \quad S(t)+I(t)=N
+\end{cases}
+\end{equation}
+\end{defi}
+
+à cause de l'infection, $S$ décroît et $I$ croît. Le paramètre $\lambda$ est la constante de proportionnalité, c'est le taux d'infection (ou de contact) (par unité de temps et par individu).
+
+\bigskip
+
+\begin{hypothese}
+On prend \textbf{l'hypothèse d'une grande population}.
+\end{hypothese}
+
+\smallskip
+
+On sait que pour tout t, $N = S(t)+I(t)$ (c'est à dire une population constante), car on a un même flux entrant et sortant.
+
+\bigskip
+
+\begin{defi}
+
+Pour résoudre ce système différentielle, on va donc le réduire en une seule équation différentielle:
+
+\begin{equation}
+\boxed{ \frac{dI(t)}{dt} = \lambda ( N - I(t) )I(t) }
+    \label{eq:si_equa_diff}
+\end{equation}
+
+La résolution de ce modèle nous donne:
+
+\begin{equation}
+    \forall t \geq 0, \quad \boxed{ I(t) =\frac{N I_0}{I_0 + S_0 e^{-\lambda N t}} }= \frac{I_0 N e^{\lambda N t}}{S_0 + I_0 e^{\lambda N t}}
+    \label{eq:solution_si_I(t)}
+\end{equation}
+
+et
+
+\begin{equation}
+    \forall t \geq 0, \quad \boxed{ S(t) =\frac{N S_0}{S_0+I_0 e^{\lambda N t}} }
+    \label{eq:solution_si_S(t)}
+\end{equation}
+
+\end{defi}
+
+\begin{proof}
+
+\textbf{Existence et unicité de la solution.} On suppose que les hypothèses du théorème de Cauchy–Lipschitz sont satisfaites (continuité et condition de Lipschitz sur les fonctions du système).  
+
+Ainsi, pour toute condition initiale donnée, il existe une solution unique \((S(t),I(t))\) définie sur \([0,+\infty[\).
+
+\bigskip
+
+\textbf{Passage du discret au continu.} En discrétisant le système avec un pas $\Delta t > 0$, on écrit
+
+\[ \Delta S(t) = S(t+\Delta t)-S(t) = -\lambda S(t) I(t) \Delta t. \]
+
+Sous l’hypothèse de grande population (paramètre $\lambda$ petit devant $S(t)$), on identifie
+
+\[ \frac{\Delta S(t)}{\Delta t} \approx \frac{dS}{dt}. \]
+
+De même pour $I$, ce qui justifie l’écriture du système différentiel continu.
+
+\bigskip
+
+\textbf{Réduction à une équation pour $I(t)$.} Comme $S(t)+I(t)=N$ est constant, $\forall t \geq 0$
+
+\begin{align*}
+\frac{dI(t)}{dt} = I'(t) &= \lambda S(t)\, I(t) \\
+&= \lambda \bigl(N - I(t)\bigr) I(t)  \\
+&= - \lambda I^2(t) + \lambda N I(t) \\
+&=  \boxed{ \lambda ( N - I(t) )I(t).}
+\end{align*}
+
+\bigskip
+
+\textbf{Changement de variable (linéarisation).} On pose:
+
+\[ Y(t) = \frac{1}{I(t)}. \]
+
+Ceci est bien défini car $I(t)>0$ pour tout $t\geq 0$ (en effet $I(0)=I_0>0$ et $I'(t)\geq 0$).  
+
+On différencie, en remplaçant $I'(t)$, on obtient :
+
+\begin{align*}
+Y'(t) = \left( \frac{1}{I(t)} \right)' &= -\frac{I'(t)}{I^2(t)} \\
+&= \frac{\lambda I^2(t)}{I^2(t)} -  \frac{\lambda N I(t)}{I^2(t)}\\
+&= \lambda - \lambda N \frac{1}{I(t)} \\
+&= -\lambda N Y(t) + \lambda.
+\end{align*}
+
+On a obtenu l’équation différentielle linéaire suivante :
+
+\[ Y'(t) = -\lambda N Y(t) + \lambda. \]
+
+Cette équation est de la forme générale
+
+\[ Y'(t) + a Y(t) = b, \]
+
+où $a = \lambda N$ et $b = \lambda$ sont des constantes positives.
+
+\bigskip
+
+\textbf{Résolution de l’équation homogène}
+
+On commence par résoudre l’équation homogène associée, c’est-à-dire en prenant $b=0$ :
+
+\[ Y_h'(t) = -\lambda N Y_h(t). \]
+
+C’est une équation différentielle linéaire du premier ordre à coefficients constants.  
+
+La méthode standard donne :
+
+\[ Y_h(t) = K e^{-\lambda N t}, \qquad K \in \mathbb{R}. \]
+
+\textbf{Recherche d’une solution particulière}
+
+On cherche maintenant une solution particulière de l’équation complète
+
+\[ Y'(t) = -\lambda N Y(t) + \lambda. \]
+
+La méthode du \textbf{facteur intégrant} consiste à multiplier l’équation par $e^{\lambda N t}$ afin de transformer le membre de gauche en une dérivée d’un produit.  
+
+En effet :
+
+\[ \bigl( Y(t) e^{\lambda N t} \bigr)' = Y'(t) e^{\lambda N t} + \lambda N Y(t) e^{\lambda N t}. \]
+
+Or, l’équation initiale donne
+
+\[ Y'(t) + \lambda N Y(t) = \lambda, \]
+
+donc en multipliant par $e^{\lambda N t}$ :
+
+\[ \bigl( Y(t) e^{\lambda N t} \bigr)' = \lambda e^{\lambda N t}. \]
+
+\smallskip
+
+On peut maintenant intégrer des deux côtés :
+
+\begin{align*}
+Y(t) e^{\lambda N t} &= \int \lambda e^{\lambda N t}\,dt \\
+&= \frac{\lambda}{\lambda N} e^{\lambda N t} + C \\
+&= \frac{1}{N} e^{\lambda N t} + C. 
+\end{align*}
+
+En divisant par $e^{\lambda N t}$, on obtient la solution générale :
+\[
+Y(t) = \frac{1}{N} + C e^{-\lambda N t}.
+\]
+
+\bigskip
+
+\textbf{Utilisation de la condition initiale.} À $t=0$, on a
+
+\[ Y(0) = Y_0 = \frac{1}{I_0} \]
+
+Et avec l'expression obtenu avant on a $Y(0)= \frac{1}{N} + C$. Donc on obtient
+
+\[ \frac{1}{I_0} = \frac{1}{N} + C \quad \Longrightarrow \quad
+C = \frac{1}{I_0} - \frac{1}{N} = \frac{N-I_0}{N I_0} = \frac{S_0}{N I_0}. \]
+
+Ainsi
+
+\[ Y(t) = \frac{1}{N} + \frac{S_0}{N I_0} e^{-\lambda N t}. \]
+
+\bigskip
+
+\textbf{Expression finale de la solution} En revenant à $I(t)=1/Y(t)$ :
+
+\[ \boxed{ I(t) = \frac{N I_0}{I_0 + S_0 e^{-\lambda N t}}. } \]
+
+En multipliant numérateur et dénominateur par $e^{\lambda N t}$ :
+
+\[ \boxed{ I(t) = \frac{N I_0 e^{\lambda N t}}{S_0 + I_0 e^{\lambda N t}}. } \]
+
+\bigskip
+
+\textbf{Expression explicite de $S(t)$.} En utilisant la conservation de la population $S(t)+I(t)=N$, on obtient
+
+\[ S(t)=N-I(t)=N-\frac{N I_0 e^{\lambda N t}}{S_0+I_0 e^{\lambda N t}}. \]
+
+En mettant au même dénominateur :
+
+\[ S(t)=\frac{N\bigl(S_0+I_0 e^{\lambda N t}\bigr)-N I_0 e^{\lambda N t}}{S_0+I_0 e^{\lambda N t}}= \boxed{ \frac{N S_0}{S_0+I_0 e^{\lambda N t}}. } \]
+
+\end{proof}
+
+\commentaire{
+\textbf{ Comportement asymptotique }
+
+\medskip
+
+Quand $t \to +\infty$, $e^{-\lambda N t} \to 0$ donc
+
+\[ I(t) =\frac{N I_0}{I_0 + S_0 e^{-\lambda N t}}  \xrightarrow{t \to \infty} \frac{N I_0}{I_0} = N. \]
+
+À long terme, toute la population est infectée, ce qui correspond aux hypothèses du modèle SI.
+}
+
+
+\section{Points d'équilibre}
+
+\begin{defi}
+Un \textbf{point d'équilibre} du système (\ref{eq:si_system}) est un point $(S^*, I^*)$ particulier de ce système, donc une solution du système (\ref{eq:si_system}) obtenue en posant $\frac{S'(t)}{dt} = 0$ et $\frac{I'(t)}{dt} = 0$.
+
+\bigskip
+
+Donc on a:
+
+\[ \boxed{
+\begin{cases}
+\frac{S'(t)}{dt} = 0 \\
+\frac{I'(t)}{dt} = 0
+\end{cases}
+\Leftrightarrow
+\begin{cases}
+I'(t) = \lambda S(t)I(t), \\
+\lambda S(t)I(t) = 0
+\end{cases}
+\rightsquigarrow (S^*, I^*) \left( \sim (S_\infty,I_\infty) \right) }\]
+\end{defi}
+
+
+C'est un point où il n'y a \textbf{ni augmentation, ni diminution} (\textit{pas de variations au cours du temps}). Si on part de ce point, le système reste dans cet état. On dit aussi que la trajectoire (ensemble des couples $(S(t), I(t) \geq 0$) qui est ici une \textit{courbe plane est constante}.
+
+\bigskip
+
+La recherche des équilibres est très importante, car dans tous les cas que l'on va examiner dans ce cours, les trajectoires du système vont tendre (asymptotiquement, $t \to +\infty$) vers l'un des points d'équilibre, et celui-ci sera dit \textbf{asymptotiquement stable}.
+
+\subsection{Recherche des points d'équilibre pour le modèle $SI$}
+
+On obtient les deux points d'équilibre suivants :
+
+\[ \boxed{ (S^*_1 = N, I^*_1 = 0) \quad \text{et} \quad (S^*_2 = 0, I^*_2 = N) }\]
+
+
+\begin{itemize}
+\item Le point $(S^*_1, I^*_1)$ est appelé point de \textbf{non épidémie} (ou \textbf{d'absence d'épidémie}) car il n'y a pas de propagation de l'épidémie s'il n'y a pas au moins un individu infectieux.
+\item Le second point $(S^*_2, I^*_2)$ est justement le point vers lequel la trajectoire va tendre, on dit que ce point d'équilibre est \textbf{asymptotiquement stable}.
+\end{itemize}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Représentation dans le plan de la trajectoire}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.5\textwidth]{SI/Image/trajectoire_si.jpg}
+\caption{Représentation du modèle SI dans le plan $(S,I)$.}
+\end{figure}
+
+\newpage
+
+La figure ci-dessus illustre les trajectoires possibles du modèle \textit{SI} dans le plan des variables $(S,I)$.
+
+\bigskip
+
+L’équation de conservation $S(t) + I(t) = N$ implique que l’évolution du système se fait uniquement sur la \textbf{droite} :
+
+\[ S + I = N. \]
+
+Ainsi, le \textbf{triangle des états possibles} $(S,I) \geq 0$ est réduit à cette droite, ce qui signifie que la dynamique peut être représentée par un \textbf{seul degré de liberté }(par exemple $I(t)$).
+
+\bigskip
+
+Les deux points extrêmes de la droite correspondent aux situations limites :
+
+\begin{itemize}
+\item $ (S_1^*, I_1^*) = (N, 0) \quad \text{(aucun infecté, \textit{tout le monde susceptible})}$
+\item $ (S_2^*, I_2^*) = (0, N) \quad \text{(\textit{toute la population infectée})}. $
+\end{itemize}
+
+\bigskip
+
+Au cours du temps, la trajectoire se déplace de $(S_0, I_0)$ vers $(0, N)$ : 
+le nombre de susceptibles décroît continûment tandis que celui des infectés augmente.  
+Le \textbf{triangle intérieur} du graphique est vide, car les solutions physiques se trouvent uniquement sur la droite $S+I=N$.
+
+\bigskip
+
+Cette représentation géométrique est utile pour \textit{visualiser la conservation de la population totale} et pour \textit{interpréter graphiquement la dynamique épidémique}.
+
+\section{La courbe d’épidémie : incidence}
+
+En pratique, les données recueillies ne concernent pas directement le nombre de personnes infectées $I(t)$, mais le nombre de \textbf{nouveaux cas d’infections} par unité de temps (jour, semaine, mois, etc.). 
+
+\bigskip
+
+\begin{defi}
+On appelle cette quantité \textbf{incidence}, notée $f(t)$, et définie par :
+
+\[ f(t) = \frac{dI(t)}{dt}. \]
+
+On obtient ainsi la \textbf{courbe d’épidémie}, qui décrit l’évolution du nombre de nouvelles infections au cours du temps.
+\end{defi}
+
+
+\bigskip
+
+\begin{prop}
+À partir de la solution de $I(t)$, on calcule :
+
+\begin{equation}
+    f(t) = \frac{dI(t)}{dt} 
+    = \frac{\lambda I_0 S_0 N^2 e^{\lambda N t}}{(S_0 + I_0 e^{\lambda N t})^2}.
+    \label{eq:incidence}
+\end{equation}
+\end{prop}
+
+\begin{proof}
+\begin{align*}
+I'(t) &= \left( \frac{I_0 N e^{\lambda N t }}{S_0 + I_0 e^{\lambda N t}} \right)' \\
+%&= \frac{I_0 N e^{\lambda N t} \cdot I_0 \lambda N e^{\lambda N t} + I_0 N  \lambda N e^{\lambda N t} \cdot (S_0 + I_0 e^{\lambda N t} ) }{ ( S_0 + I_0 e^{\lambda N t} )^2 } \\
+&=  \frac{ I_0 N  \lambda N e^{\lambda N t} \cdot (S_0 + I_0 e^{\lambda N t} ) - I_0 N e^{\lambda N t} \cdot I_0 \lambda N e^{\lambda N t}} { ( S_0 + I_0 e^{\lambda N t} )^2 } \\
+&= \frac{ \lambda I_0 N^2 e^{\lambda N t} \cdot (S_0 + I_0 e^{\lambda N t} ) - \lambda I_0 N^2 e^{\lambda N t} \cdot I_0 e^{\lambda N t} } { ( S_0 + I_0 e^{\lambda N t} )^2 } \\
+&= \frac{ \lambda I_0 N^2 e^{\lambda N t} \cdot (S_0 + I_0 e^{\lambda N t} - I_0 e^{\lambda N t} ) } { ( S_0 + I_0 e^{\lambda N t} )^2 } \\
+&=\frac{\lambda I_0 S_0 N^2 e^{\lambda N t}}{(S_0 + I_0 e^{\lambda N t})^2}.
+\end{align*}
+\end{proof}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.6\textwidth]{SI/Image/c_epidemie_si.jpg}
+\caption{Courbe d’épidémie obtenue dans le modèle SI.}
+\end{figure}
+
+\subsubsection*{Propriétés de la courbe d’épidémie}
+
+\begin{itemize}
+    \item La courbe est \textbf{unimodale} : elle présente un \textit{seul maximum} (forme en cloche).
+    \item On peut calculer explicitement le temps $t^*$ où \textit{l’incidence est maximale}.  
+\end{itemize}
+
+\paragraph{Calcul du maximum.}  
+Le maximum est atteint lorsque $f'(t)=0$. Après dérivation et simplification, on trouve que cela se produit lorsque $I(t)=\tfrac{N}{2}$.  
+
+\begin{prop}
+En reportant dans l’expression de $I(t)$, on obtient :
+\[
+t^* = \frac{\log\!\left(\tfrac{S_0}{I_0}\right)}{\lambda N}.
+\]
+
+La valeur maximale de l’incidence est alors donnée par :
+\[
+f(t^*) = \frac{\lambda N^2}{4}, \qquad I(t^*) = \frac{N}{2}.
+\]
+\end{prop}
+
+\begin{proof}
+a
+\end{proof}
+
+\paragraph{Interprétation.}  
+L’incidence croît rapidement depuis $0$, atteint un maximum au temps $t^*$, puis décroît progressivement vers $0$. Cela traduit le fait que, dans le modèle \textit{SI}, l’épidémie démarre rapidement, atteint un pic, puis finit par infecter l’ensemble de la population à long terme.

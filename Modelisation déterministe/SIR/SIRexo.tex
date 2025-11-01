@@ -1,0 +1,113 @@
+\newpage
+
+\chapter*{Exercices}
+
+\exo
+
+\begin{enonce}
+Dans le modéle $SIR$, sachant que $\left( S(t),I(t),R(t) \right) \xrightarrow{t \to \infty} \left( S_\infty, I_\infty, R_\infty \right)$, démontrer que $ \left( S_\infty, I_\infty, R_\infty \right)$ est un point d'équilibre du système décrivant ce modèle.
+\end{enonce}
+
+\begin{correction}
+On sait que, $\forall t_1 >0$, $\forall t_2 >0$ :
+
+\begin{align*}
+\lvert S(t_1) - S(t_2) \rvert 
+&= \lvert (S(t_1) - S_{\infty}) - (S(t_2)-S_{\infty}) \rvert  \\
+&\leq \lvert S(t_1) -  S_{\infty} \rvert + \lvert S(t_2) - S_{\infty} \rvert  \\
+&\xrightarrow[t_1,t_2 \to \infty]{} 0+0
+\end{align*}
+
+D'où :
+
+\[
+\lvert S(t_1) - S(t_2) \rvert \xrightarrow[t_1,t_2 \to \infty]{} 0
+\]
+
+\bigskip
+
+
+En posant $t=t_1$ et $t+h = t_2$ avec $h>0$ fixé, on applique le TAF (théorème des accroissements finis) sur $[t,t+h]$, à la fonction $S \in \mathcal{C}^1[t,t+h]$, et on obtient : il existe $\tau_{t,h} \in ]t,t+h[$ tel que
+
+\begin{align*}
+S(t+h) -S(t) &= h\, S'(\tau_{t,h}) \\
+&= h\, f (S(\tau_{t,h}),I(\tau_{t,h}),R(\tau_{t,h})) \\
+&= h\, S(\tau_{t,h}) I(\tau_{t,h}) \\
+&\xrightarrow[t\to \infty]{} h f  (S_{\infty},I_{\infty},R_{\infty})
+\end{align*}
+
+Et on a :
+
+\[
+t < \tau_{t,h} < t+h
+\]
+
+Puisque $t \to \infty$, $t+h \to \infty$, par le théorème des gendarmes $\tau_{t,h} \to \infty$.
+
+Donc :
+
+\[
+h f (S_{\infty},I_{\infty},R_{\infty})=0
+\]
+
+C'est-à-dire $(S_{\infty},I_{\infty},R_{\infty}) = (S^*,I^*,R^*)$ est un point d'équilibre du système \eqref{seq:equa_diff_sir_3d}.
+\end{correction}
+
+\exo
+
+\begin{enonce}
+La propagation d'une maladie dans une population de $N$ étudiants de première année d'une université $A$ se modélise par un modèle $SIR$. En début de semestre, $S_0$ étudiants étaient susceptibles de contracter la maladie alors que $S_\infty$ étudiants l'étaient en fin de semestre.
+
+\ques Donner l'expression du nombre de reproduction de base $\mathcal{R}_0$. A quelle condition sur $\mathcal{R}_0$ parle t-on d'épidémie.
+\ques Que donne le calcul de $\mathcal{R}_0$ si $\lambda = 0,0009$, $\gamma = 1/3$, $N=510$, $S_0=500$, $I_0=10$ et $R_0=0$?
+\ques Donner l'expression du nombre moyen d'étudiants nouvellement infectés par unité de temps.
+
+\end{enonce}
+
+\begin{correction}
+\ques On sait que $\mathcal{R}_0 = \frac{S_0}{\rho} $. De plus:
+
+\[ \mathcal{R}_0 >1 \text{ épidémie active} \quad \mathcal{R}_0<1 \text{ absence d'épidémie (disparition rapide)}\]
+\ques  On a:
+
+\[ \mathcal{R}_0 = \frac{S_0}{\rho} = \frac{\lambda S_0}{\gamma} = \frac{500 \cdot 0,0009}{1/3} = 1,35 \]
+\ques  Par définition $ \lambda S I$ est le nombre moyen d'individus nouvellement malades par unité de temps.
+
+\end{correction}
+
+\exo
+
+\begin{enonce}
+La propagation de la grippe durant l'année $X$ dans un internat de garçon contenta $N=S(0)+I(0)+R(0) = 762 +1 +0$ est modélisée par un modèle $SIR$ sans naissances et morts. Quelques jours plus tard, l'infection ayant disparue au sein de cet internat, on a dénombré au total $51$ enfants guéris ($R_\infty$). L'analyse de ces données a montré que la durée moyenne de la maladie était d'environ $3$ jours.
+
+\ques Calculer $S_\infty$. Que représente $\frac{S_\infty}{N}$?
+\ques Estimer le nombre de reproduction de base $\mathcal{R}_0$, puis montrer en justifiant votre réponse qu'il y a eu épidémie.
+\ques Le pic de l'épidémie ayant été observé au temps $t_1$, que vaut $I(t_1)$. Que représente ce nombre
+\ques Quelle fraction de la population d'élèves aurait du être immunisée contre la grippe juste avant l'apparition de celle-ci pour éviter l'épidémie?
+
+\end{enonce}
+
+\begin{correction}
+\ques On connait $N$ et $R_\infty$. Dans le modèle $SIR$ on sait que $I_\infty=0$, donc:
+
+\[S_\infty = N - R_\infty = 763-512 = 251 \]
+
+Et on a aussi $\frac{S_\infty}{N} = 32.9\%$, qui représente la proportion d'individus qui ont échappé de la maladie.
+\ques On a 
+
+\[ \mathcal{R}_0 \approx S_0 \frac{\ln(S_0/S_\infty)}{S_0 - S_\infty} \approx 1,653\]
+
+Puisque $\mathcal{R}_0 \approx 1,653 > 1$, donc il y a épidemie
+
+
+\ques Le pic d'épidémie est quand il y a le maximum d'infecte.
+
+\[ I_{\max} = I_0 + S_0 - \rho + \rho \ln \left( \frac{\rho}{S_0} \right) \approx 70 \]
+
+\ques  On a:
+
+\[ P_{\min} = 1- \frac{1}{\mathcal{R}_0} \approx 1- \frac{1}{1.65} = 0.395 \]
+
+Donc on aurait du vacciner au moins $39.5 \%$ de la population.
+
+\end{correction}

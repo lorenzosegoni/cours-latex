@@ -1,0 +1,364 @@
+\chapter{Le Modèle SIS}
+
+\section{Introuduction}
+
+Le modèle épidémiologique \textit{SIS} (pour \textbf{Susceptible–Infecté–Susceptible}) décrit la propagation d’une maladie infectieuse dans une population fermée, sous l’hypothèse que les individus infectés peuvent redevenir susceptibles après leur guérison. 
+
+\bigskip
+
+\begin{hypothese}
+Les hypothèses principales du modèle sont :
+\begin{enumerate}
+  \item La population totale est \textbf{constante} et vaut $N$, avec $N$ \textbf{grand}. Elle se divise en deux compartiments :
+  \begin{itemize}
+  \item $S(t) : \text{nombre d’individus \textit{susceptibles} à l’instant } t,$
+  \item $I(t) : \text{nombre d’individus \textit{infectés} à l’instant } t, $
+  \end{itemize}
+  avec $S(t) + I(t) = N$ pour tout $t \geq 0$.
+  \item La \textit{transmission de l’infection est proportionnelle aux contacts entre susceptibles et infectés}, avec un taux $\lambda > 0$.
+  \item Les \textit{individus infectés guérissent et redeviennent susceptibles}, avec un taux de guérison $\mu > 0$.
+\end{enumerate}
+\end{hypothese}
+
+\bigskip
+
+Ce modèle ne procure pas d'immunité (exemple : la \textbf{tuberculose}).
+
+\section{Le modèle}
+
+On a ce modèle:
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.5\textwidth]{SIS/Image/modele_sis.jpg}
+\caption{Schéma modéle SIS}
+\end{figure}
+
+\newpage
+
+\begin{defi}
+Le système d'équations différentielles est :
+
+\begin{equation}
+\label{eq:sis_system}
+\begin{cases}
+        \frac{dS(t)}{dt} = -\lambda SI + \gamma I, \\
+        \frac{dI(t)}{dt} = \lambda SI - \gamma I  \\
+        S(0) + I(0) = S_0 + I_0 = N
+\end{cases}
+\end{equation}
+
+où 
+
+\begin{itemize}
+\item $\lambda$ est le \textit{taux d'infection} (ou de contact) (\textbf{par unité de temps et par individu}). 
+\item $\gamma$ représente le \textit{taux de guérison} \textbf{par unité de temps et par individu infectieux}.
+\end{itemize}
+\end{defi}
+
+Puisque il y a pas de changement de population (population fermé) et on a pas de naissance et de mort, on a que $S+I$ est constante et égale à $N$
+
+
+\begin{prop}
+En remplaçant $S$ par $N-I$ le système différentiel (\ref{eq:sis_system}) se réduit à l'équation différentielle suivante :
+
+\begin{equation}
+    \frac{dI(t)}{dt} = \lambda \left( \frac{ \lambda N - \gamma}{\lambda} - I \right) I , \quad \text{avec } I(0) = I_0.
+    \label{eq:sis_reduced}
+\end{equation}
+
+Là encore, (\ref{eq:sis_reduced}) est une équation différentielle logistique si le terme $\lambda N / \gamma - 1 \neq 0$, donc
+\begin{align*}
+    I(t) =
+    \begin{cases}
+        \dfrac{\lambda I_0 e^{(\lambda N - \gamma) t}}{I_0 (\lambda N - \gamma) ( e^{(\lambda N - \gamma) t} - 1 ) + (\lambda N - \gamma)} & \text{si } \lambda N - \gamma \neq 0, \\
+        \dfrac{I_0}{1 + \lambda I_0 t} & \text{sinon.}
+    \end{cases}
+    \label{eq:sis_solution}
+\end{align*}
+
+\end{prop}
+
+\begin{proof}
+
+\textbf{Réduction à une équation pour $I(t)$.} 
+
+En remplaçant $S$ par $N - I$ dans le système différentiel (\ref{eq:sis_system}), on obtient :
+
+\begin{align*}
+\frac{dI(t)}{dt} = I'(t) &= \lambda S(t) I(t) - \gamma I(t) \\
+&= \lambda (N - I(t)) I(t) - \gamma I(t) \\
+&= \lambda N I(t) - \lambda I^2(t) - \gamma I(t) \\
+&= (\lambda N - \gamma) I(t) - \lambda I^2(t) \\
+&= \lambda \left( \frac{\lambda N - \gamma}{\lambda} - I(t) \right) I(t)
+\end{align*}
+
+Posons $K = \frac{\lambda N - \gamma}{\lambda}$. L'équation se réécrit :
+
+\[ \boxed{ I'(t) = \lambda (K - I(t)) I(t),} \quad \text{avec } I(0) = I_0 \]
+
+\bigskip
+\textbf{Cas 1 : $\lambda N - \gamma \neq 0$ (équation logistique)}
+
+Dans ce cas, $K \neq 0$ et l'équation est une équation différentielle de type logistique. Nous allons la résoudre par séparation des variables.
+
+\smallskip
+\noindent\textit{Séparation des variables.} L'équation se réécrit :
+
+\[ \frac{dI}{I(K - I)} = \lambda \, dt \]
+
+\smallskip
+\noindent\textit{Décomposition en éléments simples.} Pour intégrer le membre de gauche, décomposons en éléments simples :
+
+\[ \frac{1}{I(K - I)} = \frac{A}{I} + \frac{B}{K - I} \]
+
+En multipliant par $I(K - I)$ :
+
+\[ 1 = A(K - I) + BI \]
+
+En identifiant les coefficients :
+\begin{itemize}
+\item Pour $I = 0$ : $1 = AK$, donc $A = \frac{1}{K}$
+\item Pour $I = K$ : $1 = BK$, donc $B = \frac{1}{K}$
+\end{itemize}
+
+D'où :
+
+\[ \frac{1}{I(K - I)} = \frac{1}{K} \left( \frac{1}{I} + \frac{1}{K - I} \right) \]
+
+\smallskip
+\noindent\textit{Intégration.} En intégrant des deux côtés :
+
+\begin{align*}
+\int \frac{1}{K} \left( \frac{1}{I} + \frac{1}{K - I} \right) dI &= \int \lambda \, dt \\
+\frac{1}{K} \left[ \ln|I| - \ln|K - I| \right] &= \lambda t + C_1 \\
+\frac{1}{K} \ln\left|\frac{I}{K - I}\right| &= \lambda t + C_1 \\
+\ln\left|\frac{I}{K - I}\right| &= K\lambda t + C_2
+\end{align*}
+
+où $C_2 = KC_1$ est une nouvelle constante d'intégration.
+
+En prenant l'exponentielle :
+
+\[ \frac{I}{K - I} = C e^{K\lambda t} \]
+
+où $C = e^{C_2}$ est une constante positive.
+
+\smallskip
+\noindent\textit{Résolution pour $I(t)$.} En résolvant pour $I$ :
+
+\begin{align*}
+I &= C(K - I) e^{K\lambda t} \\
+I &= CK e^{K\lambda t} - CI e^{K\lambda t} \\
+I + CI e^{K\lambda t} &= CK e^{K\lambda t} \\
+I(1 + C e^{K\lambda t}) &= CK e^{K\lambda t} \\
+I(t) &= \frac{CK e^{K\lambda t}}{1 + C e^{K\lambda t}}
+\end{align*}
+
+\smallskip
+\noindent\textit{Détermination de la constante $C$.} À $t = 0$ :
+
+\[ I_0 = \frac{CK}{1 + C} \]
+
+En résolvant pour $C$ :
+
+\begin{align*}
+I_0(1 + C) &= CK \\
+I_0 + I_0 C &= CK \\
+I_0 &= CK - I_0 C \\
+I_0 &= C(K - I_0) \\
+C &= \frac{I_0}{K - I_0}
+\end{align*}
+
+\smallskip
+\noindent\textit{Expression finale.} En substituant $C$ et $K = \frac{\lambda N - \gamma}{\lambda}$ :
+
+\begin{align*}
+I(t) &= \frac{\frac{I_0}{K - I_0} \cdot K e^{K\lambda t}}{1 + \frac{I_0}{K - I_0} e^{K\lambda t}} \\
+&= \frac{I_0 K e^{K\lambda t}}{K - I_0 + I_0 e^{K\lambda t}} \\
+&= \frac{K I_0 e^{K\lambda t}}{(K - I_0)(1 - e^{K\lambda t}) + K}
+\end{align*}
+
+En remplaçant $K\lambda = \lambda N - \gamma$ :
+
+\begin{align*}
+I(t) &= \frac{\frac{\lambda N - \gamma}{\lambda} \cdot I_0 e^{(\lambda N - \gamma) t}}{\left(\frac{\lambda N - \gamma}{\lambda} - I_0\right)(1 - e^{(\lambda N - \gamma) t}) + \frac{\lambda N - \gamma}{\lambda}}
+\end{align*}
+
+En multipliant numérateur et dénominateur par $\lambda$ et en réarrangeant :
+
+\[ I(t) = \frac{(\lambda N - \gamma) I_0 e^{(\lambda N - \gamma) t}}{I_0 (\lambda N - \gamma) (e^{(\lambda N - \gamma) t} - 1) + (\lambda N - \gamma)} \]
+
+Cette expression peut aussi s'écrire en factorisant :
+
+\[ I(t) = \frac{\lambda I_0 e^{(\lambda N - \gamma) t}}{I_0 (\lambda N - \gamma) (e^{(\lambda N - \gamma) t} - 1) + (\lambda N - \gamma)} \]
+
+\bigskip
+\textbf{Cas 2 : $\lambda N - \gamma = 0$ (cas dégénéré)}
+
+Dans ce cas, $K = 0$ et l'équation d'avant devient :
+
+\[ I'(t) = -\lambda I^2(t) \]
+
+\smallskip
+\noindent\textit{Changement de variable.} Posons $Y(t) = \frac{1}{I(t)}$, qui est bien défini car $I(t) > 0$ pour tout $t \geq 0$.
+
+En dérivant :
+
+\begin{align*}
+Y'(t) &= -\frac{I'(t)}{I^2(t)} \\
+&= -\frac{-\lambda I^2(t)}{I^2(t)} \\
+&= \lambda
+\end{align*}
+
+Ceci est une équation différentielle élémentaire dont la solution générale est :
+
+\[ Y(t) = \lambda t + C \]
+
+\smallskip
+\noindent\textit{Détermination de la constante.} À $t = 0$ :
+
+\[ Y(0) = \frac{1}{I_0} = C \]
+
+Donc :
+
+\[ Y(t) = \lambda t + \frac{1}{I_0} \]
+
+\smallskip
+\noindent\textit{Expression de $I(t)$.} En revenant à $I(t) = \frac{1}{Y(t)}$ :
+
+\[ I(t) = \frac{1}{\lambda t + \frac{1}{I_0}} = \frac{I_0}{1 + \lambda I_0 t} \]
+
+\bigskip
+\textbf{Conclusion}
+
+En combinant les deux cas, on obtient la solution complète :
+
+\[ I(t) =
+\begin{cases}
+\dfrac{\lambda I_0 e^{(\lambda N - \gamma) t}}{I_0 (\lambda N - \gamma) (e^{(\lambda N - \gamma) t} - 1) + (\lambda N - \gamma)} & \text{si } \lambda N - \gamma \neq 0, \\[0.5em]
+\dfrac{I_0}{1 + \lambda I_0 t} & \text{si } \lambda N - \gamma = 0.
+\end{cases} \]
+
+\end{proof}
+
+\commentaire{
+
+Lorsque $t$ tend vers $+\infty$, 
+
+\[ I(t) \to \begin{cases}
+        N - \frac{\gamma}{\lambda} & \text{si } \lambda N - \gamma > 0,\\
+        0 & \text{sinon.}
+    \end{cases}
+\]
+
+}
+
+
+\begin{proof}
+Les points d'équilibre du système SIS satisfont $I'(t) = 0$, soit :
+\[ \lambda(N - I)I - \gamma I = 0 \quad \Leftrightarrow \quad I[\lambda(N - I) - \gamma] = 0 \]
+
+Donc soit $I^* = 0$, soit $I^* = N - \frac{\gamma}{\lambda}$.
+
+\bigskip
+\textbf{Cas 1 : $\lambda N - \gamma > 0$}
+
+Dans ce cas, $I^* = N - \frac{\gamma}{\lambda} > 0$ est un équilibre positif. 
+
+De la solution explicite, en divisant numérateur et dénominateur par $e^{(\lambda N - \gamma)t}$ :
+\[ I(t) = \frac{\lambda I_0}{I_0(\lambda N - \gamma)\left(1 - e^{-(\lambda N - \gamma)t}\right) + (\lambda N - \gamma)e^{-(\lambda N - \gamma)t}} \]
+
+Lorsque $t \to +\infty$, comme $\lambda N - \gamma > 0$, on a $e^{-(\lambda N - \gamma)t} \to 0$, d'où :
+
+\begin{align*}
+ \lim_{t \to +\infty} I(t) &= \frac{\lambda I_0}{I_0(\lambda N - \gamma)} \\
+ &= \frac{\lambda}{\lambda N - \gamma} \\
+ &= \frac{\lambda N - \gamma + \gamma}{\lambda(\lambda N - \gamma)} \cdot \lambda \\
+ &= N - \frac{\gamma}{\lambda} 
+ \end{align*}
+
+\bigskip
+\textbf{Cas 2 : $\lambda N - \gamma \leq 0$}
+
+Si $\lambda N - \gamma < 0$, alors $e^{(\lambda N - \gamma)t} \to 0$ quand $t \to +\infty$. Le numérateur de $I(t)$ tend vers $0$ tandis que le dénominateur reste strictement positif, donc $I(t) \to 0$.
+
+Si $\lambda N - \gamma = 0$, alors $I(t) = \frac{I_0}{1 + \lambda I_0 t} \to 0$ quand $t \to +\infty$.
+
+\end{proof}
+
+\bigskip
+
+\begin{notation}
+Soit $\mathcal{R}_0 = \dfrac{\lambda N}{\gamma}$. On appelle $\mathcal{R}_0$ le \textbf{nombre de reproduction de base}. Alors 
+
+\[ I(t) \xrightarrow{ t \to + \infty } \begin{cases}
+        N - \frac{\gamma}{\lambda} & \text{si } \mathcal{R}_0 > 1,\\
+        0 & \text{si } \mathcal{R}_0 \leq 1.
+    \end{cases}
+\]
+
+
+Les conditions $\mathcal{R}_0 > 1$ et $\mathcal{R}_0 \leq 1$ conduisent à des comportements différents du modèle. Il y a donc \textbf{disparition de l'infection} si $\mathcal{R}_0 \leq 1$ et \textbf{maintien d'un état endémique} dans le cas contraire.
+\end{notation}
+
+\section{Recherche des points d'équilibre du modèle}
+
+\begin{defi}
+On obtient les deux points d'équilibre suivants :
+
+\[ (S^*_1 = N , I^*_1 = 0) \quad \text{et} \quad (S^*_2 = \frac{\gamma}{\lambda}, I^*_2 = N - \frac{\gamma}{\lambda}) \]
+\end{defi}
+
+\begin{itemize}
+\item Le point $(S^*_1, I^*_1)$ est un point d'équilibre d'\textbf{absence d'épidémie} car il n'y a pas de propagation de l'épidémie s'il n'y a pas au moins un individu infectieux.
+\item Le second point $(S^*_2, I^*_2)$ est le point d'équilibre (\textbf{endémique}) vers lequel la trajectoire va tendre lorsque $\mathcal{R}_0 > 1$. C'est donc un \textit{équilibre asymptotiquement stable}.
+\end{itemize}
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.45\textwidth]{SIS/Image/equi_sis_grd.jpg}
+\hfill
+\includegraphics[width=0.45\textwidth]{SIS/Image/equi_sis_pet.jpg}
+\caption{Comportement asymptotique du modèle SIS. À gauche : cas $\lambda N > \gamma$ (régime endémique). À droite : cas $\lambda N < \gamma$ (régime d'extinction).}
+\label{fig:equilibres_sis}
+\end{figure}
+\smallskip
+
+\newpage
+
+\section{Interprétation de la condition $\mathcal{R}_0 > 1$}
+
+$\mathcal{R}_0 > 1$ indique que chaque personne infectieuse doit avoir au moins un contact infectant (qui puisse transmettre l'infection) pendant sa période moyenne d'infectiosité pour que la maladie se maintienne à un \textbf{niveau endémique}.
+
+\paragraph{Le déstin des individus initialement infectieux} Pour tout $t \geq 0$, $J(t)$ est le nombre d'individus \textbf{initialement infectieux} à l'instant $t$ \textbf{et qui le sont encore à l'instant} $t$. Ainsi $J(t)$ vérifie l'équation différentielle
+
+\begin{equation}
+    \frac{dJ(t)}{dt} = -\gamma J(t), \quad J(0) = I_0.
+    \label{eq:Jt}
+\end{equation}
+
+Donc, pour tout $t \geq 0$, $J(t) = I_0 e^{-\gamma t}$ et $e^{-\gamma t}$ approche une probabilité (approche fréquentiste) : la probabilité qu'un individu initialement infecté le soit toujours à l'instant $t$.
+
+\bigskip
+\paragraph{Loi de la durée d'infection} Soit $T$ la variable aléatoire \textbf{durée d'infection}, c.-à-d. « le temps entre le début et la fin de l'infection pour un individu malade ». Alors l'événement $(T > t)$ signifie que l'individu est encore malade au temps $t$, donc $P(T > t) = e^{-\gamma t}$.
+
+En d'autres termes, on voit que $T$ suit une loi exponentielle d'espérance $\dfrac{1}{\gamma}$ et on peut donc interpréter $\dfrac{1}{\gamma}$ comme une « \textbf{période moyenne d'infectiosité} ».
+
+\bigskip
+\paragraph{Autre variables importantes}
+
+\begin{itemize}
+\item $\lambda N$ est le nombre moyen de contacts infectants, par unité de temps causés par un individu infectieux.
+\item 
+$ \mathcal{R}_0 = \frac{\lambda N}{\gamma} $ est le nombre moyen de contacts infectants effectués par un individu infectieux durant sa période d'infectiosité. $\mathcal{R}_0$ est appelé \textbf{nombre de reproduction de base}.
+\end{itemize}
+
+\section{Représentation dans le plan de la trajectoire}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.6\textwidth]{SIS/Image/trajectoire_sis.jpg}
+%\caption{Schéma modéle SI}
+\end{figure}

@@ -1,0 +1,407 @@
+\chapter{Système différentiels}
+
+\section{Introduction}
+
+Dans ce chapitre nous considérons l'equation differentielle
+
+\begin{equation}\label{equa:5.1}
+\dot{x} = \frac{dx}{dt} = f(t,x)
+\end{equation}
+
+où
+
+\[ x = \begin{pmatrix} x_1(t) \\ \vdots \\ x_n(t) \end{pmatrix} 
+\quad \quad
+f(t,x) = \begin{pmatrix} f_1(t,x_1, \cdots , x_n) \\ \vdots \\ f_n(t,x_1, \cdots , x_n) \end{pmatrix} \]
+
+est une fonction non linéaire de $x_1, \cdots , x_n $. Malheureusement, il n'existe pas de méthodes pour résoudre l'equation (\ref{equa:5.1}). Toutefois dans la majeur partie des applications, il n'est pas nécessaire d'expliciter les solutions de (\ref{equa:5.1}) comme on l'a vu dans le modèle SIR. Les questions que l'on se pose sont les suivantes:
+
+\begin{enumerate}
+\item Existe t-il un point $x^* = (x_1^* , \cdots , x_n^*)^T$ ne dépendant pas de $t$, solution de (\ref{equa:5.1})? Un tel point s'il existe est appelé \textbf{point d'équilibre}.
+\item Soit $\Phi$ et $\Gamma$ deux solutions de (\ref{equa:5.1}) tells que $\Gamma(0)$ soit "proche" de $\Phi(0)$,c'est-à-dire pour $j \in \{ 1, \cdots , n \} , \Gamma_j (0)$ "proche de $ \Phi_j(0) $. La solution $\Gamma$ restera t'elle "proche" de $\Phi(t)$ ou s'en "éloignera" t-elle lorsque $t$ tend vers l'infini?
+
+C'est le problème de \textbf{stabilité} : problème fondamental dans l'étude qualitative des équations différentielles.
+\item Que se passe t-il pour les solutions $x(t)$ de (\ref{equa:5.1}) lorsque $t$ tend ver l'infini? Tendent-elles toutes vers des points d'équilibre? Si tel n'est pas le cas, tendent-elles alors vers une solution périodique?
+\end{enumerate}
+
+\begin{defi}[Point d'équilibre]
+$x^* = (x_1^* , \cdots , x_n^*) \in \mathbb{R}^n$  est un point d'equilibre de (\ref{equa:5.1}) si, et seulment si, $f(t,x^*)\equiv 0$.
+\end{defi}
+
+\begin{exemple}
+Chercher tous les points d'équilibre du système d'equations différentielles:
+
+\[ 
+\begin{cases}
+\frac{dx}{dt} =1-y \\
+ \frac{dy}{dt} = x^2 +y 
+ \end{cases}\]
+
+\medskip
+
+\textbf{Solution: } $\begin{pmatrix} x_0 \\ y_0 \end{pmatrix}$ est un point d'équilibre si, et seulement si, $1-y_0 =0$ et $x_0^3 + y_0 =0$. Ce qui donne $y_0=1$ et $x_0$. Ainsi $\begin{pmatrix} -1 \\ 1 \end{pmatrix}$ est le seul point d'équilibre de ce système.
+
+\end{exemple}
+
+\bigskip
+
+Le problème de la stabilité est généralement difficile à résoudre, car en general on se sait pas résoudre explicitement l'equation (\ref{equa:5.1}) . Le seul cas maniable est celui où $f(t,x)$ ne depend pas explicitement de $t$, c'est-à-dire $f$ est seulement fonction de $x$. De telles équation différentielles sont dires \textbf{autonomes}.
+
+Et même pur les équation différentielles autonomes, il y a seulement deux cas (en general) où l'on peut complètement résoudre la question de la stabilité. 
+
+\begin{itemize}
+\item Le premier cas est celui où $f$ est linéaire: il serra traité dans la section 5.3
+\item Le second cas est celui où nous ne nous intéressons qu'à la stabilité d'un point d'équilibre de $\dot{x} = f(x)$ ; il sera traité à la section 5.4.
+\end{itemize}
+
+La question $3$ est très importante dans beaucoup d'applications puisque la réponse à cette question donne une réduction concernant l'évolution à long terme du système considéré. Dans la section 5.5 nous répondrons à cette question, dans le cas où il serait possible de le faire et appliquerons ces résultats aux modeles de propagation d'épidémie dans les chapitres suivants.
+
+\section{Notions de stabilité (au sens de Lyapounov) d'un point d'équilibre}
+
+Dans cette section, nous nous intéressons au problème de la stabilité d'un point d'équilibre $x*$ d'un système différentiel autonome.
+
+\begin{equation} \label{equa:5.2}
+\dot{x} = f(x)
+\end{equation}
+
+Nous voulons savoir quand $x^*$ est stable, asymptotiquement stable ou instable, c'est-à-dire nous voulons savoir si tout solution $\Phi$ de (\ref{equa:5.2}) "suffisamment proche" de $x^*$ à l'instant $t=0$, reste "proche" de $x^*$ pour tour instant $t>0$.
+
+Cette notion est due au mathématicien russe Aleksandr Lyapounov (1857-1918).
+
+\begin{defi}[Stabilité, Stabilité asymptotique, instabilité]
+\begin{enumerate}
+\item U point d'équilibre $x^*$ de (\ref{equa:5.2}) est stable si toute solution $\Phi$ de (\ref{equa:5.2}) "suffisamment proche" de $x^*$ à l'instant $t=0$ reste "proche" de $x^*$ pour tout $t>0$. Autrement dit, $x^*$ est stable si pour tout $\varepsilon >0$, il existe un $\delta >0$, tel que pour toute solution $\Phi$ de (\ref{equa:5.2}), on ait:
+
+\[ | \Phi_j(t) -x^* | < \varepsilon \quad \text{si} \quad |\Phi_j(0) - x^*| < \delta(\varepsilon ) \quad j = \{ 1 , \cdots , n \} \quad t>0 \]
+
+Ou de manière équivalente
+
+\[ \| \Phi(0) - x^* \| < \delta \Rightarrow \|\Phi(t) - x^* \| < \varepsilon, \quad \forall t >0 \]
+\item Si de plus, $\delta$ peut être choisi de sorte que $x^*$ soit stable et que $\lim_{t \to \infty} \| \Phi(t) - x^* \| =0$, c'est-à-dire $\lim_{t \to \infty} \Phi = x^*$, alors $x^*$ est dit asymptotiquement stable.
+\item $x^*$ est dit instable si $x^*$ n'est pas stable. Autrement dit, s'il existe une solution $\Phi$ de (\ref{equa:5.2}) qui soit "proche" de $x^*$ à $t=0$ mais qui ne le soit plus ("proche") pour $t>0$.
+\end{enumerate}
+\end{defi}
+
+\newpage
+
+\section{Stabilité des systèmes linéaires}
+
+La stabilité peut être complètement résolue dans le cas des equations différentielles linéaires
+
+\begin{equation}\label{equa:5.3} 
+\dot{x} = Ax
+\end{equation}
+
+Cela n'est pas une surprise dans la mesure où l'equation (\ref{equa:5.3}) peut être compkètement résolue (algèbre linéaire).
+
+\commentaire{
+
+On a:
+
+\[ \begin{cases}
+Y'(t) = AY(t) \\
+Y(t_0)=Y_0
+\end{cases} \]
+
+On a la solution:
+
+\[ \boxed{ Y(t) = e^{A (t -t_0) } Y_0 } \]
+
+On peut vérifier:
+
+\[ Y'(t) = \frac{d}{dt} Y(t) = A e^{A(t-t_0) } Y_0 = A Y(t) \]
+
+\bigskip
+
+\textbf{Definition: } Matrice exponentielle
+
+\[ e^{At} = \sum_{k=0}^{\infty} \frac{(At)^k}{k!} \]
+
+\textbf{Propriété: } 
+
+\begin{enumerate}
+\item Si $A$ est diagonalisable, c'est à dire que $A = PDP^{-1}$ avec $D$ diagonale, on a
+
+\[ e^{At} = P e^{Dt} P^{-1} \quad \text{avec } e^{Dt} = diag( e^{\lambda_1 t} , \cdots , e^{\lambda_n t} ) \text{  où les $\lambda_i$ sont les valeurs propres de $A$} \]
+
+Ainsi 
+
+\[ \boxed{ Y(t) = P e^{Dt} P^{-1} Y_0 } \]
+\item Si $A$ n’est pas diagonalisable, il existe une matrice inversible $P$ telle que 
+\[
+A = P J P^{-1},
+\]
+où $J$ est la \textbf{forme de Jordan} de $A$, c’est-à-dire une matrice bloc-diagonale dont chaque bloc de Jordan $J_k(\lambda)$ associé à une valeur propre $\lambda$ est de la forme :
+\[
+J_k(\lambda) =
+\begin{pmatrix}
+\lambda & 1 & 0 & \cdots & 0 \\
+0 & \lambda & 1 & \ddots & \vdots \\
+\vdots & & \ddots & \ddots & 0 \\
+0 & \cdots & 0 & \lambda & 1 \\
+0 & \cdots & 0 & 0 & \lambda
+\end{pmatrix}.
+\]
+
+Chaque bloc s’écrit $J_k(\lambda) = \lambda I + N$ avec $N$ nilpotente ($N^m = 0$ si le bloc est de taille $m$).  
+On a alors :
+\[
+e^{J_k(\lambda)t} = e^{\lambda t} e^{N t}
+= e^{\lambda t} \left( I + N t + \frac{(N t)^2}{2!} + \cdots + \frac{(N t)^{m-1}}{(m-1)!} \right).
+\]
+
+Ainsi, pour la matrice complète $A = P J P^{-1}$ :
+\[
+ e^{At} = P e^{Jt} P^{-1} 
+\]
+
+et la solution du système différentiel est :
+\[
+\boxed{ Y(t) =  P e^{J (t - t_0)} P^{-1} Y_0. }
+\]
+\end{enumerate}
+
+}
+
+On a le théorème important:
+
+\begin{theo}\label{theo:5.3.1}
+Le point d'équilibre $0$ de (\ref{equa:5.3}) est:
+
+\begin{enumerate}
+\item asymptotiquement stable si pour tout $\lambda \in Sp(A), Re(\lambda) < 0$
+\item instable s'il existe $\lambda \in Sp(A), Re(\lambda) >0$
+\item Supposons que pour tout $\lambda \in Sp(A) , Re(\lambda) \leq 0$ et que tout polynôme caractéristique de $A$ soit de la forme
+
+\[ \chi_A(X) = (i \sigma_1 - X)^{n_1} \cdots  (i \sigma_p - X)^{n_p} \cdot Q(X) \]
+
+où tous les zéros de $Q$ sont de partie réelle strictement négative. Alors, $0$ est stable si pour tout $j \in \{ 1, \cdots , p \}$ la dimension du sous-espace propre associé à $i \sigma_j$ est égale à $n_j$. Dans le cas contraire, $0$ est instable.
+\end{enumerate}
+\end{theo}
+
+\begin{defi}[Hyperbolicité d'un point d'équilibre de (\ref{equa:5.3})]
+Le point d'équilibre $0$ (ou la matrice $A$) de (\ref{equa:5.3}) est dit(e) \textbf{hyperbolique} si pour tout $\lambda \in Sp(A) , Re(\lambda) \neq 0$.
+\end{defi}
+
+\begin{exemple}
+
+Soit $A = \begin{pmatrix} -1 & 0 & 0 \\ -2 & -1 & 2 \\ -3 & -2 & -1 \end{pmatrix}$. Déterminer su la solution $0$ de l'équation différentielle $\dot{x} = Ax$ est stable, asymptotiquement stable ou instable.
+
+\medskip
+
+\textbf{Solution: } Le polynôme caractéristique de $A$ est $P(\lambda) = -(1+ \lambda)(\lambda^2+2 \lambda + 5)$. Ainsi, $\lambda_1=-1$, $\lambda_2 = -1+2i$ et $\lambda_3=-1-2i$ sont les valeurs propres de $A$. Etant toutes de partie réelle stritement négative, on conclut que $0$ est asymptotiquement stable.
+
+\end{exemple}
+
+\begin{exemple}
+
+Soit $A = \begin{pmatrix} 1 & 5 \\ 5 & 1 \end{pmatrix}$. Montrer que la solution nulle de l'équation différentielle $\dot{x} = Ax$ est instable.
+
+\medskip
+
+\textbf{Solution: } Le polynôme caractéristique de $A$ est $P(\lambda)=-(4+\lambda)(6-\lambda)$. Puisque l'une des valeurs propres de $A$ est positive, on conclut immédiatement que $0$ est instable.
+
+\end{exemple}
+
+\begin{exemple}
+
+Soit $A = \begin{pmatrix} 0 & -3 \\ 2 & 0 \end{pmatrix}$. Montrer que la solution nulle de l'équation différentielle $\dot{x} = Ax$ est stable mais pas asymptotiquement stable.
+
+\medskip
+
+\textbf{Solution: } Le polynôme caractéristique de $A$ est $P(\lambda)=\lambda^2+6$. Ainsi, $\lambda_1 = \sqrt{6} i$ et $\lambda_2 = - \sqrt{6} i$ sont les valeurs propres de $A$. La partie \textit{c} du Théoreme (\ref{theo:5.3.1}) assure la stabilité de toute solution $x=\phi(t)$ de $\dot{x} = Ax$. Toutefois aucune solution n'est asymptotiquement stable. Cela vient directement du fait que la solution générale de $\dot{x} = Ax$ est
+
+\[
+t \mapsto x(t) = c_1 \begin{pmatrix} -\sqrt{6} \sin (\sqrt{6}t) \\ 2 \cos (\sqrt{6} t ) \end{pmatrix} + c_2 \begin{pmatrix} \sqrt{6} \cos (\sqrt{6} t)  \\ 2 \sin(\sqrt{6} t) \end{pmatrix}
+\]
+
+Ainsi, toute solution $x$ est périodique, de période $\frac{2\pi}{\sqrt{6}}$ et aucune solution $x$ (exceptée $x \equiv 0$) ne tend vers $0$ lorsque $t \to \infty$
+
+\end{exemple}
+
+\section{Stabilité des systèmes linéaires perturbés}
+Dans la section précédente nous nous sommes intéresses à l'équation simple $\dot{c} = Ax$. L'autre équation simple est la suivante:
+
+\begin{equation} \label{equa:5.4}
+\dot{x} = Ax + g(x)
+\end{equation} 
+
+où $g(x) = \left( g_1(x) , \cdots , g_n(x) \right)^T$ est très petit devant $x$. Plus précisément, on suppose que les fonctions:
+
+\[ \frac{g_1(x)}{\max \{ |x_1| , \cdot , |x_n| \}} , \cdots ,  \frac{g_n(x)}{\max \{ |x_1| , \cdot , |x_n| \}}
+\]
+
+sont des fonctions continues de $x_1, \cdots , x_n $ s'annulant en $x_1=0 , \cdots , x_n=0 $ . C'est par exemple la cas où $g$ est une fonction polynomiale des variables $x_1, \cdots , x_n $ dont les monômes qui la composent sont de degré $\geq 2$.
+
+La fonction vectorielle $g$ est une perturbation (petite) du système linéaire $\cdot{x} = Ax$.
+
+\begin{exemple}
+Si $g(x) = \begin{pmatrix} x_1 x_2^2 \\  x_1 x_2 \end{pmatrix}$ alors $\frac{x_1 x_2^2}{\max \{ |x_1| , |x_2| \}}$ et $\frac{x_1 x_2}{\max \{ |x_1| , |x_2| \}}$ sont des fonctions continues des variables $x_1$ et $x_2$ s'annulant en $(x_1,x_2) = (0,0)$.
+\end{exemple}
+
+\bigskip
+
+Si $g(0)=0$, alors $x(t) \equiv 0$ est un pont d'équilibre de (\ref{equa:5.4}). Nous voudrions savoir si ce point est stable ou instable. A première vue, il semble impossible de répondre à cette question car nous ne savons pas résoudre explicitement l'équation (\ref{equa:5.4}). Toutefois, si $x$ est très petit, alors $g(x)$ l'est devant $Ax$. Ainsi, il paraît intuitif que la stabilité du point d'équilibre $x(t) \equiv 0$ de (\ref{equa:5.4}) soit déterminée par la stabilité de la partie linéaire de l'équation \ref{equa:5.4}): $\dot{x} = Ax$.
+
+\begin{theo}\label{theo:5.4.1}
+Supposons que $\frac{g(x)}{\| x \|} = \frac{g(x)}{\max \{ |x_1| , \cdot , |x_n| \}}$ soit une fonction continue des variables $x_1, \cdots , x_n $ nulle en $x=0$. Alors:
+
+\begin{enumerate}
+\item Le pont d'équilibre $x(t) \equiv 0$ de (\ref{equa:5.4}) est asymptotiquement stable s'il est asymptotiquement stable pour la partie linéaire $\dot{x} = Ax$. D'une manière équivalente, $x(t) \equiv 0$ de (\ref{equa:4}) est asymptotiquement stable si toutes les valeurs propres de $A$ sont de partie réelle strictement négative
+\item Le point d'équilibre $x(t) \equiv 0$ de (\ref{equa:5.4}) est instable si au moins l'une des valeurs propres de $A$ est de partie réelle strictement positive.
+\item La stabilité de $x(t) \equiv 0$ de (\ref{equa:5.4}) ne peut pas être déduite de celle du point $x(t) \equiv 0$ du système $\dot{x} = Ax$ si toutes les valeurs propres de $A$ sont de parie réelle $\leq 0$ avec au moins l'une d'entre elle, imaginaire pure.
+\end{enumerate}
+
+\end{theo}
+
+\begin{exemple}
+Soit le système différentiel:
+
+\[ \begin{cases}
+\frac{dx_1}{dt} =-2x_1+x_2 +9x_2^3 +3 x_3 \\
+\frac{dx_2}{dt} = -6 x_2 -5 x_3 + 7 x_3^5 \\
+\frac{dx_3}{dt} =x_1^2 + x_2^2 - x_3
+\end{cases} \]
+
+Déterminer si cela est possible quand le point d'équilibre $(0,0,0)$ est stable ou instable.
+
+\medskip
+
+\textbf{Solution: } Ecrivons le système sous la forme $\dot{x} = Ax + g(x)$ avec
+
+\[ x = \begin{pmatrix} x_1 \\ x_2 \\ x_3 \end{pmatrix} \quad
+A = \begin{pmatrix}
+-2 & 1 & 3 \\
+0 & -6 & -5 \\
+0 & 0 & -1 
+\end{pmatrix} \quad
+g(x) = \begin{pmatrix} 9 x_2^3 \\ 7 x_3^5 \\ x_1^2 + x_2^2 \end{pmatrix} \]
+
+Il est clair que la fonction $g$ satisfait aux hypothèse du (Théorème \ref{theo:5.4.1}) et que $Sp(A) = \{ -6,-2,-1\}$. Ainsi, $0$ est un équilibre asymptotiquement stable.
+
+\end{exemple}
+
+\section{Stabilité des systèmes non linéaires}
+
+Le Théorème \ref{theo:5.4.1} peut être utilisé pour déterminer la stabilité des points d'équilibre d'équations différentielles autonomes quelconques. Soit $x*$ un point d'équilibre de l'équation différentielle:
+
+\begin{equation} \label{equa:5.5}
+\dot{x} = f(x)
+\end{equation} 
+
+Posons pour tout $t$, $z(t) = x(t) - x^*$, où $z(t) = (z_1(t) , \cdots , z_n(t))$ , alors:
+
+\begin{equation} \label{equa:5.6}
+\dot{z} = \dot{x} = f(x^* + z)
+\end{equation} 
+
+Il est clair que $0$ est un point d'équilibre de (\ref{equa:5.6}) et la stabilité du point d'équilibre $x^*$ du système (\ref{equa:5.5}) est équivalente à celle du point d'équilibre $0$ du système (\ref{equa:5.6}).
+
+\begin{lemme}\label{lemme:5.5.1}
+Supposons que la fonction $f$ de la variable $x = (x_1, \cdots , x_n)$ soit deux fois continûment différentiable au voisinage du point $x^*$ alors on peut écrire
+
+\begin{equation} \label{equa:5.7}
+f(x^* + z) = f(x^*) + Az + g(z) = Az + g(z)
+\end{equation} 
+
+où $z \mapsto \frac{g(z)}{\max \{ |z_1| , \cdot , |z_n| \}}$ est une fonction continue de $z$ s'annulant en $z=0$.
+\end{lemme}
+
+\begin{proof}
+L'équation (\ref{equa:5.7}) est une conséquence immédiate de la formule de Taylor qui dit que les composantes $f_j(x^*+z)$ de $f(x^*+z)$ peuvent d'écrire sous la forme:
+
+\[
+f_j(x^*+z) = f_j(x^*) + \frac{\partial f_j(x^*)}{\partial x_1} z_1 + \cdots + \frac{\partial f_j(x^*)}{\partial x_n}  z_n + g_j(z)
+\]
+
+où $z \mapsto \frac{g(z)}{\max \{ |z_1| , \cdot , |z_n| \}}$ est une fonction continue de $z$ s'annulant en $z=0$. Ainsi
+
+\[
+f(x^*+z) = f(x^*) + Az + g(z) = Az + g(z)
+\]
+
+avec
+
+\[
+A = \begin{pmatrix}
+\frac{\partial f_1(x^*)}{\partial x_1} & \cdots & \frac{\partial f_1(x^*)}{\partial x_n} \\
+\vdots && \vdots \\
+\frac{\partial f_n(x^*)}{\partial x_1} & \cdots & \frac{\partial f_n(x^*)}{\partial x_n}
+\end{pmatrix} \]
+
+\end{proof}
+
+\begin{algo}
+
+Le Théorème \ref{theo:5.4.1} et le Lemme \ref{lemme:5.5.1} nous fournissent un algorithme d'étude de la stabilité d'un point d'équilibre $x(t) = x^*$ de l'équation $\dot{x}=f(x)$:
+
+\begin{enumerate}
+\item Poser $z=x - x^*$.
+\item Mettre $f(x^*+z)$ sous la forme $Az + g(z)$ avec $g$ fonction polynomiale de variables $z_1 , \cdots, z_n$ composée de monômes de degré $\geq 2$.
+\item Déterminer les valeurs propres de $A$
+\begin{itemize}
+\item Si pour tout $\lambda \in Sp(A) , Re(\lambda) < 0$, alors $x^*$ est asymptotiquement stable (localement).
+\item S'il existe $\lambda \in Sp(A) , Re(\lambda) > 0$, alors $x*$ est instable.
+\end{itemize}
+\end{enumerate}
+
+\end{algo}
+
+\begin{defi}[Hyperbolicité d'un point d'équilibre de \ref{equa:5.6}]
+L'équilibre $x^*$ est dit \textbf{hyperbolique} si la matrice $A$ du système linéarisé autour de $x*$ n'a aucune valeur propre de partie réelle nulle.
+\end{defi}
+
+\begin{exemple}
+Soit le système différentiel:
+
+\begin{equation} \label{equa:5.8}
+\begin{cases}
+\frac{dx}{dt} =-1-xy \\
+\frac{dy}{dt} = x-y^3
+\end{cases} 
+\end{equation}
+
+Chercher les points d'équilibre de ce système et étudier quand c'est possible, la stabilité de chacun d'eux.
+
+\medskip
+
+\textbf{Solution: } Les points d'équilibre de \ref{equa:5.8} sont $(1,1)$ et $(-1,-1)$.
+
+\begin{enumerate}
+\item \textit{Stabilité du point $(1,1)$:} Soit $u=x-1$ et $v=y-1$, alors
+
+\[ \begin{cases}
+\frac{du}{dt} = - u - v -uv \\
+\frac{dv}{dt} = u - 3v - 3v^2 - v^3
+\end{cases} \]
+
+Le système se réécrit sous la forme:
+
+\[ \frac{d}{dt} \begin{pmatrix} u \\ v \end{pmatrix}
+= \begin{pmatrix} 
+-1 & -1  \\ 
+1 & -3
+\end{pmatrix}
+\begin{pmatrix} u \\ v \end{pmatrix} - \begin{pmatrix} uv \\ 3v^2 + v^3 \end{pmatrix}\]
+
+On a $A= \begin{pmatrix} -1 & -1 \\ 1 & -3 \end{pmatrix}$ et $Sp(A)= \{ -2 \}$. Par conséquent, $(1,1)$ est asympototiquement stable
+\item \textit{Stabilité du point $(-1,-1)$:} Soit $u=x+1$ et $v=y+1$, alors
+
+\[ \begin{cases}
+\frac{du}{dt} =  u + v -uv \\
+\frac{dv}{dt} = u - 3v + 3v^2 - v^3
+\end{cases} \]
+
+Le système se réécrit sous la forme:
+
+\[ \frac{d}{dt} \begin{pmatrix} u \\ v \end{pmatrix}
+= \begin{pmatrix} 
+1 & 1  \\ 
+1 & -3
+\end{pmatrix}
+\begin{pmatrix} u \\ v \end{pmatrix} + \begin{pmatrix} -uv \\ 3v^2 - v^3 \end{pmatrix}\]
+
+On a $A= \begin{pmatrix} 1 & 1 \\ 1 & -3 \end{pmatrix}$ et $Sp(A)= \{ -1 - \sqrt{5} , -1 + \sqrt{5} \}$. Par conséquent, $(-1,-1)$ est instable.
+\end{enumerate}
+
+\end{exemple}
