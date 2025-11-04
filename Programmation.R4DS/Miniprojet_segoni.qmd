@@ -1,0 +1,181 @@
+---
+title: "Miniprojet_novembre"
+author: "Lorenzo Segoni"
+format: html
+editor: visual
+---
+
+# Introduction
+
+Ce mini-projet a pour objectif de créer une **animation du mot "MAP5"** suivant une **trajectoire sinusoïdale**.\
+L’animation est réalisée en R avec les packages **`gganimate`**, **`tidyverse`** et **`av`**.
+
+```{r}
+#install.packages("tidyverse")
+#install.packages("gganimate")
+#install.packages("av")
+library(av)
+library(tidyverse)
+library(gganimate)
+```
+
+# Paramètres généraux
+
+## Nombre d’images pour l’animation
+
+Le paramètre `n_frames` définit **le nombre total d’images (ou de “frames”)** qui composeront l’animation.\
+Plus ce nombre est élevé, plus l’animation sera fluide — mais aussi plus lourde à générer.\
+Ici, nous choisissons 250 images, ce qui correspond à environ **8 secondes** de vidéo à **30 images par seconde**.
+
+```{r}
+n_frames <- 250
+```
+
+## Fonction qui génère une onde sinusoïdale
+
+Cette fonction `y_wave()` crée une **onde sinusoïdale discrète** utilisée pour animer le mouvement des lettres.
+
+Elle prend en argument :\
+- `n` : le nombre de points générés (ici, égal au nombre d’images),\
+- `amplitude` : la hauteur maximale de l’onde,\
+- `freq` : le nombre d’oscillations sur la longueur totale,\
+- `del` : un décalage de phase qui permet de **décaler les ondes** entre les lettres.
+
+La fonction renvoie un vecteur de valeurs correspondant aux positions verticales ( y ) le long de l’onde.
+
+```{r}
+y_wave <- function(n, amplitude = 0.4, freq = 2, del) {
+  amplitude * sin(seq(0, 2 * pi * freq + del, length.out = n))
+}
+```
+
+## Création des données pour chaque lettre
+
+Nous allons maintenant créer les données correspondant à chaque lettre du mot **MAP5**.\
+Chaque lettre suit une **onde sinusoïdale** légèrement décalée dans sa phase (`del`) afin de donner un effet de mouvement fluide et différencié.
+
+Pour chaque lettre :
+
+-   `x` représente la position horizontale,\
+-   `y` la hauteur donnée par la fonction `y_wave()`,\
+-   `letter` identifie la lettre concernée,\
+-   `frame` correspond au numéro d’image dans l’animation.
+
+```{r}
+df_M <- tibble(
+  frame = 1:n_frames,
+  x = seq(-17, 11, length.out = n_frames),
+  y = y_wave(n_frames, 0.4, 2, 0),
+  letter = "M"
+)
+
+df_A <- tibble(
+  frame = 1:n_frames,
+  x = seq(-15, 13, length.out = n_frames),
+  y = y_wave(n_frames, 0.4, 2, 0.8),
+  letter = "A"
+)
+
+df_P <- tibble(
+  frame = 1:n_frames,
+  x = seq(-13, 15, length.out = n_frames),
+  y = y_wave(n_frames, 0.4, 2, 1.6),
+  letter = "P"
+)
+
+df_5 <- tibble(
+  frame = 1:n_frames,
+  x = seq(-11, 17, length.out = n_frames),
+  y = y_wave(n_frames, 0.4, 2, 2.4),
+  letter = "5"
+)
+```
+
+### Fusion des données et préparation des angles
+
+Une fois les données de chaque lettre créées séparément, nous les **fusionnons** en un seul tableau `df_all` grâce à la fonction `bind_rows()`.
+
+Nous ajoutons ensuite une nouvelle variable `angle_x_val`, qui dépend de la position horizontale `x`.\
+Cette variable servira à **faire pivoter légèrement les lettres** au cours de l’animation pour accentuer l’effet de mouvement.
+
+```{r}
+df_all <- bind_rows(df_M, df_A, df_P, df_5) %>%
+  mutate(angle_x_val = (x + 10) * 10)
+```
+
+Nous pouvons maintenant créer le graphique de base avec **ggplot2**, qui servira ensuite à générer l’animation.
+
+Chaque lettre est affichée à sa position ((x, y)) avec un angle d’inclinaison défini par `angle_x_val`.\
+L’aspect visuel (couleur, taille, police) est ajusté pour obtenir un rendu harmonieux, et le fond du graphique est légèrement grisé pour mieux faire ressortir le texte.
+
+# Construction du graphique non animé
+
+```{r}
+p <- ggplot(df_all, aes(x = x, y = y, group = letter)) +
+  geom_text(
+    aes(label = letter, angle = angle_x_val),
+    color = "navy",
+    size = 25,
+    fontface = "italic",
+    family = "serif",
+    vjust = -0.3
+  ) +
+  coord_cartesian(xlim = c(-10, 10), ylim = c(-1.5, 1.5)) +
+  theme_void() +
+  theme(plot.background = element_rect(fill = gray(0.9), color = NA)) +
+  transition_manual(frame)
+```
+
+# Animation et sauvegarde
+
+Une fois le graphique préparé, il ne reste plus qu’à générer l’animation à l’aide de la fonction `animate()` du package **gganimate**.\
+Cette fonction crée une séquence d’images selon la variable `frame`, puis les assemble en une vidéo.
+
+## Format MP4
+
+Ici, nous choisissons un rendu **MP4** avec les paramètres suivants :\
+- `fps = 30` : nombre d’images par seconde (fluidité),\
+- `duration = 8` : durée totale en secondes,\
+- `width` et `height` : dimensions de la vidéo,\
+- `renderer = av_renderer("MAP5_defile.mp4")` : export au format vidéo `.mp4` grâce au package **av**.
+
+```         
+# Création de l’animation et export en vidéo MP4
+animate(
+  p,
+  fps = 30,
+  duration = 8,
+  width = 600,
+  height = 300,
+  renderer = av_renderer("MAP5_defile.mp4")
+)
+```
+
+<video controls width="600">
+
+<source src="MAP5_defile.mp4" type="video/mp4">
+
+Votre navigateur ne supporte pas la lecture vidéo.
+
+</video>
+
+## Format GIF
+
+En plus du format MP4, il est possible de générer l’animation au **format GIF** grâce au moteur `gifski_renderer()`.\
+Le principe est le même : chaque image (`frame`) est générée par **gganimate**, puis combinée pour créer un fichier GIF animé.
+
+Les paramètres choisis assurent un rendu fluide et compact, pratique pour être intégré dans un site web, un rapport ou une présentation.
+
+```         
+# Création de l’animation et export au format GIF
+animate(
+  p,
+  fps = 30,
+  duration = 8,
+  width = 600,
+  height = 300,
+  renderer = gifski_renderer("MAP5_defile.gif")
+)
+```
+
+![](MAP5_defile.gif)
