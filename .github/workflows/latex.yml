@@ -1,27 +1,32 @@
-name: Build LaTeX Cours
+name: Build All LaTeX PDFs
 
 on:
   push:
-    paths:
-      - 'Modelisation déterministe/**'
+    branches: [ main ]
   pull_request:
-    paths:
-      - 'Modelisation déterministe/**'
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Set up LaTeX
         uses: dante-ev/latex-action@v2
-        with:
-          root_file: Modelisation déterministe/Cours.tex
 
-      - name: Upload PDF
+      - name: Find and build all LaTeX files
+        run: |
+          # Cherche tous les fichiers LaTeX ciblés et compile chacun
+          for file in $(find . -type f \( -name "Cours.tex" -o -name "TD.tex" -o -name "TP.tex" -o -name "Cheetsheet.tex" -o -name "Diapo.tex" -o -name "Poster.tex" \)); do
+            echo "Compiling $file ..."
+            latexmk -pdf -interaction=nonstopmode "$file"
+          done
+
+      - name: Upload all PDFs
         uses: actions/upload-artifact@v4
         with:
-          name: Cours-PDF
-          path: Modelisation déterministe/Cours.pdf
+          name: LaTeX-PDFs
+          path: |
+            $(find . -type f \( -name "Cours.pdf" -o -name "TD.pdf" -o -name "TP.pdf" -o -name "Cheetsheet.pdf" -o -name "Diapo.pdf" -o -name "Poster.pdf" \))
