@@ -1,4 +1,4 @@
-name: Build All LaTeX PDFs
+name: Build All LaTeX Documents
 
 on:
   push:
@@ -10,23 +10,33 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # 1️⃣ Récupération du dépôt
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up LaTeX
-        uses: dante-ev/latex-action@latest
-
-      - name: Find and build all LaTeX files
+      # 2️⃣ Installation de LaTeX complet (TeX Live)
+      - name: Set up LaTeX environment
         run: |
-          # Cherche tous les fichiers LaTeX ciblés et compile chacun
-          for file in $(find . -type f \( -name "Cours.tex" -o -name "TD.tex" -o -name "TP.tex" -o -name "Cheetsheet.tex" -o -name "Diapo.tex" -o -name "Poster.tex" \)); do
-            echo "Compiling $file ..."
-            latexmk -pdf -interaction=nonstopmode "$file"
+          sudo apt-get update
+          sudo apt-get install -y texlive-full latexmk
+
+      # 3️⃣ Compilation de tous les fichiers LaTeX ciblés
+      - name: Compile all LaTeX files
+        run: |
+          mkdir -p output_pdfs
+          find . -type f \( -name "Cours.tex" -o -name "TD.tex" -o -name "TP.tex" -o -name "Cheetsheet.tex" -o -name "Diapo.tex" -o -name "Poster.tex" \) | while read file; do
+            echo "📄 Compilation de $file ..."
+            dir=$(dirname "$file")
+            name=$(basename "$file" .tex)
+            cd "$dir"
+            latexmk -pdf -interaction=nonstopmode "$name.tex"
+            mv "$name.pdf" "$GITHUB_WORKSPACE/output_pdfs/${dir//\//_}_$name.pdf" || echo "⚠️ PDF non trouvé pour $file"
+            cd "$GITHUB_WORKSPACE"
           done
 
+      # 4️⃣ Upload de tous les PDF produits
       - name: Upload all PDFs
         uses: actions/upload-artifact@v4
         with:
-          name: LaTeX-PDFs
-          path: |
-            $(find . -type f \( -name "Cours.pdf" -o -name "TD.pdf" -o -name "TP.pdf" -o -name "Cheetsheet.pdf" -o -name "Diapo.pdf" -o -name "Poster.pdf" \))
+          name: latex-pdfs
+          path: output_pdfs/
