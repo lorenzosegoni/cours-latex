@@ -1,8 +1,8 @@
-name: Render Quarto Project
+name: Render All Quarto Files
 
 on:
   push:
-    branches: [ main ]  # ou master selon ton dépôt
+    branches: [ main ]
   pull_request:
 
 jobs:
@@ -21,7 +21,16 @@ jobs:
 
       - name: Install R packages
         run: |
-          Rscript -e 'install.packages(c("tidyverse", "ggplot2", "dplyr", "rmarkdown"))'
+          Rscript -e 'install.packages(c(
+            "tidyverse", 
+            "ggplot2", 
+            "dplyr", 
+            "rmarkdown", 
+            "gganimate", 
+            "av"
+          ))'
 
-      - name: Render Quarto project
-        run: quarto render
+      - name: Render all Quarto files
+        run: |
+          # Cherche tous les fichiers .qmd dans le dépôt et compile chacun
+          find . -name "*.qmd" -exec quarto render {} \;
