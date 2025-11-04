@@ -1,5 +1,8 @@
 {
   "nom": "R pour science des données",
   "semestre": "M1S1",
-  "resume": "Data wrangling avec dplyr, visualisation avec ggplot2, modèles statistiques"
+  "resume": "Data wrangling avec dplyr, visualisation avec ggplot2, modèles statistiques",
+  "fichiers": [
+       {"nom": "Mini Projet", "fichier": "Miniprojet_segoni.html"},
+     ]
 }
