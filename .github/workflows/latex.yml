@@ -11,7 +11,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 2️⃣ Cache LaTeX (ESSENTIEL pour gain de temps!)
+      # 2️⃣ Cache LaTeX
       - name: Cache LaTeX packages
         uses: actions/cache@v4
         with:
@@ -22,7 +22,7 @@ jobs:
           restore-keys: |
             texlive-${{ runner.os }}-
 
-      # 3️⃣ Installation LaTeX optimisée pour vos besoins
+      # 3️⃣ Installation LaTeX optimisée
       - name: Set up LaTeX environment
         run: |
           sudo apt-get update -qq
@@ -40,11 +40,9 @@ jobs:
             dvipng \
             ghostscript
 
-      # 4️⃣ Compilation avec timeout et nettoyage intelligent
+      # 4️⃣ Compilation locale dans chaque dossier
       - name: Compile all LaTeX files
         run: |
-          mkdir -p output_pdfs
-          
           # Configuration optimale de latexmk
           cat > ~/.latexmkrc << 'EOF'
           $pdflatex = 'pdflatex -interaction=nonstopmode -halt-on-error %O %S';
@@ -52,46 +50,53 @@ jobs:
           $clean_ext = "aux fls fdb_latexmk log out toc figlist makefile";
           EOF
           
-          find . -type f \( -name "Cours.tex" -o -name "TD.tex" -o -name "TP.tex" -o -name "Cheetsheet.tex" -o -name "Diapo.tex" -o -name "Poster.tex" \) | while read file; do
-            echo "📄 Compilation de $file ..."
-            dir=$(dirname "$file")
-            name=$(basename "$file" .tex)
-            
-            cd "$dir"
-            
-            # Nettoyage avant compilation
-            latexmk -c "$name.tex" 2>/dev/null || true
-            
-            # Compilation avec timeout de 5 min par fichier
-            if timeout 300 latexmk -pdf "$name.tex"; then
-              if [ -f "$name.pdf" ]; then
-                mv "$name.pdf" "$GITHUB_WORKSPACE/output_pdfs/${dir//\//_}_$name.pdf"
-                echo "✅ PDF généré avec succès"
+          echo "🔍 Compilation en cours..."
+          echo ""
+          
+          # Compiler chaque fichier dans son dossier
+          for pattern in "Cours.tex" "TD.tex" "Corrigé.tex" "TP.tex" "SheetCheat.tex" "Poster.tex" "Diapo.tex"; do
+            find . -type f -name "$pattern" | while read file; do
+              echo "📄 $file"
+              dir=$(dirname "$file")
+              name=$(basename "$file" .tex)
+              
+              cd "$dir"
+              
+              # Nettoyage avant compilation
+              latexmk -c "$name.tex" 2>/dev/null || true
+              
+              # Compilation avec timeout de 5 min
+              if timeout 300 latexmk -pdf "$name.tex"; then
+                if [ -f "$name.pdf" ]; then
+                  echo "   ✅ $name.pdf créé"
+                else
+                  echo "   ❌ Erreur : PDF non généré"
+                fi
               else
-                echo "⚠️ PDF non trouvé pour $file"
+                echo "   ❌ Erreur : Compilation échouée ou timeout"
               fi
-            else
-              echo "⚠️ Compilation échouée ou dépassée pour $file (timeout 5min)"
-            fi
-            
-            cd "$GITHUB_WORKSPACE"
+              
+              cd - > /dev/null
+            done
           done
+          
+          echo ""
+          echo "✅ Compilation terminée !"
+          echo ""
+          echo "📊 Résumé des PDFs générés :"
+          find . -type f \( -name "Cours.pdf" -o -name "TD.pdf" -o -name "Corrigé.pdf" -o -name "TP.pdf" -o -name "SheetCheat.pdf" -o -name "Poster.pdf" -o -name "Diapo.pdf" \) -exec ls -lh {} \;
 
-      # 5️⃣ Upload de tous les PDF produits
-      - name: Upload all PDFs
-        uses: actions/upload-artifact@v4
-        with:
-          name: latex-pdfs
-          path: output_pdfs/
-        if: always()
-
-      # 6️⃣ Rapport de compilation
-      - name: Summary
+      # 5️⃣ Commit et push des PDFs
+      - name: Commit and push PDFs
         run: |
-          echo "## 📊 Compilation Summary"
-          echo ""
-          echo "### PDFs générés :"
-          ls -lh output_pdfs/ 2>/dev/null || echo "Aucun PDF généré"
-          echo ""
-          echo "### Espace utilisé :"
-          du -sh /usr/share/texlive 2>/dev/null || echo "N/A"
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          
+          # Ajouter tous les PDFs générés
+          git add -A "*.pdf" || true
+          
+          # Commit si des changements
+          git diff --quiet --cached || git commit -m "📄 Auto-generate PDFs from LaTeX sources"
+          
+          # Push
+          git push origin HEAD:${{ github.ref }} || echo "Rien à push"
