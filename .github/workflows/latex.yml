@@ -32,13 +32,12 @@ jobs:
             texlive-latex-extra \
             texlive-fonts-recommended \
             texlive-fonts-extra \
-            texlive-math-extra \
             texlive-lang-french \
             texlive-pictures \
+            texlive-science \
             latexmk \
             cm-super \
-            dvipng \
-            ghostscript
+            dvipng
 
       # 4️⃣ Compilation locale dans chaque dossier
       - name: Compile all LaTeX files
