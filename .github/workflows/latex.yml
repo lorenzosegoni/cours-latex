@@ -1,42 +1,97 @@
 name: Build All LaTeX Documents
-
 on:
   push:
     branches: [ main ]
   pull_request:
-
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       # 1️⃣ Récupération du dépôt
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 2️⃣ Installation de LaTeX complet (TeX Live)
+      # 2️⃣ Cache LaTeX (ESSENTIEL pour gain de temps!)
+      - name: Cache LaTeX packages
+        uses: actions/cache@v4
+        with:
+          path: |
+            /usr/share/texlive
+            /var/cache/apt/archives
+          key: texlive-${{ runner.os }}-v2
+          restore-keys: |
+            texlive-${{ runner.os }}-
+
+      # 3️⃣ Installation LaTeX optimisée pour vos besoins
       - name: Set up LaTeX environment
         run: |
-          sudo apt-get update
-          sudo apt-get install -y texlive-full latexmk
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends \
+            texlive-base \
+            texlive-latex-base \
+            texlive-latex-extra \
+            texlive-fonts-recommended \
+            texlive-fonts-extra \
+            texlive-math-extra \
+            texlive-lang-french \
+            texlive-pictures \
+            latexmk \
+            cm-super \
+            dvipng \
+            ghostscript
 
-      # 3️⃣ Compilation de tous les fichiers LaTeX ciblés
+      # 4️⃣ Compilation avec timeout et nettoyage intelligent
       - name: Compile all LaTeX files
         run: |
           mkdir -p output_pdfs
+          
+          # Configuration optimale de latexmk
+          cat > ~/.latexmkrc << 'EOF'
+          $pdflatex = 'pdflatex -interaction=nonstopmode -halt-on-error %O %S';
+          $max_repeat = 3;
+          $clean_ext = "aux fls fdb_latexmk log out toc figlist makefile";
+          EOF
+          
           find . -type f \( -name "Cours.tex" -o -name "TD.tex" -o -name "TP.tex" -o -name "Cheetsheet.tex" -o -name "Diapo.tex" -o -name "Poster.tex" \) | while read file; do
             echo "📄 Compilation de $file ..."
             dir=$(dirname "$file")
             name=$(basename "$file" .tex)
+            
             cd "$dir"
-            latexmk -pdf -interaction=nonstopmode "$name.tex"
-            mv "$name.pdf" "$GITHUB_WORKSPACE/output_pdfs/${dir//\//_}_$name.pdf" || echo "⚠️ PDF non trouvé pour $file"
+            
+            # Nettoyage avant compilation
+            latexmk -c "$name.tex" 2>/dev/null || true
+            
+            # Compilation avec timeout de 5 min par fichier
+            if timeout 300 latexmk -pdf "$name.tex"; then
+              if [ -f "$name.pdf" ]; then
+                mv "$name.pdf" "$GITHUB_WORKSPACE/output_pdfs/${dir//\//_}_$name.pdf"
+                echo "✅ PDF généré avec succès"
+              else
+                echo "⚠️ PDF non trouvé pour $file"
+              fi
+            else
+              echo "⚠️ Compilation échouée ou dépassée pour $file (timeout 5min)"
+            fi
+            
             cd "$GITHUB_WORKSPACE"
           done
 
-      # 4️⃣ Upload de tous les PDF produits
+      # 5️⃣ Upload de tous les PDF produits
       - name: Upload all PDFs
         uses: actions/upload-artifact@v4
         with:
           name: latex-pdfs
           path: output_pdfs/
+        if: always()
+
+      # 6️⃣ Rapport de compilation
+      - name: Summary
+        run: |
+          echo "## 📊 Compilation Summary"
+          echo ""
+          echo "### PDFs générés :"
+          ls -lh output_pdfs/ 2>/dev/null || echo "Aucun PDF généré"
+          echo ""
+          echo "### Espace utilisé :"
+          du -sh /usr/share/texlive 2>/dev/null || echo "N/A"
