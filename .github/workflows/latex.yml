@@ -3,114 +3,227 @@ on:
   push:
     branches: [ main ]
   pull_request:
+    branches: [ main ]
+
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 45
+    
     steps:
-      # 1️⃣ Récupération du dépôt
+      # ===== 1️⃣ Récupération du dépôt =====
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 2️⃣ Cache LaTeX (lightweight)
+      # ===== 2️⃣ Cache LaTeX optimisé =====
       - name: Cache LaTeX packages
         uses: actions/cache@v4
         with:
-          path: /usr/share/texlive
-          key: texlive-${{ runner.os }}-v3
+          path: |
+            /usr/share/texlive
+            ~/.texmf-var
+          key: texlive-${{ runner.os }}-full-v2
           restore-keys: |
+            texlive-${{ runner.os }}-full-
             texlive-${{ runner.os }}-
-          save-always: false
 
-      # 3️⃣ Installation LaTeX optimisée
+      # ===== 3️⃣ Installation LaTeX complète =====
       - name: Set up LaTeX environment
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y --no-install-recommends \
-            texlive-base \
-            texlive-latex-base \
-            texlive-latex-extra \
-            texlive-fonts-recommended \
-            texlive-fonts-extra \
-            texlive-lang-french \
-            texlive-pictures \
-            texlive-science \
+            texlive-full \
             latexmk \
             cm-super \
             dvipng
+          
+          echo "✅ LaTeX installé avec succès"
+          pdflatex --version | head -1
 
-      # 4️⃣ Compilation locale dans chaque dossier
-      - name: Compile all LaTeX files
+      # ===== 4️⃣ Configuration latexmk =====
+      - name: Configure latexmk
         run: |
-          # Configuration optimale de latexmk
+          mkdir -p ~/.config/latexmk
           cat > ~/.latexmkrc << 'EOF'
           $pdflatex = 'pdflatex -interaction=nonstopmode -halt-on-error %O %S';
           $max_repeat = 3;
-          $clean_ext = "aux fls fdb_latexmk log out toc figlist makefile";
+          $clean_ext = "aux fls fdb_latexmk log out toc figlist makefile synctex.gz";
+          $out_dir = '.';
+          $silent = 0;
           EOF
           
-          echo "🔍 Compilation en cours..."
+          echo "✅ Configuration latexmk créée"
+
+      # ===== 5️⃣ Compilation des fichiers LaTeX =====
+      - name: Compile all LaTeX files
+        run: |
+          echo "🔍 Démarrage de la compilation..."
           echo ""
           
+          TOTAL_FILES=0
           COMPILED_COUNT=0
+          FAILED_COUNT=0
+          ERRORS_LOG="build_errors.log"
           
-          # Compiler chaque fichier dans son dossier
-          for pattern in "Cours.tex" "TD.tex" "Corrigé.tex" "TP.tex" "SheetCheat.tex" "Poster.tex" "Diapo.tex"; do
-            find . -type f -name "$pattern" -not -path "./.git/*" | while read file; do
-              echo "📄 $file"
+          # Initialiser le fichier d'erreurs
+          : > "$ERRORS_LOG"
+          
+          # Patterns à compiler (dans l'ordre)
+          PATTERNS=("Cours.tex" "TD.tex" "Corrigé.tex" "TP.tex" "SheetCheat.tex" "Poster.tex" "Diapo.tex")
+          
+          # Boucle sur chaque pattern
+          for pattern in "${PATTERNS[@]}"; do
+            echo "📋 Recherche des fichiers: $pattern"
+            
+            # Trouver tous les fichiers correspondants (exclure .git)
+            files=$(find . -type f -name "$pattern" -not -path "./.git/*" | sort)
+            
+            if [ -z "$files" ]; then
+              echo "   (aucun fichier trouvé)"
+              continue
+            fi
+            
+            # Compiler chaque fichier dans son contexte
+            while IFS= read -r file; do
+              ((TOTAL_FILES++))
+              
               dir=$(dirname "$file")
               name=$(basename "$file" .tex)
+              full_path="$GITHUB_WORKSPACE/$dir"
               
-              cd "$GITHUB_WORKSPACE/$dir"
+              echo ""
+              echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+              echo "📄 [$TOTAL_FILES] Compilation: $file"
+              echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
               
-              # Nettoyage avant compilation
+              # Changer de répertoire
+              cd "$full_path" || exit 1
+              
+              # Nettoyer avant compilation
               latexmk -c "$name.tex" 2>/dev/null || true
               
-              # Compilation avec timeout de 5 min
-              if timeout 300 latexmk -pdf "$name.tex" 2>&1 | grep -E "Output written|Latexmk:"; then
+              # Compiler avec timeout (8 min par fichier)
+              if timeout 480 latexmk -pdf "$name.tex" > "$name.tmp.log" 2>&1; then
+                
+                # Vérifier que le PDF existe
                 if [ -f "$name.pdf" ]; then
-                  echo "   ✅ $name.pdf créé avec succès"
-                  ls -lh "$name.pdf"
+                  ((COMPILED_COUNT++))
+                  size=$(ls -lh "$name.pdf" | awk '{print $5}')
+                  echo "✅ Succès: $name.pdf généré ($size)"
+                  
+                  # Garder le .log pour la référence
+                  mv "$name.tmp.log" "$name.log"
                 else
-                  echo "   ❌ Erreur : PDF non généré"
+                  ((FAILED_COUNT++))
+                  echo "❌ Erreur: PDF non généré (check $name.log)"
+                  mv "$name.tmp.log" "$name.log"
+                  echo "FAILED: $dir/$pattern - PDF non généré" >> "$ERRORS_LOG"
                 fi
               else
-                echo "   ❌ Erreur : Compilation échouée ou timeout"
+                ((FAILED_COUNT++))
+                echo "❌ Erreur: Compilation échouée ou timeout (8 min)"
+                echo "FAILED: $dir/$pattern - Timeout ou erreur de compilation" >> "$ERRORS_LOG"
+                if [ -f "$name.tmp.log" ]; then
+                  mv "$name.tmp.log" "$name.log"
+                fi
               fi
-            done
+              
+              # Revenir au workspace
+              cd "$GITHUB_WORKSPACE" || exit 1
+              
+            done <<< "$files"
           done
           
           echo ""
-          echo "✅ Compilation terminée !"
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo "📊 RÉSUMÉ DE COMPILATION"
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo "Total fichiers trouvés: $TOTAL_FILES"
+          echo "✅ Succès: $COMPILED_COUNT"
+          echo "❌ Erreurs: $FAILED_COUNT"
           echo ""
-          echo "📊 Résumé des PDFs générés :"
-          find . -type f \( -name "Cours.pdf" -o -name "TD.pdf" -o -name "Corrigé.pdf" -o -name "TP.pdf" -o -name "SheetCheat.pdf" -o -name "Poster.pdf" -o -name "Diapo.pdf" \) -not -path "./.git/*"
+          
+          # Afficher les PDFs générés
+          echo "📋 PDFs générés:"
+          find . -type f \( -name "Cours.pdf" -o -name "TD.pdf" -o -name "Corrigé.pdf" -o -name "TP.pdf" -o -name "SheetCheat.pdf" -o -name "Poster.pdf" -o -name "Diapo.pdf" \) -not -path "./.git/*" -exec ls -lh {} \; | awk '{print "   " $9 " (" $5 ")"}'
+          
+          echo ""
+          
+          # Afficher les erreurs s'il y en a
+          if [ -s "$ERRORS_LOG" ]; then
+            echo "⚠️  FICHIERS AVEC ERREURS:"
+            cat "$ERRORS_LOG" | sed 's/^/   /'
+            echo ""
+          fi
+          
+          # Exporter les variables pour les étapes suivantes
+          echo "TOTAL_FILES=$TOTAL_FILES" >> $GITHUB_ENV
+          echo "COMPILED_COUNT=$COMPILED_COUNT" >> $GITHUB_ENV
+          echo "FAILED_COUNT=$FAILED_COUNT" >> $GITHUB_ENV
 
-      # 5️⃣ Commit et push des PDFs
+      # ===== 6️⃣ Archiver les logs d'erreur =====
+      - name: Archive error logs
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: latex-logs
+          path: |
+            **/*.log
+            build_errors.log
+          retention-days: 7
+
+      # ===== 7️⃣ Commit et push des PDFs =====
       - name: Commit and push PDFs
         if: always()
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           
-          # Vérifier quels PDFs ont été créés
-          echo "📍 PDFs trouvés avant commit :"
+          echo "📍 Vérification des PDFs avant commit..."
           find . -type f \( -name "Cours.pdf" -o -name "TD.pdf" -o -name "Corrigé.pdf" -o -name "TP.pdf" -o -name "SheetCheat.pdf" -o -name "Poster.pdf" -o -name "Diapo.pdf" \) -not -path "./.git/*" | sort
           
           # Ajouter tous les PDFs générés
-          git add -f "**/*.pdf" || true
+          git add "**/*.pdf" || true
           
           # Vérifier les fichiers en attente
           echo ""
-          echo "📍 Fichiers en attente de commit :"
+          echo "📍 Fichiers en attente de commit:"
           git status --short
           
-          # Commit si des changements
+          # Commit si changements
           if ! git diff --quiet --cached; then
-            git commit -m "📄 Auto-generate PDFs from LaTeX sources [skip ci]"
+            git commit -m "📄 Auto-generate PDFs [${{ env.COMPILED_COUNT }}✅ / ${{ env.TOTAL_FILES }}] [skip ci]"
             echo "✅ Commit créé"
             
-            # Push
-            git push origin HEAD:${{ github.ref }} 2>&1 || echo "⚠️ Push échoué"
+            # Push avec retry
+            for i in {1..3}; do
+              if git push origin HEAD:${{ github.ref }}; then
+                echo "✅ Push réussi"
+                break
+              else
+                echo "⚠️  Tentative $i/3 échouée, nouvelle tentative..."
+                sleep 5
+              fi
+            done
           else
-            echo "ℹ️ Aucun changement à commiter"
+            echo "ℹ️  Aucun changement à commiter"
+          fi
+
+      # ===== 8️⃣ Notification résumée =====
+      - name: Summary
+        if: always()
+        run: |
+          echo "## 📊 Résumé de la compilation LaTeX" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Métrique | Valeur |" >> $GITHUB_STEP_SUMMARY
+          echo "|----------|--------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Total fichiers | ${{ env.TOTAL_FILES }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| ✅ Succès | ${{ env.COMPILED_COUNT }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| ❌ Erreurs | ${{ env.FAILED_COUNT }} |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          if [ "${{ env.FAILED_COUNT }}" -gt 0 ]; then
+            echo "⚠️ **Des compilations ont échoué. Vérifiez les logs.**" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "✅ **Toutes les compilations ont réussi !**" >> $GITHUB_STEP_SUMMARY
           fi
