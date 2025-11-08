@@ -1,0 +1,759 @@
+\documentclass[a4paper]{book}
+\usepackage{beamerarticle} 
+
+\usepackage[francais]{babel} % typo francaise
+\usepackage[utf8]{inputenc} % accents 8 bits dans le fichier
+\usepackage[T1]{fontenc}
+\DeclareUnicodeCharacter{B0}{\textdegree}
+\usepackage{comment}
+
+\usepackage{xkeyval}
+\usepackage{framed}
+\usepackage{xcolor}
+\usepackage{fancybox}
+\usepackage{amsthm}
+\usepackage{amsthm}
+
+\usepackage{multido}
+
+\newlength{\DSFBox}
+\newlength{\SSFBox}
+\newlength{\DEFBox}
+\newlength{\EFBox}
+
+\makeatletter
+\define@key{BCouleur}{ctexte}{\def\CTexte{#1}} % Couleur du texte
+\define@key{BCouleur}{cbord}{\def\CBord{#1}} % Couleur du bord
+\define@key{BCouleur}{cfond}{\def\CFond{#1}}   % Couleur du fond
+\define@key{BCouleur}{sfbox}{\def\SFBox{#1}}        % pour \fboxsep
+\define@key{BCouleur}{epaisfbox}{\def\EpaisFBox{#1}} % pour \fboxrule
+
+% par défaut
+\setlength{\DSFBox}{5pt}
+\setlength{\DEFBox}{3pt}
+\setkeys{BCouleur}{ctexte=black,cbord=black,cfond=gray!20,sfbox=\the\DSFBox,
+epaisfbox=\the\DEFBox}{}
+
+
+\newenvironment{BCouleur}[1][]{%
+\setkeys{BCouleur}{#1}
+  \def\FrameCommand{\fboxrule=\FrameRule \fboxsep=\FrameSep \color{\CTexte}\fcolorbox{\CBord}{\CFond}}
+\setlength{\SSFBox}{\SFBox}
+\setlength\FrameSep{\the\SSFBox}
+  \setlength{\EFBox}{\EpaisFBox}
+\setlength\FrameRule{\the\EFBox}
+  \MakeFramed{\advance\hsize-\width \FrameRestore}}%
+  {\endMakeFramed}
+
+\makeatother
+
+\definecolor{grisComment}{gray}{0.1}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%%%%%%% Gestion des exercices
+
+\newcommand{\findemo}{\hfill $\blacksquare$}
+
+\newcounter{exoCtr}
+\newcounter{quesCtr}[exoCtr]
+\newcounter{ssQuesCtr}[quesCtr]
+
+\renewcommand{\theexoCtr}{{\bf \arabic{exoCtr}}}
+\renewcommand{\thequesCtr}{{\bf \arabic{quesCtr}}}
+\renewcommand{\thessQuesCtr}{\thequesCtr{\bf.\alph{ssQuesCtr}}}
+
+
+\newcommand{\exo}{\refstepcounter{exoCtr}}
+
+
+\newenvironment{enoncePb}[1][]{
+
+\bigskip
+
+
+\noindent \textbf{{\large Problème \theexoCtr ~~~} {\em #1}}
+
+\smallskip
+
+\setcounter{ssQuesCtr}{0}
+
+}
+
+
+
+
+\newenvironment{enonce}[1][]{
+\bigskip
+
+\begin{BCouleur}[cfond=green!05, epaisfbox=1pt]
+
+\noindent {{\bf Exercice \theexoCtr} ~~~} {\em #1}
+
+\smallskip
+\setcounter{quesCtr}{0}
+\setcounter{ssQuesCtr}{0}
+}
+{\end{BCouleur}}
+
+
+\newenvironment{enonceFB}[1][]{
+\bigskip
+
+\begin{BCouleur}[cfond=green!05, epaisfbox=1pt]
+
+\noindent {{\bf Exercice \theexoCtr} ~~~} {\em #1}
+
+\smallskip
+\setcounter{quesCtr}{0}
+\setcounter{ssQuesCtr}{0}
+}
+{\end{BCouleur}}
+
+
+\newenvironment{correction}[1][]{
+\bigskip
+
+\begin{BCouleur}[cfond=blue!07, epaisfbox=1pt]
+
+\noindent {{\bf Correction de l'Exercice \theexoCtr} ~~~} {\em #1}
+
+\smallskip
+\setcounter{quesCtr}{0}
+\setcounter{ssQuesCtr}{0}
+}
+{\end{BCouleur}}
+
+
+\newenvironment{correctionPb}[1][]{
+\bigskip
+
+\begin{BCouleur}[cfond=blue!07, epaisfbox=1pt]
+
+\noindent {{\bf Correction du Problème \theexoCtr} ~~~} {\em #1}
+
+\smallskip
+\setcounter{quesCtr}{0}
+\setcounter{ssQuesCtr}{0}
+}
+{\end{BCouleur}}
+
+
+\newenvironment{correctionFB}[1][]{
+\bigskip
+
+\begin{BCouleur}[cfond=blue!07, epaisfbox=1pt]
+
+\noindent {{\bf Correction de l'Exercice \theexoCtr} ~~~} {\em #1}
+
+\smallskip
+\setcounter{quesCtr}{0}
+\setcounter{ssQuesCtr}{0}
+}
+{\end{BCouleur}}
+
+
+\newenvironment{indications}[1][]{
+\bigskip
+
+\begin{BCouleur}[cfond=blue!07, epaisfbox=1pt]
+
+\noindent {{\bf Indication(s) pour l'Exercice \theexoCtr} ~~~} {\em #1}
+
+\smallskip
+\setcounter{quesCtr}{0}
+\setcounter{ssQuesCtr}{0}
+}
+{\end{BCouleur}}
+
+\newenvironment{reponses}[1][]{
+\bigskip
+
+\begin{BCouleur}[cfond=blue!07, epaisfbox=1pt]
+
+\noindent {{\bf Réponse(s) pour l'Exercice \theexoCtr} ~~~} {\em #1}
+
+\smallskip
+\setcounter{quesCtr}{0}
+\setcounter{ssQuesCtr}{0}
+}
+{\end{BCouleur}}
+
+\newcommand{\ques}
+{
+
+\medskip
+\refstepcounter{quesCtr}
+
+{\noindent \bf\arabic{quesCtr}.}~
+}
+
+\newcommand{\quessques}
+{
+
+\medskip
+\refstepcounter{quesCtr}
+\refstepcounter{ssQuesCtr}
+{\noindent \bf\arabic{quesCtr}.}~\alph{ssQuesCtr})~
+}
+
+\newcommand{\ssques}
+{
+
+\medskip
+\refstepcounter{ssQuesCtr}
+\alph{ssQuesCtr})~
+}
+
+\newcommand{\exclureSolutions}{
+
+\renewenvironment{brouillon}{}{}
+\excludecomment{brouillon}
+
+\renewenvironment{correction}{}{}
+\excludecomment{correction}
+
+\renewenvironment{correctionFB}{}{}
+\excludecomment{correctionFB}
+
+\renewenvironment{reponses}{}{}
+\excludecomment{reponses}
+
+\renewenvironment{indications}{}{}
+\excludecomment{indications}
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%%%%%%%  Les parties qui apparaissent aussi dans le poly de cours
+
+\newcounter{resultCtr}
+
+%Resultat \label{Resultat}
+
+\newenvironment{resultat}[2][]{ \refstepcounter{resultCtr}
+\bigskip
+
+\begin{BCouleur}[cfond=red!05, epaisfbox=1pt]
+
+\noindent\textbf{#2 \theresultCtr  } { \em ~~#1}
+
+}{\end{BCouleur}}
+
+\newenvironment{resultatFB}[2][]{\begin{resultat}[#1]{#2}}{\end{resultat}}
+
+%Commande \label{Commande}
+
+\newenvironment{commandes}[1][]
+{\begin{resultat}[#1]
+{Commandes à retenir}
+}
+{\end{resultat}}
+
+\newenvironment{commandesFB}[1][]
+{\begin{resultatFB}[#1]
+{Commandes à retenir}
+}
+{\end{resultatFB}}
+
+%Principe \label{Principe}
+
+\newenvironment{principe}[1][]{ \refstepcounter{resultCtr}
+\bigskip
+
+\begin{BCouleur}[cfond=red!05, epaisfbox=1pt]
+
+ \noindent\textbf {Principe \theresultCtr  } {\em ~~#1}
+ 
+ }{\end{BCouleur}}
+
+%Theoreme \label{Theoreme}
+
+\newenvironment{theo}[1][]{ \refstepcounter{resultCtr}
+\bigskip
+
+\begin{BCouleur}[cfond=red!05, epaisfbox=1pt]
+
+ \noindent\textbf {Théorème \theresultCtr  } {\em ~~#1}
+ 
+ }{\end{BCouleur}}
+ 
+\newenvironment{theoFB}[1][]{\begin{theo}[#1]}{\end{theo}}
+
+%Corollaire \label{Corollaire}
+
+\newenvironment{coro}[1][]
+{ \refstepcounter{resultCtr}
+\bigskip
+
+\begin{BCouleur}[cfond=red!05, epaisfbox=1pt]
+
+ \noindent\textbf{Corollaire \theresultCtr } {\em ~~#1}
+ 
+ }{\end{BCouleur}}
+
+\newenvironment{coroFB}[1][]{\begin{coro}[#1]}{\end{coro}}
+
+%Lemme \label{Lemme}
+
+\newenvironment{lemme}[1][]
+{ \refstepcounter{resultCtr}
+\bigskip
+
+\begin{BCouleur}[cfond=red!05, epaisfbox=1pt]
+
+ \noindent\textbf{Lemme \theresultCtr }  {\em ~~#1}
+ 
+ }{\end{BCouleur}}
+
+\newenvironment{lemmeFB}[1][]{\begin{lemme}[#1]}{\end{lemme}}
+
+%Proposition \label{Proposition}
+
+\newenvironment{prop}[1][]
+{\refstepcounter{resultCtr}
+\bigskip
+
+\begin{BCouleur}[cfond=red!05, epaisfbox=1pt]
+
+\noindent\textbf{Proposition  \theresultCtr } {\em ~~#1}
+
+}
+{\end{BCouleur}}
+
+\newenvironment{propFB}[1][]{\begin{prop}[#1]}{\end{prop}}
+
+%Block \label{Block}
+
+
+\renewenvironment{block}[1][]
+{\bigskip
+
+\begin{BCouleur}[cfond=yellow!15, epaisfbox=1pt]
+
+\noindent\textbf {#1 :}\\
+
+}
+{\end{BCouleur}}
+
+
+
+
+
+%Notation \label{Notation}
+
+
+\newenvironment{notation}[1][]
+{\bigskip
+
+\begin{BCouleur}[cfond=green!05, epaisfbox=1pt]
+
+\noindent\textbf{Notation : } {\em ~~#1}
+
+}
+{\end{BCouleur}}
+
+\newenvironment{notationFB}[1][]{\begin{notation}[#1]}{\end{notation}}
+
+%Mecanisme \label{Mecanisme}
+
+
+\newenvironment{meca}[1][]
+{\refstepcounter{resultCtr}
+\bigskip
+
+\begin{BCouleur}[cfond=red!05, epaisfbox=1pt]
+
+ \noindent\textbf{Mécanisme \theresultCtr } {\em ~~#1}
+ 
+ }
+{\end{BCouleur}}
+
+\newenvironment{mecaFB}[1][]{\begin{meca}[#1]}{\end{meca}}
+
+%Propriétés \label{Propriétés}
+
+\newenvironment{proprietes}[1][]
+{\refstepcounter{resultCtr}
+\bigskip
+
+\begin{BCouleur}[cfond=red!05, epaisfbox=1pt]
+
+ \noindent\textbf{Propriétés \theresultCtr } {\em ~~#1}
+ 
+ }
+{\end{BCouleur}}
+
+\newenvironment{proprietesFB}[1][]{\begin{proprietes}[#1]}{\end{proprietes}}
+
+%Methode \label{Methode}
+
+\newenvironment{methode}[1][]
+{\bigskip
+
+\begin{BCouleur}[cfond=red!05, epaisfbox=1pt]
+
+\noindent\textbf{Méthode : } {\em ~~#1}
+
+}
+{\end{BCouleur}}
+
+\newenvironment{methodeFB}[1][]{\begin{methode}[#1]}{\end{methode}}
+
+%Terminologie \label{Terminologie}
+
+
+\newenvironment{terminologie}[1][]
+{\bigskip
+
+\begin{BCouleur}[cfond=green!05, epaisfbox=1pt]
+
+\noindent\textbf{Terminologie : } {\em ~~#1}
+
+}
+{\end{BCouleur}}
+
+\newenvironment{terminologieFB}[1][]{\begin{terminologie}[#1]}{\end{terminologie}}
+
+%definition \label{definition}
+
+
+\newenvironment{defi}[1][]
+{\refstepcounter{resultCtr}
+\bigskip
+
+\begin{BCouleur}[cfond=red!05, epaisfbox=1pt]
+
+ \noindent\textbf{Définition \theresultCtr } {\em ~~#1}
+ 
+ }
+{\end{BCouleur}}
+
+
+\newenvironment{defiFB}[1][]{\begin{defi}[#1]}{\end{defi}}
+
+%hypothese \label{hypothese}
+
+\newenvironment{hypothese}[1][]
+{\bigskip
+
+\begin{BCouleur}[cfond=yellow!05, epaisfbox=1pt]
+
+\noindent\textbf{Hypothèse : } {\em ~~#1}
+
+}
+{\end{BCouleur}}
+
+%objectif \label{objectif}
+
+\newenvironment{objectif}[1][]
+{\bigskip
+
+\begin{BCouleur}[cfond=green!05, epaisfbox=1pt]
+
+\noindent\textbf{Objectif : } {\em ~~#1}
+
+}
+{\end{BCouleur}}
+
+
+
+%%%%%%%%  Les parties qui n'apparaissent pas dans le poly de cours ni dans les exos
+
+
+\newenvironment{intro}[1][]{ \paragraph{Introduction :} {\em  ~~#1}
+
+} {}
+
+\newenvironment{introFB}[1][]{\begin{intro}[#1]}{\end{intro}}
+
+
+\newenvironment{slide}[1][]{
+
+\bigskip
+\noindent \textbf{#1}
+
+} {}
+
+\newenvironment{slideFragile}[1][]{
+
+\bigskip
+\noindent \textbf{#1}
+
+} {}
+
+
+\newenvironment{slideFB}[1][]{\begin{slide}[#1]}{\end{slide}}
+
+\newenvironment{slideAvecPoly}[1][]{
+
+\bigskip
+\noindent \textbf{#1}
+
+} {}
+
+
+
+\newenvironment{slideAvecPolyFB}[1][]{\begin{slideAvecPoly}[#1]}{\end{slideAvecPoly}}
+
+
+\newenvironment{question}[1][]{\paragraph{Question :} {\em ~~#1}
+
+} {}
+
+\newenvironment{questionFB}[1][]{\begin{question}[#1]}{\end{question}}
+
+%\newenvironment{reponse}[1][]{ \paragraph{Réponse :} {\em ~~#1}
+
+%} {}
+
+%\newenvironment{reponseFB}[1][]{\begin{reponse}[#1]}{\end{reponse}}
+
+\newenvironment{rem}[1][]{
+\begin{BCouleur}[cfond=grisComment, epaisfbox=0pt]
+\NIB {Remarque :} {\em ~~#1}
+
+}{\end{BCouleur}}
+
+
+
+
+
+
+
+\newenvironment{remFB}[1][]{\begin{rem}[#1]}{\end{rem}}
+
+\newenvironment{rems}[1][]{
+\begin{BCouleur}[cfond=grisComment, epaisfbox=0pt]
+\NIB {Remarques :} {\em ~~#1}
+
+}{\end{BCouleur}}
+\newenvironment{remsFB}[1][]{\begin{rems}[#1]}{\end{rems}}
+
+\newenvironment{inter}[1][]{ \paragraph{Interprétation} : {\em ~~#1}
+
+} {}
+
+\newenvironment{interFB}[1][]{\begin{inter}[#1]}{\end{inter}}
+
+\newenvironment{exemple}[1][]{ \paragraph{Exemple} : {\em ~~#1}
+
+} {}
+
+\newenvironment{exempleFB}[1][]{\begin{exemple}[#1]}{\end{exemple}}
+
+\newenvironment{exemples}[1][]{ \paragraph{Exemples} : {\em ~~#1}
+
+} {}
+
+\newenvironment{exemplesFB}[1][]{\begin{exemples}[#1]}{\end{exemples}}
+
+\def\finDemo{\NI\hrulefill~~$\Box$}
+
+\newenvironment{demo}[1][]{\paragraph{Démonstration} : {\em ~~#1}
+
+} {}
+
+
+
+\newenvironment{demoFB}[1][]{\begin{demo}[#1]}{\end{demo}}
+
+\newenvironment{attention}[1][]{
+\begin{BCouleur}[cfond=grisComment, epaisfbox=0pt]
+\NIB {\fbox{Attention !}} {\em ~~#1}
+
+}{\end{BCouleur}}
+
+\newenvironment{attentionFB}[1][]{\begin{attention}[#1]}{\end{attention}}
+
+
+
+
+\newcommand{\exemplesALaMain}{\paragraph{Exemples :} Au tableau blanc en premier\dots\\ 
+
+}
+
+\newcommand{\demoALaMain}{\paragraph{Démonstration :} Au tableau blanc en premier\dots\\
+
+}
+
+\newcommand{\pageBlanche}{\commentaire{$\longleftarrow$~~~ Ecrire sur le tableau à craie}\\
+
+}
+
+\newcommand{\craie}{\commentbox{$\longleftarrow$~~~ Voir note numéro : }\\
+
+}
+
+\newcounter{enumFrameCtr}
+
+\newcommand{\resetSlideEnum}{\setcounter{enumFrameCtr}0}
+
+
+\newenvironment{slideEnum}{\refstepcounter{enumFrameCtr}
+\begin{enumerate}
+\item[\emph{(\roman{enumFrameCtr})}] }
+{\end{enumerate}}
+
+\newenvironment{slideEnumTop}{\refstepcounter{enumFrameCtr}
+\begin{enumerate}
+\item[\emph{(\roman{enumFrameCtr})}] }
+{\end{enumerate}}
+
+
+
+
+%%%%%  L'apparence 
+
+
+
+\renewcommand\labelenumi{\em (\roman{enumi})}
+
+
+\usepackage[a4paper]{geometry}
+
+
+\geometry{margin={2.5cm,2cm}}
+%\def\avecmarge{\geometry{margin={5cm,2cm}}}
+%\def\sansmarge{\geometry{margin={2cm,2cm}}}
+%
+
+%\setlength{\topmargin}{-3cm}
+%\addtolength{\textheight}{5cm}
+%\addtolength{\textwidth}{2cm}
+%\addtolength{\leftmargin}{100pt}
+
+
+\newenvironment{changemargin}[2]{\begin{list}{}{%
+\setlength{\topsep}{0pt}%
+\setlength{\leftmargin}{0pt}%
+\setlength{\rightmargin}{0pt}%
+\setlength{\listparindent}{\parindent}%
+\setlength{\itemindent}{\parindent}%
+\setlength{\parsep}{0pt plus 1pt}%
+\addtolength{\leftmargin}{#1}%
+\addtolength{\rightmargin}{#2}%
+}\item }{\end{list}}
+
+
+\newenvironment{objectifs}{\paragraph{Objectifs du chapitre :}}{}
+
+\newcommand{\titre}[3]{\ 
+
+\vspace{10cm}
+
+\centers{{\Huge #1}}\\
+
+\centers{{\LARGE#2}}
+\thispagestyle{empty}
+
+\pagebreak
+\thispagestyle{empty}
+\tableofcontents
+\thispagestyle{empty}
+\pagebreak
+\setcounter{page}{1}
+}
+
+
+
+
+
+%%%%%%   commandes pour afficher ou pas des petits morceaux
+
+\newcommand{\noBeamer}[1]{#1}% pour garder les slides lisibles
+
+
+\newcommand{\noPoly}[1]{#1}% ne garde l'argument que dans le beamer et dans mon cours
+
+\newcommand{\noExos}[1]{#1}
+
+\newcommand{\onlyPoly}[1]{}
+
+\newcommand{\onlyCorrections}[1]{}
+
+\newcommand{\onlyExos}[1]{}
+
+\newcommand{\onlyMonCours}[1]{#1}
+
+\newcommand{\onlyBeamer}[1]{}
+
+
+
+\newcommand{\fin}{\end{document}} % Ne sert qu'à débugger les fichiers
+
+\newcommand{\finCours}{\fin}
+
+%\newcommand{\finColonneExos}{}
+%\newcommand{\finpageExos}{}
+%\newcommand{\finColonnePoly}{}
+%\newcommand{\finpagePoly}{}
+
+
+\def\obb{}
+
+
+\newcommand{\intertitre}[1]{}
+\newcommand{\exocolles}[1]{\section{Exercices en vrac}}
+%\excludecomment{exo}
+\newcommand{\corrige}[1]{}
+
+\newcommand{\enleveCorrections}{
+\renewenvironment{correction}{}{}\excludecomment{correction}
+\renewenvironment{reponses}{}{}\excludecomment{reponses}
+\renewenvironment{indications}{}{}\excludecomment{indications}
+\renewenvironment{brouillon}{}{}\excludecomment{brouillon}
+}
+
+
+%%%%   Pour les planches de colles
+\newcounter{plancheCtr}
+\renewcommand{\theplancheCtr}{{\bf Planche n°\arabic{plancheCtr}}}
+
+\newcommand{\cours}{\NIB{Question de cours :} }
+
+\newcommand{\planche}[1][]{
+
+\ligne
+
+\refstepcounter{plancheCtr}
+\setcounter{exoCtr}{0}
+\setcounter{quesCtr}{0}
+\setcounter{ssQuesCtr}{0}
+\noindent {\theplancheCtr ~~~} {\em #1}
+
+
+\commentaire{Commencez par le cours et/ou les démos, prévenez-moi vite si vous bloquez dessus et dès que vous avez fini avec ça.}
+
+
+
+}
+
