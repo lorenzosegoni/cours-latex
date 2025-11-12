@@ -1,0 +1,517 @@
+
+\section{Cas des erreurs gaussiennes}
+
+\subsection{Hypothèse de la loi de $\epsilon_i$}
+
+Nous allons maintenant renforcer les hypothèses faites sur les erreurs $\epsilon_i$, en précisant leur loi de probabilité.  
+
+\begin{hypothese}
+On pose l'hypothèse suivante :
+
+\[ (\mathcal{H}^f) :
+\begin{cases}
+(\mathcal{H}_1) : & \epsilon_i \sim \mathcal{N}(0,\sigma^2) \\[6pt]
+(\mathcal{H}_2) : & \epsilon_i \text{ sont indépendantes.}
+\end{cases} \]
+\end{hypothese}
+
+Il s'agit d'une hypothèse plus forte que celle posée précédemment, car si les $\epsilon_i$ suivent cette loi, on a bien :
+\begin{itemize}
+    \item $\mathbb{E}[\epsilon_i] = 0$ (la loi normale est centrée),
+    \item $\mathbb{V}(\epsilon_i) = \sigma^2$, 
+    \item $\mathrm{Cov}(\epsilon_i,\epsilon_j) = 0$ pour $i \neq j$ (indépendance).
+\end{itemize}
+
+Ceci nous permet de introduire la loi de $y_i$:
+
+\begin{prop}
+Soit un modèle de régression linéaire
+\[
+y_i = \beta_0 + \beta_1 x_i + \epsilon_i, \quad i=1,\dots,n.
+\]
+Sous l’hypothèse $(\mathcal{H}^f)$, on a :
+\begin{enumerate}
+    \item $y_i \sim \mathcal{N}(\beta_0 + \beta_1 x_i, \sigma^2)$,
+    \item Les $y_i$ sont indépendantes deux à deux.
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+On a $\epsilon_i \sim \mathcal{N}(0,\sigma^2)$.  
+
+Or, si $X \sim \mathcal{N}(\mu,\sigma^2)$ alors pour tout $a \in \mathbb{R}$, $b \in \mathbb{R}$,
+
+\[
+Y = aX + b \;\;\sim\;\; \mathcal{N}(a\mu+b, a^2\sigma^2).
+\]
+
+En prenant $a=1$ et $b=\beta_0+\beta_1 x_i$, on obtient immédiatement le résultat.
+\end{proof}
+
+\subsection{Loi jointe du vecteur aléatoire}
+
+Considérons le vecteur
+\[
+Y =
+\begin{bmatrix}
+y_1 \\
+\vdots \\
+y_n
+\end{bmatrix}.
+\]
+
+Sous $(\mathcal{H}^f)$, les $y_i$ étant indépendantes, la densité jointe de $Y$ est le produit des densités marginales :
+\[
+p(y \mid \beta_0, \beta_1, \sigma^2)
+= \prod_{i=1}^n p(y_i \mid \beta_0, \beta_1, \sigma^2).
+\]
+
+Or, pour chaque $i$,
+\[
+p(y_i \mid \beta_0, \beta_1, \sigma^2)
+= \frac{1}{\sqrt{2\pi\sigma^2}} \exp\!\left(-\frac{(y_i - (\beta_0 + \beta_1 x_i))^2}{2\sigma^2}\right).
+\]
+
+Ainsi,
+\[
+p(Y \mid \beta_0, \beta_1, \sigma^2)
+= \prod_{i=1}^n \frac{1}{\sqrt{2\pi\sigma^2}}
+\exp\!\left(-\frac{(y_i - (\beta_0 + \beta_1 x_i))^2}{2\sigma^2}\right).
+\]
+
+\subsection{Maximum de vraisemblance}
+
+Nous allons maintenant estimer les paramètres $(\beta_0,\beta_1,\sigma^2)$ par la méthode du maximum de vraisemblance, que on va noter $(\hat{\beta}^{ML}_0,\hat{\beta}^{ML}_1,\hat{\sigma}_{ML}^2)$.
+
+\begin{prop}[Estimateurs du maximum de vraisemblance dans le modèle linéaire simple]
+
+On pose la \textbf{vraisemblance} du modèle :
+\[
+L(\beta'_0,\beta'_1,\sigma'^2 \mid Y) = p(Y \mid \beta'_0,\beta'_1,\sigma'^2).
+\]
+
+Les estimateurs du \textbf{maximum de vraisemblance (MV)} sont alors définis par :
+\[
+(\hat{\beta}_0^{(\mathrm{MV})}, \hat{\beta}_1^{(\mathrm{MV})}, \hat{\sigma}^{2}_{(\mathrm{MV})})
+= \arg\max_{\beta'_0 \in \mathbb{R}, \, \beta'_1 \in \mathbb{R}, \, \sigma'^2 > 0}
+L(\beta'_0,\beta'_1,\sigma'^2 \mid Y).
+\]
+
+On obtient :
+\[
+\boxed{
+\hat{\beta}_0^{(\mathrm{MV})} = \hat{\beta}_0^{(\mathrm{MCO})}, 
+\quad 
+\hat{\beta}_1^{(\mathrm{MV})} = \hat{\beta}_1^{(\mathrm{MCO})}, 
+\quad 
+\hat{\sigma}^{2}_{(\mathrm{MV})} = \frac{1}{n}\sum_{i=1}^n (y_i - \hat{y}_i)^2.
+}
+\]
+
+Ainsi, les estimateurs du maximum de vraisemblance de $\beta_0$ et $\beta_1$ coïncident avec ceux obtenus par la méthode des moindres carrés ordinaires (MCO).
+\end{prop}
+
+\begin{proof}
+D’après la loi jointe des observations, la vraisemblance s’écrit :
+\[
+L(\beta'_0,\beta'_1,\sigma'^2 \mid Y)
+= \prod_{i=1}^n \frac{1}{\sqrt{2\pi\sigma'^2}}
+\exp\!\left(-\frac{\big(y_i - (\beta'_0 + \beta'_1 x_i)\big)^2}{2\sigma'^2}\right).
+\]
+
+On préfère maximiser la \textbf{log-vraisemblance} :
+\[
+\ell(\beta'_0,\beta'_1,\sigma'^2 \mid Y) = \log L(\beta'_0,\beta'_1,\sigma'^2 \mid Y),
+\]
+soit
+\[
+\boxed{\ell(\beta'_0,\beta'_1,\sigma'^2 \mid Y)
+= -\frac{n}{2}\log(2\pi\sigma'^2)
+- \frac{1}{2\sigma'^2}\sum_{i=1}^n (y_i - (\beta'_0 + \beta'_1 x_i))^2. }
+\]
+
+\textbf{Étape 1 – Maximisation par rapport à $(\beta_0, \beta_1)$:}
+Pour $\sigma'^2$ fixé, maximiser $\ell$ revient à minimiser :
+\[
+S(\beta'_0,\beta'_1) = \sum_{i=1}^n (y_i - (\beta'_0 + \beta'_1 x_i))^2.
+\]
+Les estimateurs du maximum de vraisemblance pour $\beta_0$ et $\beta_1$ sont donc identiques aux estimateurs MCO :
+\[
+\boxed{\hat{\beta}_0^{(\mathrm{MV})} = \hat{\beta}_0^{(\mathrm{MCO})},
+\qquad
+\hat{\beta}_1^{(\mathrm{MV})} = \hat{\beta}_1^{(\mathrm{MCO})}.}
+\]
+
+\textbf{Étape 2 – Maximisation par rapport à $\sigma^2$:}
+On remplace $\hat{\beta}'_0$ et $\hat{\beta}'_1$ dans $\ell$ :
+\[
+\ell(\hat{\beta}'_0,\hat{\beta}'_1,\sigma'^2 \mid Y)
+= -\frac{n}{2}\log(2\pi\sigma'^2)
+- \frac{1}{2\sigma'^2}\sum_{i=1}^n (y_i - \hat{y}_i)^2,
+\]
+où $\hat{y}_i = \hat{\beta}'_0 + \hat{\beta}'_1 x_i$.
+
+On dérive par rapport à $\sigma'^2$ :
+\[
+\frac{\partial \ell}{\partial \sigma'^2}
+= -\frac{n}{2\sigma'^2} + \frac{1}{2(\sigma'^2)^2}\sum_{i=1}^n (y_i - \hat{y}_i)^2.
+\]
+En annulant cette dérivée, on obtient :
+\[
+-n\sigma'^2 + \sum_{i=1}^n (y_i - \hat{y}_i)^2 = 0,
+\]
+d’où :
+\[
+\boxed{\hat{\sigma}^{2}_{(\mathrm{MV})} = \frac{1}{n}\sum_{i=1}^n (y_i - \hat{y}_i)^2.}
+\]
+\end{proof}
+
+\commentaire{
+Attention : l’estimateur du maximum de vraisemblance de la variance
+\[
+\hat{\sigma}^2_{\text{(MV)}} = \frac{1}{n}\sum_{i=1}^n (y_i - \hat{y}_i)^2
+\]
+est \textbf{biaisé}.  
+
+En effet, on a :
+\[
+\mathbb{E}\left[\hat{\sigma}^2_{\text{(MV)}}\right] =\mathbb{E} \left[\frac{n-2}{n} \hat{\sigma}^2\right] 
+= \frac{n-2}{n}\,\sigma^2,
+\]
+où $n-2$ correspond au nombre de degrés de liberté perdus lors de l’estimation de $\beta_0$ et $\beta_1$.  
+}
+
+\newpage
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Moments et distributions des estimateurs dans le modèle linéaire simple}
+
+\subsection{Moments des estimateurs}
+
+Nous connaissons déjà les moments des estimateurs \( \hat{\beta}_0 \) et \( \hat{\beta}_1 \) :
+
+\[
+\mathbb{E}
+\begin{pmatrix}
+\hat{\beta}_0 \\
+\hat{\beta}_1
+\end{pmatrix}
+=
+\begin{pmatrix}
+\beta_0 \\
+\beta_1
+\end{pmatrix}
+\]
+
+\[
+\mathrm{Var}
+\begin{pmatrix}
+\hat{\beta}_0 \\
+\hat{\beta}_1
+\end{pmatrix}
+= 
+\sigma^2 V_n
+\]
+
+avec 
+
+\[
+V_n = \frac{1}{n}
+\begin{pmatrix}
+1 + \dfrac{\bar{x}^2}{s_X^2} & -\dfrac{\bar{x}}{s_X^2} \\
+-\dfrac{\bar{x}}{s_X^2} & \dfrac{1}{s_X^2}
+\end{pmatrix}
+\]
+
+où :
+\begin{itemize}
+    \item \( \bar{x} \) est la moyenne des \( x_i \),
+    \item \( s_X^2 = \dfrac{1}{n}\sum_{i=1}^n (x_i - \bar{x})^2 \).
+\end{itemize}
+
+\bigskip
+\textit{(Moments of the estimators: the vector of estimators has mean $(\beta_0, \beta_1)$ and variance $\sigma^2 V_n$.)}
+
+\subsection{Distribution du vecteur des estimateurs}
+
+\paragraph{Cas où \( \sigma^2 \) est connu.}
+
+\[
+\begin{pmatrix}
+\hat{\beta}_0 \\
+\hat{\beta}_1
+\end{pmatrix}
+\sim
+\mathcal{N}
+\left(
+\begin{pmatrix}
+\beta_0 \\
+\beta_1
+\end{pmatrix},
+\ \sigma^2 V_n
+\right)
+\]
+
+C’est donc un vecteur gaussien de moyenne \( (\beta_0, \beta_1) \) et de variance \( \sigma^2 V_n \).
+
+\textit{(The estimator vector is Gaussian with mean $(\beta_0, \beta_1)$ and variance $\sigma^2 V_n$.)}
+
+\medskip
+\textbf{Preuve :} reportée au chapitre suivant (régression multiple).
+
+\subsection{Estimateur sans biais de la variance}
+
+On définit :
+\[
+\hat{\sigma}^2 = \frac{1}{n - 2} \sum_{i=1}^n \hat{\varepsilon}_i^2
+\]
+où \( \hat{\varepsilon}_i = y_i - \hat{y}_i \) sont les résidus.
+
+\[
+\mathbb{E}[\hat{\sigma}^2] = \sigma^2
+\]
+
+\textit{(Unbiased estimator of the variance.)}
+
+\subsection{Distribution de \( \hat{\sigma}^2 \)}
+
+\[
+\frac{(n - 2)\hat{\sigma}^2}{\sigma^2} \sim \chi^2_{n - 2}
+\]
+
+Ainsi, \( \hat{\sigma}^2 \) suit une loi du $\chi^2$ à \( n - 2 \) degrés de liberté.
+
+\[
+\hat{\beta} \text{ et } \hat{\sigma}^2 \text{ sont indépendants.}
+\]
+
+\textit{(The variance estimator follows a chi-squared distribution with $n-2$ degrees of freedom and is independent of $\hat{\beta}$.)}
+
+\subsection{Distribution des estimateurs individuels}
+
+\paragraph{Cas où \( \sigma^2 \) est connu.}
+
+\[
+\frac{\hat{\beta}_0 - \beta_0}{
+\sigma \sqrt{\dfrac{1 + \bar{x}^2 / s_X^2}{n}}
+}
+\sim \mathcal{N}(0,1)
+\quad \text{et} \quad
+\frac{\hat{\beta}_1 - \beta_1}{
+\sigma \sqrt{\dfrac{1 / s_X^2}{n}}
+}
+\sim \mathcal{N}(0,1)
+\]
+
+\paragraph{Cas où \( \sigma^2 \) est inconnu.}
+
+On remplace \( \sigma^2 \) par \( \hat{\sigma}^2 \).
+Les distributions deviennent des lois de Student à \( n-2 \) degrés de liberté :
+
+\[
+\frac{\hat{\beta}_0 - \beta_0}{
+\hat{\sigma} \sqrt{\dfrac{1 + \bar{x}^2 / s_X^2}{n}}
+}
+\sim \mathcal{T}_{n-2}
+\quad \text{et} \quad
+\frac{\hat{\beta}_1 - \beta_1}{
+\hat{\sigma} \sqrt{\dfrac{1 / s_X^2}{n}}
+}
+\sim \mathcal{T}_{n-2}
+\]
+
+\textit{(Replace the standard Gaussian by a Student distribution when $\sigma^2$ is unknown.)}
+
+\subsection{Intervalles de confiance}
+
+\paragraph{Pour les coefficients \( \beta_0 \) et \( \beta_1 \).}
+
+Avec probabilité \( 1 - \alpha \) :
+
+\[
+\beta_0 \in 
+\left[
+\hat{\beta}_0
+\pm
+t_{n-2}(1 - \tfrac{\alpha}{2})
+\hat{\sigma}
+\sqrt{\dfrac{1 + \bar{x}^2 / s_X^2}{n}}
+\right]
+\]
+
+\[
+\beta_1 \in 
+\left[
+\hat{\beta}_1
+\pm
+t_{n-2}(1 - \tfrac{\alpha}{2})
+\hat{\sigma}
+\sqrt{\dfrac{1 / s_X^2}{n}}
+\right]
+\]
+
+\paragraph{Pour la variance \( \sigma^2 \).}
+
+\[
+\frac{(n - 2)\hat{\sigma}^2}{\sigma^2} \sim \chi^2_{n - 2}
+\]
+
+Ainsi, avec probabilité \( 1 - \alpha \) :
+
+\[
+\sigma^2 \in 
+\left[
+\frac{(n - 2)\hat{\sigma}^2}{c_{n-2}(1 - \tfrac{\alpha}{2})},
+\frac{(n - 2)\hat{\sigma}^2}{c_{n-2}(\tfrac{\alpha}{2})}
+\right]
+\]
+
+où \( c_{n-2}(\cdot) \) désigne le quantile de la loi du $\chi^2$.
+
+\textit{(Confidence intervals for regression coefficients and variance.)}
+
+

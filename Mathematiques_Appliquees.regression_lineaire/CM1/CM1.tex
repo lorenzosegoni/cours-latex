@@ -1,0 +1,380 @@
+%\chapter{CM1}
+
+\chapter{La régression linéaire simple}
+
+%\url{https://pbastide.github.io/MV4AE035/}
+
+\bigskip
+
+
+
+
+\section{Introduction}
+Le but de la régression linéaire est de modéliser un nuage de points, et donc de trouver la meilleure droite possible pour résumer un nuage de points. On peut avoir deux objectifs différents :
+
+\begin{itemize}
+\item \textbf{Prédiction de l'avenir} (pour avoir une stratégie) : on va le faire en minimisant une perte (\textit{Loss}). On parlera de \textbf{Machine Learning}.
+\item \textbf{Trouver la valeur la \textit{plus probable}} (avec des intervalles de confiance) : on va chercher le maximum de vraisemblance. On posera l'hypothèse des moments = \textbf{inférence statistique}.
+\end{itemize}
+
+\textbf{L'hypothèse fondamentale est que le modèle est linéaire.}
+
+\subsection{Le modèle}
+
+\begin{notation}[Régression linéaire sans aléa]
+On suppose que la relation entre la variable à prédire $y_i$ et la variable prédictive $x_i$ peut s'écrire sous la forme :
+
+\[ y_i \approx \beta_0 + \beta_1 x_i \]
+
+Où $\beta_0$ et $\beta_1$ sont les paramètres du modèle (ordonnée à l'origine et pente). Ces paramètres sont les paramètres inconnus que l'on cherche.
+\end{notation}
+
+\bigskip
+
+\textbf{Limitation de ce modèle :} Ce modèle est très limité car il ne prend pas en compte que $y_i$ est affecté par de l'aléa. 
+
+\begin{notation}[Régression linéaire avec aléa]
+On va introduire cette nouvelle notation :
+
+\[ y_i = \beta_0 + \beta_1 x_i + \varepsilon_i \]
+
+Où $\varepsilon_i$ est la variable aléatoire représentant l'erreur (le "bruit de fond"). Ce que l'on comprend, c'est que $\varepsilon_i$ est une variable aléatoire et $Y_i$ dépend directement de ce bruit de fond.
+\end{notation}
+
+\begin{defi}[Modèle de régression linéaire simple]
+Un modèle de régression linéaire simple est défini par une équation de la forme :
+\[ \forall i \in \{1,...,n\}, \quad y_i = \beta_0 + \beta_1 x_i + \varepsilon_i \]
+\end{defi}
+
+\subsection{Hypothèses sur l'erreur}
+
+On fait les hypothèses suivantes sur les termes d'erreur $\varepsilon_i$ (connues sous le nom d'\textbf{hypothèses de Gauss-Markov}) : $\forall i \in \{1,...,n\}$
+
+\begin{itemize}
+\item $\mathbb{E}[\varepsilon_i] = 0$
+\item $\mathbb{V}[\varepsilon_i] = \sigma^2$ (même variance finie)
+\item $\forall j \neq i, \text{Cov}[\varepsilon_i, \varepsilon_j] = 0$ (indépendance)
+\end{itemize}
+
+Les hypothèses de l'espérance et de la variance s'appellent \textbf{Homoscédasticité}.
+
+La variance et la covariance peuvent s'écrire de façon condensée :
+
+\[ \text{Cov}(\varepsilon_i,\varepsilon_j) = \delta_{i,j} \sigma^2 \text{ pour tout couple } (i,j) \]
+
+\commentaire{Car $\text{Cov}(\varepsilon_i,\varepsilon_i) = \mathbb{V}[\varepsilon_i]$ }
+
+Le symbole de Kronecker est défini par :
+
+\[ \delta_{i,j} = \begin{cases} 1 \text{ si } j=i \\ 0 \text{ si } i \neq j \end{cases} \]
+
+\begin{defi}[Hypothèses sur l'erreur]
+Les hypothèses de \textbf{Gauss-Markov} sont :
+
+\[ (\mathcal{H}) : \begin{cases}
+(\mathcal{H}_1) : \quad \mathbb{E}[\varepsilon_i] = 0 \quad \text{ pour tout indice } i \\
+(\mathcal{H}_2) : \quad \text{Cov}(\varepsilon_i,\varepsilon_j) = \delta_{i,j}\sigma^2 \quad \text{ pour tout couple } (i,j)
+\end{cases} \]
+
+\end{defi}
+
+\begin{objectif}
+Trouver les valeurs $\hat{\beta}_0$ et $\hat{\beta}_1$. On note que la notation $\hat{\ }$ (chapeau) indique un \textbf{estimateur} calculé à partir des données observées.
+\end{objectif}
+
+\section{Moindres carrée ordinaires}
+
+\begin{notation}
+Les points $(x_i,y_i)$ étant donnés, le but est de trouver un moyen pour calculer la distance entre les points et la prédiction. Cette fonction permet de trouver la fonction affine $d$ telle que :
+
+\[ \sum_{i=1}^n d \left( (x_i,y_i) , (x_i, \beta'_0 + \beta'_1 x_i ) \right) \] 
+
+La fonction $d$ doit être choisie préalablement pour bien résoudre le problème. 
+\end{notation}
+
+On a :
+
+\begin{itemize}
+\item \textbf{Moindre Valeur Absolue} $\sum_{i=1}^n |\beta'_0 + \beta'_1 x_i - y_i|$ : Ceci est une des fonctions avec les meilleurs scores, mais le problème est que la fonction est très difficile à traiter car il y a un problème de dérivabilité au point $(0,0)$.
+\item \textbf{Moindres Carrés\footnote{Terminologie due à Legendre dans un article de 1805 sur la détermination des orbites des comètes}} $\sum_{i=1}^n (\beta'_0 + \beta'_1 x_i - y_i)^2$ : Ceci a l'avantage de rendre les calculs faciles, car c'est une fonction facilement dérivable et continue, sans point "problématique".
+On va la noter $L(y_i,\beta'_0,\beta'_1)= \sum_{i=1}^n (\beta'_0 + \beta'_1 x_i - y_i)^2$
+\end{itemize}
+
+\smallskip
+
+\begin{defi}[Estimateurs des Moindres Carrés Ordinaires]
+On appelle estimateurs des Moindres Carrés Ordinaires (en abrégé MCO) $\hat{\beta}_0$ et $\hat{\beta}_1$ les valeurs minimisant la quantité :
+
+\[ L(y_i,\beta'_0,\beta'_1)= \sum_{i=1}^n (\beta'_0 + \beta'_1 x_i - y_i)^2 \]
+\end{defi}
+
+\subsection{Calcul des estimateurs de $\beta_0$ et $\beta_1$}
+
+On a vu donc les moindres carrés ordinaires. On a compris donc que l'on veut minimiser la fonction $L$. On a donc :
+
+\smallskip
+
+
+\begin{defi}
+Les estimateurs de $\beta_0$ et $\beta_1$ sont :
+\[ (\hat{\beta}_0, \hat{\beta}_1) = \arg \min_{\beta'_0 \in \mathbb{R}, \beta'_1 \in \mathbb{R}}  \sum_{i=1}^n (Y_i - \beta'_0 - \beta'_1 x_i)^2 \]
+\end{defi}
+
+Une première chose est de montrer :
+
+\begin{prop}
+Soit
+
+\[ L(\beta'_0,\beta'_1) = \sum_{i=1}^n (\beta'_0 + \beta'_1 x_i - y_i)^2, \]
+
+considérée comme fonction de $(\beta'_0,\beta'_1)\in\mathbb{R}^2$ (les $x_i$ et $y_i$ étant fixés). Alors $L$ est convexe. De plus $L$ est strictement convexe si et seulement si les abscisses $x_1,\dots,x_n$ ne sont pas toutes égales.
+\end{prop}
+
+\commentaire{ Ceci n'est pas important dans le cours, mais nous donne des spécificités importante de la fonction
+
+\begin{proof}
+Posons $\beta'=(\beta'_0,\beta'_1)^\top\in\mathbb{R}^2$ et pour tout $i$ définissons le vecteur $z_i=(1,x_i)^\top$. On a
+
+\[ L(\beta')=\sum_{i=1}^n (z_i^\top\beta' - y_i)^2. \]
+
+Calculons la matrice Hessienne de $L$ (matrice des dérivées secondes) : pour tout $\beta'$,
+
+\[ \nabla^2 L(\beta') \;=\; 2\sum_{i=1}^n z_i z_i^\top
+= 2 \begin{pmatrix}
+\sum_{i=1}^n 1 & \sum_{i=1}^n x_i \\[4pt]
+\sum_{i=1}^n x_i & \sum_{i=1}^n x_i^2
+\end{pmatrix}. \]
+
+Cette matrice est de la forme $2 X^\top X$ (où $X$ est la matrice de conception à deux colonnes), donc est symétrique et positive semi-définie. En effet, pour tout vecteur non nul $u=(u_0,u_1)^\top\in\mathbb{R}^2$,
+
+\[ u^\top \nabla^2 L(\beta')\, u
+= 2\sum_{i=1}^n (u_0 + u_1 x_i)^2 \ge 0. \]
+
+Ainsi $\nabla^2 L(\beta') \geq 0$, ce qui montre que $L$ est convexe.
+
+Par ailleurs, l'inégalité est stricte (i.e. $u^\top \nabla^2 L(\beta')\, u >0$ pour tout $u\neq 0$) si et seulement si il n'existe pas de vecteur non nul $u$ tel que $u_0+u_1 x_i=0$ pour tout $i$. Cela équivaut exactement au fait que les $x_i$ ne soient pas tous égaux. Donc sous l'hypothèse « les $x_i$ ne sont pas tous égaux », la matrice $\nabla^2 L(\beta')$ est définie positive et $L$ est strictement convexe.
+\end{proof}
+}
+
+Si on développe cette expression, on arrive à cette proposition :
+
+\begin{prop}[Estimateurs $\hat{\beta}_0$ et $\hat{\beta}_1$]
+Les estimateurs des MCO ont pour expressions :
+
+\[ \hat{\beta}_0 = \bar{y} - \hat{\beta}_1 \, \bar{x}, \]
+
+et
+
+\[ \hat{\beta}_1 = \frac{s_{x,y}^2}{s_x^2} =  \frac{\sum_{i=1}^n (x_i - \bar{x})(y_i - \bar{y})}{\sum_{i=1}^n (x_i - \bar{x})^2} \]
+
+avec :
+
+\[ \begin{cases} 
+\bar{x} = \frac{1}{n} \sum_{i=1}^n x_i \quad  (\text{moyenne empirique de }x)\\
+\bar{y} = \frac{1}{n} \sum_{i=1}^n y_i \quad  (\text{moyenne empirique de }y) \\
+s_x^2 = \frac{1}{n} \sum_{i=1}^n (x_i - \bar{x})^2 \quad (\text{(co-)variance empirique})\\
+s_{x,y}^2 = \frac{1}{n} \sum_{i=1}^n (x_i - \bar{x})(y_i-\bar{y}) \quad (\text{(co-)variance empirique})
+\end{cases} \]
+
+\end{prop}
+
+\bigskip
+
+\commentaire{
+On a:
+
+\begin{align*}
+\sum_{i=1}^{n} (x_i - \bar{x}) &= \sum_{i=1}^{n} x_i - \sum_{i=1}^{n} \bar{x} \\
+&= \sum_{i=1}^{n} x_i - n \cdot \bar{x} \\
+&= \sum_{i=1}^{n} x_i - n \cdot \frac{1}{n} \sum_{i=1}^{n} x_i \\
+&=0
+\end{align*}
+
+De même pour: $\sum_{i=1}^{n}(y_i - \bar{y}) = 0$
+}
+
+
+
+
+
+
+
+
+
+
+%\begin{proof}
+%\end{proof}
+
+
+
+
+
+
+
+
+
+\begin{proof}
+La premiere methode utilise donc ce que on a montré avant, c'est à dire que $L$ est strictement convexe.
+
+Puisque $L$ est structement convexe, elle adment un minimum en un unique point $(\hat{\beta}_1,\hat{\beta}_2)$, lequel est déterminé en annulant les dérivées partielles de $L$. 
+
+On obtient les équations:
+
+\[
+\begin{cases}
+\frac{\partial L}{\partial \beta'_0} (\beta'_0,\beta'_1) = -2\sum_{i=1}^n (y_i - \hat{\beta}_0 - \hat{\beta}_1 x_i ) = 0, \\
+\frac{\partial L}{\partial \beta'_1} (\beta'_0,\beta'_1) = -2\sum_{i=1}^n x_i (y_i - \hat{\beta}_0 - \hat{\beta}_1 x_i ) = 0.
+\end{cases}
+\]
+
+La première équation donne :
+
+\begin{align*}
+\hat{\beta}_0 n + \hat{\beta}_1 \sum_{i=1}^n x_i = \sum_{i=1}^n y_i
+\quad &\Rightarrow 
+\hat{\beta}_0 = \bar{y} - \hat{\beta}_1 \bar{x}, \\
+& \Rightarrow \hat{\beta}_0 = \bar{y} - \hat{\beta}_1 \bar{x}
+\end{align*}
+
+La seconde équation donne :
+
+\[ \hat{\beta}_0 \sum_{i=1}^n x_i + \hat{\beta}_1 \sum_{i=1}^n x_i^2 = \sum_{i=1}^n x_i y_i. \]
+
+En remplaçant $\hat{\beta}_0$ par son expression, nous obtenons :
+
+\begin{align*}
+\hat{\beta}_1 &= \frac{\sum_i x_i y_i - \sum_i x_i \bar{y}}{\sum_i x_i^2 - \sum_i x_i \bar{x}} \\
+&= \frac{\sum_i x_i (y_i - \bar{y})}{\sum_i x_i (x_i - \bar{x})} \\
+&= \frac{\sum_i (x_i - \bar{x})(y_i - \bar{y})}{\sum_i (x_i - \bar{x})^2} \\
+&= \frac{s_{x,y}^2}{s_x^2}
+\end{align*}
+
+\commentaire{ La seconde méthode consiste à appliquer la technique de Gauss de réduction des formes quadratiques, c’est-à-dire à décomposer $L(\beta_1,\beta_2)$ en somme de carrés. Après calculs, on obtient :
+\[
+S(\beta_0,\beta_1) =
+n\left(\beta_0 - (\bar{y} - \beta_1 \bar{x})\right)^2
++ \Bigg(\sum_{i=1}^n (x_i - \bar{x})^2\Bigg)\left(\beta_1 - \hat{\beta}_1\right)^2
++ \Bigg(\sum_{i=1}^n (y_i - \bar{y})^2 - \frac{\big(\sum_{i=1}^n (x_i - \bar{x})(y_i - \bar{y})\big)^2}{\sum_{i=1}^n (x_i - \bar{x})^2}\Bigg).
+\]
+Le dernier terme est indépendant de $\beta_0$ et $\beta_1$. Le second est nul si et seulement si $\beta_1=\hat{\beta}_1$, puis le premier est nul si et seulement si $\beta_0=\hat{\beta}_0$.}
+
+\end{proof}
+
+\textbf{Important:} ces expressions sont indépendantes de l'hypothèse $(\mathcal{H})$. Celles-ci vont en fait servir dans la suite à expliciter les propriétés statistiques de ces estimateurs.
+
+\subsection{Quelques propriétés des estimateurs $\hat{\beta}_0$ et $\hat{\beta}_1$.}
+
+\begin{theo}[Estimateurs sans biais]
+$\hat{\beta}_0$ et $\hat{\beta}_1$ sont des estimateurs sans biais de $\beta_0$ et $\beta_1$ sous l'hypothèse de $\mathbb{E}[\varepsilon_i]=0$, c'est à dire:
+
+\[ \mathbb{E}[\hat{\beta}_0]=\beta_0 \quad \mathbb{E}[\hat{\beta}_1]=\beta_1 \]
+\end{theo}
+
+
+\begin{proof} 
+Partons par $\hat{\beta}_1$:
+
+\[ \mathbb{E}[\hat{\beta}_1]= \mathbb{E}  \left[ \frac{\sum_{i=1}^n (x_i - \bar{x})(y_i - \bar{y})}{\sum_{i=1}^n (x_i - \bar{x})^2} \right] = \frac{\sum_{i=1}^n (x_i - \bar{x}) \mathbb{E} [(y_i - \bar{y})] }{\sum_{i=1}^n (x_i - \bar{x})^2}  \]
+
+Or
+
+\[ 
+\begin{cases}
+\mathbb{E}[y_i] = \mathbb{E}[\beta_0 + \beta_1 x_i + \varepsilon_i] = \beta_0 + \beta_1 x_i + \mathbb{E}[\varepsilon_i] = \beta_0 + \beta_1 x_i \\
+\mathbb{E}[y_i - \bar{y}] = \mathbb{E}[y_i] -\mathbb{E}[\bar{y}] = \beta_0 + \beta_1 x_i - (\beta_0 + \beta_1 \bar{x}) = \beta_1 (x_i - \bar{x})
+\end{cases} 
+\]
+
+Donc
+
+\[ \mathbb{E}[\hat{\beta}_1]= \frac{\sum_{i=1}^n (x_i - \bar{x}) \mathbb{E} [(y_i - \bar{y})] }{\sum_{i=1}^n (x_i - \bar{x})^2}
+= \frac{\sum_{i=1}^n (x_i - \bar{x}) \beta_1 (x_i - \bar{x}) }{\sum_{i=1}^n (x_i - \bar{x})^2}
+=\beta_1
+\]
+
+\medskip
+
+On en déduit que:
+
+\begin{align*}
+\mathbb{E}[\hat{\beta}_0] &= \mathbb{E}[\bar{y} - \hat{\beta}_1 \bar{x}] \\
+&= \mathbb{E}[\bar{y}] -\mathbb{E}[\hat{\beta}_1] \bar{x} \\
+&=\beta_0 + \beta_1 \bar{x} - \beta_1 \bar{x} \\
+&=\beta_0
+\end{align*}
+
+\end{proof}
+
+\commentaire{
+On peut aussi montrer que
+
+\begin{align*}
+\hat{\beta}_1 &= \frac{1}{n \cdot s^2_x} \sum_{i=1}^n (x_i - \bar{x}) (y_i - \bar{y}) \\
+&= \frac{1}{n \cdot s^2_x} \sum_{i=1}^n (x_i - \bar{x}) (\beta_0 + \beta_1 x_i + \varepsilon_i - [\beta_0 + \beta_1 \bar{x} + \bar{\varepsilon} ] ) \\
+&= \beta_1 + \frac{1}{n \cdot s^2_x} \sum_{i=1}^n (x_i - \bar{x}) \varepsilon_i \\
+\end{align*}
+
+Ce qui nous permet de montrer que $\hat{\beta}_1$ est un estimateur sans biais }
+
+\begin{theo}[Variances et covariance]
+Les variances des estimateurs sont (sous les hypothèses $(\mathcal{H})$) :
+
+\[ \mathbb{V}[\hat{\beta}_0] = \frac{\sigma^2}{n} \left( 1 + \frac{\bar{x}^2}{s^2_x} \right)
+\quad
+\mathbb{V}[\hat{\beta}_1] =  \frac{\sigma^2}{n} \frac{1}{s^2_x}
+\]
+
+tandis que leur covariance vaut :
+
+\[
+\text{Cov}[\hat{\beta}_0, \hat{\beta}_1] = - \frac{\sigma^2}{n}  \frac{\bar{x}}{s^2_x}
+\]
+
+\end{theo}
+
+\begin{proof}
+
+On a: 
+
+\begin{align*}
+\mathbb{V}[\hat{\beta}_1] &= \mathbb{V} \left[ \beta_1 + \frac{1}{n s^2_x} \sum_{i=1}^n (x_i - \bar{x}) \varepsilon_i \right] \\
+&= \frac{1}{(n s^2_x)^2} \sum_{i=1}^n (x_i - \bar{x})^2 \mathbb{V}[\varepsilon_1] \quad \text{par independence des $\varepsilon_i$} \\
+&= \sigma^2 \frac{n s^2_x}{(n s^2_x)^2} \\
+&=  \frac{\sigma^2}{n} \frac{1}{s^2_x}
+\end{align*}
+
+Et on a aussi:
+
+\begin{align*}
+\mathbb{V}[\hat{\beta}_0] &= \mathbb{V}[ \bar{y} - \hat{\beta}_1 \bar{x}] \\
+&= \mathbb{V}[ \bar{y} ] + \mathbb{V}[ \hat{\beta}_1 \bar{x} ] -  2 \text{Cov} [ \bar{y} , \hat{\beta}_1 \bar{x} ] \\
+&= \frac{1}{n^2} \mathbb{V} \left[ \sum_{i=1}^{n} \varepsilon_i \right] = \bar{x}^2 \mathbb{V} [\hat{\beta}_1] \\
+&= \frac{1}{n} \sigma^2 + \frac{\bar{x}^2 \sigma^2}{n s^2_x} \\
+&=\frac{\sigma^2}{n} \left( 1 + \frac{\bar{x}^2}{s^2_x} \right)
+\end{align*}
+
+
+
+\commentaire{ \text{Attention} $\bar{y}$ et $\hat{\beta}_1$ peuvent être corrélé (à cause $\varepsilon_i$)
+
+\begin{align*}
+\text{Cov} [\bar{y},\hat{\beta}_1] &=\text{Cov} \left[ \beta_0 + \beta_1 \bar{x} + \bar{\varepsilon}, \beta_1 + \frac{1}{n s^2_x} \sum_{i=1}^n (x_i - \bar{x}) \varepsilon_i \right] \\
+&= \text{Cov} \left[ \frac{1}{n} \sum_{i=1}^n \varepsilon_i , \frac{1}{n s^2_x}  \sum_{i=1}^n (x_i - \bar{x}) \varepsilon_i \right] \\
+&= \frac{1}{(n s^2_x)^2} \sum_{i=1}^n \sum_{j=1}^n \text{Cov}[\varepsilon_i,(x_j - \bar{x})\varepsilon_j] \\
+&= \frac{1}{(n s^2_x)^2} \sum_{i=1}^n \text{Cov}[\varepsilon_i,(x_i - \bar{x}) \varepsilon_i] \\
+&= 0
+\end{align*}
+}
+
+
+------------------------------------------------------------------------------------------------------------------------------------
+
+Et on a aussi:
+
+\begin{align*}
+\text{Cov} [\hat{\beta}_0,\hat{\beta}_1] &= \text{Cov} [\bar{y} - \hat{\beta}_1 \bar{x} , \hat{\beta}_1 ] \\
+&= \text{Cov} [\bar{y},\hat{\beta}_1] - \bar{x} \text{Cov} [\hat{\beta}_1 , \hat{\beta}_1] \\
+&= 0 - \bar{x} \frac{\sigma^2}{n s^2_x} \\
+&= - \frac{\sigma^2}{n}  \frac{\bar{x}}{s^2_x} 
+\end{align*}
+\end{proof}

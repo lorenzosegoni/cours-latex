@@ -1,0 +1,980 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\chapter{CM4}
+
+%Soit $Y_i = \beto_0 + \beta_1 x_i + \epsilon$
+
+%\epsilon_I est une variable aleatoire telle que 
+
+%\item E[\epsiol_i] = 0 
+%\item V[\epsilo_i]= \sigma^2 
+%\item Cov[\epsi_i,\epsi_j]= 0
+
+%MCO: \argmin_ (\beta'0 \beta'1) \sum (Y_i - \beta'0 - \beta'_1 x_i)^2 \to \hatbeta0 \hatbeta 1
+
+%\hatbeta1 =\frac{\Delta_x,y^2}{\Demta_x^2}  \hatbeta_0 = \bar Y - \bar x \hatbeta1
+
+%E[] E[]
+
+%V[\hatbeta0 \hatbeta1]= \sigm^2 V_n
+
+%Vn =
+%\begin{matrix} 
+%\frac{1}{n}(1+ \frac{\barx^2}{\Delta_x^2}) & ? \\
+%-\frac{\barx}{n \Delta_x^2} & \frac{\Delta^2_X}{n} 
+%\end{matrix}
+
+\section{Cas des erreurs gaussiennes}
+
+\subsection{Hypothèse de la loi de $\epsilon_i$}
+
+Nous allons maintenant renforcer les hypothèses faites sur les erreurs $\epsilon_i$, en précisant leur loi de probabilité.  
+
+\begin{hypotheses}
+On pose l'hypothèse suivante :
+
+\[ (\mathcal{H}) :
+\begin{cases}
+(\mathcal{H}_1) : & \epsilon_i \sim \mathcal{N}(0,\sigma^2) \\[6pt]
+(\mathcal{H}_2) : & \epsilon_i \text{ sont indépendantes.}
+\end{cases} \]
+\end{hypotheses}
+
+Il s'agit d'une hypothèse plus forte que celle posée précédemment, car si les $\epsilon_i$ suivent cette loi, on a bien :
+\begin{itemize}
+    \item $\mathbb{E}[\epsilon_i] = 0$ (la loi normale est centrée),
+    \item $\mathrm{Var}(\epsilon_i) = \sigma^2$,
+    \item $\mathrm{Cov}(\epsilon_i,\epsilon_j) = 0$ pour $i \neq j$ (indépendance).
+\end{itemize}
+
+Ceci nous permet de introduire la loi de $y_i$:
+
+\begin{proposition}
+Soit un modèle de régression linéaire
+\[
+y_i = \beta_0 + \beta_1 x_i + \epsilon_i, \quad i=1,\dots,n.
+\]
+Sous l’hypothèse $(\mathcal{H})$, on a :
+\begin{enumerate}
+    \item $y_i \sim \mathcal{N}(\beta_0 + \beta_1 x_i, \sigma^2)$,
+    \item Les $y_i$ sont indépendantes deux à deux.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+On a $\epsilon_i \sim \mathcal{N}(0,\sigma^2)$.  
+
+Or, si $X \sim \mathcal{N}(\mu,\sigma^2)$ alors pour tout $a \in \mathbb{R}$, $b \in \mathbb{R}$,
+\[
+Y = aX + b \;\;\sim\;\; \mathcal{N}(a\mu+b, a^2\sigma^2).
+\]
+
+En prenant $a=1$ et $b=\beta_0+\beta_1 x_i$, on obtient immédiatement le résultat.
+\end{proof}
+
+\subsection{Loi jointe du vecteur aléatoire}
+
+Considérons le vecteur
+\[
+Y =
+\begin{bmatrix}
+y_1 \\
+\vdots \\
+y_n
+\end{bmatrix}.
+\]
+
+Sous $(\mathcal{H})$, les $y_i$ étant indépendantes, la densité jointe de $Y$ est le produit des densités marginales :
+\[
+p(y \mid \beta_0, \beta_1, \sigma^2)
+= \prod_{i=1}^n p(y_i \mid \beta_0, \beta_1, \sigma^2).
+\]
+
+Or, pour chaque $i$,
+\[
+p(y_i \mid \beta_0, \beta_1, \sigma^2)
+= \frac{1}{\sqrt{2\pi\sigma^2}} \exp\!\left(-\frac{(y_i - (\beta_0 + \beta_1 x_i))^2}{2\sigma^2}\right).
+\]
+
+Ainsi,
+\[
+p(y \mid \beta_0, \beta_1, \sigma^2)
+= \prod_{i=1}^n \frac{1}{\sqrt{2\pi\sigma^2}}
+\exp\!\left(-\frac{(y_i - (\beta_0 + \beta_1 x_i))^2}{2\sigma^2}\right).
+\]
+
+
+\subsection{Maximum de vraisemblance}
+
+Nous allons maintenant estimer les paramètres $(\beta_0,\beta_1,\sigma^2)$ par la méthode du maximum de vraisemblance.  
+
+La fonction de vraisemblance s’écrit :
+\[
+L(\beta'_0,\beta'_1,\sigma'^2 \mid Y) = p(Y \mid \beta'_0,\beta'_1,\sigma'^2).
+\]
+
+Or, d’après la loi jointe trouvée précédemment, on a :
+\[
+L(\beta'_0,\beta'_1,\sigma'^2 \mid Y) 
+= \prod_{i=1}^n \frac{1}{\sqrt{2\pi\sigma'^2}}
+\exp\!\left(-\frac{\big(y_i - (\beta'_0 + \beta'_1 x_i)\big)^2}{2\sigma'^2}\right).
+\]
+
+L’estimateur du maximum de vraisemblance est alors défini par :
+\[
+(\hat{\beta}_0^{\text{(ML)}}, \hat{\beta}_1^{\text{(ML)}}, \hat{\sigma}^{2}_{\text{(ML)}})
+= \arg\max_{\beta_0 \in \mathbb{R}, \, \beta_1 \in \mathbb{R}, \, \sigma^2 > 0}
+L(\beta'_0,\beta'_1,\sigma'^2 \mid Y).
+\]
+
+En pratique, on maximise la log-vraisemblance, plus simple à manipuler car elle transforme les produits en sommes :
+\[
+\ell(\beta'_0,\beta'_1,\sigma'^2 \mid Y) 
+= \log L(\beta'_0,\beta'_1,\sigma'^2 \mid Y).
+\]
+
+C’est-à-dire :
+\[
+\ell(\beta'_0,\beta'_1,\sigma'^2 \mid Y) 
+= -\frac{n}{2}\log(2\pi\sigma'^2) 
+- \frac{1}{2\sigma'^2}\sum_{i=1}^n \big(y_i - (\beta'_0 + \beta'_1 x_i)\big)^2.
+\]
+
+À $\sigma'^2$ fixé, maximiser la log-vraisemblance
+
+\[
+\ell(\beta'_0,\beta'_1,\sigma'^2 \mid Y) 
+= -\frac{n}{2}\log(2\pi\sigma'^2) 
+- \frac{1}{2\sigma'^2}\sum_{i=1}^n \big(y_i - (\beta'_0 + \beta'_1 x_i)\big)^2
+\]
+revient à minimiser la somme des carrés des résidus :
+\[
+S(\beta'_0,\beta'_1) = \sum_{i=1}^n \big(y_i - (\beta'_0 + \beta'_1 x_i)\big)^2.
+\]
+
+Ainsi, les estimateurs du maximum de vraisemblance pour $\beta_0$ et $\beta_1$ coïncident avec les estimateurs des moindres carrés ordinaires (MCO) :
+
+\[
+\hat{\beta}_0^{\text{(ML)}} = \hat{\beta}_0, 
+\qquad 
+\hat{\beta}_1^{\text{(ML)}} = \hat{\beta}_1.
+\]
+
+En réinjectant les estimateurs $\hat{\beta}'_0$ et $\hat{\beta}'_1$ dans la log-vraisemblance, on obtient la fonction :
+\[
+\sigma'^2 \;\mapsto\; \ell(\hat{\beta}'_0,\hat{\beta}'_1,\sigma'^2 \mid Y) 
+= -\frac{n}{2}\log(2\pi\sigma'^2) 
+- \frac{1}{2\sigma'^2}\sum_{i=1}^n \big(y_i - \hat{y}_i\big)^2,
+\]
+où $\hat{y}_i = \hat{\beta}'_0 + \hat{\beta}'_1 x_i$.  
+
+\bigskip
+
+On dérive cette expression par rapport à $\sigma'^2$ :
+\[
+\frac{\partial \ell}{\partial \sigma'^2}(\hat{\beta}'_0,\hat{\beta}'_1,\sigma'^2 \mid Y) 
+= -\frac{n}{2}\cdot \frac{1}{\sigma'^2} 
++ \frac{1}{2(\sigma'^2)^2}\sum_{i=1}^n \big(y_i - \hat{y}_i\big)^2.
+\]
+
+On annule cette dérivée pour maximiser la log-vraisemblance :
+\[
+-\frac{n}{2\sigma'^2} + \frac{1}{2(\sigma'^2)^2}\sum_{i=1}^n \big(y_i - \hat{y}_i\big)^2 = 0.
+\]
+
+En multipliant par $2(\sigma'^2)^2$ :
+\[
+-n\sigma'^2 + \sum_{i=1}^n \big(y_i - \hat{y}_i\big)^2 = 0.
+\]
+
+Donc :
+\[
+\hat{\sigma}^{2}_{\text{(ML)}} = \frac{1}{n}\sum_{i=1}^n \big(y_i - \hat{y}_i\big)^2.
+\]
+
+
+\begin{remarque}
+Attention : l’estimateur du maximum de vraisemblance de la variance
+\[
+\hat{\sigma}^2_{\text{(ML)}} = \frac{1}{n}\sum_{i=1}^n (y_i - \hat{y}_i)^2
+\]
+est \textbf{biaisé}.  
+
+En effet, on a :
+\[
+\mathbb{E}\left[\hat{\sigma}^2_{\text{(ML)}}\right] =\mathbb{E} \left[\frac{n-2}{n} \hat{\sigma}^2\right] 
+= \frac{n-2}{n}\,\sigma^2,
+\]
+où $n-2$ correspond au nombre de degrés de liberté perdus lors de l’estimation de $\beta_0$ et $\beta_1$.  
+\end{remarque}
+
+
+% Faire un annexe avec les loi usuelles.
+
+% Faire tout
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\chapter{CM4}
+
+\chapter{Modèle de régression linéaire multiple}
+
+\section{Modèlisation}
+
+\begin{definition}
+Le modèle de régression linéaire multiple est une généralisation du modèle de régression simple, permettant d’introduire plusieurs variables explicatives.  
+Il s’écrit, pour chaque observation $i = 1, \dots, n$ :
+\[
+Y_i = \beta_0 + \beta_1 x_{i,1} + \beta_2 x_{i,2} + \dots + \beta_p x_{i,p} + \varepsilon_i,
+\]
+où :
+\begin{itemize}
+    \item les $x_{i,j}$ sont des valeurs connues, supposées non aléatoires ; souvent, on prend $x_{i,1} = 1$ pour tout $i$ afin d’introduire l’ordonnée à l’origine $\beta_0$ ;
+    \item les paramètres $\beta_j$ ($j = 0, \dots, p$) sont des constantes inconnues que l’on cherche à estimer ;
+    \item les erreurs $\varepsilon_i$ sont des variables aléatoires, généralement supposées centrées et indépendantes.
+\end{itemize}
+\end{definition}
+
+\begin{notation}
+On introduit les notations vectorielles et matricielles suivantes :
+\[
+Y =
+\begin{pmatrix}
+Y_1 \\ \vdots \\ Y_n
+\end{pmatrix}
+\in \mathcal{M}_{n,1},
+\quad
+\varepsilon =
+\begin{pmatrix}
+\varepsilon_1 \\ \vdots \\ \varepsilon_n
+\end{pmatrix}
+\in \mathcal{M}_{n,1},
+\quad
+\mathbb{1} =
+\begin{pmatrix}
+1 \\ \vdots \\ 1
+\end{pmatrix}
+\in \mathcal{M}_{n,1}.
+\]
+
+La matrice des variables explicatives est :
+\[
+X =
+\begin{pmatrix}
+x_{1,1} & x_{1,2} & \dots & x_{1,p} \\
+x_{2,1} & x_{2,2} & \dots & x_{2,p} \\
+\vdots & \vdots & \ddots & \vdots \\
+x_{n,1} & x_{n,2} & \dots & x_{n,p}
+\end{pmatrix}
+\in \mathcal{M}_{n,p}.
+\]
+
+Enfin, on note :
+\[
+\beta =
+\begin{pmatrix}
+\beta_1 \\ \vdots \\ \beta_p
+\end{pmatrix}
+\in \mathcal{M}_{p,1}.
+\]
+
+Le modèle s’écrit alors sous forme compacte :
+\[
+Y = \beta_0 \mathbb{1} + X \beta + \varepsilon.
+\]
+\end{notation}
+
+\subsection{Deux conventions de notation}
+
+\begin{notation}[Formulation \textbf{française}]
+Dans la notation française, on choisit souvent de \textbf{séparer l’intercept} $\beta_0$ du reste du modèle.  
+Le modèle s’écrit alors :
+\[
+Y = \beta_0 \mathbb{1} + X \beta + \varepsilon,
+\]
+avec :
+\begin{itemize}
+    \item $Y \in \mathbb{R}^{n \times 1}$ : vecteur des observations ;
+    \item $\varepsilon \in \mathbb{R}^{n \times 1}$ : vecteur des erreurs ;
+    \item $X \in \mathbb{R}^{n \times p}$ : matrice déterministe des variables explicatives (sans colonne de $1$) ;
+    \item $\beta \in \mathbb{R}^{p \times 1}$ : vecteur des coefficients associés aux $p$ variables explicatives ;
+    \item $\beta_0$ : intercept (ordonnée à l’origine), traité séparément.
+\end{itemize}
+
+Dans ce cas, le nombre total de paramètres à estimer est $(p + 1)$.
+\end{notation}
+
+\begin{notation}[Formulation \textbf{anglaise}]
+Dans la notation anglo-saxonne (souvent utilisée en économétrie et en machine learning), \textbf{l’intercept est inclus dans la matrice $X$}.  
+On définit alors :
+\[
+X =
+\begin{pmatrix}
+1 & x_{1,1} & \dots & x_{1,p'} \\
+1 & x_{2,1} & \dots & x_{2,p'} \\
+\vdots & \vdots & \ddots & \vdots \\
+1 & x_{n,1} & \dots & x_{n,p'}
+\end{pmatrix}
+\in \mathcal{M}_{n,p},
+\]
+où la première colonne de $X$ contient uniquement des $1$.
+
+Le modèle devient alors :
+\[
+Y = X \beta + \varepsilon,
+\]
+avec :
+\begin{itemize}
+    \item $Y \in \mathbb{R}^{n \times 1}$ : vecteur des observations,
+    \item $X \in \mathbb{R}^{n \times p}$ : matrice des prédicteurs (\textit{predictors}),
+    \item $\beta \in \mathbb{R}^{p \times 1}$ : vecteur des paramètres, \textbf{incluant} l’intercept $\beta_0$ en première position,
+    \item $\varepsilon \in \mathbb{R}^{n \times 1}$ : vecteur des erreurs.
+\end{itemize}
+
+Ainsi, si $p'$ désigne le nombre de variables explicatives sans l’intercept, on a $p = p' + 1$.
+\end{notation}
+
+\subsection{Degrés de liberté}
+
+Le modèle comprend donc $p$ paramètres (intercept inclus).  
+Le nombre de degrés de liberté pour l’estimation de la variance des résidus est alors :
+\[
+\text{ddl} = n - p.
+\]
+
+---
+
+\begin{remarque}
+La distinction entre les deux notations n’est qu’une question de convention :
+\[
+\text{Française : } Y = \beta_0 \mathbb{1} + X \beta + \varepsilon,
+\qquad
+\text{Anglaise : } Y = X \beta + \varepsilon \text{ avec } X = [\mathbb{1} \; X'].
+\]
+La formulation anglaise est la plus utilisée dans les logiciels statistiques (R, Python, Stata, etc.).
+\end{remarque}
+
+\subsection{Nouvelle hypothèse}
+
+Pour que la formulation matricielle du modèle linéaire soit valide et que les estimateurs soient bien définis, il est nécessaire d’introduire une hypothèse supplémentaire sur la matrice des variables explicatives.
+
+\begin{definition}[Hypothèse de plein rang]
+On suppose que la matrice des régresseurs $X$ est de plein rang :
+\[
+\operatorname{rg}(X) = p.
+\]
+Autrement dit, les $p$ colonnes de $X$, notées $X_1, X_2, \dots, X_p$, sont linéairement indépendantes.
+\end{definition}
+
+\begin{remarque}
+Cette hypothèse garantit que la matrice $X^\top X$ est inversible.  
+Elle est indispensable pour que l’estimation par les moindres carrés soit unique et exploite toute l’information contenue dans les variables explicatives.
+\end{remarque}
+
+---
+
+\subsection{Deux écritures équivalentes du modèle}
+
+Le modèle matriciel
+\[
+Y = X\beta + \varepsilon
+\]
+peut s’interpréter de deux manières complémentaires : selon les colonnes ou selon les lignes de la matrice $X$.
+
+\begin{definition}[Relations colonne et ligne]
+\leavevmode
+\begin{enumerate}
+    \item \textbf{Relation par colonnes :}  
+    Si l’on écrit la matrice $X$ comme une juxtaposition de ses vecteurs colonnes :
+    \[
+    X = [\, X_1 \; X_2 \; \dots \; X_p \,],
+    \quad \text{où } X_k \in \mathbb{R}^{n \times 1},
+    \]
+    alors le modèle s’écrit :
+    \[
+    Y = \beta_1 X_1 + \beta_2 X_2 + \dots + \beta_p X_p + \varepsilon
+    = \sum_{k=1}^{p} \beta_k X_k + \varepsilon.
+    \]
+
+    \item \textbf{Relation par lignes :}  
+    Si l’on note $X^i$ la $i$-ème ligne de $X$ (vecteur ligne de taille $1 \times p$) :
+    \[
+    X =
+    \begin{pmatrix}
+    X^1 \\ X^2 \\ \vdots \\ X^n
+    \end{pmatrix},
+    \quad \text{avec } X^i = (x_{i,1}, x_{i,2}, \dots, x_{i,p}),
+    \]
+    alors chaque observation du modèle s’écrit :
+    \[
+    Y_i = X^i \beta + \varepsilon_i, \qquad i = 1, \dots, n.
+    \]
+\end{enumerate}
+\end{definition}
+
+\begin{remarque}
+Les deux écritures sont équivalentes :
+\[
+Y = X\beta + \varepsilon
+\quad \Longleftrightarrow \quad
+\begin{cases}
+Y_i = X^i \beta + \varepsilon_i, & \text{(relation ligne)} \\[4pt]
+Y = \displaystyle\sum_{k=1}^p \beta_k X_k + \varepsilon, & \text{(relation colonne).}
+\end{cases}
+\]
+La première met en évidence les \textbf{observations individuelles}, la seconde met en valeur la \textbf{contribution de chaque variable explicative}.
+\end{remarque}
+
+\subsection{Rappell}
+
+\subsubsection{Géométrie euclidienne}
+
+Nous rappelons ici les principales notions de géométrie euclidienne dans $\mathbb{R}^n$, qui serviront à interpréter géométriquement le modèle linéaire.
+
+\begin{notation}
+Soient $\mathbf{x}=(x_1,\dots,x_n)^\top$ et $\mathbf{y}=(y_1,\dots,y_n)^\top$ deux vecteurs de $\mathbb{R}^n$.
+
+\begin{itemize}
+    \item La \textbf{norme euclidienne au carré} de $\mathbf{x}$ est :
+    \[
+    \|\mathbf{x}\|^2 = \sum_{i=1}^n x_i^2 = \mathbf{x}^\top \mathbf{x}.
+    \]
+    \item Le \textbf{produit scalaire euclidien} entre $\mathbf{x}$ et $\mathbf{y}$ est :
+    \[
+    \langle \mathbf{x}, \mathbf{y} \rangle = \sum_{i=1}^n x_i y_i = \mathbf{x}^\top \mathbf{y} = \mathbf{y}^\top \mathbf{x}.
+    \]
+\end{itemize}
+\end{notation}
+
+\begin{proposition}[Formules et inégalités fondamentales]
+Pour tous $\mathbf{x}, \mathbf{y} \in \mathbb{R}^n$, on a :
+\begin{itemize}
+    \item $\|\mathbf{x} + \mathbf{y}\|^2 = \|\mathbf{x}\|^2 + \|\mathbf{y}\|^2 + 2\langle \mathbf{x}, \mathbf{y} \rangle$,
+    \item $\|\mathbf{x} - \mathbf{y}\|^2 = \|\mathbf{x}\|^2 + \|\mathbf{y}\|^2 - 2\langle \mathbf{x}, \mathbf{y} \rangle$,
+    \item $\displaystyle \langle \mathbf{x}, \mathbf{y} \rangle = \frac{1}{4}\big(\|\mathbf{x} + \mathbf{y}\|^2 - \|\mathbf{x} - \mathbf{y}\|^2\big)$,
+    \item $\langle \mathbf{x}, \mathbf{y} \rangle \le \|\mathbf{x}\|\,\|\mathbf{y}\|$ \quad (Inégalité de \textbf{Cauchy-Schwarz}),
+    \item $\|\mathbf{x} + \mathbf{y}\| \le \|\mathbf{x}\| + \|\mathbf{y}\|$ \quad (Inégalité \textbf{triangulaire}).
+\end{itemize}
+\end{proposition}
+
+---
+
+\subsubsection{Projection orthogonale}
+
+Nous considérons maintenant la projection orthogonale sur un sous-espace vectoriel de $\mathbb{R}^n$, outil central dans l’interprétation géométrique de la régression linéaire.
+
+\begin{notation}
+Soient :
+\begin{itemize}
+    \item $\mathbf{y} \in \mathbb{R}^n$,
+    \item $(\mathbf{x}_1, \dots, \mathbf{x}_p) \in (\mathbb{R}^n)^p$ des vecteurs \textbf{linéairement indépendants},
+    \item $\mathcal{M}(\mathbf{X}) = \operatorname{Vect}\{\mathbf{x}_1, \dots, \mathbf{x}_p\}$ le sous-espace engendré par ces vecteurs.
+\end{itemize}
+
+La \textbf{projection orthogonale} de $\mathbf{y}$ sur $\mathcal{M}(\mathbf{X})$ est l’unique vecteur 
+\[
+\operatorname{Proj}_{\mathcal{M}(\mathbf{X})}(\mathbf{y}) \in \mathcal{M}(\mathbf{X})
+\]
+tel que :
+\[
+\mathbf{y} - \operatorname{Proj}_{\mathcal{M}(\mathbf{X})}(\mathbf{y}) \perp \mathcal{M}(\mathbf{X}),
+\quad \text{c’est-à-dire } 
+\langle \mathbf{y} - \operatorname{Proj}_{\mathcal{M}(\mathbf{X})}(\mathbf{y}), \mathbf{x}_k \rangle = 0
+\text{ pour tout } k=1,\dots,p.
+\]
+\end{notation}
+
+Cette projection peut également être définie comme la solution du problème d’approximation quadratique :
+\[
+\operatorname{Proj}_{\mathcal{M}(\mathbf{X})}(\mathbf{y})
+= \underset{\tilde{\mathbf{y}}=\mathbf{X}\boldsymbol{\beta},\,\boldsymbol{\beta}\in\mathbb{R}^p}{\operatorname{argmin}}
+\|\mathbf{y} - \tilde{\mathbf{y}}\|^2.
+\]
+
+Il existe une matrice unique $\mathbf{P}_{\mathbf{X}}$ telle que :
+\[
+\operatorname{Proj}_{\mathcal{M}(\mathbf{X})}(\mathbf{y}) = \mathbf{P}_{\mathbf{X}}\mathbf{y}.
+\]
+
+\begin{definition}[Matrices de projection]
+\leavevmode
+\begin{itemize}
+    \item Une matrice carrée $\mathbf{P}$ d’ordre $n$ est dite \textbf{matrice de projection} si $\mathbf{P}^2 = \mathbf{P}$.
+    \item Si de plus $\mathbf{P}$ est \textbf{symétrique}, c’est-à-dire $\mathbf{P}^\top = \mathbf{P}$, alors $\mathbf{P}$ est une \textbf{matrice de projection orthogonale}.
+    \item Pour tout $\mathbf{x} \in \mathbb{R}^n$, $\mathbf{P}\mathbf{x}$ est la projection de $\mathbf{x}$ sur $\operatorname{Im}(\mathbf{P})$ parallèlement à $\operatorname{Ker}(\mathbf{P})$.
+    \item Si $\mathbf{P}$ est une matrice de projection orthogonale, alors pour tout $\mathbf{x} \in \mathbb{R}^n$ :
+    \[
+    \mathbf{x} = \mathbf{P}\mathbf{x} + (\mathbf{I}_n - \mathbf{P})\mathbf{x},
+    \]
+    et les deux composantes $\mathbf{P}\mathbf{x}$ et $(\mathbf{I}_n - \mathbf{P})\mathbf{x}$ sont orthogonales.
+\end{itemize}
+\end{definition}
+
+\begin{definition}[Matrice orthogonale]
+Une matrice $\mathbf{U} \in \mathbb{R}^{n \times n}$ est dite \textbf{orthogonale} si :
+\[
+\mathbf{U}\mathbf{U}^\top = \mathbf{I}_n.
+\]
+Ses colonnes (et ses lignes) forment alors une base orthonormée de $\mathbb{R}^n$.
+\end{definition}
+
+\begin{proprietes}[Décomposition d’une matrice de projection orthogonale]
+Si $\mathbf{P}$ est une matrice de projection orthogonale, alors il existe une matrice orthogonale $\mathbf{U}$ et une matrice diagonale $\mathbf{\Delta}$ telles que :
+\[
+\mathbf{P} = \mathbf{U}\mathbf{\Delta}\mathbf{U}^\top,
+\]
+avec :
+\[
+\mathbf{\Delta} =
+\begin{pmatrix}
+\mathbf{I}_p & \mathbf{0} \\[4pt]
+\mathbf{0} & \mathbf{0}
+\end{pmatrix},
+\qquad
+p = \dim(\operatorname{Im}(\mathbf{P})) = \operatorname{rg}(\mathbf{P}).
+\]
+\end{proprietes}
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Estimateurs des Moindres Carrés Ordinaires}
+
+\textbf{But :} Trouver un estimateur du vecteur de paramètres 
+\[
+\beta}= 
+\begin{pmatrix}
+\beta_1 \\ \vdots \\ \beta_p
+\end{pmatrix}.
+\]
+
+---
+
+\begin{definition}[Estimateur des MCO]
+L’estimateur des moindres carrés ordinaires (MCO) est défini comme le vecteur
+\[
+\boxed{
+\widehat{\boldsymbol{\beta}}
+= 
+\underset{\boldsymbol{\beta}' \in \mathbb{R}^p}{\operatorname{argmin}}
+\, \|\,\mathbf{Y} - \mathbf{X}\boldsymbol{\beta}'\,\|^2
+}
+\]
+où $\|\cdot\|$ désigne la norme euclidienne.  
+Cet estimateur minimise la somme des carrés des écarts entre les valeurs observées $\mathbf{Y}$ et les valeurs prédites $\mathbf{X}\boldsymbol{\beta}'$ par le modèle.
+\end{definition}
+
+---
+
+\begin{remarque}
+Le critère peut s’écrire sous différentes formes équivalentes :
+\[
+\widehat{\boldsymbol{\beta}}
+= \underset{\boldsymbol{\beta}' \in \mathbb{R}^p}{\operatorname{argmin}}
+\sum_{i=1}^n (Y_i - \mathbf{X}^{i}\boldsymbol{\beta}')^2
+= \underset{\boldsymbol{\beta}' \in \mathbb{R}^p}{\operatorname{argmin}}
+\sum_{i=1}^n \big(Y_i - ( \mathbf{X}\boldsymbol{\beta}')_i \big)^2
+= \underset{\boldsymbol{\beta}' \in \mathbb{R}^p}{\operatorname{argmin}}
+\|\mathbf{Y} - \mathbf{X}\boldsymbol{\beta}'\|^2.
+\]
+\end{remarque}
+
+---
+
+\paragraph{Vecteur prédit.}
+Une fois $\widehat{\boldsymbol{\beta}}$ obtenu, le vecteur des valeurs prédites est :
+\[
+\boxed{\widehat{\mathbf{Y}} = \mathbf{X}\widehat{\boldsymbol{\beta}}.}
+\]
+
+Il correspond à la projection orthogonale de $\mathbf{Y}$ sur le sous-espace vectoriel
+\[
+\mathcal{M}(\mathbf{X}) = \operatorname{Vect}\{\mathbf{X}_1, \dots, \mathbf{X}_p\}
+\]
+engendré par les colonnes de $\mathbf{X}$ :
+\[
+\widehat{\mathbf{Y}}
+= 
+\underset{\tilde{\mathbf{Y}} = \mathbf{X}\boldsymbol{\beta}', \, \boldsymbol{\beta}' \in \mathbb{R}^p}
+{\operatorname{argmin}}
+\|\mathbf{Y} - \tilde{\mathbf{Y}}\|^2
+= \operatorname{Proj}_{\mathcal{M}(\mathbf{X})}(\mathbf{Y})
+= \mathbf{P}_{\mathbf{X}}\mathbf{Y}.
+\]
+
+---
+
+\begin{remarque}
+Il existe une matrice $\mathbf{P}_{\mathbf{X}}$ dite \textbf{matrice de projection orthogonale} telle que :
+\[
+\mathbf{P}_{\mathbf{X}}^\top = \mathbf{P}_{\mathbf{X}}
+\quad \text{et} \quad
+\mathbf{P}_{\mathbf{X}}^2 = \mathbf{P}_{\mathbf{X}},
+\]
+et qui vérifie :
+\[
+\widehat{\mathbf{Y}} = \mathbf{P}_{\mathbf{X}}\mathbf{Y}.
+\]
+\end{remarque}
+
+---
+
+\begin{proposition}[Formules explicites]
+Sous l’hypothèse $\operatorname{rg}(\mathbf{X}) = p$, c’est-à-dire que les colonnes de $\mathbf{X}$ sont linéairement indépendantes, on a :
+\[
+\boxed{
+\begin{cases}
+\widehat{\boldsymbol{\beta}} = (\mathbf{X}^\top \mathbf{X})^{-1}\mathbf{X}^\top \mathbf{Y}, \\[6pt]
+\mathbf{P}_{\mathbf{X}} = \mathbf{X}(\mathbf{X}^\top \mathbf{X})^{-1}\mathbf{X}^\top.
+\end{cases}
+}
+\]
+\end{proposition}
+
+\noindent
+Ainsi,
+\[
+\widehat{\mathbf{Y}} = \mathbf{X}\widehat{\boldsymbol{\beta}} = \mathbf{P}_{\mathbf{X}}\mathbf{Y}.
+\]
+
+---
+
+\begin{proof}
+Par définition de $\widehat{\mathbf{Y}} = \operatorname{Proj}_{\mathcal{M}(\mathbf{X})}(\mathbf{Y})$, le résidu $\mathbf{Y} - \widehat{\mathbf{Y}}$ est orthogonal à $\mathcal{M}(\mathbf{X})$.  
+Ainsi, pour tout $k \in \{1,\dots,p\}$ :
+\[
+\langle \mathbf{X}_k,\, \mathbf{Y} - \widehat{\mathbf{Y}} \rangle = 0
+\quad \Leftrightarrow \quad
+\mathbf{X}^\top(\mathbf{Y} - \widehat{\mathbf{Y}}) = \mathbf{0}_p.
+\]
+
+En remplaçant $\widehat{\mathbf{Y}} = \mathbf{X}\widehat{\boldsymbol{\beta}}$, on obtient :
+\[
+\mathbf{X}^\top(\mathbf{Y} - \mathbf{X}\widehat{\boldsymbol{\beta}}) = \mathbf{0}
+\quad \Leftrightarrow \quad
+\mathbf{X}^\top\mathbf{X}\widehat{\boldsymbol{\beta}} = \mathbf{X}^\top\mathbf{Y}.
+\]
+
+Comme $\mathbf{X}^\top\mathbf{X}$ est inversible (puisque $\operatorname{rg}(\mathbf{X})=p$), on en déduit :
+\[
+\widehat{\boldsymbol{\beta}} = (\mathbf{X}^\top \mathbf{X})^{-1}\mathbf{X}^\top \mathbf{Y}.
+\]
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\textbf{But} Trouver un estimateuur de vecteur de paramétres \beta = \begin{matrix} \beta_1 , .... , \beta_p \end{matrix}
+
+\begin{definition}[Estimateur des MCO]
+
+\boxed{ \hatbeta = \argmin_ {\beta' \in R^p}  \I \I Y -X \beta' \I \I^2} : norme euxlidien de la difference entre Y observé et X \beta' predit par le modéle
+\end{definition}
+
+\begin{remarque}
+\hat \beta = \argmin_ {\beta' \in R^p} \sum_i (Y_i - X^i \beta')^2 = \argmin_ {\beta' \in R^p} \sum_i ( Y_i - \sum_k \beta' _ k x_i,k)^2 
+
+Donc on a  
+\hatbeta = \argmin_ {\beta' \in R^p} \sum_i (Y_i - (X \beta')_i)^2
+
+Alors 
+
+\sum_i (Y_i - (X \beta')_i)^2 = \sum _i (Y-X\beta')_i^2 = \I \I Y -X \beta' \I \I^2
+\end{remarque}
+
+
+Donc
+ 
+\hatY = X \hatbeta : \hatY predit par le meilleur modéle donné par \hatbeta
+
+\boxed{\hatY = \argmin_{\tilde Y = X \beta' \quad , \quad \beta' \in R^p } \I \I Y - \tilde Y \I \I ^2 = Proj_{\mathcal{M}(X)} Y = P_X Y
+
+\hatY projection sur orthogonal de Y
+
+\mathcal{M} (X) le sous espace vectorriel engendré par les colones de X
+
+\hatY = Proj{\mathcal{M}(X)} Y
+
+\exist matrice symetriqie (P_X^T = P_X) idempotente (P_X^2 = P_X) P_x telle que \tilde P_X Y
+
+\begin{proposition}
+\begin{cases}
+\hab beta = (X^T X)^-1 X^T Y \\
+P_x = X (X^T X)^-1 X^T
+\end{cases}
+\end{proposition}
+
+X^T X : taille p*p, inversible car rg(X) = p
+\hat Y = X \hatbeta = P_X Y
+
+\begin{proof}
+Donc 
+
+\begin{itemize}
+\item Y-\hat Y (Y moins ce projeté sur \mathcal{M}(X) orthogonal à. \mathcal M (x) \quad par defidition de \hat Y = P _ {\mathcal{M}(X)} Y
+\item Pour vecteur X_k ,  < X_k, Y - \hat Y > = 0
+
+\forall k \in [[1,p]] , X_k^T (Y- \hat Y) =0
+
+X^T (Y-\hatY) = \matrix{X_1^T , ... , X^T_p} (Y- \hat Y) = 0_p
+\end{itemize}
+
+\begin{align*}
+X^T(Y - \at Y) = 0 &\Leftrigharrow X^T (Y-X \hatbeta) =0
+&\Leftrightarrox X^T X \hatbeta = X^T Y \quad X^T X inversible car $rg(X)=p
+&\Leftrightarrox \hatbeta = (X^T X)^-1 X^T Y
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

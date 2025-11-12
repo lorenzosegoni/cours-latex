@@ -1,0 +1,530 @@
+%\chapter{CM6}
+
+\chapter{Le modèle gaussien}
+
+\section*{Introduction: Rappel}
+
+\begin{rappel}
+On considère le modèle linéaire suivant :
+\[
+Y = X\beta + \varepsilon,
+\]
+où 
+
+\begin{itemize}
+\item $Y$ est un vecteur aléatoire de $n$ réponses
+\item $X$ est une matrice $n \times p$ non aléatoire de predicteurs.
+\item $\varepsilon$ est un vecteur aléatoire de $n$ erreur
+\item $\beta$ est un vecteur inconnue de $p$ coefficient non aléatoire et que l'on veut estimer.
+\end{itemize}
+
+On pose les hypothèses:
+\[
+(\mathcal{H}) :
+\begin{cases}
+\mathbb{E}[\varepsilon] = 0, \\[3pt]
+\mathbb{V}[\varepsilon] = \sigma^2 I_n, \\[3pt]
+\operatorname{rg}(X) = p \quad \text{(les colonnes de $X$ sont linéairement indépendantes).}
+\end{cases}
+\]
+
+\medskip
+
+L’estimateur des moindres carrés ordinaires (MCO) de $\beta$ est :
+\[
+\hat{\beta} = \arg \min_{\beta \in \mathbb{R}^p} \| Y - X \beta \|^2 = (X^\top X)^{-1} X^\top Y.
+\]
+
+L’estimateur de la variance est :
+\[
+\hat{\sigma}^2 = \frac{\| Y - X\hat{\beta} \|^2}{n - p} = \frac{1}{n-p} \| \hat{\varepsilon} \| ^2
+\]
+
+On définit également :
+\[
+\hat{Y} = X\hat{\beta} = P_{X} Y, 
+\qquad 
+\hat{\varepsilon} = Y - \hat{Y} = P_{X^\perp} Y.
+\]
+
+\medskip
+
+Sous les hypothèses $(\mathcal{H})$, on a les propriétés suivantes :
+\[
+\begin{cases}
+\mathbb{E}[\hat{\beta}] = \beta, 
+& \mathbb{V}[\hat{\beta}] = \sigma^2 (X^\top X)^{-1}, \\[6pt]
+\mathbb{E}[\hat{\sigma}^2] = \sigma^2, \\[6pt]
+\mathbb{E}[\hat{Y}] = X\beta, 
+& \mathbb{V}[\hat{Y}] = \sigma^2 P_X, \\[6pt]
+\mathbb{E}[\hat{\varepsilon}] = 0, 
+& \mathbb{V}[\hat{\varepsilon}] = \sigma^2 P_{X^\perp}, \\[6pt]
+\operatorname{Cov}(\hat{Y}, \hat{\varepsilon}) = 0.
+\end{cases}
+\]
+\end{rappel}
+
+\hrule
+
+Nous allons supposer maintenant que:
+
+\begin{hypothese}
+On pose les hypothèses:
+
+\[
+(\mathcal{H}^f) :
+\begin{cases}
+\operatorname{rg}(X) = p \quad \text{(les colonnes de $X$ sont linéairement indépendantes).} \\[3pt]
+\varepsilon \sim \mathcal{N}(0_n , \sigma^2 I_n)
+\end{cases}
+\]
+
+\end{hypothese}
+
+\section{Estimateurs du Maximum de Vraisemblance}
+
+D'abord on va commencer avec la loi de $Y_i$ pour après avoir la densité de $Y$:
+
+\begin{prop}
+Avec les hypothèses $(\mathcal{H}^f)$ on a:
+
+\[ Y_i = (X\beta)_i  + \varepsilon_i
+\Rightarrow
+Y_i \sim \mathcal{N} \left( (X\beta)_i , \sigma^2 \right) 
+\] 
+
+On a donc que la loi de $Y_i$
+
+\[
+p(Y_i \mid \beta, \sigma^2) 
+= \frac{1}{\sqrt{2\pi\sigma^2}}
+\exp\!\left[
+    -\frac{1}{2\sigma^2} 
+    \left( Y_i - (X\beta)_i \right)^2
+\right].
+\]
+
+\bigskip
+
+Donc on a la densité de $Y$:
+
+\[ 
+p(Y \mid \beta, \sigma^2) 
+= \prod_{i=1}^n \frac{1}{\sqrt{2\pi\sigma^2}}
+\exp\!\left[
+    -\frac{1}{2\sigma^2} 
+    \left( Y_i - (X\beta)_i \right)^2
+\right].
+\]
+
+\end{prop}
+
+Ceci nous permet de avoir comme dans le chapitre precedent:
+
+\begin{prop}
+On a la vraisemblance:
+
+\begin{align*}
+L (\beta, \sigma^2 \mid Y) &= p(Y \mid \beta, \sigma^2) \\
+&= \frac{1}{\left( \sqrt{2\pi\sigma^2} \right)^n} \exp \left[ - \frac{1}{2\sigma^2} \sum^{n}_{i=1} \left( Y_i - (X\beta)_i \right)^2 \right]
+\end{align*}
+
+Donc on a la log-vraisemblance:
+
+\begin{align*}
+\ell (\beta, \sigma^2 \mid Y) &= \ln[  L (\beta, \sigma^2 \mid Y) ] \\
+&= \sum_{i=1}^n \left[ - \frac{1}{2} \ln(2\pi \sigma^2) - \frac{1}{2 \sigma^2} (Y_i - (X \beta)_i )^2 \right] \\
+&=- \frac{n}{2} \ln(2\pi \sigma^2) - \frac{1}{2 \sigma^2}  \sum_{i=1}^n (Y_i - (X \beta)_i )^2
+\end{align*}
+\end{prop}
+
+\begin{prop}
+Sous les hypothèses $(\mathcal{H}^f)$, les estimateurs du maximum de vraisemblance, définie par $ \boxed{ \left( \hat{\beta}_{MV} , \hat{\sigma}^2_{MV} \right) =\arg \max_{(\beta', \sigma'^2) \in \mathbb{R}^p \times \mathbb{R}^{*}_{+}} \ell (\beta', \sigma'^2 \mid Y) }$, sont :
+
+\[
+\hat{\beta}_{MV} = \hat{\beta}_{MCO} = \hat{\beta} = (X^\top X)^{-1} X^\top Y,
+\]
+et
+\[
+\hat{\sigma}^2_{MV} = \frac{1}{n}\, \| Y - X\hat{\beta} \|^2.
+\]
+\end{prop}
+
+\begin{proof}
+\begin{itemize}
+\item Pour $\sigma^2 > 0$ fixé, on maximise la log-vraisemblance 
+\[
+\ell(\beta, \sigma^2 \mid Y)
+= -\frac{n}{2} \ln(2\pi\sigma^2) 
+ - \frac{1}{2\sigma^2} \| Y - X\beta \|^2.
+\]
+Maximiser cette expression en $\beta$ revient à minimiser $\|Y - X\beta\|^2$.
+On retrouve alors :
+\[
+\hat{\beta}_{MV} = (X^\top X)^{-1} X^\top Y = \hat{\beta}_{MCO}.
+\]
+
+\item En remplaçant $\beta$ par $\hat{\beta}$, on maximise ensuite $\ell(\hat{\beta}, \sigma^2 \mid Y)$ par rapport à $\sigma^2$ :
+\[
+\frac{\partial \ell}{\partial \sigma^2} (\hat{\beta}, \sigma^2 \mid Y) = 0
+\quad \Rightarrow \quad
+\hat{\sigma}^2_{MV} = \frac{1}{n}\, \| Y - X\hat{\beta} \|^2.
+\]
+\end{itemize}
+
+\commentaire{
+L’estimateur du maximum de vraisemblance $\hat{\sigma}^2_{MV}$ est \textbf{biaisé}.  
+En effet, on a 
+\[
+\mathbb{E}[\hat{\sigma}^2_{MV}] = \frac{n-p}{n}\,\sigma^2.
+\]
+L’estimateur sans biais est donc :
+\[
+\hat{\sigma}^2 = \frac{1}{n-p}\, \| Y - X\hat{\beta} \|^2.
+\]
+}
+\end{proof}
+
+\section{Loi des estimateur}
+
+\subsection{Rappel : Distribution Gaussienne}
+
+Maintenant on défini:
+
+\begin{defi}
+Soit $X$ un vecteur gaussien d'espérance $\mu$ et de matrice de variance-covariance $\Sigma$:
+
+\[ X \sim \mathcal{N}(\mu, \Sigma). \]
+
+Il admet une fonction de densité de probabilité :
+
+\[
+f(x) = \frac{1}{(2\pi)^{n/2} \sqrt{|\Sigma|}} \exp\left(-\frac{1}{2} (x - \mu)^{\top} \Sigma^{-1} (x - \mu)\right) \quad \forall x \in \mathbb{R}^n.
+\]
+Toute combinaison linéaire de ses coordonnées est gaussienne. On a aussi:
+
+\[
+\begin{cases}
+\mathbb{E}[X] = \mu \\
+\mathbb{V}[X] = \mathbb{E}[(X - \mu)(X - \mu)^{\top}] = \Sigma
+\end{cases}
+\]
+\end{defi}
+
+\begin{prop}[Transformation Linéaire]
+
+\textbf{Propriété:}
+Si $X \sim \mathcal{N}(\mu, \Sigma)$, alors pour toute matrice $A$ et tout vecteur $b$, la transformation linéaire $Y = A X + b$ est également gaussienne :
+
+\[ Y = A X + b \sim \mathcal{N}( A \mu + b, A \Sigma A^{\top}). \]
+\end{prop}
+
+
+
+\begin{prop}[Normalisation et Standardisation]
+\textbf{Propriété:}
+Soit $X \sim \mathcal{N}(\mu, \Sigma)$, avec $\Sigma$ inversible. Alors $\Sigma^{-1}$ est symétrique, définie positive et il est possible de trouver $\Sigma^{-1/2}$ inversible tel que :
+
+\[  [\Sigma^{-1/2}]^{\top} \Sigma^{-1/2} = \Sigma^{-1}. \]
+
+Alors, le vecteur standardisé $Y$ suit une distribution normale centrée réduite :
+
+\[ Y = \Sigma^{-1/2} (X - \mu) \sim \mathcal{N}(0, I). \]
+\end{prop}
+
+\commentaire{\textbf{Definition: }
+
+Soit $M$ une matrice symétrique réelle d'ordre $n$. Elle est dite définie positive si elle est positive et inversible, autrement dit si elle vérifie l'une des quatre propriétés équivalentes suivantes :
+
+\begin{enumerate}
+\item Pour toute matrice colonne non nulle $x$ à $n$ éléments réels, on a :
+
+\[ x^T M x > 0 \]
+
+Autrement dit, la forme quadratique définie par $M$ est strictement positive pour $x \neq 0$
+\item Toutes les valeurs propres de $M$ (qui sont nécessairement réelles) sont strictement positives.
+\item La forme bilinéaire symétrique
+
+\[ \mathbb{R}^n \times \mathbb{R}^n \to \mathbb{R}, \quad (x,y) \mapsto x^T M y \]
+
+est un produit scalaire sur $\mathbb{R}^{n}$.
+\item Il existe une matrice $N \in {\mathcal {M}}_{n}(\mathbb {R} )$ inversible telle que $M = N^T N$ (autrement dit :  $M$ est congruente à la matrice identité).
+\end{enumerate}
+
+}
+
+\begin{proof}
+On applique la propriété de transformation linéaire à :
+
+\[ Y = \Sigma^{-1/2} (X - \mu) \]
+
+On prend :
+
+\[ A = \Sigma^{-1/2} \quad \text{et} \quad b = -\Sigma^{-1/2} \mu. \]
+
+L'espérance du vecteur transformé est :
+
+\[ A \mu + b = \Sigma^{-1/2} \mu - \Sigma^{-1/2} \mu = 0. \]
+
+La matrice de variance-covariance du vecteur transformé est :
+
+\[ A \Sigma A^{\top} = \Sigma^{-1/2} \Sigma [\Sigma^{-1/2}]^{\top} = I.\]
+\end{proof}
+
+\hrule
+\commentaire{ \textbf{ Théorème: Décomposition de Cholesky}
+
+Soit $A \in \mathcal{S}_{++}(\mathbb{R}^n)$. (l’ensemble des matrices symétriques définies positives d’ordre $n$)
+
+Il existe une unique matrice $T \in \mathcal{M}_n(\mathbb{R})$, triangulaire supérieure à coefficients diagonaux strictement positifs, telle que
+\[
+A = T^{\top} T.
+\]
+
+\bigskip
+
+\textbf{Demonstration:}
+
+\smallskip
+
+\textbf{Existence.}
+
+Les mineurs principaux de $A$ sont non nuls, et même strictement positifs.  
+
+En effet, pour $r \in \{1, \dots, n\}$, notons $A_r$ la sous-matrice principale d’ordre $r$ de $A$.  
+
+La matrice $A_r$ est symétrique.  
+
+Par ailleurs, comme $A \in \mathcal{S}_{++}(\mathbb{R}^n)$, on a
+\[
+x^{\top} A x > 0, \quad \forall x \in \mathbb{R}^n \setminus \{0\}.
+\]
+
+Ainsi, pour tout $x' \in \mathbb{R}^r \setminus \{0\}$, en complétant $x'$ par des zéros en un vecteur $x \in \mathbb{R}^n \setminus \{0\}$, on obtient :
+\[
+x'^{\top} A_r x' = x^{\top} A x > 0.
+\]
+
+Donc $A_r$ est définie positive, et son déterminant est strictement positif.
+
+Il s’ensuit que la matrice $A$ possède une décomposition $LU$ :  
+
+il existe des matrices uniques $L, D, V \in \mathcal{M}_n(\mathbb{R})$, avec
+\begin{itemize}
+    \item $L$ triangulaire inférieure à diagonale unité,
+    \item $D$ diagonale à coefficients strictement positifs,
+    \item $V$ triangulaire supérieure à diagonale unité,
+\end{itemize}
+
+telles que
+\[
+A = L D V.
+\]
+
+Comme $A$ est symétrique, on a également
+\[
+A = A^{\top} = V^{\top} D L^{\top}.
+\]
+
+Par unicité de la décomposition $LDV$, on déduit que $V^{\top} = L$.
+
+En posant $T = \sqrt{D} V$, on obtient bien une décomposition de Cholesky de $A$ :
+\[
+A = T^{\top} T.
+\]
+
+\textbf{Unicité.}
+
+Soit $S \in \mathcal{M}_n(\mathbb{R})$ une autre matrice triangulaire supérieure à coefficients diagonaux strictement positifs telle que
+\[
+A = S^{\top} S.
+\]
+
+Alors
+\[
+S^{\top} T^{-1} = (T S^{-1})^{\top}.
+\]
+
+Le terme de gauche est une matrice triangulaire supérieure, tandis que le terme de droite est triangulaire inférieure ;  
+il s’ensuit que $S^{\top} T^{-1}$ est diagonale.
+
+De plus,
+\[
+(S^{\top} T^{-1})^{-1} = T S^{-1} = (T S^{-1})^{\top} = S^{\top} T^{-1},
+\]
+donc cette matrice diagonale est symétrique, et tous ses coefficients diagonaux, strictement positifs, sont égaux à $1$.  
+On en déduit que $S = T$.
+
+}
+\hrule
+
+
+\begin{defi}[Loi du Chi-Deux ($\chi^2$)]
+Soient $X_1, \dots, X_p$ des v.a. i.i.d. suivant une loi normale standard : $X_i \sim \mathcal{N}(0, 1)$.
+$$
+X = \sum_{i=1}^p X_i^2 \sim \chi^2_p
+$$
+$X$ suit une loi du \textbf{Chi-deux} avec $p$ degrés de liberté.
+\end{defi}
+
+\begin{prop}[Propriété pour un Vecteur Gaussien]
+
+Soit $X$ un vecteur gaussien de taille $p$ d'espérance $\mu$ et de matrice de variance-covariance $\Sigma$ : $X \sim \mathcal{N}(\mu, \Sigma)$. Alors, si $\Sigma$ est inversible,
+
+\[ (X - \mu)^{\top} \Sigma^{-1} (X - \mu) \sim \chi^2_p \]
+
+suit une loi du Chi-deux avec $p$ degrés de liberté.
+\end{prop}
+
+\begin{proof}
+Le vecteur gaussien $X \sim \mathcal{N}(\mu, \Sigma)$ avec $\Sigma$ inversible permet de définir le vecteur standardisé :
+
+\[ Y = \Sigma^{-1/2} (X - \mu) \sim \mathcal{N}(0, I_p). \]
+Les coordonnées $Y_1, \dots, Y_p$ de $Y$ sont donc $p$ v.a. i.i.d. $\mathcal{N}(0, 1)$.
+
+En utilisant $Y$, l'expression quadratique devient :
+
+\[ (X - \mu)^{\top} \Sigma^{-1} (X - \mu) = Y^{\top}Y = \sum_{i=1}^p Y_i^2 \]
+
+Puisque $\sum_{i=1}^p Y_i^2$ est la somme des carrés de $p$ v.a. i.i.d. $\mathcal{N}(0, 1)$, on conclut :
+
+\[ (X - \mu)^{\top} \Sigma^{-1} (X - \mu) \sim \chi^2_p. \]
+\end{proof}
+
+\begin{theo}[Théorème de Cochran]
+Soit:
+
+\begin{itemize}
+\item $Y$ un vecteur gaussien $Y \sim \mathcal{N}(\mu,  \sigma^2 I_n)$;   
+\item $\mathcal{M}$ un sous-espace de $\mathbb{R}^n$ de dimension $p$;  
+\item $P$ la matrice de projection orthogonale sur $\mathcal{M}$; 
+\item $P^{\perp} = I_n - P$ la matrice de projection orthogonale sur $\mathcal{M}^{\perp}$.
+\end{itemize}
+
+Alors nous avons :
+\begin{enumerate}
+    \item $P Y \sim \mathcal{N}(P \mu, \sigma^2 P)$ et $P^{\perp}Y \sim \mathcal{N}(P^{\perp} \mu, \sigma^2 P^{\perp})$;
+    \item $P Y$ et $P^{\perp} Y$ sont \textbf{indépendants} ;
+    \item $\frac{1}{\sigma^2} \| P( Y - \mu ) \|^2 \sim \chi^2_p$ et $\frac{1}{\sigma^2} \| P^{\perp}( Y - \mu ) \|^2 \sim \chi^2_{n-p}$.
+\end{enumerate}
+
+\end{theo}
+
+\begin{proof}
+Voir TD2
+\end{proof}
+
+\subsection{ Nouvelles propriétés }
+Donc on peut obtenir la distribution des estimateur trouvé précédemment
+
+\begin{prop}
+On a que:
+
+\[ \hat{\beta} \sim \mathcal{N}\left(\beta; \sigma^2 (X^{\top}X)^{-1}\right). \]
+\end{prop}
+
+\begin{proof}
+On sait que:
+\[
+\hat{\beta} = (X^{\top}X)^{-1}X^{\top} Y
+\]
+Comme le vecteur de réponse $Y$ est un vecteur gaussien (en supposant que les erreurs $\epsilon$ sont normales) et $(X^{\top}X)^{-1}X^{\top} $ est une "constante", $\hat{\beta}$ est par conséquent aussi un vecteur gaussien, car il est une combinaison linéaire de $Y$.
+
+Puisque
+\[
+\mathbb{E}[\hat{\beta}] =\beta
+\quad
+\mathbb{V}[\hat{\beta}] = \sigma^2 (X^{\top}X)^{-1}.
+\]
+
+On a:
+
+\[ \hat{\beta} \sim \mathcal{N}\left(\beta; \sigma^2 (X^{\top}X)^{-1}\right). \]
+
+\end{proof}
+
+\begin{prop}
+
+Avec le même raisonnement, on a:
+
+\[
+\hat{Y} = P_X Y \Rightarrow \hat{Y}  \sim \mathcal{N}\left(X \beta; \sigma^2 P_X\right)
+\]
+
+Et
+
+\[
+\hat{\varepsilon} = P_{X^\perp} Y \Rightarrow \hat{\varepsilon}  \sim \mathcal{N}\left(0; \sigma^2 P_{X^\perp} \right)
+\]
+
+\end{prop}
+
+\begin{prop}
+On a que:
+
+\[ \frac{(n-p) \hat{\sigma}^2}{\sigma^2} \sim \chi^2_{n-p} \]
+
+De plus on a que $\hat{\beta}$ et $\hat{\sigma}^2$ sont indépendants.
+\end{prop}
+
+\begin{proof}
+D'après le théorème de Cochran $(ii)$, on a que $\hat{Y}$ et $\hat{\varepsilon}$ sont indépendant. On a que:
+
+\begin{align*} 
+(n-p) \hat{\sigma}^2 &=  \| Y - \hat{Y} \|^2 \\
+&=  \| (I - P_X) Y \|^2 \\
+&=  \| \hat{\varepsilon} \|^2 \\
+&=  \| P_{X^\perp} Y \|^2 \\
+&=  \| P_{X^\perp} Y - P_{X^\perp} X \beta \|^2 \quad \text{ car } P_{X^\perp} X \beta \text{ puisque $P_{X^\perp}$ est perpendiculaire à $X \beta$} \\
+&=  \| P_{X^\perp} (Y - X \beta) \|^2
+\end{align*}   
+
+D'après le théorème de Cochran $(iii)$ , et si on multiplie chaque membre par $\frac{1}{\sigma^2}$ on a que:
+
+\[ \frac{(n-p) \hat{\sigma}^2}{\sigma^2} \sim \chi^2_{n-p} \]
+
+\bigskip
+
+On sait que:
+
+\[ \hat{\sigma}^2 = \frac{1}{n-p} \| \hat{\varepsilon} \|^2= \frac{1}{n-p} \| P_{X^\perp} Y \|^2 \]  
+
+et:
+
+\begin{align*}
+\hat{\beta} &= (X^T X)^{-1} X^T Y \\
+&= (X^T X)^{-1} (X^T X) (X^T X)^{-1} X^T Y \\
+&= (X^T X)^{-1} X^T \boxed{( X ( X^T X)^{-1} X^T} Y \\
+&= (X^T X)^{-1} X^T P_X Y \\
+&= (X^T X)^{-1} X^T \hat{Y}
+\end{align*}
+
+Puisque $\hat{Y}$ et $\hat{\varepsilon}$ sont indépendant, on en déduit que $\hat{\beta}$ et $\hat{\sigma}^2$ sont indépendants.
+\end{proof}
+
+\begin{prop}[Lois des estimateurs avec variance inconnue]
+On veut remplacer $\sigma^2$ par $\hat{\sigma}^2$ pour comprendre la loi de $\beta$. On a $\forall k \in \{ 1 , \cdots , p \}$:
+
+\[ T_k = \frac{\hat{\beta}_k - \beta_k}{\sqrt{ \hat{\sigma}^2 \left[ (X^T X) ^{-1} \right]_{k,k} }} \sim \mathcal{T}(n-p) \] 
+
+\end{prop}
+
+\begin{proof}
+On connait $\hat{\beta}_k \sim \mathcal{N} ( \beta_k , \sigma^2 \left[(X^T X)^{-1} \right]_{k,k} )$. On a:
+
+\[ \frac{ \hat{\beta}_k - \beta_k } { \sqrt{  \sigma^2 \left[(X^T X)^{-1} \right]_{k,k} } } \sim \mathcal{N} (0,1)\]
+
+Si on remplace $\sigma^2$ par $\hat{\sigma}^2$ on a:
+
+\begin{align*}
+T_k &= \frac{ \frac{ \hat{\beta}_k - \beta_k } { \sqrt{ \hat{\sigma}^2 \left[(X^T X)^{-1} \right]_{k,k} } } }{ \sqrt{ \frac{(n-p) \hat{\sigma}^2 }{\sigma^2} } } \\
+&= \frac{\hat{\beta}_k - \beta_k}{\sqrt{ \hat{\sigma}^2 \left[ (X^T X) ^{-1} \right]_{k,k} }}  \\
+&\sim \mathcal{T}(n-p)
+\end{align*}
+\end{proof}
+
+\commentaire{ On comprend bien que:
+\begin{itemize}
+\item Si $n$ est grand, on a une Loi de student "plus centrée", ce qui nous donne plus d'information
+\item Si $p$ est grand, on a une Loi de student "plus diffusé", ce qui nous donne moins d'information
+\end{itemize} }

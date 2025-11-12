@@ -1,0 +1,539 @@
+%\chapter{Cours 2}
+
+%\subsection*{Questions du jour}
+
+%\begin{enumerate}
+%  \item \textbf{Optimalité} : en quel sens les estimateurs des moindres carrés sont-ils optimaux ? 
+%  (Théorème de Gauss-Markov : meilleurs estimateurs linéaires sans biais).
+  
+%  \item \textbf{Prédiction} : comment utiliser $\hat{\beta}_0, \hat{\beta}_1$ pour prédire une nouvelle valeur $Y_{n+1}$ associée à $x_{n+1}$ ? Quelle est la variance de cette prédiction ?
+  
+%  \item \textbf{Estimation de $\theta^2$} : on ne connaît pas $\theta^2$, mais on peut l’estimer à partir des résidus :
+  
+%  \[ \hat{\theta}^2 = \frac{1}{n-2}\sum_{i=1}^n (Y_i - \hat{\beta}_0 - \hat{\beta}_1 x_i)^2. \]
+  
+ % Question : est-ce que $\theta^2$ est ``grand'' ? Autrement dit, quelle est la précision du modèle, 
+  %quelle est la part d’aléatoire par rapport à la part déterministe ?
+%\end{enumerate}
+
+\subsection{Théorème Gauss-Markov } %(Question 1)
+
+\begin{theo}[Gauss-Markov]
+Sous les hypothèses du modèle, les estimateurs MCO $(\hat{\beta}_0, \hat{\beta}_1)$ sont les estimateurs \textbf{linéaires} et \textbf{non-biaisés} de $\beta_0, \beta_1$ ayant la variance minimale.  
+
+Autrement dit, on dit que les estimateurs OLS sont \textbf{BLUE} :
+
+\[ \text{Best Linear Unbiased Estimators}. \]
+\end{theo}
+
+\begin{proof}
+On peut écrire que:
+
+\[ \hat{\beta}_1 = \sum_{i=1}^{n} p_i y_i
+\quad \text{avec} \quad
+p_i = \frac{x_i - \bar{x}}{n s^2_x} \]
+
+On va d'abord construire un autre $\tilde{\beta}_1$ comme un autre estimateur sans biais linéaire. Pour que soit linéaire on doit construire
+
+\[ \tilde{\beta}_1 = \sum_{i=1}^{n} q_i y_i \]
+
+Montrons que $ \sum_{i=1}^{n} q_i = 0$ et $ \sum_{i=1}^{n} q_i x_i = 1$.
+
+\begin{align*}
+\mathbb{E}[\tilde{\beta}_1] &=  \sum_{i=1}^{n}  \mathbb{E}[ q_i y_i ] \\
+&=  \sum_{i=1}^{n}  \mathbb{E}[ q_i(\beta_0 + \beta_1 x_i + \varepsilon_i) ] \\
+&= \beta_0  \sum_{i=1}^{n}  q_i + \beta_1  \sum_{i=1}^{n} q_i x_i \\
+&= \beta_1
+\end{align*}
+
+Pour que cette estimateur soit sans bias, on doit donc poser $ \sum_{i=1}^{n} q_i = 0$ et $ \sum_{i=1}^{n} q_i x_i = 1$.
+
+Montrons que $\mathbb{V}[\tilde{\beta}_1] \geq \mathbb{V}[\hat{\beta}_1]$. Donc on a:
+
+\begin{align*}
+\mathbb{V}[\tilde{\beta}_1] &= \mathbb{V}[\tilde{\beta}_1 - \hat{\beta}_1 + \hat{\beta}_1] \\
+&= \mathbb{V}[\tilde{\beta}_1 - \hat{\beta}_1] + \mathbb{V}[\hat{\beta}_1] +  2 \text{Cov} [ \tilde{\beta}_1 - \hat{\beta}_1 , \hat{\beta}_1 ] \\
+&= \mathbb{V}[\tilde{\beta}_1 - \hat{\beta}_1] +\mathbb{V}[\hat{\beta}_1]
+\end{align*}
+
+\commentaire{ Car
+
+\begin{align*}
+\text{Cov} [ \tilde{\beta}_1 - \hat{\beta}_1 , \hat{\beta}_1 ] &= \text{Cov} [ \tilde{\beta}_1 , \hat{\beta}_1 ] - \mathbb{V}[\hat{\beta}_1] \\
+&= \sum_{i=1}^{n} p_i q_i \sigma^2 - \frac{\sigma^2}{n s^2_x} \\
+&= \frac{\sigma^2}{n s^2_x} \left( \sum_{i=1}^{n} q_i x_i - \sum_{i=1}^{n} q_i \bar{x} - 1 \right ) \\
+&=0
+\end{align*}
+}
+
+Puisque $\mathbb{V}[\tilde{\beta}_1 - \hat{\beta}_1] \geq 0$ par la propriété de la variance, on a alors que:
+
+\[ \mathbb{V}[\tilde{\beta}_1] \geq \mathbb{V}[\hat{\beta}_1] \]
+
+On peut faire de même pour $\hat{\beta}_0$.
+\end{proof}
+
+\commentaire{\textbf{Remarque:}
+Dans le cadre du modèle linéaire simple $Y_i = \beta_0 + \beta_1 x_i + \varepsilon_i$, avec $\varepsilon_i \sim \mathcal{N}(0, \sigma^2)$ indépendants, les estimateurs des moindres carrés ordinaires (MCO) présentent des propriétés de dispersion étroitement liées à la répartition des observations en $x_i$.  
+
+La variance de l’estimateur de la pente s’écrit :
+\[
+\mathbb{V}[\hat{\beta}_1] = \frac{\sigma^2}{n s^2_{\mathbf{x}}} = \frac{\sigma^2}{\sum_{i=1}^n (x_i - \bar{x})^2}.
+\]
+Ainsi, plus les $x_i$ sont dispersés autour de leur moyenne, plus la variance de $\hat{\beta}_1$ est faible : la pente est alors estimée avec davantage de précision. On dit que les observations exercent un \emph{leverage} plus fort sur l’estimation du coefficient directeur.
+
+Concernant l’ordonnée à l’origine, on a :
+\[
+\hat{\beta}_0 = \bar{y} - \hat{\beta}_1 \bar{x}, \qquad 
+\mathbb{V}[\hat{\beta}_0] = \frac{\sigma^2}{n} \left(1 + \frac{\bar{x}^2}{s^2_{\mathbf{x}}}\right).
+\]
+Lorsque la moyenne des $x_i$ est centrée en zéro, c’est-à-dire $\bar{x}=0$, l’estimateur devient $\hat{\beta}_0 = \bar{y}$ et sa variance se simplifie en $\text{Var}[\hat{\beta}_0] = \sigma^2 / n$. Dans ce cas, l’ordonnée à l’origine correspond à l’estimation directe de la moyenne de la variable $Y$ dans la population.
+
+Enfin, les deux estimateurs sont corrélés négativement :
+\[
+\text{Cov}[\hat{\beta}_0, \hat{\beta}_1] \leq 0.
+\]
+En effet, pour $\bar{x} > 0$, une augmentation de la pente $\hat{\beta}_1$ tend à diminuer l’ordonnée à l’origine $\hat{\beta}_0$. Par ailleurs, lorsque la dispersion des $x_i$ (mesurée par $s^2_{\mathbf{x}}$) est fixe, les variances de $\hat{\beta}_0$ et $\hat{\beta}_1$ décroissent proportionnellement à $1/n$, illustrant le gain de précision avec la taille de l’échantillon.
+}
+
+\subsection{Prévision } %(Question 2)
+
+\begin{notation}
+À partir de l’échantillon d’apprentissage $(x_i, y_i)$ pour $i=1,\dots,n$,  on construit les estimateurs MCO $(\hat{\beta}_0, \hat{\beta}_1)$.
+
+On considère une nouvelle valeur $x_{n+1}$ et la variable aléatoire associée $y_{n+1}$ (inconnue).  Le prédicteur naturel est :
+
+\[ \hat{y}_{n+1} = \hat{\beta}_0 + \hat{\beta}_1 x_{n+1}. \]
+\end{notation}
+
+%\begin{figure}[H]
+%\centering
+%\includegraphics[width=8cm, height=6cm]{Regression_Estimation.jpg}
+%\caption{Estimation du point n+1}
+%\label{fig:estimation_reg}
+%\end{figure}
+
+\begin{hypothese}
+On suppose que $(x_{n+1}, y_{n+1})$ suit le même modèle que les données d’apprentissage, c’est-à-dire :
+
+\[ y_{n+1} = \beta_0 + \beta_1 x_{n+1} + \varepsilon_{n+1}, \]
+
+avec
+
+\[ (\mathbb{h}) :
+\begin{cases}
+\mathbb{E}[\varepsilon_{n+1}] = 0 \\
+\mathbb{V}(\varepsilon_{n+1}) = \sigma^2 \\
+\mathrm{Cov}(\varepsilon_{n+1}, \varepsilon_i) = 0 \quad (i=1,\dots,n). 
+\end{cases}
+\]
+\end{hypothese}
+
+\begin{prop}[Erreur de prédiction]
+On définit
+
+\[ \hat{\varepsilon}_{n+1} = y_{n+1} - \hat{y}_{n+1}. \]
+
+Où:
+
+\begin{itemize}
+\item $y_{n+1}$ est la vrai valeur inconnue
+\item $\hat{y}_{n+1}$ est le predicteur 
+\end{itemize}
+
+On a:
+
+\[
+\begin{cases}
+\mathbb{E}[\hat{\varepsilon}_{n+1}] &= 0\\
+\mathbb{V}[\hat{\varepsilon}_{n+1}] &= \theta^2 \left( 1 + \frac{1}{n} + \frac{(x_{n+1} - \bar{x})^2}{n \, s_x^2} \right)
+\end{cases}
+\]
+
+où $\bar{x} = \frac{1}{n}\sum_{i=1}^n x_i $ et $ s_x^2 = \frac{1}{n}\sum_{i=1}^n (x_i - \bar{x})^2.$
+\end{prop}
+
+\begin{proof}
+\textbf{Espérance.}  
+
+On a
+
+\[
+\mathbb{E}[\hat{\varepsilon}_{n+1}] 
+= \mathbb{E}[y_{n+1}] - \mathbb{E}[\hat{y}_{n+1}].
+\]
+
+Or,
+
+\[
+\begin{cases}
+\mathbb{E}[y_{n+1}] 
+= \mathbb{E}[\beta_0 + \beta_1 x_{n+1} + \varepsilon_{n+1}]
+= \beta_0 + \beta_1 x_{n+1} + \mathbb{E}[\varepsilon_{n+1}]
+= \beta_0 + \beta_1 x_{n+1}. \\
+\mathbb{E}[\hat{y}_{n+1}] 
+= \mathbb{E}[\hat{\beta}_0 + \hat{\beta}_1 x_{n+1}]
+= \mathbb{E}[\hat{\beta}_0] + x_{n+1} \,\mathbb{E}[\hat{\beta}_1]
+= \beta_0 + \beta_1 x_{n+1}.
+\end{cases}
+\]
+
+Ainsi :
+\[
+\boxed{ \mathbb{E}[\hat{\varepsilon}_{n+1}] = 0. }
+\]
+
+\medskip
+
+\textbf{Variance.}  
+
+\[
+\mathbb{V}(\hat{\varepsilon}_{n+1}) 
+= \mathbb{V}(y_{n+1} - \hat{y}_{n+1})
+= \mathbb{V}(y_{n+1}) + \mathbb{V}(\hat{y}_{n+1}) - 2\,\mathrm{Cov}(y_{n+1}, \hat{y}_{n+1}).
+\]
+
+Or $y_{n+1}$ dépend uniquement de $\varepsilon_{n+1}$ et $\hat{y}_{n+1}$ dépend uniquement de $(\varepsilon_1,\dots,\varepsilon_n)$, donc 
+
+\[ \mathrm{Cov}(y_{n+1}, \hat{y}_{n+1})=0. \] 
+
+On a aussi:
+
+\[
+\begin{cases}
+\mathbb{V}(Y_{n+1}) 
+= \mathbb{V}(\beta_0 + \beta_1 x_{n+1} + \varepsilon_{n+1})
+= \mathbb{V}(\varepsilon_{n+1})
+= \sigma^2. \\
+\mathbb{V}(\hat{Y}_{n+1}) 
+= \mathbb{V}(\hat{\beta}_0 + x_{n+1} \hat{\beta}_1). 
+= \mathbb{V}(\hat{\beta}_0)  + x_{n+1}^2 \, \mathbb{V}(\hat{\beta}_1)  + 2 x_{n+1} \,\mathrm{Cov}(\hat{\beta}_0, \hat{\beta}_1).
+\end{cases}
+\]
+
+\commentaire{ D’après les formules connues :
+\[
+\mathbb{V}(\hat{\beta}_0) = \frac{\sigma^2}{n}\left(1+\frac{\bar{x}^2}{s_x^2}\right), 
+\quad 
+\mathbb{V}(\hat{\beta}_1) = \frac{\sigma^2}{n}\cdot\frac{1}{s_x^2}, 
+\quad 
+\mathrm{Cov}(\hat{\beta}_0,\hat{\beta}_1) = -\frac{\sigma^2}{n}\cdot\frac{\bar{x}}{s_x^2}.
+\]
+}
+
+Ainsi :
+
+\begin{align*}
+\mathbb{V}(\hat{Y}_{n+1})
+&= \frac{\sigma^2}{n}\left(1+\frac{\bar{x}^2}{s_x^2}\right) + x_{n+1}^2 \cdot \frac{\sigma^2}{n s_x^2} - 2 x_{n+1} \cdot \frac{\sigma^2}{n}\frac{\bar{x}}{s_x^2} \\
+&= \frac{\sigma^2}{n}\left(1 + \frac{\bar{x}^2}{s_x^2} + \frac{x_{n+1}^2}{s_x^2} - \frac{2 \bar{x} x_{n+1}}{s_x^2}\right) \\
+&= \frac{\sigma^2}{n}\left(1 + \frac{(x_{n+1} - \bar{x})^2}{s_x^2}\right)
+\end{align*}
+
+Enfin :
+\[ 
+\boxed{ \mathbb{V}(\hat{\varepsilon}_{n+1})
+= \sigma^2 + \mathbb{V}(\hat{Y}_{n+1})
+= \sigma^2 \left(1 + \frac{1}{n} + \frac{(x_{n+1} - \bar{x})^2}{n \, s_x^2}\right). }
+\]
+\end{proof}
+
+\commentaire{
+\textbf{Interprétation:}  Le terme
+
+\[
+(x_{n+1} - \bar{x})^2
+\]
+
+contrôle l’incertitude de la prédiction :
+
+\begin{itemize}
+  \item Il est \textbf{petit} lorsque $x_{n+1}$ est proche de la moyenne $\bar{x}$ :  
+  le point à prédire est ``semblable'' aux données déjà observées.  
+  $\;\Rightarrow$ la variance de la prédiction est réduite.
+
+  \item Il est \textbf{grand} lorsque $x_{n+1}$ est loin de $\bar{x}$ :  
+  le point à prédire est très différent de l’échantillon d’apprentissage.  
+  $\;\Rightarrow$ l’incertitude de la prédiction est plus élevée.
+\end{itemize}
+}
+
+\subsection{Calcul des résidus et de la variance résiduelle } %(Question 3)
+
+\begin{defi}
+On définit les valeurs ajustées et les résidus :
+\[
+\hat{Y}_i = \hat{\beta}_0 + \hat{\beta}_1 x_i, 
+\qquad
+\hat{\varepsilon}_i = Y_i - \hat{Y}_i.
+\]
+\end{defi}
+
+\begin{prop}
+Avec cette construction, la somme des résidus est nulle, c'est à dire,
+
+\[ \sum_{i=1}^{n} \hat{\varepsilon}_i = 0\]
+\end{prop}
+
+\begin{proof}
+On a:
+
+\begin{align*}
+\sum_{i=1}^{n} \hat{\varepsilon}_i &=  \sum_{i=1}^{n} y_i - \hat{y} _i \\
+&=\sum_{i=1}^{n} y_i - \hat{\beta}_0 - \hat{\beta}_1 x_i \quad \text{ car } \hat{\beta}_0 = \bar{y} - \hat{\beta}_1 \bar{x} \\
+&=\sum_{i=1}^{n} (y_i - \bar{y}) - \hat{\beta}_1 (x_i - \bar{x}) \\
+&= 0
+\end{align*}
+
+
+\end{proof}
+
+\begin{notation}
+On appelle \textbf{SCR} (somme des carrés des résidus) :
+
+\begin{align*}
+\mathrm{SCR} &=  \sum_{i=1}^{n} \hat{\varepsilon}^2_i  \\
+&= \sum_{i=1}^n (y_i - \hat{\beta}_0 - \hat{\beta}_1 x_i)^2  \\
+&= \min_{\beta_0',\beta_1'} \sum_{i=1}^n (y_i - \beta_0' - \beta_1' x_i)^2.
+\end{align*}
+
+\end{notation}
+
+\begin{defi}
+La variance empirique des $x_i$ est
+\[
+s_x^2 = \frac{1}{n-1} \sum_{i=1}^n (x_i - \bar{x})^2.
+\]
+
+
+Donc l’estimateur de la variance de l’erreur est donné par
+\[
+\hat{\sigma}^2 
+= \frac{1}{n-2} \sum_{i=1}^n (y_i - \hat{y}_i)^2
+= \frac{1}{n-2} \sum_{i=1}^n (y_i - \hat{\beta}_0 - \hat{\beta}_1 x_i)^2.
+= \frac{1}{n-2} \sum_{i=1}^n \hat{\varepsilon}_i^2
+= \frac{1}{n-2} \, \mathrm{SCR}.
+\]
+\end{defi}
+
+\begin{theo}
+La statistique $\hat{\sigma}^2 $ est un estimateur sans biais de $\sigma^2$.
+\end{theo}
+
+\begin{proof}
+
+Ce qui nous intéresse le plus est $\mathbb{E} [ \sum_{i=1}^{n} \hat{\varepsilon}^2_i ]$:
+
+\commentaire{ On a:
+
+\begin{align*}
+\mathbb{V}[ \hat{\varepsilon}^2_i] &= \mathbb{V}[ y_i - \hat{y}_i] \\
+&=\mathbb{V}[ \beta_0 + \beta_1 x_i + \varepsilon_i - \hat{\beta}_0 - \hat{\beta}_1 x_i ] \\
+&= \mathbb{V}[ \varepsilon_i - \hat{\beta}_0 - \hat{\beta}_1 x_i ] \\
+&= \mathbb{V}[ \varepsilon_i ] + \mathbb{V}[ \hat{\beta}_0 + \hat{\beta}_1 x_i ] -2 \text{Cov}[ \varepsilon_i , \hat{\beta}_0 + \hat{\beta}_1 x_i ]
+\end{align*}
+
+On calcule:
+
+\begin{align*} 
+\mathbb{V}[ \hat{\beta}_0 + \hat{\beta}_1 x_i ]  &= \mathbb{V}[ \bar{y} + \hat{\beta}_1 (x_i - \bar{x}) \\
+&= \mathbb{V}[ \bar{y} ]+\mathbb{V}[ \hat{\beta}_1 (x_i - \bar{x}) ] \quad \text{ car } \text{Cov}[\bar{y},\hat{\beta}_1] =0 \\
+ &= \frac{\sigma^2}{n} + (x_i - \bar{x} ) ^2 \frac{\sigma^2}{n} \frac{1}{s_x^2}
+\end{align*}
+
+et
+
+\begin{align*} 
+\text{Cov}[ \varepsilon_i , \hat{\beta}_0 + \hat{\beta}_1 x_i ] &= \text{Cov}[ \bar{y} , \varepsilon_i ] + \text{Cov}[ \hat{\beta}_1 (x_i - \bar{x}) , \varepsilon_i ] \\
+&= \frac{\sigma^2}{n} + (x_i - \bar{x}) \frac{1}{n s_x^2} (x_i - \bar{x}) \sigma^2
+\end{align*}
+
+Ceci nous donne:
+
+\begin{align*}
+\mathbb{V}[ \hat{\varepsilon}^2_i] &= \mathbb{V}[ \varepsilon_i ] + \mathbb{V}[ \hat{\beta}_0 + \hat{\beta}_1 x_i ] -2 \text{Cov}[ \varepsilon_i , \hat{\beta}_0 + \hat{\beta}_1 x_i ] \\
+&= \sigma^2 - \frac{\sigma^2}{n} - \frac{\sigma^2 (x_i - \bar{x})^2}{n s_x^2}
+\end{align*}
+}
+
+\begin{align*}
+\mathbb{E} [ \sum_{i=1}^{n} \hat{\varepsilon}^2_i ] &= \sum_{i=1}^{n}  \mathbb{E} [ \hat{\varepsilon}^2_i ] \\
+&= \sum_{i=1}^{n} \mathbb{V}[\hat{\varepsilon}_i ] \\
+&= \sum_{i=1}^{n} \left( \sigma^2 - \frac{\sigma^2}{n} - \frac{\sigma^2 (x_i - \bar{x})^2}{n s_x^2} \right) \\
+&=n\sigma^2 - \sigma^2 - \sigma^2 \\
+&= (n-2) \sigma^2
+\end{align*}
+
+Ceci nous donne:
+
+\begin{align*}
+\mathbb{E} [\hat{\sigma}^2] &= \mathbb{E} [ \frac{1}{n-2}  \sum_{i=1}^{n} \hat{\varepsilon}^2_i ] \\
+&= \frac{1}{n-2} \mathbb{E} [ \sum_{i=1}^{n} \hat{\varepsilon}^2_i ] \\
+&= \boxed{ \sigma^2 }
+\end{align*}
+
+\end{proof}
+
+\commentaire{\textbf{Attention :} le dénominateur est bien $n-2$ (et non $n$), car deux paramètres
+$\hat{\beta}_0$ et $\hat{\beta}_1$ ont été estimés.}
+
+\section{interprétations géométrique}
+
+\subsection{Formulation du modèle}
+
+On considère le modèle linéaire simple reliant une variable expliquée $y_i$ à une variable explicative $x_i$ :
+
+\[
+\begin{cases}
+y_1 = \beta_0 \cdot 1 + \beta_1 x_1 + \varepsilon_1, \\
+y_2 = \beta_0 \cdot 1 + \beta_1 x_2 + \varepsilon_2, \\
+\vdots \\
+y_i = \beta_0 \cdot 1 + \beta_1 x_i + \varepsilon_i, \\
+\vdots \\
+y_n = \beta_0 \cdot 1 + \beta_1 x_n + \varepsilon_n.
+\end{cases}
+\]
+
+\begin{notation}
+Pour simplifier cette écriture, on introduit les notations vectorielles suivantes :
+
+\begin{itemize}
+\item $ y = 
+\begin{pmatrix}
+y_1 \\ \vdots \\ y_n
+\end{pmatrix}, $
+\item $ x =
+\begin{pmatrix}
+x_1 \\ \vdots \\ x_n
+\end{pmatrix}, $
+\item $\varepsilon =
+\begin{pmatrix}
+\varepsilon_1 \\ \vdots \\ \varepsilon_n
+\end{pmatrix}$
+\item $\mathbb{1} = (1,\dots,1)^T \in \mathbb{R}^n$
+\end{itemize}
+
+Avec ces notations, le modèle s’écrit de façon compacte :
+
+\[ y = \beta_0 \cdot \mathbb{1} + \beta_1 \cdot x + \varepsilon. \]
+\end{notation}
+
+\begin{defi}
+On définit le sous-espace vectoriel engendré par les deux vecteurs explicatifs :
+\[
+\mathcal{M}(x) = \mathrm{Vect}(\mathbb{1}, x).
+\]
+Toute combinaison linéaire $\tilde{y} = \beta_0 \mathbb{1} + \beta_1 x$ appartient à cet espace.
+\end{defi}
+
+\begin{defi}
+La projection orthogonale du vecteur $y$ sur $M(x)$ correspond alors au vecteur des valeurs ajustées :
+
+\[ \mathrm{Proj}_{\mathcal{M}(x)} y = \arg\min_{\tilde{y} \in \mathcal{M}(x)} \| y - \tilde{y} \|^2. \]
+
+\end{defi}
+
+\begin{proof}
+En effet:
+
+\begin{align*}
+\mathrm{Proj}_{\mathcal{M}(x)} y &= \arg\min_{\tilde{y} \in \mathcal{M}(x)} \| y - \tilde{y} \|^2. \\
+&= \arg\min_{ (\beta_0 , \beta_1 ) \in \mathbb{R}^2 } \| y - (\beta_0 \mathbb{1} + \beta_1 x) \|^2 \\
+&= \arg\min_{ (\beta_0 , \beta_1 ) \in \mathbb{R}^2 } \sum_{i=1}^{n} (y_i - ( \beta_0 + \beta_1 x_i))^2 \\
+&= \hat{y}
+ \end{align*}
+
+\end{proof}
+
+\commentaire{ On a donc que $\hat{y}$ est la projection de $y$ sur $\mathcal{M}(x)$ 
+
+%Image{\label{image_projection}} 
+}
+
+\begin{rappel}
+On note :
+
+\[
+\|z\|^2 = \sum_{i=1}^n z_i^2
+\quad \text{et} \quad
+\langle z, w \rangle = \sum_{i=1}^n z_i w_i
+\]
+
+le produit scalaire et la norme euclidienne usuels de $\mathbb{R}^n$.
+\end{rappel}
+
+\begin{notation}
+Les estimateurs $(\hat{\beta}_0, \hat{\beta}_1)$ sont définis comme les valeurs des paramètres minimisant la somme des carrés des écarts entre les observations et le modèle :
+
+\[
+(\hat{\beta}_0, \hat{\beta}_1)
+= \arg\min_{\beta_0', \beta_1' \in \mathbb{R}}
+\sum_{i=1}^n (y_i - \beta_0' - \beta_1' x_i)^2.
+\]
+
+Cette expression peut se reformuler à l’aide du vecteur $\mathbb{1}$ et de la norme euclidienne :
+
+\[
+(\hat{\beta}_0, \hat{\beta}_1)
+= \arg\min_{\beta_0', \beta_1' \in \mathbb{R}}
+\| y - \beta_0' \mathbb{1} - \beta_1' x \|^2,
+\]
+\end{notation}
+
+\subsection{Le coefficient de détermination $R^2$}
+
+Avec la notation d'avant on a:
+
+\begin{notation}
+\begin{itemize}
+\item \textbf{SCT (Somme Totale des Carrés)} est la mesure de la variabilité totale dans la réponse $y$ avant que la régression ne soit effectuée.
+
+\[ \mathrm{SCT} = \| y - \bar{y}\,\mathbb{1} \|^2 = \sum_{i=1}^n (y_i - \bar{y})^2 \]
+\item \textbf{SCR (Somme des Carrés des Résidus)} est la mesure de la variabilité qui reste après avoir effectué la régression (c'est la variabilité non expliquée).
+
+\[ \mathrm{SCR} = \| y - \hat{y} \|^2 = \sum_{i=1}^n (y_i - \hat{y}_i)^2 =  \sum_{i=1}^{n} \hat{\varepsilon}^2_i\]
+\item\textbf{SCE (Somme des Carrés Expliquée)} est la mesure de la variabilité qui est expliquée par la régression.
+
+\[ \mathrm{SCE} =  \|\hat{y} - \bar{y}\,\mathbb{1}\|^2  = \sum_{i=1}^n (\hat{y}_i - \bar{y})^2 \]
+\end{itemize}
+\end{notation}
+
+\begin{prop}
+On a:
+
+\[ 
+\mathrm{SCT} = \mathrm{SCE} + \mathrm{SCR}
+\]
+\end{prop}
+
+\begin{proof}
+On a par le théorème de Pythagore:
+
+\begin{align*}
+\mathrm{SCT}  &= \| y - \bar{y} \mathbb{1} \|^2 \\
+&= \| \hat{y} - \bar{y} \mathbb{1} + y - \hat{y} \|^2 \\
+&= \| \hat{y} - \bar{y} \mathbb{1} + \hat{\varepsilon} \|^2 \\
+&= \| \hat{y} - \bar{y} \mathbb{1} \|^2 + \| \hat{\varepsilon} \|^2 \\
+&= \mathrm{SCE} + \mathrm{SCR}
+\end{align*}
+\end{proof}
+
+\begin{defi}
+Le coefficient de détermination $R^2$ est définie par:
+
+\[ R^2 =  \frac{\mathrm{SCE}}{\mathrm{SCT}}
+=\frac{\| \hat{y} - \bar{y} \mathbb{1} \|^2}{ \| y - \bar{y} \mathbb{1} \|^2 } 
+= 1 - \frac{\| \hat{\varepsilon} \|^2} { \| y - \bar{y}\mathbb{1} \|^2} 
+= 1 - \frac{\mathrm{SCR}}{\mathrm{SCT}}
+\]
+
+$R^2$ est la proportion de la variabilité de $y$ qui peut être expliquée par la régression. (ou encore le cosinus carrées de $\theta$)
+\end{defi}
+
+De façon schématique, on peut différencier les cas suivants :
+
+\begin{itemize}
+    \item Si $R^2 = 1$, le modèle explique tout, l'angle $\theta$ vaut zéro et $y$ est dans $\mathcal{M}(X)$, c'est-à-dire que $y_i = \beta_0 + \beta_1 x_i$ pour tout $i$ : les points de l'échantillon sont parfaitement alignés sur la droite des moindres carrés ;
+    \item Si $R^2 = 0$, cela veut dire que $\sum(\hat{y}_i - \bar{y})^2 = 0$, donc $\hat{y}_i = \bar{y}$ pour tout $i$. Le modèle de régression linéaire est inadapté puisqu'on ne modélise rien de mieux que la moyenne ;
+    \item Si $R^2$ est proche de zéro, cela veut dire que $y$ est quasiment dans l'orthogonal de $\mathcal{M}(X)$, le modèle de régression linéaire est inadapté, la variable $x$ n'explique pas bien la variable réponse $y$ (du moins pas de façon affine).
+\end{itemize}

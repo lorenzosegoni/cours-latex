@@ -1,0 +1,206 @@
+\chapter{TD2}
+
+\exo
+
+\begin{enonce}[Rappels du cours]
+\ques Rappeler le principe d'une régression linéaire multiple. Préciser les hypothèses.
+\ques Faire un schéma pour donner une interprétation géométrique à la régression linéaire multiple. Retrouvez l'expression de l'estimateur des moindres carrés $\hat \beta$.
+\ques Donner l'expression de la matrice de projection $\mathbf{P}^{\mathbf{X}}$ et de l'estimateur $\hat \beta$. Vérifier que $\mathbf{P}^{\mathbf{X}}$ est bien une matrice de projection.
+\ques Quelles sont les hypothèses supplémentaires dans le cas gaussien ?
+\ques Dans le cas Gaussien, retrouvez l'expression des estimateurs du maximum de vraisemblance pour $\beta$ et $\sigma^2$ en anulant le gradient de la fonction à maximiser.
+\ques Dans le cas Gaussien, retrouvez la loi de $\hat \beta$ et $\hat \sigma^2$, à variance connue ou inconnue.
+
+\textit{On conseille de toujours faire attention à la dimension des objets (matrices et vecteurs) qu'on manipule.}
+
+\end{enonce}
+
+\begin{correction}
+\end{correction}
+
+
+
+
+\exo
+
+\begin{enonce}[Régression simple vs régression multiple]
+\ques Rappeler les expressions de $\hat \beta_0$ et $\hat \beta_1$ dans le cas d'une régression simple.
+\ques Rappeler l'expression de $\hat \beta$ dans le cas d'une régression multiple.
+\ques Retrouver le résultat de la question 1 à partir de celui de la question 2.
+\ques Rappeler les expressions des variances et covariance de $\hat \beta_0$ et $\hat \beta_1$ pour une régression simple.
+\ques Rappeler l'expression de la matrice de variance-covariance de $\hat \beta$ pour une régression multiple.
+\ques Retrouver le résultat de la question 4 à partir de celui de la question 5.
+\end{enonce}
+
+\begin{correction}
+\end{correction}
+
+
+
+\exo
+
+\begin{enonce}[Régression à deux variables.] 
+
+On étudie l'évolution d'une variable $y$ en fonction de deux variables $x$ et $z$.
+
+On dispose de $n$ observations de ces variables.
+
+On note $X=\begin{pmatrix}\mathbb{1} & x & z\end{pmatrix}$, où $\mathbb{1}$ est le vecteur constant, et $x$ et $z$ sont les vecteurs des variables explicatives.
+
+Nous avons obtenu les résultats suivants:
+
+\[ X^T X=\begin{pmatrix}
+30 & 0 & 0 \\
+? & 10 & 7 \\
+? & ? & 15
+\end{pmatrix}
+\quad , \quad
+\|\hat{\varepsilon}\|^{2} = 12
+\quad , \quad
+\hat{\beta} = \begin{pmatrix} -2 \\ 1 \\ 2 \end{pmatrix}\,.
+\]
+
+\ques
+
+\ssques Donner les valeurs manquantes. Que vaut $n$ ?
+
+\ssques Calculer le coefficient de corrélation empirique entre $x$ et $z$.
+    
+\ques 
+
+\ssques Calculer $\sum_{i=1}^n \hat \varepsilon_i$, puis en déduire la valeur de la moyenne arithmétique $\bar{y}$.
+
+\ssques Calculer la somme des carrés résiduels (SCR),
+la somme des carrés expliquée (SCE),
+la somme des carrés totale (SCT) et le coefficient de détermination $R^{2}$.
+
+\ques
+
+\ssques
+
+\ssques
+
+\ques
+
+\ssques
+
+\ssques
+
+\ssques
+
+\ssques
+
+\end{enonce}
+\begin{correction}
+
+
+\ques \textbf{Méthode 1} On a
+
+\begin{align*}
+X^T X &= \begin{pmatrix} \mathbb{1} & x & z \end{pmatrix} ^T \begin{pmatrix} \mathbb{1} & x & z \end{pmatrix} \\
+&= \begin{pmatrix} \mathbb{1}^T \\ x^T \\ z^T \end{pmatrix} \begin{pmatrix} \mathbb{1} & x & z \end{pmatrix} \\
+&= \begin{pmatrix} 
+\mathbb{1}^T \mathbb{1} & \mathbb{1}^T x & \mathbb{1}^T z \\
+x^T \mathbb{1} & x^T x & x^T z \\
+z^T \mathbb{1} & z^T x & z^T z \\
+\end{pmatrix} \\
+&= \begin{pmatrix} 
+n & \sum x_i & \sum z_i \\
+\sum x_i & \sum x_i^2 & \sum x_i z_i \\
+\sum z_i & \sum x_i z_i & \sum z_i^2 \\
+\end{pmatrix} \\
+&= \begin{pmatrix} 
+n & \sum x_i & \sum z_i \\
+\sum x_i & n \bar{x} &  \sum x_i z_i  \\
+\sum z_i &  \sum x_i z_i  & n \bar{z} \\
+\end{pmatrix} \\
+&=\begin{pmatrix}
+30 & 0 & 0 \\
+0 & 10 & 7 \\
+0 & 7 & 15
+\end{pmatrix}
+\end{align*}
+
+On voit bien que $n=30$.
+
+\textbf{Méthode 2} Par symétrie,
+
+\[
+X^T X=\begin{pmatrix}
+30 & 0 & 0 \\
+0 & 10 & 7 \\
+0 & 7 & 15
+\end{pmatrix}\,.
+\]
+
+De plus, $n = \mathbb{1}^T \mathbb{1}$ est la première entrée $[X^T X]_{1,1}$ de la matrice, donc $n = 30$.
+
+\ssques On a (regarder la question d'avant):
+
+\begin{itemize}
+\item $n = \mathbb{1}^T\mathbb{1} =  [X^T X]_{1,1} = 30$ 
+\item $n\bar{x}  = \mathbb{1}^Tx = [X^T X]_{1,2} = 0$
+\item $n\bar{z} = \mathbb{1}^T z = [X^T X]_{13} = 0$
+\item $x^T x = [X^T X]_{2,2} = 10 $
+\item $z^Tz = [X^T X]_{3,3} = 15 $
+\item $x^Tz = [X^T X]_{2,3} = 7$
+\end{itemize}
+
+Donc:
+    
+\begin{align*}
+\rho(x, z) &= \frac{\sum_{i=1}^n (x_i - \bar{x})(z_i - \bar{z})}{\sqrt{\left(\sum_{i=1}^n (x_i - \bar{x})^2\right)\left(\sum_{i=1}^n (z_i - \bar{z})^2\right)}}\\
+&= \frac{x^Tz - n\bar{x}\bar{z}}{\sqrt{(x^Tx - n\bar{x}^2)(z^Tz - n\bar{z}^2)}} \\
+&= \frac{7 - 0}{\sqrt{(10 - 0)(15 - 0)}}  \\
+&\approx 0.57.
+\end{align*}
+
+\ques Comme le vecteur $\mathbb{1} \in \mathcal{M}(X)$ et le vector $\hat{\varepsilon} \in \mathcal{M}(X) ^\perp$, on a que sont perpendiculaire, donc
+\begin{align*}
+				\sum_{i=1}^n \hat \varepsilon_i
+				= \mathbb{1}^T \varepsilon = \langle \mathbb{1}, \varepsilon \rangle
+				= \langle \mathbb{1}, P^{X^\bot} y \rangle
+				= 0.
+				\]
+				Donc :
+				\[
+				\mathbb{1}^T \varepsilon = \mathbb{1}^T (y - \hat y) = 0 \quad \text{i.e.} \quad \bar y = \frac{1}{n} \mathbb{1}^T\hat y
+				\]
+				et
+				\[
+				\mathbb{1}^T\hat y = \mathbb{1}^T(X \hat \beta) 
+				= \mathbb{1}^T (-2 \mathbb{1} + x + 2 z)
+				= -2 \times n + 0 + 2 \times 0.
+				\]
+				D'où $\bar{y} = -2$.
+				
+\ques Par définition,
+				\[
+				SCR = \|\hat{\varepsilon}\|^{2} = 12.
+				\]
+				D'après ce qui précède, $\hat y - \mathbb{1} \bar y = x + 2 z$ donc :
+				\[
+				SCE 
+				= \|\hat y - \mathbb{1} \bar y \|^{2}
+				= \|x + 2 z \|^{2}
+				= \|x\|^{2} + 4 \| z \|^{2} + 4 x^T z
+				= 10 + 4 \times 15 + 4 \times 7
+				= 98.
+\]
+				Enfin, par le théorème de Pythagore :
+				\[
+				SCT = \|y - \mathbb{1} \bar y \|^{2} 
+				=  \|\hat y - \mathbb{1} \bar y \|^{2} + \|\hat y - y\|^{2}
+				= SCE + SCR
+				= 98 + 12 = 110.
+				\]
+				Finalement :
+				\[
+R^2 = \frac{SCE}{SCT} = \frac{98}{110} = 0.89.
+				\]
+
+
+
+
+\end{correction}
+
+

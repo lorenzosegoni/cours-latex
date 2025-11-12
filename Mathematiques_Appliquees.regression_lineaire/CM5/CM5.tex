@@ -1,0 +1,606 @@
+%\chapter{CM5}
+
+\subsection{Rappel: esperance et variance de matrice}
+
+\begin{rappel}
+Soit $Z$ un vecteur aléatoire dans $\mathbb{R}^p$. 
+
+Alors, par définition :
+\[
+\mathbb{E}[Z] = 
+\begin{pmatrix}
+\mathbb{E}[Z_1] \\
+\vdots \\
+\mathbb{E}[Z_p]
+\end{pmatrix}
+\in \mathbb{R}^p
+\]
+
+\begin{align*}
+\mathbb{V}[Z] = 
+\begin{pmatrix}
+\mathrm{Cov}(Z_1,Z_1) & \cdots & \mathrm{Cov}(Z_1,Z_p) \\
+\vdots & \ddots & \vdots \\
+\mathrm{Cov}(Z_p,Z_1) & \cdots & \mathrm{Cov}(Z_p,Z_p)
+\end{pmatrix}
+& = \mathbb{E}\!\left[(Z - \mathbb{E}[Z])(Z - \mathbb{E}[Z])^T\right] \\
+& = \mathbb{E}[ZZ^T] - \mathbb{E}[Z]\mathbb{E}[Z]^T
+\end{align*}
+
+On a toujours les mêmes propriétés :
+\begin{itemize}
+    \item Linéarité de l'espérance : $\mathbb{E}[AZ + b] = A\,\mathbb{E}[Z] + b$
+    \item Bilinéarité de la variance : $\mathbb{V}[AZ + b] = A\,\mathbb{V}[Z]\,A^T$
+\end{itemize}
+\end{rappel}
+
+\commentaire{
+Sur $\mathbb{R}$, on a :
+\[
+\mathbb{V}[Z] = \mathbb{E}\!\left[(Z - \mathbb{E}[Z])^2\right] = \mathbb{E}[Z^2] - \mathbb{E}^2[Z]
+\]
+}
+
+\begin{prop}
+Soit $U$ et $Z$ deux vecteurs aléatoire de taille $n$. Alors:
+
+\[ \mathbb{V}[U+Z] = \mathbb{V}[ U ] + \mathbb{V}[ Z ] + \text{Cov}[ U,Z ] + \text{Cov}[ Z,U ] \]
+
+où
+
+\[ \text{Cov}[U,Z] = \mathbb{E}[U Z^T] -\mathbb{E}[U]\mathbb{E}[Z]^T = \text{Cov}[Z,U]^T\]
+\end{prop}
+
+\begin{defi}[Ordre Partiel sur les Matrices Symétriques]
+Soient $S_1$ et $S_2$ deux matrices symétriques réelles $n \times n$.
+
+Nous disons que $S_1$ est plus petite que $S_2$, et nous écrivons $S_1 \leq S_2$, si et seulement si $S_2 - S_1$ est \textbf{semi-définie positive}, i.e.:
+
+\[ z^{\top}(S_2 - S_1) z \geq 0 \quad \forall z \in \mathbb{R}^n, \]
+
+ou, de manière équivalente:
+
+\[ z^{\top}S_1 z \leq z^{\top} S_2 z \quad \forall z \in \mathbb{R}^n. \]
+\end{defi}
+
+
+
+
+\subsection{Quelques propriétés sur $\hat{\beta}$}
+
+
+
+\begin{prop}
+L'estimateur MCO $\widehat{\beta} = (X^T X)^{-1} X^T Y = A Y$ a comme propriété :
+\[
+\mathbb{E}[\widehat{\beta}] = \beta \text{ (estimateur sans biais) }
+\quad \text{et} \quad
+\mathbb{V}[\widehat{\beta}] = \sigma^2 (X^T X)^{-1}.
+\]
+\end{prop}
+
+\begin{proof}
+On a d’abord :
+\begin{itemize}
+    \item $\mathbb{E}[Y] = \mathbb{E}[X\beta + \varepsilon] = X\beta + \mathbb{E}[\varepsilon] = X\beta$
+    \item $\mathbb{V}[Y] = \mathbb{V}[X\beta + \varepsilon] = \mathbb{V}[\varepsilon] = \sigma^2 I_n$
+\end{itemize}
+
+Donc :
+\begin{align*}
+\mathbb{E}[\widehat{\beta}] &= \mathbb{E}[(X^T X)^{-1} X^T Y] \\
+&= (X^T X)^{-1} X^T \mathbb{E}[Y] \\
+&= (X^T X)^{-1} X^T X \beta \\
+&= \beta
+\end{align*}
+
+et
+\begin{align*}
+\mathbb{V}[\widehat{\beta}]
+&= [(X^T X)^{-1} X^T]\, \mathbb{V}[Y]\, [(X^T X)^{-1} X^T]^T \\
+&= (X^T X)^{-1} X^T (\sigma^2 I_n) X (X^T X)^{-1} \\
+&= \sigma^2 (X^T X)^{-1} X^T X (X^T X)^{-1} \\
+&= \sigma^2 (X^T X)^{-1}
+\end{align*}
+\end{proof}
+
+\begin{theo}[(Gauss-Markov)] 
+L’estimateur $\hat{\beta}$ des MCO est de variance minimale parmi les estimateurs linéaires sans biais de $\beta$.
+\end{theo}
+
+\begin{proof}
+
+On pose $\bar{\beta}$ un estimateur linéaire non biaisé de $\beta$ On peut écrire $\bar{\beta} = B Y$. On a:
+
+\begin{align*}
+\mathbb{V}[\bar{\beta}] &= \mathbb{V}[\bar{\beta} - \hat{\beta} + \hat{\beta}] \\
+&=  \mathbb{V}[\bar{\beta} - \hat{\beta}] + \mathbb{V}[\hat{\beta}] + \text{Cov}[\hat{\beta} -\bar{\beta} , \bar{\beta}] + \text{Cov}[\hat{\beta} -\bar{\beta} , \bar{\beta}]^T 
+\end{align*}
+
+\medskip
+
+Montrons que $\mathbb{V}[\bar{\beta}]  - \mathbb{V}[\hat{\beta}]$ est positive et semi-définie:
+
+Donc:
+
+\[
+\mathbb{E}[\bar{\beta}] = \mathbb{E}[B Y] = B \mathbb{E}[Y] = B X \beta
+\]
+
+On a donc par definition de $\bar{\beta}$ (non biasé):
+
+\[
+B X = I_n
+\]
+
+\medskip
+
+Pour prouvé que $\mathbb{V}[\bar{\beta} - \hat{\beta}]$ est positive et semi-définie, on a besoin de montrer que:
+
+\[ \text{Cov}[\hat{\beta} -\bar{\beta} , \bar{\beta}] = 0 \]
+
+On a:
+
+\begin{align*}
+\text{Cov}[ \bar{\beta} , \hat{\beta}] &= \text{Cov}[ B Y , (X^T X)^{-1} X^T Y] \\
+&= B \text{Cov}[Y,Y] [ (X^T X)^{-1} X^T ]^T \\
+&= B [\sigma^2 I_n] X (X^T X)^{-1} \\
+&= \sigma^2 B X (X^T X)^{-1} \quad \text{ car } BX = I_n \\
+&= \sigma^2 (X^T X)^{-1}
+\end{align*}
+
+Donc on a:
+
+\begin{align*}
+\text{Cov}[ \bar{\beta} - \hat{\beta} , \hat{\beta} ]&= \text{Cov}[ \bar{\beta} , \hat{\beta} ] - \mathbb{V}[\hat{\beta} ] \\
+&= \sigma^2 (X^T X)^{-1} - \sigma^2 (X^T X)^{-1} \\
+&= 0
+\end{align*} 
+
+\medskip
+
+On a en conclusion:
+
+\[
+\mathbb{V}[\bar{\beta}] - \mathbb{V}[\hat{\beta}] = \mathbb{V}[\bar{\beta} - \hat{\beta}]
+\]
+
+Puisque est positive et semi-définie, on a:
+
+\[
+\mathbb{V}[\bar{\beta}] \geq \mathbb{V}[\hat{\beta}]
+\]
+
+\end{proof}
+
+\subsection{Résidus et variance résiduelle}
+
+\smallskip
+
+
+\begin{notation}
+\begin{enumerate}
+\item On définit 
+
+\[ \widehat{Y} = P_X Y \]
+
+où $P_X$ est la matrice de projection orthogonale sur $\mathrm{Im}(X)$, c'est-à-dire :
+
+\begin{itemize}
+\item $P_X^T = P_X$ (symétrique)
+\item $P_X^2 = P_X$  (idempotente)
+\end{itemize}
+\item Le vecteur des résidus est alors donné par :
+
+\begin{align*}
+\widehat{\varepsilon} 
+&= Y - \widehat{Y} \\
+&= Y - P_X Y \\
+&= (I_n - P_X) Y \\
+&= P_{X^\perp} Y
+\end{align*}
+
+où $P_{X^\perp} = I_n - P_X$ est la matrice de projection orthogonale sur le complément orthogonal de $\mathrm{Im}(X)$, et possède les mêmes propriétés que $P_X$ :
+
+\begin{itemize}
+ \item $P_{X^\perp}^T = P_{X^\perp},$
+\item $P_{X^\perp}^2 = P_{X^\perp}.$
+\end{itemize}
+\end{enumerate}
+\end{notation}
+
+\begin{figure}[h!] 
+    \centering 
+    \includegraphics[width=0.4\textwidth]{CM5/Image1.jpg} 
+    %\caption{Légende de mon image.} 
+    \label{fig:CM5_image_1} 
+\end{figure}
+
+\begin{prop}[Biais et Variance de $\hat{\varepsilon}$]
+On a :
+\begin{enumerate}
+    \item $\mathbb{E}[\widehat{\varepsilon}] = 0$
+    \item $\mathbb{V}[\widehat{\varepsilon}] = \sigma^2 P_{X^\perp}$
+\end{enumerate}
+\end{prop}
+
+
+\begin{proof}
+\begin{enumerate}
+    \item 
+    \begin{align*}
+    \mathbb{E}[\widehat{\varepsilon}]
+    &= \mathbb{E}[P_{X^\perp} Y] \\
+    &= P_{X^\perp} \mathbb{E}[Y] \\
+    &= P_{X^\perp} X\beta = 0
+    \end{align*}
+    ou encore :
+    \begin{align*}
+    \mathbb{E}[\widehat{\varepsilon}]
+    &= \mathbb{E}[Y - \widehat{Y}] \\
+    &= \mathbb{E}[Y] - \mathbb{E}[\widehat{Y}] \\
+    &= X\beta - X\beta = 0
+    \end{align*}
+
+    \item 
+    \begin{align*}
+    \mathbb{V}[\widehat{\varepsilon}] 
+    &= \mathbb{V}[P_{X^\perp} Y] \\
+    &= P_{X^\perp} \mathbb{V}[Y] P_{X^\perp}^T \\
+    &= P_{X^\perp} (\sigma^2 I_n) P_{X^\perp}^T \\
+    &= \sigma^2 P_{X^\perp} P_{X^\perp}^T \\
+    &= \sigma^2 P_{X^\perp}^2 \\
+    &= \sigma^2 P_{X^\perp}
+    \end{align*}
+\end{enumerate}
+\end{proof}
+
+
+\begin{prop}[Biais et Variance de $\hat{Y}$]
+On a :
+\begin{enumerate}
+    \item $\mathbb{E}[\widehat{Y}] = X\beta$
+    \item $\mathbb{V}[\widehat{Y}] = \sigma^2 P_X$
+\end{enumerate}
+\end{prop}
+
+
+\begin{proof}
+\begin{enumerate}
+    \item 
+    \begin{align*}
+    \mathbb{E}[\widehat{Y}] 
+    &= \mathbb{E}[P_X Y] \\
+    &= P_X \mathbb{E}[Y] \\
+    &= P_X X\beta \\
+    &= (X(X^T X)^{-1}X^T)X\beta \\
+    &= X\beta
+    \end{align*}
+
+    \item 
+    \begin{align*}
+    \mathbb{V}[\widehat{Y}] 
+    &= \mathbb{V}[P_X Y] \\
+    &= P_X\,\mathbb{V}[Y]\,P_X^T \\
+    &= P_X (\sigma^2 I_n) P_X^T \\
+    &= \sigma^2 P_X P_X^T \\
+    &= \sigma^2 P_X^2 \quad \text{(symétrique et idempotente)} \\
+    &= \sigma^2 P_X
+    \end{align*}
+\end{enumerate}
+\end{proof}
+
+\begin{prop}[Covariance de $\hat{\varepsilon}$ et $\hat{Y}$]
+On a:
+\[
+\mathrm{Cov}[\widehat{Y}, \widehat{\varepsilon}] = 0.
+\]
+\end{prop}
+
+\begin{proof}
+On a :
+\begin{align*}
+\mathrm{Cov}[\widehat{Y}, \widehat{\varepsilon}]
+&= \mathrm{Cov}[P_X Y, P_{X^\perp} Y] \\
+&= P_X \, \mathrm{Cov}[Y, Y] \, P_{X^\perp}^T \quad \text{(propriété de linéarité de la covariance)} \\
+&= P_X \, \mathbb{V}[Y] \, P_{X^\perp}^T \\
+&= P_X (\sigma^2 I_n) P_{X^\perp}^T \\
+&= \sigma^2 P_X P_{X^\perp}^T.
+\end{align*}
+
+Or $P_X$ et $P_{X^\perp}$ sont des projecteurs orthogonaux tels que :
+\[
+P_X P_{X^\perp} = 0 \quad \text{et} \quad P_{X^\perp}^T = P_{X^\perp}.
+\]
+Ainsi :
+\[
+\mathrm{Cov}[\widehat{Y}, \widehat{\varepsilon}] = \sigma^2 P_X P_{X^\perp} = 0.
+\]
+\end{proof}
+
+\begin{rappel}
+Soient $Z_1, Z_2$ des vecteurs aléatoires, 
+$A_1, A_2$ des matrices déterministes 
+et $b_1, b_2$ des vecteurs déterministes.
+
+On a :
+\[
+\mathrm{Cov}[A_1 Z_1 + b_1,\, A_2 Z_2 + b_2] 
+= A_1\, \mathrm{Cov}[Z_1, Z_2]\, A_2^T.
+\]
+
+De plus, la covariance croisée s’écrit :
+\[
+\mathrm{Cov}[Z_1, Z_2] 
+= \mathbb{E}\!\left[(Z_1 - \mathbb{E}[Z_1])(Z_2 - \mathbb{E}[Z_2])^T\right],
+\]
+et on a toujours :
+\[
+\mathrm{Cov}[Z_1, Z_2]^T = \mathrm{Cov}[Z_2, Z_1].
+\]
+\end{rappel}
+
+\begin{notation}[Estimateur de $\sigma^2$]
+On note $\|\widehat{\varepsilon}\|^2$ la norme euclidienne au carré des résidus :
+\[
+\|\widehat{\varepsilon}\|^2 = \widehat{\varepsilon}^T \widehat{\varepsilon}.
+\]
+
+On définit alors l’estimateur de la variance :
+\[
+\widehat{\sigma}^2 = \frac{\|\widehat{\varepsilon}\|^2}{n - p}
+= \frac{1}{n - p} \|Y - \widehat{Y}\|^2 
+= \frac{1}{n - p} \sum_{i=1}^n (Y_i - \widehat{Y}_i)^2
+=\frac{SCR}{n-p} ,
+\]
+où $p$ est le nombre de colonnes de $X$ (le nombre de paramètres estimés).
+\end{notation}
+
+\begin{rappel}
+Pour tout vecteur $Z \in \mathbb{R}^n$, on a :
+\[
+\|Z\|^2 = Z^T Z.
+\]
+\end{rappel}
+
+\begin{prop}
+On a :
+\[
+\mathbb{E}[\widehat{\sigma}^2] = \sigma^2.
+\]
+Autrement dit, $\widehat{\sigma}^2$ est un estimateur sans biais de $\sigma^2$.
+\end{prop}
+
+\begin{proof}
+\textbf{Astuce :} utiliser la trace d’un scalaire.
+
+\[
+\|\widehat{\varepsilon}\|^2 = \operatorname{Tr}(\|\widehat{\varepsilon}\|^2) = \operatorname{Tr}(\widehat{\varepsilon}^T \widehat{\varepsilon}) = \operatorname{Tr}(\widehat{\varepsilon} \widehat{\varepsilon}^T)
+\]
+
+Ainsi :
+\begin{align*}
+\mathbb{E}[\|\widehat{\varepsilon}\|^2] 
+&= \mathbb{E}\!\left[\operatorname{Tr}(\widehat{\varepsilon}\widehat{\varepsilon}^T)\right] \\
+&= \operatorname{Tr}\!\left(\mathbb{E}[\widehat{\varepsilon}\widehat{\varepsilon}^T]\right) \quad \text{(linéarité de la trace)} \\
+&= \operatorname{Tr}\!\left(\mathbb{V}[\widehat{\varepsilon}]\right) \\
+&= \operatorname{Tr}\!\left(\sigma^2 P_{X^\perp}\right) \\
+&= \sigma^2 \operatorname{Tr}(P_{X^\perp}).
+\end{align*}
+
+Or $P_{X^\perp}$ est une matrice de projection de rang $n - p$ (projection sur le sous-espace orthogonal à $\mathrm{Im}(X)$), donc :
+\[
+\operatorname{Tr}(P_{X^\perp}) = \mathrm{rg}(P_{X^\perp}) = n - p.
+\]
+
+Ainsi :
+\[
+\mathbb{E}[\|\widehat{\varepsilon}\|^2] = \sigma^2 (n - p).
+\]
+
+Finalement :
+\[
+\mathbb{E}[\widehat{\sigma}^2] 
+= \mathbb{E}\!\left[\frac{\|\widehat{\varepsilon}\|^2}{n - p}\right]
+= \frac{1}{n - p} \, \mathbb{E}[\|\widehat{\varepsilon}\|^2]
+= \frac{1}{n - p} \, \sigma^2 (n - p)
+= \sigma^2.
+\]
+\end{proof}
+
+\begin{rappel}
+\[
+\operatorname{Tr}(A) = \sum_i A_{ii}.
+\]
+De plus, $P_{X^\perp}$ est la projection sur $\mathrm{Im}(X)^\perp$, de dimension $n - p$, d’où :
+\[
+\operatorname{Tr}(P_{X^\perp}) = n - p.
+\]
+\end{rappel}
+
+\section{Prediciton}
+
+\begin{notation}
+On considère le modèle linéaire :
+\[
+(Y_1, \ldots, Y_n)^T = (X^{(1)}, \ldots, X^{(n)})^T \beta + (\varepsilon_1, \ldots, \varepsilon_n)^T,
+\]
+soit encore, pour chaque observation $i = 1, \ldots, n$ :
+\[
+Y_i = X^{(i)} \beta + \varepsilon_i,
+\]
+où $X^{(i)} = (X_{i1}, \ldots, X_{ip})$ est le vecteur de prédicteurs pour l’observation $i$.
+
+On souhaite maintenant prédire la réponse associée à une nouvelle observation :
+\[
+X^{(n+1)} = (X_{n+1,1}, \ldots, X_{n+1,p})
+\]
+dont on connaît les variables explicatives mais pas la réponse.
+
+On définit alors :
+\[
+\widehat{Y}_{n+1} = X^{(n+1)} \widehat{\beta},
+\]
+où :
+\begin{itemize}
+    \item $\widehat{Y}_{n+1}$ est la prédiction (valeur estimée de la réponse inconnue) ;
+    \item $X^{(n+1)}$ est la ligne des prédicteurs mesurés pour le nouveau point ;
+    \item $\widehat{\beta}$ est l’estimateur calculé à partir des données $(X, Y)$ observées pour les $n$ premiers points.
+\end{itemize}
+\end{notation}
+
+\begin{hypothese}
+On suppose que le point $(n+1)$ suit le même modèle que les observations précédentes :
+\[
+Y_{n+1} = X^{(n+1)} \beta + \varepsilon_{n+1},
+\]
+avec :
+\[
+(\mathcal{H}) :
+\begin{cases}
+\mathbb{E}[\varepsilon_{n+1}] = 0 \\
+\mathbb{V}[\varepsilon_{n+1}] = \sigma^2 \\
+\mathrm{Cov}(\varepsilon_{n+1}, \varepsilon_i) = 0 \text{ pour tout } i \in \{1, \ldots, n\} \\
+\end{cases}
+\]
+\end{hypothese}
+
+\begin{objectif}
+Ainsi, on cherche à prédire $Y_{n+1}$ inconnu à l’aide de son estimateur :
+\[
+\widehat{Y}_{n+1} = X^{(n+1)} \widehat{\beta}.
+\]
+\end{objectif}
+
+\begin{prop}[Erreur de prédiction]
+On définit l’erreur de prédiction associée au nouveau point $X^{(n+1)}$ par :
+\[
+\widehat{\varepsilon}_{n+1} = Y_{n+1} - \widehat{Y}_{n+1},
+\]
+où :
+\begin{itemize}
+    \item $Y_{n+1}$ est la vraie valeur (inconnue) ;
+    \item $\widehat{Y}_{n+1} = X^{(n+1)} \widehat{\beta}$ est la valeur prédite.
+\end{itemize}
+
+Alors :
+\begin{enumerate}
+    \item $\mathbb{E}[\widehat{\varepsilon}_{n+1}] = 0$,
+    \item $\mathbb{V}[\widehat{\varepsilon}_{n+1}] = 
+    \sigma^2 \left( 1 + X^{(n+1)} (X^T X)^{-1} X^{(n+1)T} \right)$.
+\end{enumerate}
+\end{prop}
+
+
+\begin{proof}
+\begin{enumerate}
+\item Calcul de l’espérance :
+\begin{align*}
+\mathbb{E}[\widehat{\varepsilon}_{n+1}]
+&= \mathbb{E}[Y_{n+1} - \widehat{Y}_{n+1}] \\
+&= \mathbb{E}[X^{(n+1)}\beta + \varepsilon_{n+1} - X^{(n+1)}\widehat{\beta}] \\
+&= X^{(n+1)}(\beta - \mathbb{E}[\widehat{\beta}]) + \mathbb{E}[\varepsilon_{n+1}] \\
+&= X^{(n+1)}(\beta - \beta) + 0 \quad \text{car $\widehat{\beta}$ est sans biais et $\mathbb{E}[\varepsilon_{n+1}] = 0$} \\
+&= 0.
+\end{align*}
+
+\item Calcul de la variance :
+\begin{align*}
+\mathbb{V}[\widehat{\varepsilon}_{n+1}]
+&= \mathbb{V}[Y_{n+1} - \widehat{Y}_{n+1}] \\
+&= \mathbb{V}[X^{(n+1)}\beta + \varepsilon_{n+1} - X^{(n+1)}\widehat{\beta}] \\
+&= \mathbb{V}[\varepsilon_{n+1}] + \mathbb{V}[X^{(n+1)}\widehat{\beta}]
+\quad \text{(car $\varepsilon_{n+1}$ est indépendante de $\widehat{\beta}$)} \\
+&= \sigma^2 + X^{(n+1)}\, \mathbb{V}[\widehat{\beta}]\, X^{(n+1)T} \\
+&= \sigma^2 + X^{(n+1)}\, \sigma^2 (X^T X)^{-1}\, X^{(n+1)T} \\
+&= \sigma^2 \left( 1 + X^{(n+1)} (X^T X)^{-1} X^{(n+1)T} \right).
+\end{align*}
+\end{enumerate}
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%\newpage
+
+%\section{Geometrical interpetetion}
+
+%FINIR?
+
+

@@ -1,0 +1,266 @@
+\chapter{CM3}
+
+%Soit $Y_i = \beto_0 + \beta_1 x_i + \epsilon$
+
+%\epsilon_I est une variable aleatoire telle que 
+
+%\item E[\epsiol_i] = 0 
+%\item V[\epsilo_i]= \sigma^2 
+%\item Cov[\epsi_i,\epsi_j]= 0
+
+%MCO: \argmin_ (\beta'0 \beta'1) \sum (Y_i - \beta'0 - \beta'_1 x_i)^2 \to \hatbeta0 \hatbeta 1
+
+%\hatbeta1 =\frac{\Delta_x,y^2}{\Demta_x^2}  \hatbeta_0 = \bar Y - \bar x \hatbeta1
+
+%E[] E[]
+
+%V[\hatbeta0 \hatbeta1]= \sigm^2 V_n
+
+%Vn =
+%\begin{matrix} 
+%\frac{1}{n}(1+ \frac{\barx^2}{\Delta_x^2}) & ? \\
+%-\frac{\barx}{n \Delta_x^2} & \frac{\Delta^2_X}{n} 
+%\end{matrix}
+
+\section{Cas des erreurs gaussiennes}
+
+\subsection{Hypothèse de la loi de $\epsilon_i$}
+
+Nous allons maintenant renforcer les hypothèses faites sur les erreurs $\epsilon_i$, en précisant leur loi de probabilité.  
+
+\begin{hypothese}
+On pose l'hypothèse suivante :
+
+\[ (\mathcal{H}^f) :
+\begin{cases}
+(\mathcal{H}_1) : & \epsilon_i \sim \mathcal{N}(0,\sigma^2) \\[6pt]
+(\mathcal{H}_2) : & \epsilon_i \text{ sont indépendantes.}
+\end{cases} \]
+\end{hypothese}
+
+Il s'agit d'une hypothèse plus forte que celle posée précédemment, car si les $\epsilon_i$ suivent cette loi, on a bien :
+\begin{itemize}
+    \item $\mathbb{E}[\epsilon_i] = 0$ (la loi normale est centrée),
+    \item $\mathrm{Var}(\epsilon_i) = \sigma^2$, (la loi est de variance $\sigma^2$)
+    \item $\mathrm{Cov}(\epsilon_i,\epsilon_j) = 0$ pour $i \neq j$ (indépendance).
+\end{itemize}
+
+Ceci nous permet de introduire la loi de $y_i$:
+
+\begin{prop}
+Soit un modèle de régression linéaire
+\[
+y_i = \beta_0 + \beta_1 x_i + \epsilon_i, \quad i=1,\dots,n.
+\]
+Sous l’hypothèse $(\mathcal{H}^f)$, on a :
+\begin{enumerate}
+    \item $y_i \sim \mathcal{N}(\beta_0 + \beta_1 x_i, \sigma^2)$,
+    \item Les $y_i$ sont indépendantes deux à deux.
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+On a $\epsilon_i \sim \mathcal{N}(0,\sigma^2)$.  
+
+\commentaire{ Montrons que si $X \sim \mathcal{N}(\mu,\sigma^2)$ alors pour tout $a \in \mathbb{R}$, $b \in \mathbb{R}$,
+\[
+\boxed{ Y = aX + b \;\;\sim\;\; \mathcal{N}(a\mu+b, a^2\sigma^2). }
+\]
+
+Considérons \( Y = aX + b \), avec \( a,b \in \mathbb{R} \). Pour tout \( t \in \mathbb{R} \),
+\[
+\varphi_Y(t) = \mathbb{E}[e^{itY}]
+= \mathbb{E}\!\left[e^{it(aX + b)}\right]
+= e^{itb} \, \mathbb{E}\!\left[e^{i(at)X}\right]
+= e^{itb} \, \varphi_X(at).
+\]
+En substituant l’expression de \(\varphi_X\), on obtient :
+\[
+\varphi_Y(t)
+= e^{itb} \exp\!\left(i\mu (at) - \tfrac{1}{2}\sigma^2 (at)^2\right)
+= \exp\!\left(i(a\mu + b)t - \tfrac{1}{2}(a^2\sigma^2)t^2\right).
+\]
+
+Cette fonction caractéristique correspond exactement à celle d’une loi normale de moyenne \( a\mu + b \) et de variance \( a^2\sigma^2 \).  
+Par unicité de la fonction caractéristique, on en déduit :
+\[
+Y = aX + b \sim \mathcal{N}(a\mu + b,\, a^2\sigma^2).
+\]
+}
+
+En prenant $a=1$ et $b=\beta_0+\beta_1 x_i$, on obtient immédiatement le résultat.
+\end{proof}
+
+\subsection{Loi jointe du vecteur aléatoire}
+
+Considérons le vecteur
+\[
+y =
+\begin{bmatrix}
+y_1 \\
+\vdots \\
+y_n
+\end{bmatrix}.
+\]
+
+Sous $(\mathcal{H}^f)$, les $y_i$ étant indépendantes, la densité jointe de $Y$ est le produit des densités marginales :
+\[
+p(y \mid \beta_0, \beta_1, \sigma^2)
+= \prod_{i=1}^n p(y_i \mid \beta_0, \beta_1, \sigma^2).
+\]
+
+Or, pour chaque $i$,
+\[
+p(y_i \mid \beta_0, \beta_1, \sigma^2)
+= \frac{1}{\sqrt{2\pi\sigma^2}} \exp\!\left(-\frac{(y_i - (\beta_0 + \beta_1 x_i))^2}{2\sigma^2}\right).
+\]
+
+Ainsi,
+\[
+p(y \mid \beta_0, \beta_1, \sigma^2)
+= \prod_{i=1}^n \frac{1}{\sqrt{2\pi\sigma^2}}
+\exp\!\left(-\frac{(y_i - (\beta_0 + \beta_1 x_i))^2}{2\sigma^2}\right).
+\]
+
+
+\subsection{Maximum de vraisemblance}
+
+\begin{rappel}
+Soit $X$ une variable aléatoire qui admet une densité $f_{\theta}$ qui dépend d'un paramètre $\theta$. Alors, la \textbf{fonction de vraisemblance} est la densité, vue comme une fonction de $\theta$ étant donné un résultat $X=x$:
+
+\[ \theta \mapsto \mathcal{L}(\theta | x) = f_{\theta}(x). \]
+
+L'estimateur du \textbf{Maximum de Vraisemblance} (MV) $\hat{\theta}$ du paramètre $\theta$ est celui qui maximise la fonction de vraisemblance en $\theta$, étant donné une observation $x$:
+
+\[ \hat{\theta} = \underset{\theta}{\operatorname{argmax}} \, \mathcal{L}(\theta | x). \]
+\end{rappel}
+
+--------------------------------------------------------------------------------------------------------------------------
+
+Nous allons maintenant estimer les paramètres $(\beta_0,\beta_1,\sigma^2)$ par la méthode du maximum de vraisemblance.  
+
+La fonction de vraisemblance s’écrit :
+\[
+L(\beta'_0,\beta'_1,\sigma'^2 \mid Y) = p(Y \mid \beta'_0,\beta'_1,\sigma'^2).
+\]
+
+Or, d’après la loi jointe trouvée précédemment, on a :
+\[
+L(\beta'_0,\beta'_1,\sigma'^2 \mid Y) 
+= \prod_{i=1}^n \frac{1}{\sqrt{2\pi\sigma'^2}}
+\exp\!\left(-\frac{\big(y_i - (\beta'_0 + \beta'_1 x_i)\big)^2}{2\sigma'^2}\right).
+\]
+
+L’estimateur du maximum de vraisemblance est alors défini par :
+\[
+(\hat{\beta}_0^{\text{(ML)}}, \hat{\beta}_1^{\text{(ML)}}, \hat{\sigma}^{2}_{\text{(ML)}})
+= \arg\max_{\beta_0 \in \mathbb{R}, \, \beta_1 \in \mathbb{R}, \, \sigma^2 > 0}
+L(\beta'_0,\beta'_1,\sigma'^2 \mid Y).
+\]
+
+En pratique, on maximise la log-vraisemblance, plus simple à manipuler car elle transforme les produits en sommes :
+\[
+\ell(\beta'_0,\beta'_1,\sigma'^2 \mid Y) 
+= \log L(\beta'_0,\beta'_1,\sigma'^2 \mid Y).
+\]
+
+C’est-à-dire :
+\[
+\ell(\beta'_0,\beta'_1,\sigma'^2 \mid Y) 
+= -\frac{n}{2}\log(2\pi\sigma'^2) 
+- \frac{1}{2\sigma'^2}\sum_{i=1}^n \big(y_i - (\beta'_0 + \beta'_1 x_i)\big)^2.
+\]
+
+À $\sigma'^2$ fixé, maximiser la log-vraisemblance
+
+\[
+\ell(\beta'_0,\beta'_1,\sigma'^2 \mid Y) 
+= -\frac{n}{2}\log(2\pi\sigma'^2) 
+- \frac{1}{2\sigma'^2}\sum_{i=1}^n \big(y_i - (\beta'_0 + \beta'_1 x_i)\big)^2
+\]
+revient à minimiser la somme des carrés des résidus :
+\[
+S(\beta'_0,\beta'_1) = \sum_{i=1}^n \big(y_i - (\beta'_0 + \beta'_1 x_i)\big)^2.
+\]
+
+Ainsi, les estimateurs du maximum de vraisemblance pour $\beta_0$ et $\beta_1$ coïncident avec les estimateurs des moindres carrés ordinaires (MCO) :
+
+\[
+\hat{\beta}_0^{\text{(ML)}} = \hat{\beta}_0, 
+\qquad 
+\hat{\beta}_1^{\text{(ML)}} = \hat{\beta}_1.
+\]
+
+En réinjectant les estimateurs $\hat{\beta}'_0$ et $\hat{\beta}'_1$ dans la log-vraisemblance, on obtient la fonction :
+\[
+\sigma'^2 \;\mapsto\; \ell(\hat{\beta}'_0,\hat{\beta}'_1,\sigma'^2 \mid Y) 
+= -\frac{n}{2}\log(2\pi\sigma'^2) 
+- \frac{1}{2\sigma'^2}\sum_{i=1}^n \big(y_i - \hat{y}_i\big)^2,
+\]
+où $\hat{y}_i = \hat{\beta}'_0 + \hat{\beta}'_1 x_i$.  
+
+\bigskip
+
+On dérive cette expression par rapport à $\sigma'^2$ :
+\[
+\frac{\partial \ell}{\partial \sigma'^2}(\hat{\beta}'_0,\hat{\beta}'_1,\sigma'^2 \mid Y) 
+= -\frac{n}{2}\cdot \frac{1}{\sigma'^2} 
++ \frac{1}{2(\sigma'^2)^2}\sum_{i=1}^n \big(y_i - \hat{y}_i\big)^2.
+\]
+
+On annule cette dérivée pour maximiser la log-vraisemblance :
+\[
+-\frac{n}{2\sigma'^2} + \frac{1}{2(\sigma'^2)^2}\sum_{i=1}^n \big(y_i - \hat{y}_i\big)^2 = 0.
+\]
+
+En multipliant par $2(\sigma'^2)^2$ :
+\[
+-n\sigma'^2 + \sum_{i=1}^n \big(y_i - \hat{y}_i\big)^2 = 0.
+\]
+
+Donc :
+\[
+\hat{\sigma}^{2}_{\text{(ML)}} = \frac{1}{n}\sum_{i=1}^n \big(y_i - \hat{y}_i\big)^2.
+\]
+
+
+\commentaire{
+Attention : l’estimateur du maximum de vraisemblance de la variance
+\[
+\hat{\sigma}^2_{\text{(ML)}} = \frac{1}{n}\sum_{i=1}^n (y_i - \hat{y}_i)^2
+\]
+est \textbf{biaisé}.  
+
+En effet, on a :
+\[
+\mathbb{E}\left[\hat{\sigma}^2_{\text{(ML)}}\right] =\mathbb{E} \left[\frac{n-2}{n} \hat{\sigma}^2\right] 
+= \frac{n-2}{n}\,\sigma^2,
+\]
+où $n-2$ correspond au nombre de degrés de liberté perdus lors de l’estimation de $\beta_0$ et $\beta_1$.  
+}
+
+
+% Faire un annexe avec les loi usuelles.
+
+% Faire tout
+
+
+
+
+
+
+
+
+
+
+
+
+
+\chapter{Annexe}
+
+Rappel:
+
+\begin{itemize}
+\item Lois Normale
+\item Loi
+\end{itemize}
