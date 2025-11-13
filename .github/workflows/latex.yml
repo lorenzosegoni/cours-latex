@@ -10,6 +10,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 45
     
+    permissions:         # <--- AJOUTEZ CECI
+      contents: write    # <--- ET CECI
+    
     steps:
       # ===== 1️⃣ Récupération du dépôt =====
       - name: Checkout repository
@@ -213,6 +216,7 @@ jobs:
       # ===== 7️⃣ Commit et push des PDFs =====
       - name: Commit and push PDFs
         if: always()
+        shell: bash      # <--- AJOUTEZ CECI
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
