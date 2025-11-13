@@ -54,8 +54,9 @@ jobs:
           
           echo "✅ Configuration latexmk créée"
 
-      # ===== 5️⃣ Compilation des fichiers LaTeX =====
+ # ===== 5️⃣ Compilation des fichiers LaTeX =====
       - name: Compile all LaTeX files
+        shell: bash  # <--- AJOUTEZ CETTE LIGNE
         run: |
           echo "🔍 Démarrage de la compilation..."
           echo ""
@@ -75,6 +76,7 @@ jobs:
           : > "$ERRORS_LOG"
           
           # Patterns à compiler (dans l'ordre)
+          # Note: "SheetCheat.tex" était peut-être "Cheatsheet.tex" ? J'ai gardé le vôtre.
           PATTERNS=("Cours.tex" "TD.tex" "Corrigé.tex" "TP.tex" "SheetCheat.tex" "Poster.tex" "Diapo.tex")
           
           # Boucle sur chaque pattern
@@ -82,29 +84,23 @@ jobs:
             echo "📋 Recherche des fichiers: $pattern"
             
             # Trouver tous les fichiers correspondants (exclure .git)
-            files=$(find . -type f -name "$pattern" -not -path "./.git/*" 2>/dev/null || true)
-            
-            # Si aucun fichier trouvé → on passe au suivant
-            if [ -z "$files" ]; then
-              echo "   (aucun fichier trouvé)"
-              continue
-            fi
-            
-            # Compiler chaque fichier trouvé
-            while IFS= read -r file; do
+            # Utilisation de find ... -print0 | while read -d '' ... pour gérer les espaces
+            find . -type f -name "$pattern" -not -path "./.git/*" -print0 | while IFS= read -r -d '' file; do
               ((TOTAL_FILES++))
               
               dir=$(dirname "$file")
               name=$(basename "$file" .tex)
-              full_path="$GITHUB_WORKSPACE/$dir"
+              # $GITHUB_WORKSPACE est déjà le répertoire de travail, pas besoin de l'ajouter
               
               echo ""
               echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
               echo "📄 [$TOTAL_FILES] Compilation: $file"
               echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
               
-              cd "$full_path" || { echo "Erreur: impossible d’entrer dans $full_path"; continue; }
+              # Aller dans le répertoire du fichier
+              cd "$dir" || { echo "Erreur: impossible d’entrer dans $dir"; continue; }
               
+              # Nettoyer avant
               latexmk -c "$name.tex" 2>/dev/null || true
               
               if timeout 480 latexmk -pdf "$name.tex" > "$name.tmp.log" 2>&1; then
@@ -117,20 +113,22 @@ jobs:
                   ((FAILED_COUNT++))
                   echo "❌ Erreur: PDF non généré (check $name.log)"
                   mv "$name.tmp.log" "$name.log"
-                  echo "FAILED: $dir/$pattern - PDF non généré" >> "$ERRORS_LOG"
+                  echo "FAILED: $file - PDF non généré" >> "$GITHUB_WORKSPACE/$ERRORS_LOG"
                 fi
               else
                 ((FAILED_COUNT++))
                 echo "❌ Erreur: Compilation échouée ou timeout (8 min)"
-                echo "FAILED: $dir/$pattern - Timeout ou erreur de compilation" >> "$ERRORS_LOG"
+                echo "FAILED: $file - Timeout ou erreur de compilation" >> "$GITHUB_WORKSPACE/$ERRORS_LOG"
                 if [ -f "$name.tmp.log" ]; then
                   mv "$name.tmp.log" "$name.log"
                 fi
               fi
               
+              # Retourner au répertoire de base
               cd "$GITHUB_WORKSPACE" || exit 1
-            done <<< "$files"
-          done
+            
+            done # Fin de la boucle while
+          done # Fin de la boucle for
           
           echo ""
           echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
@@ -142,7 +140,11 @@ jobs:
           echo ""
           
           echo "📋 PDFs générés:"
-          find . -type f \( -name "Cours.pdf" -o -name "TD.pdf" -o -name "Corrigé.pdf" -o -name "TP.pdf" -o -name "SheetCheat.pdf" -o -name "Poster.pdf" -o -name "Diapo.pdf" \) -not -path "./.git/*" | while read -r f; do
+          # Re-créer la liste des patterns PDF
+          PDF_PATTERNS=()
+          for p in "${PATTERNS[@]}"; do PDF_PATTERNS+=(-o -name "${p%.tex}.pdf"); done
+          # Enlever le premier "-o" qui est en trop
+          find . -type f \( "${PDF_PATTERNS[@]:1}" \) -not -path "./.git/*" | while read -r f; do
             size=$(ls -lh "$f" | awk '{print $5}')
             echo "   $f ($size)"
           done
