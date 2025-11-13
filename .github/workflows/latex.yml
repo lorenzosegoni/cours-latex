@@ -59,7 +59,13 @@ jobs:
         run: |
           echo "🔍 Démarrage de la compilation..."
           echo ""
-          
+
+          echo "📂 Vérification initiale : fichiers détectés dans le dépôt"
+          echo "--------------------------------------------------------"
+          find . -type f -name "*.tex" -not -path "./.git/*" | sort || echo "(aucun fichier trouvé)"
+          echo "--------------------------------------------------------"
+          echo ""
+
           TOTAL_FILES=0
           COMPILED_COUNT=0
           FAILED_COUNT=0
