@@ -1,24 +1,26 @@
+# _quarto.yml
+
 project:
   type: website
   output-dir: .
 
 format:
   html:
-    theme: 
-      light: [cosmo, custom.scss]
+    theme:
+      # Charge le thème 'cosmo', PUIS applique vos styles 'custom.scss' par-dessus
+      light: [cosmo, custom.scss] 
+      
     toc: true
     toc-depth: 3
     toc-location: right
     number-sections: true
-    code-fold: false
-    code-tools: false
-    code-block-bg: "#f5f5f5"
-    code-block-border-left: "#404040"
     smooth-scroll: true
-    highlight-style: github
-    css: styles.css
     grid:
       body-width: 900px
       margin-width: 200px
     fontsize: 1.1em
-    linestretch: 1.6 /*-- scss:defaults --*/
+    linestretch: 1.6
+    
+    # Options de code (vous les aviez sur false, je les garde)
+    code-fold: false
+    code-tools: false
