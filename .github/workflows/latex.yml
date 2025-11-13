@@ -76,7 +76,7 @@ jobs:
             echo "📋 Recherche des fichiers: $pattern"
             
             # Trouver tous les fichiers correspondants (exclure .git)
-            files=$(find . -type f -name "$pattern" -not -path "./.git/*" | sort)
+            files=$(find . -type f -name "$pattern" -not -path "./.git/*" 2>/dev/null || true)
             
             if [ -z "$files" ]; then
               echo "   (aucun fichier trouvé)"
