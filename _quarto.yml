@@ -21,4 +21,4 @@ format:
       body-width: 900px
       margin-width: 200px
     fontsize: 1.1em
-    linestretch: 1.6
+    linestretch: 1.6 /*-- scss:defaults --*/
