@@ -78,12 +78,13 @@ jobs:
             # Trouver tous les fichiers correspondants (exclure .git)
             files=$(find . -type f -name "$pattern" -not -path "./.git/*" 2>/dev/null || true)
             
+            # Si aucun fichier trouvé → on passe au suivant
             if [ -z "$files" ]; then
               echo "   (aucun fichier trouvé)"
               continue
             fi
             
-            # Compiler chaque fichier dans son contexte
+            # Compiler chaque fichier trouvé
             while IFS= read -r file; do
               ((TOTAL_FILES++))
               
@@ -96,22 +97,15 @@ jobs:
               echo "📄 [$TOTAL_FILES] Compilation: $file"
               echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
               
-              # Changer de répertoire
-              cd "$full_path" || exit 1
+              cd "$full_path" || { echo "Erreur: impossible d’entrer dans $full_path"; continue; }
               
-              # Nettoyer avant compilation
               latexmk -c "$name.tex" 2>/dev/null || true
               
-              # Compiler avec timeout (8 min par fichier)
               if timeout 480 latexmk -pdf "$name.tex" > "$name.tmp.log" 2>&1; then
-                
-                # Vérifier que le PDF existe
                 if [ -f "$name.pdf" ]; then
                   ((COMPILED_COUNT++))
                   size=$(ls -lh "$name.pdf" | awk '{print $5}')
                   echo "✅ Succès: $name.pdf généré ($size)"
-                  
-                  # Garder le .log pour la référence
                   mv "$name.tmp.log" "$name.log"
                 else
                   ((FAILED_COUNT++))
@@ -128,9 +122,7 @@ jobs:
                 fi
               fi
               
-              # Revenir au workspace
               cd "$GITHUB_WORKSPACE" || exit 1
-              
             done <<< "$files"
           done
           
@@ -143,20 +135,20 @@ jobs:
           echo "❌ Erreurs: $FAILED_COUNT"
           echo ""
           
-          # Afficher les PDFs générés
           echo "📋 PDFs générés:"
-          find . -type f \( -name "Cours.pdf" -o -name "TD.pdf" -o -name "Corrigé.pdf" -o -name "TP.pdf" -o -name "SheetCheat.pdf" -o -name "Poster.pdf" -o -name "Diapo.pdf" \) -not -path "./.git/*" -exec ls -lh {} \; | awk '{print "   " $9 " (" $5 ")"}'
+          find . -type f \( -name "Cours.pdf" -o -name "TD.pdf" -o -name "Corrigé.pdf" -o -name "TP.pdf" -o -name "SheetCheat.pdf" -o -name "Poster.pdf" -o -name "Diapo.pdf" \) -not -path "./.git/*" | while read -r f; do
+            size=$(ls -lh "$f" | awk '{print $5}')
+            echo "   $f ($size)"
+          done
           
           echo ""
           
-          # Afficher les erreurs s'il y en a
           if [ -s "$ERRORS_LOG" ]; then
             echo "⚠️  FICHIERS AVEC ERREURS:"
             cat "$ERRORS_LOG" | sed 's/^/   /'
             echo ""
           fi
           
-          # Exporter les variables pour les étapes suivantes
           echo "TOTAL_FILES=$TOTAL_FILES" >> $GITHUB_ENV
           echo "COMPILED_COUNT=$COMPILED_COUNT" >> $GITHUB_ENV
           echo "FAILED_COUNT=$FAILED_COUNT" >> $GITHUB_ENV
