@@ -54,9 +54,9 @@ jobs:
           
           echo "✅ Configuration latexmk créée"
 
- # ===== 5️⃣ Compilation des fichiers LaTeX =====
+      # ===== 5️⃣ Compilation des fichiers LaTeX =====
       - name: Compile all LaTeX files
-        shell: bash  # <--- AJOUTEZ CETTE LIGNE
+        # Pas besoin de 'shell: bash' pour cette version
         run: |
           echo "🔍 Démarrage de la compilation..."
           echo ""
@@ -75,22 +75,33 @@ jobs:
           # Initialiser le fichier d'erreurs
           : > "$ERRORS_LOG"
           
-          # Patterns à compiler (dans l'ordre)
-          # Note: "SheetCheat.tex" était peut-être "Cheatsheet.tex" ? J'ai gardé le vôtre.
-          PATTERNS=("Cours.tex" "TD.tex" "Corrigé.tex" "TP.tex" "SheetCheat.tex" "Poster.tex" "Diapo.tex")
+          # Patterns à compiler (liste pour shell POSIX sh, séparée par des espaces)
+          PATTERNS="Cours.tex TD.tex Corrigé.tex TP.tex SheetCheat.tex Poster.tex Diapo.tex"
           
-          # Boucle sur chaque pattern
-          for pattern in "${PATTERNS[@]}"; do
+          # Boucle sur chaque pattern (syntaxe sh)
+          for pattern in $PATTERNS; do
             echo "📋 Recherche des fichiers: $pattern"
             
-            # Trouver tous les fichiers correspondants (exclure .git)
-            # Utilisation de find ... -print0 | while read -d '' ... pour gérer les espaces
-            find . -type f -name "$pattern" -not -path "./.git/*" -print0 | while IFS= read -r -d '' file; do
-              ((TOTAL_FILES++))
+            # Trouver tous les fichiers correspondants
+            files=$(find . -type f -name "$pattern" -not -path "./.git/*" 2>/dev/null || true)
+            
+            # Si aucun fichier trouvé → on passe au suivant
+            if [ -z "$files" ]; then
+              echo "   (aucun fichier trouvé)"
+              continue
+            fi
+            
+            # Compiler chaque fichier trouvé
+            # Utilisation de "echo ... | while read" (compatible sh)
+            echo "$files" | while IFS= read -r file; do
+              # Sécurité pour ignorer les lignes vides
+              if [ -z "$file" ]; then continue; fi
+            
+              # Incrémentation compatible sh
+              TOTAL_FILES=$((TOTAL_FILES + 1))
               
               dir=$(dirname "$file")
               name=$(basename "$file" .tex)
-              # $GITHUB_WORKSPACE est déjà le répertoire de travail, pas besoin de l'ajouter
               
               echo ""
               echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
@@ -105,18 +116,18 @@ jobs:
               
               if timeout 480 latexmk -pdf "$name.tex" > "$name.tmp.log" 2>&1; then
                 if [ -f "$name.pdf" ]; then
-                  ((COMPILED_COUNT++))
+                  COMPILED_COUNT=$((COMPILED_COUNT + 1))
                   size=$(ls -lh "$name.pdf" | awk '{print $5}')
                   echo "✅ Succès: $name.pdf généré ($size)"
                   mv "$name.tmp.log" "$name.log"
                 else
-                  ((FAILED_COUNT++))
+                  FAILED_COUNT=$((FAILED_COUNT + 1))
                   echo "❌ Erreur: PDF non généré (check $name.log)"
                   mv "$name.tmp.log" "$name.log"
                   echo "FAILED: $file - PDF non généré" >> "$GITHUB_WORKSPACE/$ERRORS_LOG"
                 fi
               else
-                ((FAILED_COUNT++))
+                FAILED_COUNT=$((FAILED_COUNT + 1))
                 echo "❌ Erreur: Compilation échouée ou timeout (8 min)"
                 echo "FAILED: $file - Timeout ou erreur de compilation" >> "$GITHUB_WORKSPACE/$ERRORS_LOG"
                 if [ -f "$name.tmp.log" ]; then
@@ -140,13 +151,26 @@ jobs:
           echo ""
           
           echo "📋 PDFs générés:"
-          # Re-créer la liste des patterns PDF
-          PDF_PATTERNS=()
-          for p in "${PATTERNS[@]}"; do PDF_PATTERNS+=(-o -name "${p%.tex}.pdf"); done
-          # Enlever le premier "-o" qui est en trop
-          find . -type f \( "${PDF_PATTERNS[@]:1}" \) -not -path "./.git/*" | while read -r f; do
-            size=$(ls -lh "$f" | awk '{print $5}')
-            echo "   $f ($size)"
+          
+          # Recréer la logique de find pour sh
+          find_args=""
+          for p in $PATTERNS; do
+            # Remplacer .tex par .pdf
+            pdf_name=$(echo "$p" | sed 's/\.tex$/.pdf/')
+            if [ -z "$find_args" ]; then
+              find_args="-name $pdf_name"
+            else
+              find_args="$find_args -o -name $pdf_name"
+            fi
+          done
+          
+          # Exécuter find avec les arguments construits
+          # "eval" est nécessaire pour que les arguments -o soient interprétés correctement
+          eval "find . -type f \( $find_args \) -not -path \"./.git/*\"" | while read -r f; do
+             if [ -n "$f" ]; then # S'assurer que la ligne n'est pas vide
+               size=$(ls -lh "$f" | awk '{print $5}')
+               echo "   $f ($size)"
+             fi
           done
           
           echo ""
@@ -161,6 +185,12 @@ jobs:
           echo "COMPILED_COUNT=$COMPILED_COUNT" >> $GITHUB_ENV
           echo "FAILED_COUNT=$FAILED_COUNT" >> $GITHUB_ENV
 
+          # Si des erreurs ont eu lieu, faire échouer le job
+          if [ "$FAILED_COUNT" -gt 0 ]; then
+             echo "::error::Il y a eu $FAILED_COUNT erreurs de compilation."
+             exit 1
+          fi
+          
       # ===== 5️⃣ bis Sauvegarder le cache LaTeX =====
       - name: Save LaTeX cache
         uses: actions/cache/save@v4
