@@ -18,20 +18,25 @@
 
 % ===== FIGURES, TABLEAUX, CODE =====
 \usepackage{graphicx}
+\usepackage{caption}
 \usepackage{subcaption}
 \usepackage{float}
 \usepackage{booktabs}
 \usepackage{array}
 \usepackage{multirow}
-\usepackage{listings}
 \usepackage{xcolor}
+\usepackage{listings}
+
+\lstloadlanguages{Python, R, SQL}
 
 % ===== BOÎTES MINIMALISTES =====
 \usepackage{mdframed}
 
 % ===== STRUCTURE ET NAVIGATION =====
 \usepackage{titlesec}
+\usepackage{titletoc}
 \usepackage{fancyhdr}
+\setlength{\headheight}{14.5pt}
 \usepackage{hyperref}
 \hypersetup{
     colorlinks=true,
@@ -57,16 +62,157 @@
 % ===== NUMÉROTATION DES ÉQUATIONS =====
 \numberwithin{equation}{chapter}
 
-% ===== CONFIGURATION DU CODE =====
+% ===== DÉFINITION STYLES DE LISTINGS =====
+% --- Packages nécessaires ---
+\usepackage[most]{tcolorbox}
+\usepackage{listings}
+\usepackage{xcolor}
+
+% --- Couleurs des headers ---
+% Python
+\definecolor{pyhead}{RGB}{30,60,160}        % bleu foncé
+\definecolor{pyheadlight}{RGB}{180,200,255} % bleu clair output
+
+% R
+\definecolor{rhead}{RGB}{180,20,20}         % rouge foncé
+\definecolor{rheadlight}{RGB}{255,200,200}  % rouge clair output
+
+% SQL
+\definecolor{sqlhead}{RGB}{40,140,230}       % bleu clair
+\definecolor{sqlheadlight}{RGB}{200,230,255} % bleu très clair output
+
+% --- Style listings : texte noir, syntaxe sobre ---
 \lstset{
-    language=Python,
-    basicstyle=\ttfamily\small,
-    keywordstyle=\color{blue},
-    commentstyle=\color{gray},
-    stringstyle=\color{red},
+    basicstyle=\ttfamily\small\color{black},
+    commentstyle=\color{gray}\itshape,
+    stringstyle=\color{gray!70},
+    keywordstyle=\bfseries\color{black},
     breaklines=true,
-    frame=single,
-    backgroundcolor=\color{white}
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+}
+
+% ====== PYTHON ======
+\newtcolorbox{pycodebox}{
+    colback=white,
+    colframe=pyhead,
+    fonttitle=\bfseries\ttfamily\small,
+    coltitle=white,
+    title=Python,
+    enhanced,
+    sharp corners,
+    top=2pt, bottom=2pt, left=2pt, right=2pt,
+    attach boxed title to top left={
+        xshift=2pt, yshift*=-\tcboxedtitleheight
+    },
+    boxed title style={
+        colback=pyhead,
+        colframe=pyhead,
+        boxrule=0.8pt,
+        sharp corners
+    }
+}
+
+\newtcolorbox{pyoutputbox}{
+    colback=white,
+    colframe=pyheadlight,
+    fonttitle=\bfseries\ttfamily\small,
+    coltitle=black,
+    title=Python~Output,
+    enhanced,
+    sharp corners,
+    top=2pt, bottom=2pt, left=2pt, right=2pt,
+    attach boxed title to top left={
+        xshift=2pt, yshift*=-\tcboxedtitleheight
+    },
+    boxed title style={
+        colback=pyheadlight,
+        colframe=pyheadlight,
+        boxrule=0.8pt,
+        sharp corners
+    }
+}
+
+% ====== R ======
+\newtcolorbox{rcodebox}{
+    colback=white,
+    colframe=rhead,
+    fonttitle=\bfseries\ttfamily\small,
+    coltitle=white,
+    title=R,
+    enhanced,
+    sharp corners,
+    top=2pt, bottom=2pt, left=2pt, right=2pt,
+    attach boxed title to top left={
+        xshift=2pt, yshift*=-\tcboxedtitleheight
+    },
+    boxed title style={
+        colback=rhead,
+        colframe=rhead,
+        boxrule=0.8pt,
+        sharp corners
+    }
+}
+
+\newtcolorbox{routputbox}{
+    colback=white,
+    colframe=rheadlight,
+    fonttitle=\bfseries\ttfamily\small,
+    coltitle=black,
+    title=R~Output,
+    enhanced,
+    sharp corners,
+    top=2pt, bottom=2pt, left=2pt, right=2pt,
+    attach boxed title to top left={
+        xshift=2pt, yshift*=-\tcboxedtitleheight
+    },
+    boxed title style={
+        colback=rheadlight,
+        colframe=rheadlight,
+        boxrule=0.8pt,
+        sharp corners
+    }
+}
+
+% ====== SQL ======
+\newtcolorbox{sqlcodebox}{
+    colback=white,
+    colframe=sqlhead,
+    fonttitle=\bfseries\ttfamily\small,
+    coltitle=white,
+    title=SQL,
+    enhanced,
+    sharp corners,
+    top=2pt, bottom=2pt, left=2pt, right=2pt,
+    attach boxed title to top left={
+        xshift=2pt, yshift*=-\tcboxedtitleheight
+    },
+    boxed title style={
+        colback=sqlhead,
+        colframe=sqlhead,
+        boxrule=0.8pt,
+        sharp corners
+    }
+}
+
+\newtcolorbox{sqloutputbox}{
+    colback=white,
+    colframe=sqlheadlight,
+    fonttitle=\bfseries\ttfamily\small,
+    coltitle=black,
+    title=SQL~Output,
+    enhanced,
+    sharp corners,
+    top=2pt, bottom=2pt, left=2pt, right=2pt,
+    attach boxed title to top left={
+        xshift=2pt, yshift*=-\tcboxedtitleheight
+    },
+    boxed title style={
+        colback=sqlheadlight,
+        colframe=sqlheadlight,
+        boxrule=0.8pt,
+        sharp corners
+    }
 }
 
 % ===== COMMANDES PERSONNALISÉES MATHS =====
@@ -77,17 +223,16 @@
 \newcommand{\Q}{\mathbb{Q}}
 \newcommand{\C}{\mathbb{C}}
 
-% ===== STYLES DE BOÎTES MINIMALISTES =====
-% Couleurs douces et non dérangeantes
-\definecolor{redsoft}{RGB}{230, 100, 100}      % Rouge doux
-\definecolor{redbg}{RGB}{255, 245, 245}        % Fond rouge très léger
-\definecolor{yellowsoft}{RGB}{220, 180, 80}    % Jaune/orange doux
-\definecolor{yellowbg}{RGB}{255, 252, 240}     % Fond jaune très léger
-\definecolor{graysoft}{RGB}{140, 140, 140}     % Gris doux
-\definecolor{graybg}{RGB}{248, 248, 248}       % Fond gris très léger
+% ===== COULEURS DOUCES =====
+\definecolor{redsoft}{RGB}{230, 100, 100}
+\definecolor{redbg}{RGB}{255, 245, 245}
+\definecolor{yellowsoft}{RGB}{220, 180, 80}
+\definecolor{yellowbg}{RGB}{255, 252, 240}
+\definecolor{graysoft}{RGB}{140, 140, 140}
+\definecolor{graybg}{RGB}{248, 248, 248}
 
-% Style pour théorèmes (rouge)
-\mdfdefinestyle{thmstyle}{%
+% ===== STYLES DES BOÎTES =====
+\mdfdefinestyle{thmstyle}{
     linecolor=redsoft,
     linewidth=1.5pt,
     backgroundcolor=redbg,
@@ -99,8 +244,7 @@
     skipbelow=0.8em
 }
 
-% Style pour exemples (jaune)
-\mdfdefinestyle{exstyle}{%
+\mdfdefinestyle{exstyle}{
     linecolor=yellowsoft,
     linewidth=1.5pt,
     backgroundcolor=yellowbg,
@@ -112,8 +256,7 @@
     skipbelow=0.8em
 }
 
-% Style pour remarques (gris)
-\mdfdefinestyle{remstyle}{%
+\mdfdefinestyle{remstyle}{
     linecolor=graysoft,
     linewidth=1.5pt,
     backgroundcolor=graybg,
@@ -125,28 +268,21 @@
     skipbelow=0.8em
 }
 
-% ===== ENVIRONNEMENTS THÉORIQUES AVEC BOÎTES =====
+% ===== ENVIRONNEMENTS =====
 \theoremstyle{definition}
-
 \newmdtheoremenv[style=thmstyle]{definition}{Définition}[chapter]
 \newmdtheoremenv[style=thmstyle]{notation}{Notation}[chapter]
-
 \newmdtheoremenv[style=exstyle]{exemple}{Exemple}[chapter]
-
 \newmdtheoremenv[style=remstyle]{remarque}{Remarque}[chapter]
 \newmdtheoremenv[style=remstyle]{note}{Note}[chapter]
 
 \theoremstyle{plain}
-
 \newmdtheoremenv[style=thmstyle]{theoreme}{Théorème}[chapter]
 \newmdtheoremenv[style=thmstyle]{proposition}{Proposition}[chapter]
 \newmdtheoremenv[style=thmstyle]{lemme}{Lemme}[chapter]
 \newmdtheoremenv[style=thmstyle]{corollaire}{Corollaire}[chapter]
 
-% ===== BIBLIOGRAPHIE (À ACTIVER PLUS TARD) =====
-% \usepackage{natbib}
-% \bibliographystyle{abbrvnat}
-
+% ===== DOCUMENT =====
 \begin{document}
 
 \frontmatter
@@ -155,94 +291,12 @@
 \date{\today}
 \maketitle
 
-% Table des matières
 \tableofcontents
 
 \mainmatter
 
 % Exemple de chapitre
-\chapter{Introduction}
-
-Votre contenu ici.
-
-\section{Première section}
-
-Texte introductif de la section.
-
-\begin{definition}
-Ceci est une définition avec boîte minimaliste rouge.
-\end{definition}
-
-Un peu de texte après.
-
-\begin{theoreme}
-Ceci est un théorème avec la même mise en évidence.
-\end{theoreme}
-
-\begin{proposition}
-Une proposition importante.
-\end{proposition}
-
-\begin{exemple}
-Voici un exemple avec boîte jaune doux.
-\end{exemple}
-
-Du texte normal après.
-
-\begin{remarque}
-Une remarque que vous placez où vous voulez, avec boîte grise.
-\end{remarque}
-
-\section{Deuxième section}
-
-\begin{lemme}
-Lemme important.
-\end{lemme}
-
-\begin{corollaire}
-Corollaire du lemme précédent.
-\end{corollaire}
-
-\begin{exemple}
-Autre exemple pour illustrer.
-\end{exemple}
-
-% Exemple d'équation
-\begin{equation}
-e = mc^2
-\end{equation}
-
-% Exemple de tableau
-\begin{table}[H]
-\centering
-\begin{tabular}{@{}lcc@{}}
-\toprule
-Colonne 1 & Colonne 2 & Colonne 3 \\
-\midrule
-Données 1 & 10 & 20 \\
-Données 2 & 30 & 40 \\
-\bottomrule
-\end{tabular}
-\caption{Exemple de tableau}
-\end{table}
-
-% Exemple de figure
-\begin{figure}[H]
-\centering
-% \includegraphics[width=0.6\textwidth]{votre-image.pdf}
-\caption{Exemple de figure}
-\end{figure}
-
-% Exemple de code
-\begin{lstlisting}
-# Exemple de code
-def fonction(x):
-    return x**2
-\end{lstlisting}
-
-\backmatter
-
-% Décommenter si vous activez natbib
-% \bibliography{votre-biblio}
+\input{Ch1}
+\input{Ch2}
 
 \end{document}
