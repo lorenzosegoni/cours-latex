@@ -1,66 +1,37 @@
 \documentclass[12pt,a4paper]{book}
 
-% ===== PACKAGES ESSENTIELS =====
-% Langue et encodage français
+% ===== ENCODAGE ET LANGUE =====
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[french]{babel}
 \usepackage{lmodern}
 
-% Mise en page et marges
+% ===== MISE EN PAGE =====
 \usepackage[left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm]{geometry}
 \usepackage{setspace}
-\onehalfspacing % Interligne 1,5
+\onehalfspacing
 
-% ===== PACKAGES POUR LE CONTENU SCIENTIFIQUE =====
-% Mathématiques avancées
+% ===== MATHÉMATIQUES =====
 \usepackage{amsmath, amssymb, amsthm}
 \usepackage{mathtools}
-\usepackage{bm} % pour les vecteurs en gras
-\usepackage{mdframed}
+\usepackage{bm}
 
-
-% Figures et graphiques
+% ===== FIGURES, TABLEAUX, CODE =====
 \usepackage{graphicx}
 \usepackage{subcaption}
-\usepackage{wrapfig}
 \usepackage{float}
-
-% Tableaux améliorés
-\usepackage{array}
 \usepackage{booktabs}
+\usepackage{array}
 \usepackage{multirow}
-\usepackage{longtable}
-
-% ===== PACKAGES POUR LA MODÉLISATION =====
-% Algorithmes et pseudo-code
-\usepackage{algorithm}
-\usepackage{algorithmic}
-
-% Diagrammes et schémas
-\usepackage{tikz}
-\usetikzlibrary{arrows, positioning, shapes}
-
-% Listings de code (si nécessaire)
 \usepackage{listings}
 \usepackage{xcolor}
 
-% ===== PACKAGES BIBLIOGRAPHIQUES =====
-\usepackage{natbib}
-\usepackage{url}
+% ===== BOÎTES MINIMALISTES =====
+\usepackage{mdframed}
 
-% ===== PACKAGES DE MISE EN FORME =====
-% Listes personnalisées
-\usepackage{enumitem}
-
-% Titres et sections
+% ===== STRUCTURE ET NAVIGATION =====
 \usepackage{titlesec}
-\usepackage{titletoc}
-
-% En-têtes et pieds de page
 \usepackage{fancyhdr}
-
-% Liens et références
 \usepackage{hyperref}
 \hypersetup{
     colorlinks=true,
@@ -71,62 +42,207 @@
     bookmarksopen=true
 }
 
-% ===== CONFIGURATIONS SPÉCIFIQUES =====
-% Configuration des listes
-\setlist[itemize]{
-    itemsep=0.5em,
-    parsep=0pt,
-    topsep=0.5em
-}
+% ===== LISTES PERSONNALISÉES =====
+\usepackage{enumitem}
+\setlist[itemize]{itemsep=0.3em, topsep=0.5em}
+\setlist[enumerate]{itemsep=0.3em, topsep=0.5em}
 
-% Numérotation des équations par chapitre
-\numberwithin{equation}{chapter}
-
-% Configuration des en-têtes
+% ===== EN-TÊTES ET PIEDS =====
 \pagestyle{fancy}
 \fancyhf{}
 \fancyhead[L]{\leftmark}
 \fancyhead[R]{\thepage}
 \renewcommand{\headrulewidth}{0.4pt}
 
-% ===== COMMANDES PERSONNALISÉES =====
-% Pour faciliter l'écriture
-\newcommand{\dd}{\mathrm{d}} % différentielle
-\newcommand{\R}{\mathbb{R}} % ensemble des réels
-\newcommand{\N}{\mathbb{N}} % ensemble des naturels
+% ===== NUMÉROTATION DES ÉQUATIONS =====
+\numberwithin{equation}{chapter}
 
-% Environnements théoriques
+% ===== CONFIGURATION DU CODE =====
+\lstset{
+    language=Python,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue},
+    commentstyle=\color{gray},
+    stringstyle=\color{red},
+    breaklines=true,
+    frame=single,
+    backgroundcolor=\color{white}
+}
+
+% ===== COMMANDES PERSONNALISÉES MATHS =====
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\C}{\mathbb{C}}
+
+% ===== STYLES DE BOÎTES MINIMALISTES =====
+% Couleurs douces et non dérangeantes
+\definecolor{redsoft}{RGB}{230, 100, 100}      % Rouge doux
+\definecolor{redbg}{RGB}{255, 245, 245}        % Fond rouge très léger
+\definecolor{yellowsoft}{RGB}{220, 180, 80}    % Jaune/orange doux
+\definecolor{yellowbg}{RGB}{255, 252, 240}     % Fond jaune très léger
+\definecolor{graysoft}{RGB}{140, 140, 140}     % Gris doux
+\definecolor{graybg}{RGB}{248, 248, 248}       % Fond gris très léger
+
+% Style pour théorèmes (rouge)
+\mdfdefinestyle{thmstyle}{%
+    linecolor=redsoft,
+    linewidth=1.5pt,
+    backgroundcolor=redbg,
+    innerleftmargin=8pt,
+    innerrightmargin=8pt,
+    innertopmargin=6pt,
+    innerbottommargin=6pt,
+    skipabove=0.8em,
+    skipbelow=0.8em
+}
+
+% Style pour exemples (jaune)
+\mdfdefinestyle{exstyle}{%
+    linecolor=yellowsoft,
+    linewidth=1.5pt,
+    backgroundcolor=yellowbg,
+    innerleftmargin=8pt,
+    innerrightmargin=8pt,
+    innertopmargin=6pt,
+    innerbottommargin=6pt,
+    skipabove=0.8em,
+    skipbelow=0.8em
+}
+
+% Style pour remarques (gris)
+\mdfdefinestyle{remstyle}{%
+    linecolor=graysoft,
+    linewidth=1.5pt,
+    backgroundcolor=graybg,
+    innerleftmargin=8pt,
+    innerrightmargin=8pt,
+    innertopmargin=6pt,
+    innerbottommargin=6pt,
+    skipabove=0.8em,
+    skipbelow=0.8em
+}
+
+% ===== ENVIRONNEMENTS THÉORIQUES AVEC BOÎTES =====
 \theoremstyle{definition}
-\newtheorem{definition}{Définition}[chapter]
-\newtheorem{exemple}{Exemple}[chapter]
-\newtheorem{hypotheses}{Hypothèses}[chapter]
+
+\newmdtheoremenv[style=thmstyle]{definition}{Définition}[chapter]
+\newmdtheoremenv[style=thmstyle]{notation}{Notation}[chapter]
+
+\newmdtheoremenv[style=exstyle]{exemple}{Exemple}[chapter]
+
+\newmdtheoremenv[style=remstyle]{remarque}{Remarque}[chapter]
+\newmdtheoremenv[style=remstyle]{note}{Note}[chapter]
 
 \theoremstyle{plain}
-\newtheorem{theoreme}{Théorème}[chapter]
-\newtheorem{proposition}{Proposition}[chapter]
-\newtheorem{lemme}{Lemme}[chapter]
 
-\theoremstyle{remark}
-\newtheorem{remarque}{Remarque}[chapter]
-\newtheorem{note}{Note}[chapter]
+\newmdtheoremenv[style=thmstyle]{theoreme}{Théorème}[chapter]
+\newmdtheoremenv[style=thmstyle]{proposition}{Proposition}[chapter]
+\newmdtheoremenv[style=thmstyle]{lemme}{Lemme}[chapter]
+\newmdtheoremenv[style=thmstyle]{corollaire}{Corollaire}[chapter]
 
-% ===== MÉTADONNÉES DU DOCUMENT =====
-\title{Régression lineaire}
-\author{Lorenzo Segoni}
-\date{\today}
+% ===== BIBLIOGRAPHIE (À ACTIVER PLUS TARD) =====
+% \usepackage{natbib}
+% \bibliographystyle{abbrvnat}
 
 \begin{document}
 
-% Page de titre
+\frontmatter
+\title{Estimation}
+\author{Lorenzo Segoni}
+\date{\today}
 \maketitle
 
-% Table des matières (optionnelle)
+% Table des matières
 \tableofcontents
 
-\chapter{1}
-\chapter{2}
-\chapter{3}
-\chapter{4}
-\chapter{5}
-Hello LaTeX from GitHub Actions!
+\mainmatter
+
+% Exemple de chapitre
+\chapter{Introduction}
+
+Votre contenu ici.
+
+\section{Première section}
+
+Texte introductif de la section.
+
+\begin{definition}
+Ceci est une définition avec boîte minimaliste rouge.
+\end{definition}
+
+Un peu de texte après.
+
+\begin{theoreme}
+Ceci est un théorème avec la même mise en évidence.
+\end{theoreme}
+
+\begin{proposition}
+Une proposition importante.
+\end{proposition}
+
+\begin{exemple}
+Voici un exemple avec boîte jaune doux.
+\end{exemple}
+
+Du texte normal après.
+
+\begin{remarque}
+Une remarque que vous placez où vous voulez, avec boîte grise.
+\end{remarque}
+
+\section{Deuxième section}
+
+\begin{lemme}
+Lemme important.
+\end{lemme}
+
+\begin{corollaire}
+Corollaire du lemme précédent.
+\end{corollaire}
+
+\begin{exemple}
+Autre exemple pour illustrer.
+\end{exemple}
+
+% Exemple d'équation
+\begin{equation}
+e = mc^2
+\end{equation}
+
+% Exemple de tableau
+\begin{table}[H]
+\centering
+\begin{tabular}{@{}lcc@{}}
+\toprule
+Colonne 1 & Colonne 2 & Colonne 3 \\
+\midrule
+Données 1 & 10 & 20 \\
+Données 2 & 30 & 40 \\
+\bottomrule
+\end{tabular}
+\caption{Exemple de tableau}
+\end{table}
+
+% Exemple de figure
+\begin{figure}[H]
+\centering
+% \includegraphics[width=0.6\textwidth]{votre-image.pdf}
+\caption{Exemple de figure}
+\end{figure}
+
+% Exemple de code
+\begin{lstlisting}
+# Exemple de code
+def fonction(x):
+    return x**2
+\end{lstlisting}
+
+\backmatter
+
+% Décommenter si vous activez natbib
+% \bibliography{votre-biblio}
+
 \end{document}
