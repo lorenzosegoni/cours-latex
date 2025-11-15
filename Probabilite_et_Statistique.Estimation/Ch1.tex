@@ -1,0 +1,652 @@
+\chapter{Méthodes d'estimation}
+
+\section{Modèles et estimations statistiques}
+
+\subsection{Modèles statistiques}
+
+\subsubsection{Première étape de la démarche statistique : la modélisation}
+
+On observe une donnée $x$.
+
+\begin{definition}[Modèle statistique]
+On suppose que $x$ est la réalisation d’une variable aléatoire $X$ de loi $P_X$ (inconnue).  
+On postule que $P_X$ appartient à une famille de lois de probabilités spécifiée :
+\[
+\{ P_\theta, \ \theta \in \Theta \}.
+\]
+\end{definition}
+
+\begin{remarque}
+Un modèle est toujours faux : la réalité est trop complexe pour être décrite parfaitement.  
+L’enjeu est que l’approximation apportée par le modèle soit suffisamment fidèle pour répondre à la question posée.  
+En pratique, ce sont souvent les spécialistes du domaine (médecine, biologie, économie, etc.) qui proposent ou discutent le modèle.
+\end{remarque}
+
+\subsubsection{Deuxième étape : l’inférence statistique}
+
+À partir du modèle $\{P_\theta, \theta \in \Theta\}$ et d’une observation $X$, on cherche à obtenir des informations sur la loi réelle $P_X$.
+
+\begin{definition}[Modèle statistique]
+Un modèle statistique est un triplet :
+\[
+(E, \mathcal{E}, (P_\theta)_{\theta \in \Theta})
+\]
+où :
+\begin{itemize}
+  \item $(E, \mathcal{E})$ est un espace mesurable (dans ce cours, on retiendra surtout que $X \in E$) ;
+  \item $(P_\theta)_{\theta \in \Theta}$ est une famille de lois de probabilité sur $E$ ;
+  \item $\Theta$ est l’ensemble des paramètres.  
+\end{itemize}
+
+Si $\Theta \subset \mathbb{R}^d$ avec $d \geq 1$, le modèle est dit \textbf{paramétrique}.  
+Sinon, il est dit \textbf{non paramétrique}.
+\end{definition}
+
+\begin{exemple}
+\begin{enumerate}
+  \item \textbf{Jeu de pile ou face répété $n$ fois :}
+  \[
+  E = \{0,1\}^n, \quad 
+  \Theta = ]0,1[, \quad
+  P_\theta = \big(\mathcal{B}(\theta)\big)^{\otimes n}.
+  \]
+  Une observation est $X = (X_1,\ldots,X_n) \in {0,1}^n$, avec $X_i$ des variables aléatoires indépendantes de loi $\mathcal{B}(\theta)$.
+
+  \item \textbf{Modélisation de la taille d’individus par une loi normale.} On observe sur un échantillon de taille n:
+  \[
+  E = \mathbb{R}^n, \quad
+  X = (X_1,\ldots,X_n), \quad
+  X_i \text{ variables aléatoires indépendantes de loi } \mathcal{N}(m,\sigma^2),
+  \]
+  avec 
+  \[
+  \Theta = \{ (m,\sigma^2) : m \in \mathbb{R}, \ \sigma^2 >0 \} \subset \mathbb{R}^2.
+  \]
+
+  \item \textbf{Même population, mais modélisation par une loi à densité sur $[0.5,2.5]$:}
+  \[
+  \Theta = \{ f : [0.5,2.5] \to \mathbb{R}_+ \ \mid f \text{ est une densité} \}.
+  \]
+  Il s’agit alors d’un \textbf{modèle non paramétrique}.
+\end{enumerate}
+\end{exemple}
+
+\paragraph{Valeur vraie du paramètre.}  
+Le point clé de la modélisation est qu’il existe une valeur \emph{vraie} $\theta^* \in \Theta$ telle que :
+\[
+P_X = P_{\theta^*}.
+\]
+Mais $\theta^*$ est inconnue
+
+Dans toute la suite, on notera simplement $\theta$ pour $\theta^*$.
+
+On utilisera les notations :
+\[
+\mathbb{P}_\theta \quad \text{et} \quad \mathbb{E}_\theta
+\]
+pour bien marquer la dépendance en $\theta$. Et on a que X dépende de $\theta$
+
+\begin{align*}
+P(X \in A) &= P_X(A) = P_{\theta^*}(A), \\
+P_\theta(X \in A) &= P_\theta(A).
+\end{align*}
+
+\begin{remarque}
+On considérera souvent une observation $X$ comme un $n$-échantillon de variables aléatoires $iid$ de loi $Q_\theta$ :
+\[
+P_\theta = (Q_\theta)^{\otimes n}.
+\]
+On peut alors définir le modèle statistique comme la famille $\{Q_\theta, \theta \in \Theta\}$.
+\end{remarque}
+
+
+\begin{definition}[Identifiabilité]
+Un modèle $\{P_\theta, \theta \in \Theta\}$ est dit \textbf{identifiable} si :
+\[
+P_{\theta_1} = P_{\theta_2} \ \Rightarrow \ \theta_1 = \theta_2.
+\]
+\end{definition}
+
+\subsection{Estimateur statistique}
+
+On suppose que le modèle $\{P_\theta, \theta \in \Theta\}$ est identifiable.  
+On observe $X$ et on s’intéresse à une quantité d’intérêt $g(\theta)$, où :
+\[
+g : \Theta \to \mathbb{R}^p, \quad p \geq 1.
+\]
+
+\begin{definition}[Statistique et estimateur]
+\begin{itemize}
+  \item Une \textbf{statistique} $T(X)$ est une fonction mesurable de $X$ (éventuellement de paramètres connus), qui ne dépend pas de $\theta$.  
+  \item Un \textbf{estimateur} de $g(\theta)$ est une statistique $\hat{g}=h(X)$ à valeurs dans $\mathbb{R}^p$ (avec $h$ mesurable).
+\end{itemize}
+\end{definition}
+
+\begin{exemple}
+Pour un $n$-échantillon $(X_1,\ldots,X_n)$, les objets suivants sont des statistiques :  
+\[
+\overline{X}_n, \quad X_1, \quad X_2^2 \cdot X_8, \quad 0.
+\]
+\end{exemple}
+
+\begin{remarque}
+Si l’on dispose d’une réalisation $x$ de $X$, alors $\hat{g}(x)$ est appelé un \textbf{estimé} de $g(\theta)$.  
+Par abus, on note souvent $\hat{g}$ à la fois l’estimateur (variable aléatoire) et son estimé (valeur numérique).
+\end{remarque}
+
+\begin{notation}[Estimateur plug-in]
+Si $\hat{\theta}$ est un estimateur de $\theta$, un estimateur naturel de $g(\theta)$ est :
+\[
+g(\hat{\theta}).
+\]
+On appelle cela un \textbf{estimateur plug-in}.  
+Sa qualité dépend de la qualité de $\hat{\theta}$ et de la régularité de $g$.
+\end{notation}
+
+
+\begin{definition}[Risque quadratique]
+Le risque quadratique de $\hat{g}$ est défini, pour tout $\theta \in \Theta$, par :
+\[
+R(\hat{g}, g(\theta)) = \mathbb{E}_\theta \big[ (\hat{g} - g(\theta))^2 \big] \in [0, + \infty].
+\]
+\end{definition}
+
+\begin{remarque} 
+\textbf{Lien avec inégalité de Markov: }
+Par l’inégalité de Markov,
+\[
+\mathbb{P}_\theta \big( |\hat{g}-g(\theta)| > \varepsilon \big) \leq \frac{R(\hat{g},g(\theta))}{\varepsilon^2}.
+\]
+Ainsi, plus le risque quadratique est petit, plus l’estimateur est concentré autour de la valeur vraie.
+\end{remarque}
+
+\paragraph{Existe-t-il un estimateur optimal ?}  
+
+On pourrait souhaiter qu’il existe un estimateur $\hat{g}$ meilleur que tous les autres pour tout $\theta$, c’est-à-dire :
+
+\[ \exists ? \hat{g} \text{ tel que } \forall \theta \in \Theta, \forall \hat{g}' \text{ estimateur }, R(\hat{g}, g(\theta)) \leq R(\hat{g}', g(\theta)) \]
+
+La réponse est en général \textbf{non}.
+
+\begin{exemple}[Comparaison de deux estimateurs]
+Considérons le modèle :
+\[
+\{ (\mathcal{N}(\theta,1))^{\otimes n}, \ \theta \in \mathbb{R} \}.
+\]
+
+Deux estimateurs de $\theta$ :
+\[
+\hat{\theta}_1 = \overline{X}_n, 
+\qquad \hat{\theta}_2 = 0.
+\]
+
+On a :
+\[
+R(\hat{\theta}_1, \theta) = \frac{1}{n}, 
+\qquad R(\hat{\theta}_2, \theta) = \theta^2.
+\]
+
+De plus :
+\[
+\mathbb{E}_\theta[\hat{\theta}_1] = \theta, \qquad
+\mathrm{Var}_\theta(\hat{\theta}_1) = \frac{1}{n}.
+\]
+
+Conclusion :
+\begin{itemize}
+  \item $\hat{\theta}_1$ est sans biais avec un risque constant $1/n$.
+  \item $\hat{\theta}_2$ est biaisé, mais pour $|\theta| < \frac{1}{\sqrt{n}}$, son risque est inférieur à celui de $\hat{\theta}_1$.
+\end{itemize}
+
+Ainsi, même un estimateur « stupide » comme $\hat{\theta}_2$ peut être meilleur que l’estimateur usuel $\overline{X}_n$ pour certaines valeurs de $\theta$.  
+Bien sûr, plus $n$ est grand, plus l’intervalle de $\theta$ où $\hat{\theta}_2$ est meilleur devient petit.
+\end{exemple}
+
+
+\begin{proposition}[Décomposition biais-variance]
+Pour tout $\theta \in \Theta$, on a :
+\[
+R(\hat{g}, g(\theta)) 
+= \big( \mathbb{E}_\theta[\hat{g}] - g(\theta) \big)^2 
++ \mathbb{E}_\theta\!\left[ (\hat{g} - \mathbb{E}_\theta[\hat{g}])^2 \right].
+\]
+Autrement dit :
+\[
+R(\hat{g}, g(\theta)) = B(\hat{g}, g(\theta))^2 + \mathrm{Var}_\theta(\hat{g}),
+\]
+où $B(\hat{g}, g(\theta))$ est le biais de $\hat{g}$.
+\end{proposition}
+
+
+\begin{definition}[Biais]
+Le biais d’un estimateur $\hat{g}$ est défini par la fonction:
+\[
+\theta \mapsto{} B(\hat{g}, g(\theta)) = \mathbb{E}_\theta[\hat{g}] - g(\theta).
+\]
+
+On dit que $\hat{g}$ est \textbf{sans biais} si, pour tout $\theta \in \Theta$ :
+\[
+\mathbb{E}_\theta[\hat{g}] = g(\theta).
+\]
+\end{definition}
+
+
+
+
+
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+--------------------------------------------------------------------------------------------------
+
+\begin{proof}[Idée de la preuve]
+On écrit :
+\[
+(\hat{g} - g(\theta))^2 = \big( \hat{g} - \mathbb{E}_\theta[\hat{g}] + \mathbb{E}_\theta[\hat{g}] - g(\theta) \big)^2,
+\]
+puis on développe et on prend l’espérance.
+\end{proof}
+
+\begin{proof}
+On part de l'identité :
+\[
+\hat{g} - g(\theta)
+= \big( \hat{g} - \mathbb{E}_\theta[\hat{g}] \big)
++ \big( \mathbb{E}_\theta[\hat{g}] - g(\theta) \big).
+\]
+En élevant au carré, on obtient :
+\[
+(\hat{g} - g(\theta))^2
+= \big(\hat{g} - \mathbb{E}_\theta[\hat{g}]\big)^2
++ 2\big(\hat{g} - \mathbb{E}_\theta[\hat{g}]\big)\big(\mathbb{E}_\theta[\hat{g}] - g(\theta)\big)
++ \big(\mathbb{E}_\theta[\hat{g}] - g(\theta)\big)^2.
+\]
+En prenant l’espérance, le terme croisé disparaît car
+\[
+\mathbb{E}_\theta[\hat{g} - \mathbb{E}_\theta[\hat{g}]] = 0.
+\]
+Ainsi :
+\[
+\mathbb{E}_\theta\big[(\hat{g} - g(\theta))^2\big]
+= \mathbb{E}_\theta\big[(\hat{g} - \mathbb{E}_\theta[\hat{g}])^2\big]
++ \big(\mathbb{E}_\theta[\hat{g}] - g(\theta)\big)^2.
+\]
+On reconnaît la variance et le carré du biais, ce qui donne :
+\[
+R(\hat{g}, g(\theta)) = \mathrm{Var}_\theta(\hat{g}) + B(\hat{g}, g(\theta))^2.
+\]
+\end{proof}
+
+\begin{remarque}
+Si $\hat{g}$ est sans biais, c’est-à-dire $\mathbb{E}_\theta[\hat{g}] = g(\theta)$,
+alors $B(\hat{g}, g(\theta)) = 0$ et
+\[
+R(\hat{g}, g(\theta)) = \mathrm{Var}_\theta(\hat{g}).
+\]
+\end{remarque}
+
+--------------------------------------------------------------------------------------------------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+
+
+
+
+
+
+\paragraph{Interprétation :}
+\begin{itemize}
+  \item Le \textbf{biais} mesure l’erreur systématique faite par l’estimateur (erreur d’approximation).
+  \item La \textbf{variance} mesure les fluctuations aléatoires de l’estimateur autour de sa moyenne (erreur d’estimation).
+\end{itemize}
+
+\subsubsection*{Remarques sur les estimateurs sans biais}
+
+Si $\hat{g}$ est sans biais :
+\[
+R(\hat{g}, g(\theta)) = \mathrm{Var}_\theta(\hat{g}).
+\]
+
+On s’intéresse alors aux estimateurs sans biais ayant la variance minimale.  
+On appelle un tel estimateur un \textbf{estimateur UVMB} (Uniformément de Variance Minimale parmi les estimateurs Sans Biais).  
+
+Il existe des méthodes (exhaustivité, complétude, théorème de Lehmann-Scheffé) pour caractériser directement de tels estimateurs.  
+
+\begin{remarque}
+Un estimateur sans biais n’est pas toujours le meilleur choix :  
+un estimateur \textbf{avec biais} peut avoir un risque quadratique plus petit.  
+De plus, il n’existe pas toujours d’estimateur sans biais pour une quantité donnée.
+\end{remarque}
+
+\begin{exemple}[Impossibilité d’un estimateur sans biais]
+Soit $X \sim \mathcal{E}(\theta)$ une loi exponentielle de paramètre $\theta > 0$.  
+Supposons qu’il existe un estimateur sans biais $\hat{\theta} = h(X)$ de $\theta$.  
+Alors, pour tout $\theta > 0$, il faudrait :
+\[
+\int_0^\infty h(x) \, \theta e^{-\theta x} \, dx = \theta.
+\]
+
+Or, cette condition n’admet pas de solution mesurable $h$, donc un tel estimateur n’existe pas.
+\end{exemple}
+
+\begin{remarque}
+Même si $\hat{\theta}$ est un estimateur sans biais de $\theta$, en général $g(\hat{\theta})$ n’est pas un estimateur sans biais de $g(\theta)$.  
+Ainsi, la propriété « sans biais » n’est pas stable par transformation.
+\end{remarque}
+
+\subsection{Propriétés asymptotiques}
+
+On se place avec $n$ observations.
+On pose $\hat{g}_n$ un estimateur de $g(\theta)$.
+
+
+\begin{definition}[Consistance]
+On dit que la suite $(\hat{g}_n)_{n \in \mathbb{N}}$ est \textbf{consistante} si pour tout $\theta \in \Theta$,
+\[
+\hat{g}_n \xrightarrow[\mathbb{P}_\theta]{n \to +\infty} g(\theta).
+\]
+Elle est dite \textbf{fortement consistante} si pour tout $\theta \in \Theta$,
+\[
+\hat{g}_n \xrightarrow[\text{p.s.}]{n \to +\infty} g(\theta).
+\]
+\end{definition}
+
+
+\begin{remarque}
+On dira seulement que $\hat{g}_n$ est consistant si $(\hat{g}_n)_{n \in \mathbb{N}}$ est consistante.
+
+\medskip
+
+\begin{itemize}
+    \item La convergence doit avoir lieu pour tout $\theta \in \Theta$.
+    \item La consistance est une propriété ``faible''. S'il existe un estimateur consistant, alors il en existe une infinité : si $\hat{g}_n$ est consistant et si $(a_n)_{n \in \mathbb{N}}$ est telle que $a_n \to 1$, alors $a_n \hat{g}_n$ est consistant.
+    \item En revanche, les estimateurs non consistants sont à exclure.
+\end{itemize}
+\end{remarque}
+
+
+\begin{definition}[Estimateur asymptotiquement sans biais]
+On suppose que pour tout $\theta \in \Theta$ et pour tout $n \in \mathbb{N}$,
+\[
+\mathbb{E}_\theta\left[\|\hat{g}_n\|\right] < +\infty.
+\]
+On dit que $\hat{g}_n$ est \textbf{asymptotiquement sans biais} si pour tout $\theta \in \Theta$,
+\[
+\mathbb{E}_\theta[\hat{g}_n] \xrightarrow{n \to +\infty} g(\theta).
+\]
+\end{definition}
+
+
+\begin{definition}[Normalité asymptotique]
+On dit que $\hat{g}_n$ est \textbf{asymptotiquement normal} si pour tout $\theta \in \Theta$, il existe $\Sigma(\theta) > 0$ tel que
+\[
+\sqrt{n}\left(\hat{g}_n - g(\theta)\right) \xrightarrow[\text{loi}]{n \to +\infty} \mathcal{N}(0, \Sigma(\theta)).
+\]
+\end{definition}
+
+\begin{remarque}
+\begin{itemize}
+    \item Si $\hat{g}_n$ est asymptotiquement normal, alors $\hat{g}_n$ est consistant.
+    \item Plus généralement, on peut remplacer ``$\sqrt{n}$'' par $a_n$ où $a_n \xrightarrow{n \to +\infty} +\infty$. On dit alors que $\frac{1}{a_n}$ est la vitesse de convergence asymptotique.
+\end{itemize}
+\end{remarque}
+
+
+\begin{proposition}
+Soit $\hat{g}_n$ un estimateur asymptotiquement normal de $g(\theta)$ de variance asymptotique $\Sigma(\theta)$.
+Soit $\hat{\Sigma}_n$ un estimateur de $\Sigma(\theta)$ consistant, c'est-à-dire pour tout $\theta \in \Theta$,
+\[
+\hat{\Sigma}_n \xrightarrow[\mathbb{P}_\theta]{n \to +\infty} \Sigma(\theta).
+\]
+Alors
+\[
+\frac{\sqrt{n}\left(\hat{g}_n - g(\theta)\right)}{\sqrt{\hat{\Sigma}_n}} \xrightarrow[\text{loi}]{n \to +\infty} \mathcal{N}(0, 1).
+\]
+\end{proposition}
+
+\begin{proof}
+Conséquence du \textbf{lemme de Slutsky}.
+
+On écrit
+\[
+\frac{\sqrt{n}\left(\hat{g}_n - g(\theta)\right)}{\sqrt{\hat{\Sigma}_n}} = \frac{\sqrt{n}\left(\hat{g}_n - g(\theta)\right)}{\sqrt{\Sigma(\theta)}} \cdot \frac{\sqrt{\Sigma(\theta)}}{\sqrt{\hat{\Sigma}_n}},
+\]
+avec :
+\begin{itemize}
+    \item $\displaystyle\frac{\sqrt{n}\left(\hat{g}_n - g(\theta)\right)}{\sqrt{\Sigma(\theta)}} \xrightarrow[\text{loi}]{n \to +\infty} \mathcal{N}(0, 1)$ par hypothèse,
+    \item $\displaystyle\frac{\sqrt{\Sigma(\theta)}}{\sqrt{\hat{\Sigma}_n}} \xrightarrow[\mathbb{P}_\theta]{n \to +\infty} 1$ par consistance de $\hat{\Sigma}_n$.
+\end{itemize}
+Le lemme de Slutsky permet de conclure.
+\end{proof}
+
+
+\section{Propriétés asymptotiques}
+
+On se place avec $n$ observations.
+On pose $\hat{g}_n$ un estimateur de $g(\theta)$.
+
+
+\begin{definition}[Consistance]
+On dit que la suite $(\hat{g}_n)_{n \in \mathbb{N}}$ est \textbf{consistante} si pour tout $\theta \in \Theta$,
+\[
+\hat{g}_n \xrightarrow[\mathbb{P}_\theta]{n \to +\infty} g(\theta).
+\]
+Elle est dite \textbf{fortement consistante} si pour tout $\theta \in \Theta$,
+\[
+\hat{g}_n \xrightarrow[\text{p.s.}]{n \to +\infty} g(\theta).
+\]
+\end{definition}
+
+\begin{remarque}
+On dira seulement que $\hat{g}_n$ est consistant si $(\hat{g}_n)_{n \in \mathbb{N}}$ est consistante.
+
+\medskip
+
+\begin{itemize}
+    \item La convergence doit avoir lieu pour tout $\theta \in \Theta$.
+    \item La consistance est une propriété ``faible''. S'il existe un estimateur consistant, alors il en existe une infinité : si $\hat{g}_n$ est consistant et si $(a_n)_{n \in \mathbb{N}}$ est telle que $a_n \to 1$, alors $a_n \hat{g}_n$ est consistant.
+    \item En revanche, les estimateurs non consistants sont à exclure.
+\end{itemize}
+\end{remarque}
+
+
+\begin{definition}[Estimateur asymptotiquement sans biais]
+On suppose que pour tout $\theta \in \Theta$ et pour tout $n \in \mathbb{N}$,
+\[
+\mathbb{E}_\theta\left[\|\hat{g}_n\|\right] < +\infty.
+\]
+On dit que $\hat{g}_n$ est \textbf{asymptotiquement sans biais} si pour tout $\theta \in \Theta$,
+\[
+\mathbb{E}_\theta[\hat{g}_n] \xrightarrow{n \to +\infty} g(\theta).
+\]
+\end{definition}
+
+
+\begin{definition}[Normalité asymptotique]
+On dit que $\hat{g}_n$ est \textbf{asymptotiquement normal} si pour tout $\theta \in \Theta$, il existe $\Sigma(\theta) > 0$ tel que
+\[
+\sqrt{n}\left(\hat{g}_n - g(\theta)\right) \xrightarrow[\text{loi}]{n \to +\infty} \mathcal{N}(0, \Sigma(\theta)).
+\]
+\end{definition}
+
+\begin{remarque}
+\begin{itemize}
+    \item Si $\hat{g}_n$ est asymptotiquement normal, alors $\hat{g}_n$ est consistant.
+    \item Plus généralement, on peut remplacer ``$\sqrt{n}$'' par $a_n$ où $a_n \xrightarrow{n \to +\infty} +\infty$. On dit alors que $\frac{1}{a_n}$ est la vitesse de convergence asymptotique.
+\end{itemize}
+\end{remarque}
+
+
+\begin{proposition}
+Soit $\hat{g}_n$ un estimateur asymptotiquement normal de $g(\theta)$ de variance asymptotique $\Sigma(\theta)$.
+Soit $\hat{\Sigma}_n$ un estimateur de $\Sigma(\theta)$ consistant, c'est-à-dire pour tout $\theta \in \Theta$,
+\[
+\hat{\Sigma}_n \xrightarrow[\mathbb{P}_\theta]{n \to +\infty} \Sigma(\theta).
+\]
+Alors
+\[
+\frac{\sqrt{n}\left(\hat{g}_n - g(\theta)\right)}{\sqrt{\hat{\Sigma}_n}} \xrightarrow[\text{loi}]{n \to +\infty} \mathcal{N}(0, 1).
+\]
+\end{proposition}
+
+\begin{proof}
+Conséquence du \textbf{lemme de Slutsky}.
+
+On écrit
+\[
+\frac{\sqrt{n}\left(\hat{g}_n - g(\theta)\right)}{\sqrt{\hat{\Sigma}_n}} = \frac{\sqrt{n}\left(\hat{g}_n - g(\theta)\right)}{\sqrt{\Sigma(\theta)}} \cdot \frac{\sqrt{\Sigma(\theta)}}{\sqrt{\hat{\Sigma}_n}},
+\]
+avec :
+\begin{itemize}
+    \item $\displaystyle\frac{\sqrt{n}\left(\hat{g}_n - g(\theta)\right)}{\sqrt{\Sigma(\theta)}} \xrightarrow[\text{loi}]{n \to +\infty} \mathcal{N}(0, 1)$ par hypothèse,
+    \item $\displaystyle\frac{\sqrt{\Sigma(\theta)}}{\sqrt{\hat{\Sigma}_n}} \xrightarrow[\mathbb{P}_\theta]{n \to +\infty} 1$ par consistance de $\hat{\Sigma}_n$.
+\end{itemize}
+Le lemme de Slutsky permet de conclure.
+\end{proof}
+
+\subsection{Estimation de $\theta$ à partir d'un estimateur de $g(\theta)$}
+
+\textbf{Question :} $\hat{g}_n$ estimateur de $g(\theta)$. Comment estimer $\theta$ ? Et quelles propriétés pour l'estimateur ?
+
+\begin{proposition}[Méthode delta inverse]
+Soit $\Theta$ un intervalle ouvert de $\mathbb{R}$.
+\begin{itemize}
+    \item Soit $\hat{g}_n$ estimateur de $g(\theta)$ tel que pour tout $\theta \in \Theta$,
+    \[
+    \sqrt{n}\left(\hat{g}_n - g(\theta)\right) \xrightarrow[\text{loi}]{n \to +\infty} \mathcal{N}(0, \sigma^2).
+    \]
+    \item On suppose que $g : \Theta \to g(\Theta)$ est un $\mathcal{C}^1$-difféomorphisme (c'est-à-dire $g$ bijective, $\mathcal{C}^1$, et $g^{-1} \in \mathcal{C}^1$). On définit :
+    \[
+    \hat{\theta}_n = g^{-1}(\hat{g}_n).
+    \]
+\end{itemize}
+Alors,
+\begin{itemize}
+    \item $\hat{\theta}_n$ est consistant pour l'estimation de $\theta$.
+    \item Pour tout $\theta \in \Theta$,
+    \[
+    \sqrt{n}\left(\hat{\theta}_n - \theta\right) \xrightarrow[\text{loi}]{n \to +\infty} \frac{\sigma}{|g'(\theta)|} \mathcal{N}(0, 1).
+    \]
+\end{itemize}
+\end{proposition}
+
+\begin{proof}
+\begin{itemize}
+    \item $g$ continue et bijective $\Theta \to g(\Theta)$ donc $g(\Theta)$ est un intervalle ouvert.
+    \[
+    \mathbb{P}\left(\hat{g}_n \in g(\Theta)\right) \xrightarrow{n \to +\infty} 1.
+    \]
+    Donc $\hat{\theta}_n$ est bien défini (avec une probabilité qui tend vers 1).
+    
+    \item \textbf{Consistance de $\hat{\theta}_n$ :} $g^{-1}$ continue et $\hat{g}_n$ consistant donc par composition, $\hat{\theta}_n = g^{-1}(\hat{g}_n)$ est consistant.
+    
+    \item \textbf{$\hat{\theta}_n$ asymptotiquement normal :} méthode delta appliquée à $g^{-1}$.
+    
+    On a $g^{-1}(g(\theta)) = \theta$ et pour rappel,
+    \[
+    (g^{-1})'(y) = \frac{1}{g'(g^{-1}(y))}.
+    \]
+    Donc
+    \[
+    (g^{-1})'(g(\theta)) = \frac{1}{g'(g^{-1}(g(\theta)))} = \frac{1}{g'(\theta)}.
+    \]
+    Par la méthode delta,
+    \[
+    \sqrt{n}\left(\hat{\theta}_n - \theta\right) = \sqrt{n}\left(g^{-1}(\hat{g}_n) - g^{-1}(g(\theta))\right) \xrightarrow[\text{loi}]{n \to +\infty} (g^{-1})'(g(\theta)) \mathcal{N}(0, \sigma^2) = \frac{1}{g'(\theta)} \mathcal{N}(0, \sigma^2).
+    \]
+    Ce qui équivaut à
+    \[
+    \sqrt{n}\left(\hat{\theta}_n - \theta\right) \xrightarrow[\text{loi}]{n \to +\infty} \mathcal{N}\left(0, \frac{\sigma^2}{(g'(\theta))^2}\right) = \frac{\sigma}{|g'(\theta)|} \mathcal{N}(0, 1).
+    \]
+\end{itemize}
+\end{proof}
+
+\section{Méthode des moments}
+
+
+\begin{definition}[Estimateur par la méthode des moments]
+
+\begin{itemize}
+    \item Soit un échantillon $X_1, \ldots, X_n$ de loi $\mathbb{P}_\theta$, $\theta \in \Theta$.
+    \item Soit $\phi$ une fonction telle que $\mathbb{E}_\theta\left[\|\phi(X_1)\|\right] < +\infty$.
+\end{itemize}
+On souhaite estimer
+\[
+g(\theta) = \mathbb{E}_\theta[\phi(X_1)].
+\]
+On appelle \textbf{estimateur par la méthode des moments} :
+\[
+\hat{g}_n = \frac{1}{n} \sum_{i=1}^n \phi(X_i).
+\]
+\end{definition}
+
+
+
+\begin{notation}
+\begin{itemize}
+    \item $\hat{g}_n$ est consistant (fortement) par la loi des grands nombres.
+    \item $\hat{g}_n$ est sans biais (par linéarité de l'espérance).
+    \item Plus généralement, si $\hat{g}_n$ est construit par la méthode des moments comme ci-dessus, et si $h$ est une fonction, on dira aussi que
+    \[
+    h(\hat{g}_n)
+    \]
+    est un estimateur par la \textbf{méthode des moments} pour l'estimation de $h(g(\theta))$.
+\end{itemize}
+\end{notation}
+
+
+\begin{remarque}
+À priori, on ne connaît pas les propriétés de cet estimateur (biais, variance, normalité asymptotique). Il faudra étudier ces propriétés au cas par cas, éventuellement en utilisant la méthode delta.
+\end{remarque}
+
+\begin{exemple}
+\begin{enumerate}
+    \item \textbf{Probabilité d'un événement}
+    
+    Soit $A$ un événement. On souhaite estimer
+    \[
+    g(\theta) = \mathbb{P}_\theta(X_1 \in A) = \mathbb{E}_\theta[\mathbb{1}_{X_1 \in A}],
+    \]
+    où
+    \[
+    \mathbb{1}_{X_1 \in A} = \begin{cases}
+    1 & \text{si } X_1 \in A, \\
+    0 & \text{sinon}.
+    \end{cases}
+    \]
+    
+    Par la méthode des moments :
+    \[
+    \hat{g}_{A,n} = \frac{1}{n} \sum_{i=1}^n \mathbb{1}_{X_i \in A}.
+    \]
+    
+    Cet estimateur est la fréquence empirique de l'événement $A$.
+    
+    \item \textbf{Loi uniforme}
+    
+    Soit $X_i$ pour $i \in [ 1, n ]$ de loi $\mathcal{U}([\theta-1 , \theta+1])$ avec $\theta \in \mathbb{R}$.
+    
+    Alors
+    \[
+    \mathbb{E}_\theta[X_1] = \theta = g(\theta).
+    \]
+    
+    Par la méthode des moments :
+    \[
+    \hat{g}_n = \overline{X}_n = \frac{1}{n} \sum_{i=1}^n X_i,
+    \]
+\end{enumerate}
+\end{exemple}
+
+
+

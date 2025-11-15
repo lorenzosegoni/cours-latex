@@ -1,0 +1,149 @@
+
+
+\chapter{Méthode du maximum de vraisemblance}
+
+On se place dans le cadre de l'estimation de $g(\theta) = \theta$.
+
+\begin{definition}[Vraisemblance]
+On appelle \textbf{vraisemblance} associée à l'observation $X$, la fonction :
+
+\begin{align*}
+L &: \Theta \to \mathbb{R}, \\
+&\theta \mapsto L(\theta; X)
+\end{align*}
+
+définie par :
+\begin{itemize}
+    \item si $X$ est une variable aléatoire \textbf{discrète}, alors :
+    \[
+    L(\theta; X) = p_\theta(X)
+    \quad \text{où} \quad
+    p_\theta(x) = \mathbb{P}_\theta(X = x)
+    \]
+    
+    \item si $X$ est une variable aléatoire \textbf{à densité}, alors :
+    \[
+    L(\theta; X) = f_\theta(X)
+    \quad \text{où } f_\theta \text{ est la densité de } X.
+    \]
+\end{itemize}
+\end{definition}
+
+\begin{remarque}
+Si $X = (X_1, \ldots, X_n)$ est un échantillon de variables aléatoires i.i.d., alors :
+\begin{itemize}
+    \item si les $X_i$ sont discrètes :
+    \[
+    L(\theta; X) = \prod_{i=1}^n p_\theta(X_i)
+    \]
+    \item si les $X_i$ admettent une densité :
+    \[
+    L(\theta; X) = \prod_{i=1}^n f_\theta(X_i)
+    \]
+\end{itemize}
+\end{remarque}
+
+
+
+
+
+
+
+
+
+
+
+
+
+\begin{exemple}
+On considère une variable aléatoire $X \sim \mathcal{B}(15, p)$ avec $p$ inconnu.
+
+On observe $x = 5$.
+
+\medskip
+La fonction de vraisemblance est :
+\[
+L(p; 5) = \mathbb{P}_p(X = 5)
+= \binom{15}{5} p^5 (1-p)^{10}
+\]
+
+C’est la probabilité d’observer la valeur $5$ lorsque le paramètre est $p$.
+
+\medskip
+\begin{center}
+\begin{tabular}{c|ccccc}
+$p$ & 0,1 & 0,2 & 0,3 & 0,4 & 0,5 \\
+\hline
+$L(p;5)$ & 0,01 & 0,10 & 0,21 & 0,19 & 0,09
+\end{tabular}
+\end{center}
+
+\begin{itemize}
+    \item Quand $p = 0{,}1$, il y a environ 1 chance sur 100 d’observer $x = 5$.
+    \item Quand $p = 0{,}3$, il y a environ 21 chances sur 100 d’observer $x = 5$.
+\end{itemize}
+
+Il est donc plus \og vraisemblable \fg{} que la vraie valeur de $p$ soit proche de $0{,}3$ plutôt que de $0{,}1$.
+
+\medskip
+En suivant ce raisonnement, la valeur de $p$ la plus vraisemblable est celle qui maximise la probabilité d’observer $x=5$, c’est-à-dire qui maximise la vraisemblance.
+
+\medskip
+On se place, pour simplifier, sur la fonction :
+\[
+\ell(p) = \ln L(p; 5)
+\]
+
+Alors :
+\[
+\frac{d\ell(p)}{dp}
+= \frac{x}{p} - \frac{15 - x}{1 - p}
+= \frac{x - 15p}{p(1 - p)}
+\]
+
+Cette dérivée s’annule en :
+\[
+p = \frac{x}{15}
+\]
+
+Ici, avec $x = 5$, on obtient :
+\[
+\hat{p} = \frac{1}{3}
+\]
+
+Ainsi, la valeur de $p$ la plus vraisemblable au vu de l’observation $x = 5$ est :
+\[
+\boxed{p = \frac{1}{3}}
+\]
+\end{exemple}
+
+\begin{definition}[Estimateur du maximum de vraisemblance]
+On appelle \textbf{estimateur du maximum de vraisemblance (EMV)} de $\theta$ toute quantité satisfaisant :
+\[
+\hat{\theta}^{MV} \in \underset{\theta \in \Theta}{\mathrm{argmax}} \; L(\theta; X)
+\]
+
+Souvent on considère la log-vraisemblance.
+
+\[ \hat{\theta} \in \arg \max_{\theta \in \Theta} L(\theta,X) \]
+
+où $l(\theta,X) = \log L(\theta,X)$
+\end{definition}
+
+\begin{exemple}
+On a $P_\theta = \mathcal{N}(0,1)$
+
+EMV : $\hat{\theta} = \bar{X}_n$
+
+On dira que l'EMV de $\theta^2$ est $(\bar{X}_n)^2$
+\end{exemple}
+
+\begin{remarque}
+L'inconvénient de cette méthode
+
+\begin{itemize}
+\item Il peut ne pas être unique
+\item Ne pas exister
+\item peut être difficile à expliciter
+\end{itemize}
+\end{remarque}
