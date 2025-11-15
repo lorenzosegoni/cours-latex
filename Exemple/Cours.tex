@@ -1,0 +1,281 @@
+\documentclass[12pt,a4paper]{book}
+
+% ===== ENCODAGE ET LANGUE =====
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{lmodern}
+
+% ===== MISE EN PAGE =====
+\usepackage[left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm]{geometry}
+\usepackage{setspace}
+\onehalfspacing
+
+% ===== MATHÉMATIQUES =====
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{mathtools}
+\usepackage{bm}
+
+% ===== FIGURES, TABLEAUX, CODE =====
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{xcolor}
+\usepackage{listings}
+
+\lstloadlanguages{Python, R, SQL}
+
+% ===== BOÎTES MINIMALISTES =====
+\usepackage{mdframed}
+
+% ===== STRUCTURE ET NAVIGATION =====
+\usepackage{titlesec}
+\usepackage{titletoc}
+\usepackage{fancyhdr}
+\setlength{\headheight}{14.5pt}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    citecolor=blue,
+    urlcolor=blue,
+    bookmarks=true,
+    bookmarksopen=true
+}
+
+% ===== LISTES PERSONNALISÉES =====
+\usepackage{enumitem}
+\setlist[itemize]{itemsep=0.3em, topsep=0.5em}
+\setlist[enumerate]{itemsep=0.3em, topsep=0.5em}
+
+% ===== EN-TÊTES ET PIEDS =====
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\leftmark}
+\fancyhead[R]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% ===== NUMÉROTATION DES ÉQUATIONS =====
+\numberwithin{equation}{chapter}
+
+% ===== DÉFINITION STYLES DE LISTINGS =====
+\definecolor{codebg}{RGB}{250, 250, 250}
+\definecolor{outputbg}{RGB}{240, 240, 240}
+
+\lstset{
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    numbersep=8pt,
+    backgroundcolor=\color{codebg}
+}
+
+\lstdefinestyle{output}{
+    backgroundcolor=\color{outputbg},
+    basicstyle=\ttfamily\small,
+    frame=leftline,
+    framerule=2pt,
+    rulecolor=\color{gray!70}
+}
+
+% ===== COMMANDES PERSONNALISÉES MATHS =====
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\C}{\mathbb{C}}
+
+% ===== COULEURS DOUCES =====
+\definecolor{redsoft}{RGB}{230, 100, 100}
+\definecolor{redbg}{RGB}{255, 245, 245}
+\definecolor{yellowsoft}{RGB}{220, 180, 80}
+\definecolor{yellowbg}{RGB}{255, 252, 240}
+\definecolor{graysoft}{RGB}{140, 140, 140}
+\definecolor{graybg}{RGB}{248, 248, 248}
+
+% ===== STYLES DES BOÎTES =====
+\mdfdefinestyle{thmstyle}{
+    linecolor=redsoft,
+    linewidth=1.5pt,
+    backgroundcolor=redbg,
+    innerleftmargin=8pt,
+    innerrightmargin=8pt,
+    innertopmargin=6pt,
+    innerbottommargin=6pt,
+    skipabove=0.8em,
+    skipbelow=0.8em
+}
+
+\mdfdefinestyle{exstyle}{
+    linecolor=yellowsoft,
+    linewidth=1.5pt,
+    backgroundcolor=yellowbg,
+    innerleftmargin=8pt,
+    innerrightmargin=8pt,
+    innertopmargin=6pt,
+    innerbottommargin=6pt,
+    skipabove=0.8em,
+    skipbelow=0.8em
+}
+
+\mdfdefinestyle{remstyle}{
+    linecolor=graysoft,
+    linewidth=1.5pt,
+    backgroundcolor=graybg,
+    innerleftmargin=8pt,
+    innerrightmargin=8pt,
+    innertopmargin=6pt,
+    innerbottommargin=6pt,
+    skipabove=0.8em,
+    skipbelow=0.8em
+}
+
+% ===== ENVIRONNEMENTS =====
+\theoremstyle{definition}
+\newmdtheoremenv[style=thmstyle]{definition}{Définition}[chapter]
+\newmdtheoremenv[style=thmstyle]{notation}{Notation}[chapter]
+\newmdtheoremenv[style=exstyle]{exemple}{Exemple}[chapter]
+\newmdtheoremenv[style=remstyle]{remarque}{Remarque}[chapter]
+\newmdtheoremenv[style=remstyle]{note}{Note}[chapter]
+
+\theoremstyle{plain}
+\newmdtheoremenv[style=thmstyle]{theoreme}{Théorème}[chapter]
+\newmdtheoremenv[style=thmstyle]{proposition}{Proposition}[chapter]
+\newmdtheoremenv[style=thmstyle]{lemme}{Lemme}[chapter]
+\newmdtheoremenv[style=thmstyle]{corollaire}{Corollaire}[chapter]
+
+% ===== DOCUMENT =====
+\begin{document}
+
+\frontmatter
+\title{Exemple Cours}
+\author{Lorenzo Segoni}
+\date{\today}
+\maketitle
+
+\tableofcontents
+
+\mainmatter
+
+% Exemple de chapitre
+\chapter{Introduction}
+
+Votre contenu ici.
+
+\section{Première section}
+
+Texte introductif de la section.
+
+\begin{definition}
+Ceci est une définition avec boîte minimaliste rouge.
+\end{definition}
+
+Un peu de texte après.
+
+\begin{theoreme}
+Ceci est un théorème avec la même mise en évidence.
+\end{theoreme}
+
+\begin{proposition}
+Une proposition importante.
+\end{proposition}
+
+\begin{exemple}
+Voici un exemple avec boîte jaune doux.
+\end{exemple}
+
+Du texte normal après.
+
+\begin{remarque}
+Une remarque que vous placez où vous voulez, avec boîte grise.
+\end{remarque}
+
+\section{Deuxième section}
+
+\begin{lemme}
+Lemme important.
+\end{lemme}
+
+\begin{corollaire}
+Corollaire du lemme précédent.
+\end{corollaire}
+
+\begin{exemple}
+Autre exemple pour illustrer.
+\end{exemple}
+
+% Exemple d'équation
+\begin{equation}
+e = mc^2
+\end{equation}
+
+% Exemple de tableau
+\begin{table}[H]
+\centering
+\begin{tabular}{@{}lcc@{}}
+\toprule
+Colonne 1 & Colonne 2 & Colonne 3 \\
+\midrule
+Données 1 & 10 & 20 \\
+Données 2 & 30 & 40 \\
+\bottomrule
+\end{tabular}
+\caption{Exemple de tableau}
+\end{table}
+
+% Exemple de figure
+\begin{figure}[H]
+\centering
+% \includegraphics[width=0.6\textwidth]{votre-image.pdf}
+\caption{Exemple de figure}
+\end{figure}
+
+% PYTHON
+\begin{lstlisting}[language=Python, caption=Exemple Python]
+def calcul(x):
+    return x**2 + 3*x + 1
+\end{lstlisting}
+
+% OUTPUT
+\begin{lstlisting}[caption=Output]
+>>> resultat
+41
+\end{lstlisting}
+
+% R
+\begin{lstlisting}[language=r, caption=Exemple R]
+calcul <- function(x) {
+  return(x^2 + 3*x + 1)
+}
+\end{lstlisting}
+
+% OUTPUT
+\begin{lstlisting}[style=output]
+[1] 41
+\end{lstlisting}
+
+% SQL
+\begin{lstlisting}[language=SQL, caption=Exemple SQL]
+SELECT nom, age FROM utilisateurs WHERE age > 18;
+\end{lstlisting}
+
+% OUTPUT
+\begin{lstlisting}[style=output]
+nom        | age
+-----------|----
+Alice      | 28
+Bob        | 25
+\end{lstlisting}
+
+\backmatter
+
+% Décommenter si vous activez natbib
+% \bibliography{votre-biblio}
+
+\end{document}
