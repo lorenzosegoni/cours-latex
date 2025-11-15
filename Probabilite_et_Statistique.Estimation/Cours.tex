@@ -1,4 +1,132 @@
-\documentclass{article}
+\documentclass[12pt,a4paper]{book}
+
+% ===== PACKAGES ESSENTIELS =====
+% Langue et encodage français
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{lmodern}
+
+% Mise en page et marges
+\usepackage[left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm]{geometry}
+\usepackage{setspace}
+\onehalfspacing % Interligne 1,5
+
+% ===== PACKAGES POUR LE CONTENU SCIENTIFIQUE =====
+% Mathématiques avancées
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{mathtools}
+\usepackage{bm} % pour les vecteurs en gras
+\usepackage{mdframed}
+
+
+% Figures et graphiques
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{wrapfig}
+\usepackage{float}
+
+% Tableaux améliorés
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{longtable}
+
+% ===== PACKAGES POUR LA MODÉLISATION =====
+% Algorithmes et pseudo-code
+\usepackage{algorithm}
+\usepackage{algorithmic}
+
+% Diagrammes et schémas
+\usepackage{tikz}
+\usetikzlibrary{arrows, positioning, shapes}
+
+% Listings de code (si nécessaire)
+\usepackage{listings}
+\usepackage{xcolor}
+
+% ===== PACKAGES BIBLIOGRAPHIQUES =====
+\usepackage{natbib}
+\usepackage{url}
+
+% ===== PACKAGES DE MISE EN FORME =====
+% Listes personnalisées
+\usepackage{enumitem}
+
+% Titres et sections
+\usepackage{titlesec}
+\usepackage{titletoc}
+
+% En-têtes et pieds de page
+\usepackage{fancyhdr}
+
+% Liens et références
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    citecolor=blue,
+    urlcolor=blue,
+    bookmarks=true,
+    bookmarksopen=true
+}
+
+% ===== CONFIGURATIONS SPÉCIFIQUES =====
+% Configuration des listes
+\setlist[itemize]{
+    itemsep=0.5em,
+    parsep=0pt,
+    topsep=0.5em
+}
+
+% Numérotation des équations par chapitre
+\numberwithin{equation}{chapter}
+
+% Configuration des en-têtes
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\leftmark}
+\fancyhead[R]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% ===== COMMANDES PERSONNALISÉES =====
+% Pour faciliter l'écriture
+\newcommand{\dd}{\mathrm{d}} % différentielle
+\newcommand{\R}{\mathbb{R}} % ensemble des réels
+\newcommand{\N}{\mathbb{N}} % ensemble des naturels
+
+% Environnements théoriques
+\theoremstyle{definition}
+\newtheorem{definition}{Définition}[chapter]
+\newtheorem{exemple}{Exemple}[chapter]
+\newtheorem{hypotheses}{Hypothèses}[chapter]
+
+\theoremstyle{plain}
+\newtheorem{theoreme}{Théorème}[chapter]
+\newtheorem{proposition}{Proposition}[chapter]
+\newtheorem{lemme}{Lemme}[chapter]
+
+\theoremstyle{remark}
+\newtheorem{remarque}{Remarque}[chapter]
+\newtheorem{note}{Note}[chapter]
+
+% ===== MÉTADONNÉES DU DOCUMENT =====
+\title{Régression lineaire}
+\author{Lorenzo Segoni}
+\date{\today}
+
 \begin{document}
+
+% Page de titre
+\maketitle
+
+% Table des matières (optionnelle)
+\tableofcontents
+
+\chapter{1}
+\chapter{2}
+\chapter{3}
+\chapter{4}
+\chapter{5}
 Hello LaTeX from GitHub Actions!
 \end{document}
