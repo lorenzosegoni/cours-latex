@@ -1,0 +1,114 @@
+\documentclass[a4paper,10pt]{article}
+% --- TEXTE PLUS PETIT ---
+\renewcommand{\normalsize}{\small}
+\small
+
+% --- PAGE EN MODE PAYSAGE ---
+\usepackage[landscape,margin=1.2cm,top=1.8cm,bottom=1.2cm]{geometry}
+
+% --- MULTI-COLONNES ---
+\usepackage{multicol}
+\setlength{\columnsep}{0.8cm}
+\setlength{\columnseprule}{0.4pt}
+
+% --- PACKAGES UTILES ---
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[french]{babel}
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{xcolor}
+
+% --- RÉDUCTION ESPACE ÉNUMÉRATION ---
+\setlist{nolistsep,topsep=2pt,itemsep=2pt}
+
+% --- EN-TÊTE PERSONNALISÉ ---
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\textbf{Lorenzo Segoni}}
+\fancyhead[C]{\textbf{\Large Cheatsheet LaTeX}}
+\fancyhead[R]{\textbf{Semestre X}}
+\renewcommand{\headrulewidth}{0.5pt}
+
+% --- LIGNES ---
+\newcommand{\fatlinefull}{%
+  \vspace{-8pt}\noindent\rule{\linewidth}{1.2pt}\vspace{-8pt}%
+}
+\newcommand{\mixline}[3]{%
+  \vspace{-8pt}\noindent\rule{#1\linewidth}{#3}\rule{#2\linewidth}{0.4pt}\vspace{-8pt}%
+}
+
+% ---- SECTION ----
+\titleformat{\section}
+  {\large\bfseries\color{black}}
+  {}
+  {0pt}
+  {}
+  [\fatlinefull]
+\titlespacing*{\section}{0pt}{4pt}{3pt}
+
+% ---- SUBSECTION ----
+\titleformat{\subsection}
+  {\normalsize\bfseries\color{darkgray}}
+  {}
+  {0pt}
+  {}
+  [\mixline{0.5}{0.5}{0.8pt}]
+\titlespacing*{\subsection}{0pt}{3pt}{2pt}
+
+% ---- SUBSUBSECTION ----
+\titleformat{\subsubsection}
+  {\small\bfseries}
+  {}
+  {0pt}
+  {}
+\titlespacing*{\subsubsection}{0pt}{2pt}{1pt}
+
+% --- BOÎTES DE CONTENU ---
+\usepackage{tcolorbox}
+\newtcolorbox{codebox}{
+  colback=gray!5, 
+  colframe=gray!30, 
+  boxrule=0.3pt,
+  left=3pt, 
+  right=3pt,
+  top=2pt, 
+  bottom=2pt
+}
+
+% --- RÉDUCTION ESPACEMENTS GLOBAUX ---
+\setlength{\parskip}{2pt}
+\setlength{\parindent}{0pt}
+
+% --- COLONNES QUI S'ÉTENDENT JUSQU'EN BAS ---
+\raggedbottom
+
+\begin{document}
+
+\begin{multicols}{3}[\vspace{0pt}]
+
+\section{Section 1}
+Du texte ici...
+
+\subsection{Sous-section 1.1}
+Du texte ici...
+
+\subsubsection{Détail}
+Du texte ici...
+
+\section{Section 2}
+Encore du contenu...
+
+\begin{codebox}
+\texttt{Exemple de code ou commande}
+\end{codebox}
+
+\section{Autre partie}
+Maths, commandes, etc.
+
+\end{multicols}
+
+\end{document}
