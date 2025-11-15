@@ -282,11 +282,70 @@
 \newmdtheoremenv[style=thmstyle]{lemme}{Lemme}[chapter]
 \newmdtheoremenv[style=thmstyle]{corollaire}{Corollaire}[chapter]
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%  AFFICHAGE / MASQUAGE DES CORRECTIONS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newif\ifaffichecorrection
+
+% Par défaut : corrections affichées
+\affichecorrectiontrue
+% Pour cacher : remplacer par \affichecorrectionfalse
+
+% Commandes locales
+\newcommand{\sanscorrection}{\affichecorrectionfalse}
+\newcommand{\avecorr}{\affichecorrectiontrue}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%  MISE EN FORME DES EXERCICES
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{tcolorbox}
+\tcbuselibrary{breakable}
+
+\newcounter{exo}
+
+% Commande \exo
+\newcommand{\exo}{
+    \refstepcounter{exo}
+    \par\medskip
+}
+
+% Énoncé : affiché toujours
+\newenvironment{enonce}{
+    \begin{tcolorbox}[
+        breakable,
+        colframe=blue!80,
+        colback=white,
+        title={Exercice \theexo}
+    ]
+}{
+    \end{tcolorbox}
+    \par\medskip
+}
+
+% Correction : affichée seulement si activée
+\newenvironment{correction}{
+    \ifaffichecorrection
+        \begin{tcolorbox}[
+            breakable,
+            colframe=green!50,
+            colback=white,
+            title={Corrigé de l'exercice \theexo}
+        ]
+    \fi
+}{
+    \ifaffichecorrection
+        \end{tcolorbox}
+    \fi
+    \par\medskip
+}
+
 % ===== DOCUMENT =====
 \begin{document}
 
 \frontmatter
-\title{Estimation}
+\title{Exemple}
 \author{Lorenzo Segoni}
 \date{\today}
 \maketitle
