@@ -1,0 +1,129 @@
+\chapter{Introduction}
+
+Votre contenu ici.
+
+\section{Première section}
+
+Texte introductif de la section.
+
+\begin{definition}
+Ceci est une définition avec boîte minimaliste rouge.
+\end{definition}
+
+Un peu de texte après.
+
+\begin{theoreme}
+Ceci est un théorème avec la même mise en évidence.
+\end{theoreme}
+
+\begin{proposition}
+Une proposition importante.
+\end{proposition}
+
+\begin{exemple}
+Voici un exemple avec boîte jaune doux.
+\end{exemple}
+
+Du texte normal après.
+
+\begin{remarque}
+Une remarque que vous placez où vous voulez, avec boîte grise.
+\end{remarque}
+
+\section{Deuxième section}
+
+\begin{lemme}
+Lemme important.
+\end{lemme}
+
+\begin{corollaire}
+Corollaire du lemme précédent.
+\end{corollaire}
+
+\begin{exemple}
+Autre exemple pour illustrer.
+\end{exemple}
+
+% Exemple d'équation
+\begin{equation}
+e = mc^2
+\end{equation}
+
+% Exemple de tableau
+\begin{table}[H]
+\centering
+\begin{tabular}{@{}lcc@{}}
+\toprule
+Colonne 1 & Colonne 2 & Colonne 3 \\
+\midrule
+Données 1 & 10 & 20 \\
+Données 2 & 30 & 40 \\
+\bottomrule
+\end{tabular}
+\caption{Exemple de tableau}
+\end{table}
+
+% Exemple de figure
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.6\textwidth]{votre-image.jpg}
+\caption{Exemple de figure}
+\end{figure}
+
+% Python - entrée
+\begin{pycodebox}
+\begin{lstlisting}[language=Python]
+def calcul(x):
+    return x**2 + 3*x + 1
+\end{lstlisting}
+\end{pycodebox}
+
+% Python - output (fond plus clair)
+\begin{pyoutputbox}
+\begin{lstlisting}
+>>> calcul(4)
+41
+\end{lstlisting}
+\end{pyoutputbox}
+
+% R - entrée
+\begin{rcodebox}
+\begin{lstlisting}[language=R]
+calcul <- function(x){
+  return(x^2 + 3*x + 1)
+}
+\end{lstlisting}
+\end{rcodebox}
+
+
+% R - output
+\begin{routputbox}
+\begin{lstlisting}
+[1] 41
+\end{lstlisting}
+\end{routputbox}
+
+
+% SQL - entrée
+\begin{sqlcodebox}
+\begin{lstlisting}[language=SQL]
+SELECT nom, age
+FROM utilisateurs
+WHERE age > 18;
+\end{lstlisting}
+\end{sqlcodebox}
+
+% SQL - output
+\begin{sqloutputbox}
+\begin{lstlisting}
+nom   | age
+------+-----
+Alice | 28
+Bob   | 25
+\end{lstlisting}
+\end{sqloutputbox}
+
+\backmatter
+
+% Décommenter si vous activez natbib
+% \bibliography{votre-biblio}
