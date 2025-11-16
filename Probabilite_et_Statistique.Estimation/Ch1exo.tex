@@ -1,0 +1,1031 @@
+\section{TD1}
+
+\exo
+
+\begin{enonce}
+
+Ces familles sont-elles identifiables?
+
+\ques $ \{ \mathcal{N} (0,\sigma^2) : \sigma \in \mathbb{R} \} $
+
+\ques $ \{ \mathcal{N} (0,\sigma^2) : \sigma > 0 \} $
+ 
+\ques $ \{ \mathcal{B} (\rho) : \rho \in ]0,1[ \} $
+
+\ques $ \{ \mathcal{E} (\lambda) : \lambda > 0 \} $
+
+\ques $ \{ \mathcal{E} (\lambda_1,\lambda_2) : \lambda_1 > 0, \lambda_2 >0 \}. $
+
+\end{enonce}
+
+\begin{correction}
+
+\ques Si on prend le contre exemple
+
+\[ \sigma_1 = -5 , \sigma_2 = -5 \Rightarrow \mathcal{N} (0,\sigma_1^2)=\mathcal{N} (0,\sigma_2^2). \]
+
+\textbf{La famille n'est pas identifiable.}
+
+\ques Soit $\sigma , \sigma'$ et on suppose $P_\sigma = P_{\sigma '}$, implique que pour tout intervalle $I \in \mathbb{R}$
+
+\[ \int_I f_\sigma(x) dx = \int_I f_{\sigma'}(x) dx \]
+
+où $f_\sigma$ densité de $P_\sigma$
+
+Par exemple, on doit avoir:
+
+\begin{align*}
+\int_{-\infty}^{1} f_\sigma(x) dx &= \int_{-\infty}^{1} f_{\sigma'}(x) dx \\
+ \text{i.e.  }  F_{\sigma}(1) = F_{\sigma'}(1) \\
+ \text{i.e.  }  \Phi(\frac{1}{\sigma})= \Phi(\frac{1}{\sigma'})
+\end{align*}
+
+où $\Phi$ est la fonction de répartition de $\mathcal{N} (0,1)$.
+
+\begin{commentaire}
+On a $X \sim \mathcal{N} (0,\sigma^2) \Rightarrow \frac{1}{\sigma} \sim \mathcal{N} (0,1)$. Donc
+\begin{align*}
+\mathbb{P}(X \leq x) &= \mathbb{P} \left( \frac{X}{\sigma} \leq \frac{x}{\sigma} \right) \\
+&=\Phi(\frac{1}{\sigma})
+\end{align*}
+\end{commentaire}
+
+Or $ \Phi$ est strict croissante.
+
+Donc $\frac{1}{\sigma}= \frac{1}{\sigma'} \Rightarrow \sigma = \sigma'$.\textbf{La famille est identifiable.}
+
+\ques Soit $\rho, \rho' \in ]0,1[$ et supposons $P_\rho = P_{\rho'}$. Alors pour tout $k \in \{0,1\}$
+\[ \mathbb{P}_\rho(X = k) = \mathbb{P}_{\rho'}(X = k) \]
+En particulier, pour $k=1$:
+\begin{align*}
+\rho &= \rho'
+\end{align*}
+
+\begin{commentaire}
+Pour une loi de Bernoulli, la fonction de masse est $\mathbb{P}(X=1) = \rho$.
+\end{commentaire}
+
+Donc la fonction de masse détermine uniquement le paramètre $\rho$. \textbf{La famille est identifiable.}
+
+\bigskip
+
+\ques Soit $\lambda, \lambda' > 0$ et supposons $P_\lambda = P_{\lambda'}$. Considérons la densité exponentielle
+\[ f_\lambda(x) = \lambda e^{-\lambda x} \text{ pour } x \geq 0 \]
+Si $P_\lambda = P_{\lambda'}$, alors les densités sont égales presque partout:
+\[ \lambda e^{-\lambda x} = \lambda' e^{-\lambda' x} \quad \text{p.p.} \]
+Pour $x > 0$, on doit avoir
+\begin{align*}
+\lambda e^{-\lambda x} &= \lambda' e^{-\lambda' x}
+\end{align*}
+En dérivant par rapport à $x$:
+\[ -\lambda^2 e^{-\lambda x} = -(\lambda')^2 e^{-\lambda' x} \]
+En divisant la deuxième équation par la première:
+\[ \lambda = \lambda' \]
+
+\begin{commentaire}
+On peut aussi évaluer les moments: $\mathbb{E}[X] = \frac{1}{\lambda}$. Si les distributions sont égales, les espérances le sont aussi, donc $\frac{1}{\lambda} = \frac{1}{\lambda'}$, d'où $\lambda = \lambda'$.
+\end{commentaire}
+
+\textbf{La famille est identifiable.}
+
+\bigskip
+
+\ques Considérons le contre-exemple: $(\lambda_1, \lambda_2) = (1, 1)$ et $(\lambda_1', \lambda_2') = (\frac{1}{2}, 2)$.
+
+Pour la loi exponentielle bivariée $\mathcal{E}(\lambda_1, \lambda_2)$, on a la fonction de survie:
+\[ \mathbb{P}(X > x, Y > y) = e^{-\lambda_1 x - \lambda_2 y} \]
+
+Pour $(\lambda_1, \lambda_2) = (1, 1)$:
+\[ \mathbb{P}(X > x, Y > y) = e^{-x-y} = e^{-(x+y)} \]
+
+Pour $(\lambda_1', \lambda_2') = (\frac{1}{2}, 2)$:
+\[ \mathbb{P}(X > x, Y > y) = e^{-\frac{x}{2}-2y} \]
+
+Or $e^{-x-y} \neq e^{-\frac{x}{2}-2y}$ en général (par exemple pour $x=y=1$: $e^{-2} \neq e^{-2.5}$).
+
+\begin{commentaire}
+En fait, on peut montrer que si l'on observe seulement les lois marginales $\mathcal{E}(\lambda_1)$ et $\mathcal{E}(\lambda_2)$, on récupère bien $\lambda_1$ et $\lambda_2$. Mais le problème est que deux couples de paramètres différents peuvent donner la même loi bivariée (ou plus précisément, on ne peut identifier que le produit $\lambda_1 \lambda_2$ à partir de certaines informations).
+\end{commentaire}
+
+\textbf{La famille n'est pas identifiable.}
+
+\end{correction}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\exo
+
+\begin{enonce}
+
+Soit $(X_i)_{i \geq 1}$ une suite de variables aléatoires indépendantes et identiquement distribuées. On note $m = \mathbb{E}[X_1]$ et $\sigma^2 = \mathbb{V}(X_1)$. 
+
+\ques Vérifier que 
+
+\[ \overline{X}_n \quad \text{et} \quad S_n = \frac{1}{n} \sum_{i=1}^{n} (X_i - \overline{X}_n)^2, \]
+sont des estimateurs consistants de $m$ et de $\sigma^2$. 
+
+\ques Calculer leur biais et en déduire un estimateur sans biais de $\sigma^2$.
+\end{enonce}
+
+\begin{correction}
+
+Soit $X_1, \ldots, X_n$ un $n$-échantillon.
+
+\ques On sait que $m = \mathbb{E}[X_1]$.
+
+On considère $\overline{X}_n = \frac{1}{n} \sum_{i=1}^n X_i$.
+
+\begin{itemize}
+    \item $\overline{X}_n$ est fortement consistant par la loi des grands nombres.
+    \item $\overline{X}_n$ est sans biais par linéarité de l'espérance.
+\end{itemize}
+
+\begin{commentaire}
+C'est un estimateur par la méthode des moments (EMM) de $m$.
+\end{commentaire}
+
+\ques Estimation de $\sigma^2 =  \mathbb{V}(X_1)$.
+
+On considère la variance empirique :
+\begin{align*}
+S_n &= \frac{1}{n} \sum_{i=1}^n (X_i - \overline{X}_n)^2 \\
+&= \frac{1}{n} \sum_{i=1}^n \left( X_i^2 - 2 X_i \overline{X}_n + \overline{X}_n^2\right)\\
+&= \frac{1}{n} \sum_{i=1}^n X_i^2 - 2 \overline{X}_n^2 + \overline{X}_n^2\\
+&= \overline{X^2_n} - \left(\overline{X}_n\right)^2,
+\end{align*}
+où $\overline{X^2_n} = \frac{1}{n} \sum_{i=1}^n X_i^2$.
+
+\paragraph{Consistance de $S_n$}
+
+On sait que :
+\begin{itemize}
+    \item $\overline{X^2_n} \xrightarrow[\text{p.s.}]{n \to +\infty} \mathbb{E}[X_1^2]$ par la loi des grands nombres,
+    \item $\left(\overline{X}_n\right)^2 \xrightarrow[\text{p.s.}]{n \to +\infty} \left(\mathbb{E}[X_1]\right)^2$ par la loi des grands nombres et continuité de $x \mapsto x^2$.
+\end{itemize}
+
+Donc
+\[
+S_n = \overline{X^2_n} - \left(\overline{X}_n\right)^2 \xrightarrow[\text{p.s.}]{n \to +\infty} \mathbb{E}[X_1^2] - \left(\mathbb{E}[X_1]\right)^2 =  \mathbb{V}(X_1) = \sigma^2.
+\]
+
+Ainsi, $S_n$ est consistant (fortement).
+
+\paragraph{Biais de $S_n$}
+
+On a :
+\begin{align*}
+\mathbb{E}[S_n] &= \mathbb{E}\left[\frac{1}{n} \sum_{i=1}^n (X_i - \overline{X}_n)^2 \right] \\
+&= \mathbb{E}\left[\overline{X^2}_n\right] - \mathbb{E}\left[\overline{X}_n^2\right] \\
+&= \mathbb{E}[X_1^2] - \left(  \mathbb{V}(\overline{X}_n) + \mathbb{E}^2[\overline{X}_n]\right) \\
+&= \mathbb{E}[X_1^2] - \left(\frac{\mathbb{V}(X_1)}{n} + \left(\mathbb{E}[X_1]\right)^2\right)\\
+&= \mathbb{V}(X_1) - \frac{\mathbb{V}(X_1)}{n}\\
+&= \frac{n-1}{n} \mathbb{V}(X_1)\\
+&= \frac{n-1}{n} \sigma^2.
+\end{align*}
+
+Donc le biais est :
+\begin{align*}
+B(S_n, \sigma^2) &= \mathbb{E}[S_n] - \sigma^2 \\
+&= \frac{n-1}{n} \sigma^2 - \sigma^2\\
+&= -\frac{\sigma^2}{n}.
+\end{align*}
+
+\begin{commentaire} 
+$S_n$ est un estimateur biaisé de $\sigma^2$, mais asymptotiquement sans biais car $B(S_n, \sigma^2) \xrightarrow{n \to +\infty} 0$. 
+\end{commentaire}
+
+\paragraph{Variance empirique corrigée}
+
+Soit
+\[
+\hat{\sigma}^2_n = \frac{n}{n-1} S_n = \frac{1}{n-1} \sum_{i=1}^n (X_i - \overline{X}_n)^2.
+\]
+
+Alors
+\[
+\mathbb{E}[\hat{\sigma}^2_n] = \frac{n}{n-1} \mathbb{E}[S_n] = \frac{n}{n-1} \cdot \frac{n-1}{n} \sigma^2 = \sigma^2.
+\]
+
+Donc $\hat{\sigma}^2_n$ est sans biais.
+
+\begin{commentaire}
+\begin{itemize}
+    \item $\hat{\sigma}^2_n$ est appelée \textbf{variance empirique corrigée} ou \textbf{variance d'échantillon}.
+    \item $\hat{\sigma}^2_n$ est également fortement consistant car $\hat{\sigma}^2_n = \frac{n}{n-1} S_n$ et $\frac{n}{n-1} \to 1$.
+    \item En pratique, pour $n$ grand, la différence entre $S_n$ et $\hat{\sigma}^2_n$ est négligeable.
+\end{itemize}
+\end{commentaire}
+
+\end{correction}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\exo
+\begin{enonce}
+Soit $(X_i)_{i \geq 1}$ une suite de variables aléatoires indépendantes et identiquement distribuées. On note $m = \mathbb{E}[X_1]$ et $\sigma^2 = \mathrm{Var}(X_1)$. On propose comme estimateurs de $m$, $\overline{X}_n$ et 
+\[
+T_{n,1} = \frac{1}{2} (X_n + X_{n-1}).
+\]
+
+\ques Montrer que $T_{n,1}$ est sans biais.
+
+\ques Lequel des deux estimateurs $\overline{X}_n$ et $T_{n,1}$ choisiriez-vous pour estimer $m$ ?
+
+\ques Que pensez-vous de l'estimateur $T_{n,2} = 0$ pour l'estimation de $m$ ?
+
+\end{enonce}
+
+\begin{correction}
+\ques \textbf{$T_{n,1}$ est sans biais :}
+    
+    \begin{align*}
+    \mathbb{E}[T_{n,1}] &= \mathbb{E}\left[\frac{1}{2}(X_{n-1} + X_n)\right] \\
+    &= \frac{1}{2}\left(\mathbb{E}[X_{n-1}] + \mathbb{E}[X_n]\right) \\
+    &= \frac{1}{2}(m + m) \\
+    &= m.
+    \end{align*}
+    
+    Donc $T_{n,1}$ est sans biais.
+    
+\ques \textbf{Comparaison de $\overline{X}_n$ et $T_{n,1}$ :}
+    
+    On compare les risques quadratiques. Comme les deux estimateurs sont sans biais, le risque quadratique est égal à la variance.
+    
+    \textbf{Risque de $\overline{X}_n$ :}
+    \begin{align*}
+    R(\overline{X}_n, m) &= \mathbb{V}(\overline{X}_n) \\
+    &= \frac{\sigma^2}{n}.
+    \end{align*}
+    
+    \textbf{Risque de $T_{n,1}$ :}
+    \begin{align*}
+    R(T_{n,1}, m) &= \mathbb{V}(T_{n,1}) \\
+    &= \mathbb{V}\left(\frac{1}{2}(X_{n-1} + X_n)\right) \\
+    &= \frac{1}{4}\left(\mathbb{V}(X_{n-1}) + \mathbb{V}(X_n)\right) \quad \text{car } X_{n-1} \perp\!\!\!\perp X_n\\
+    &= \frac{1}{4}(\sigma^2 + \sigma^2) \\
+    &= \frac{\sigma^2}{2}.
+    \end{align*}
+    
+    \textbf{Comparaison :}
+    \begin{itemize}
+        \item Si $n = 2$ : $R(\overline{X}_n, m) = \frac{\sigma^2}{2} = R(T_{n,1}, m)$, donc $\overline{X}_2 = T_{2,1}$.
+        \item Si $n > 2$ : $R(\overline{X}_n, m) = \frac{\sigma^2}{n} < \frac{\sigma^2}{2} = R(T_{n,1}, m)$.
+    \end{itemize}
+    
+    \textbf{Conclusion :} On préfère $\overline{X}_n$ à $T_{n,1}$ pour $n > 2$, car il est meilleur au sens du risque quadratique.
+    
+\ques \textbf{Estimateur $T_{n,2} = 0$ :}
+    
+    Le risque quadratique de $T_{n,2}$ est :
+    \begin{align*}
+    R(T_{n,2}, m) &= \mathbb{E}[(T_{n,2} - m)^2] \\
+    &= \mathbb{E}[(0 - m)^2] \\
+    &= m^2.
+    \end{align*}
+    
+    \textbf{Comparaison avec $\overline{X}_n$ :}
+    \[
+    R(\overline{X}_n, m) < R(T_{n,2}, m) \Longleftrightarrow \frac{\sigma^2}{n} < m^2 \Longleftrightarrow |m| > \frac{\sigma}{\sqrt{n}}.
+    \]
+    
+    Donc $T_{n,2} = 0$ est ``préférable'' à $\overline{X}_n$ au sens du risque quadratique lorsque
+    \[
+    |m| < \frac{\sigma}{\sqrt{n}}.
+    \]
+    
+\begin{commentaire}
+    \begin{itemize}
+        \item Cet estimateur est néanmoins ``stupide'' car il ne dépend pas des observations !
+        \item Lorsque $n \to +\infty$, l'ensemble des valeurs de $m$ pour lesquelles $T_{n,2}$ est meilleur devient de plus en plus petit : $\left\{m : |m| < \frac{\sigma}{\sqrt{n}}\right\} \to \{0\}$.
+        \item Cela illustre qu'un estimateur peut être meilleur au sens du risque quadratique pour certaines valeurs du paramètre tout en étant manifestement inadéquat d'un point de vue pratique.
+        \item $\overline{X}_n$ est préférable car il est consistant, contrairement à $T_{n,2}$.
+    \end{itemize}
+\end{commentaire}
+
+\end{correction}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\exo
+\begin{enonce}
+Soit $(X_i)_{i \geq 1}$ une suite de variables aléatoires indépendantes et identiquement distribuées de loi exponentielle $\mathcal{E}(\theta), \theta > 0$.
+
+\ques Un statisticien propose d'estimer $\theta$ par :
+    $$ \widehat{\theta}_n = \frac{1}{\overline{X}_n} $$
+    
+\ssques Justifier que $\widehat{\theta}_n$ est bien définie.
+
+\ssques Calculer $\mathbb{E}[\widehat{\theta}_n]$ et expliquer le choix du statisticien.
+
+\ssques Donner la loi limite de $\sqrt{n}(\widehat{\theta}_n - \theta)$.
+
+\ssques Donner la loi de $\sum_{i=1}^n X_i$. Calculer $\mathbb{E}[\widehat{\theta}_n]$, $\mathbb{V}(\widehat{\theta}_n)$, et $\mathbb{E}[(\widehat{\theta}_n - \theta)^2]$.
+
+\ques Un statisticien propose d'utiliser
+    $$ \widehat{\theta}^{(2)}_n = \frac{n-1}{n} \frac{1}{\overline{X}_n}. $$
+    
+\ssques L'estimateur $\widehat{\theta}^{(2)}_n$ vérifie-t-il toujours des propriétés asymptotiques similaires à $\widehat{\theta}_n$ ?
+
+\ssques Calculer $\mathbb{E}[\widehat{\theta}^{(2)}_n]$, $\mathbb{V}(\widehat{\theta}^{(2)}_n)$, et $\mathbb{E}[(\widehat{\theta}^{(2)}_n - \theta)^2]$. Quel estimateur préférez-vous ?
+\end{enonce}
+
+\begin{correction}
+\ques
+\ssques Pour que $\hat{\theta}_n$ soit bien défini, il faut $\bar{X}_n \neq 0$.
+
+Or $\mathbb{P}(\bar{X}_n > 0) = 1$ car $\forall i, \mathbb{P}(X_i > 0) = 1$ (loi exponentielle).
+
+Donc $\hat{\theta}_n$ est bien défini \textit{presque sûrement}.
+
+\ssques \textbf{Calcul de l'espérance:}
+
+On rappelle que pour $X_i \sim \mathcal{E}(\theta)$, on a $\mathbb{E}_\theta[X_i] = \frac{1}{\theta}$ et $\mathbb{V}_\theta(X_i) = \frac{1}{\theta^2}$.
+
+Donc $\bar{X}_n$ est un estimateur sans biais et consistant (fortement) pour l'estimation de $\frac{1}{\theta}$ par la loi forte des grands nombres.
+
+$\hat{\theta}_n$ est un \textit{estimateur par méthode des moments (EMM)} de $\theta$.
+
+\begin{commentaire}
+$\bar{X}_n$ est un EMM de $\frac{1}{\theta}$. Si on pose $g: x \mapsto \frac{1}{x}$, alors $\hat{\theta}_n = g(\bar{X}_n)$ est un EMM de $g(\frac{1}{\theta}) = \theta$.\end{commentaire}
+
+\textbf{Propriétés asymptotiques:}
+\begin{itemize}
+\item $\bar{X}_n$ est sans biais et consistant (fortement) pour l'estimation de $\frac{1}{\theta}$
+\item $g$ est continue sur $\mathbb{R}_+^*$ donc par le théorème de continuité, $\hat{\theta}_n = g(\bar{X}_n)$ est consistant (fortement) pour l'estimation de $g(\frac{1}{\theta}) = \theta$
+\end{itemize}
+
+\begin{commentaire}
+En revanche, il n'y a aucune raison que $\hat{\theta}_n$ soit sans biais. En effet, par l'inégalité de Jensen (car $g$ est convexe sur $\mathbb{R}_+^*$), on a $\mathbb{E}[\hat{\theta}_n] = \mathbb{E}[g(\bar{X}_n)] > g(\mathbb{E}[\bar{X}_n]) = g(\frac{1}{\theta}) = \theta$. L'estimateur est donc biaisé positivement.
+\end{commentaire}
+
+\ssques \textbf{Loi limite par la méthode Delta:}
+
+\textbf{Étape 1 - TCL:} Par le Théorème Central Limite, on a:
+\[ \sqrt{n} \left(\bar{X}_n - \frac{1}{\theta}\right) \xrightarrow{\mathcal{L}} \mathcal{N}\left(0, \mathbb{V}_\theta(X_i)\right) = \mathcal{N}\left(0, \frac{1}{\theta^2}\right) \]
+
+\textbf{Étape 2 - Méthode Delta:} Soit $g: x \mapsto \frac{1}{x}$ définie sur $\mathbb{R}_+^*$. 
+
+Cette fonction est dérivable avec $g'(x) = -\frac{1}{x^2}$.
+
+En particulier, $g'\left(\frac{1}{\theta}\right) = -\frac{1}{(\frac{1}{\theta})^2} = -\theta^2 \neq 0$.
+
+Par la méthode Delta, on obtient:
+\begin{align*}
+\sqrt{n}\left(g(\bar{X}_n) - g\left(\frac{1}{\theta}\right)\right) &= \sqrt{n}(\hat{\theta}_n - \theta) \\
+&\xrightarrow{\mathcal{L}} \mathcal{N}\left(0, \left(g'\left(\frac{1}{\theta}\right)\right)^2 \mathbb{V}_\theta(X_i)\right) \\
+&= \mathcal{N}\left(0, (-\theta^2)^2 \cdot \frac{1}{\theta^2}\right) \\
+&= \mathcal{N}(0, \theta^2)
+\end{align*}
+
+\textbf{Conclusion:} $\boxed{\sqrt{n}(\hat{\theta}_n - \theta) \xrightarrow{\mathcal{L}} \mathcal{N}(0, \theta^2)}$
+
+\ssques \textbf{Loi de la somme:}
+
+Pour $X_i \sim \mathcal{E}(\theta)$, on sait que:
+\[ \sum_{i=1}^n X_i \sim \text{Gamma}(n, \theta) \]
+
+Plus précisément, $2\theta \sum_{i=1}^n X_i \sim \chi^2(2n)$ (loi du khi-deux à $2n$ degrés de liberté).
+
+\textbf{Loi de} $\hat{\theta}_n$:
+
+Puisque $\hat{\theta}_n = \frac{1}{\bar{X}_n} = \frac{n}{\sum_{i=1}^n X_i}$, on a:
+\[ \hat{\theta}_n = \frac{n}{\sum_{i=1}^n X_i} = \frac{2n\theta}{2\theta\sum_{i=1}^n X_i} = \frac{2n\theta}{U} \]
+où $U \sim \chi^2(2n)$.
+
+\textbf{Calcul de} $\mathbb{E}[\hat{\theta}_n]$:
+
+Pour $U \sim \chi^2(2n)$, on a $\mathbb{E}\left[\frac{1}{U}\right] = \frac{1}{2n-2}$ (pour $n \geq 2$).
+
+Donc:
+\[ \mathbb{E}[\hat{\theta}_n] = 2n\theta \cdot \mathbb{E}\left[\frac{1}{U}\right] = 2n\theta \cdot \frac{1}{2n-2} = \frac{n}{n-1}\theta \]
+
+\textbf{Calcul de} $\mathbb{V}(\hat{\theta}_n)$:
+
+Pour $U \sim \chi^2(2n)$, on a $\mathbb{V}\left(\frac{1}{U}\right) = \frac{1}{(2n-2)^2(2n-4)}$ (pour $n \geq 3$).
+
+Donc:
+\[ \mathbb{V}(\hat{\theta}_n) = (2n\theta)^2 \cdot \mathbb{V}\left(\frac{1}{U}\right) = 4n^2\theta^2 \cdot \frac{1}{(2n-2)^2(2n-4)} = \frac{n^2\theta^2}{(n-1)^2(n-2)} \]
+
+\textbf{Calcul du risque quadratique (EQM):}
+
+\begin{align*}
+\mathbb{E}[(\hat{\theta}_n - \theta)^2] &= \mathbb{V}(\hat{\theta}_n) + \left(\mathbb{E}[\hat{\theta}_n] - \theta\right)^2 \\
+&= \frac{n^2\theta^2}{(n-1)^2(n-2)} + \left(\frac{n}{n-1}\theta - \theta\right)^2 \\
+&= \frac{n^2\theta^2}{(n-1)^2(n-2)} + \left(\frac{\theta}{n-1}\right)^2 \\
+&= \frac{n^2\theta^2}{(n-1)^2(n-2)} + \frac{\theta^2}{(n-1)^2} \\
+&= \frac{\theta^2}{(n-1)^2}\left(\frac{n^2}{n-2} + 1\right) \\
+&= \frac{\theta^2}{(n-1)^2} \cdot \frac{n^2 + n - 2}{n-2} \\
+&= \frac{\theta^2(n^2 + n - 2)}{(n-1)^2(n-2)}
+\end{align*}
+
+On peut simplifier: $n^2 + n - 2 = (n-1)(n+2)$, donc:
+\[ \boxed{\mathbb{E}[(\hat{\theta}_n - \theta)^2] = \frac{\theta^2(n+2)}{(n-1)(n-2)}} \]
+
+\ques
+\ssques \textbf{Propriétés asymptotiques de} $\hat{\theta}_n^{(2)}$:
+
+On a $\hat{\theta}_n^{(2)} = \frac{n-1}{n}\hat{\theta}_n$.
+
+\textbf{Consistance:} Puisque $\frac{n-1}{n} \to 1$ et $\hat{\theta}_n \xrightarrow{p.s.} \theta$, on a:
+\[ \hat{\theta}_n^{(2)} = \frac{n-1}{n}\hat{\theta}_n \xrightarrow{p.s.} 1 \cdot \theta = \theta \]
+
+Donc $\hat{\theta}_n^{(2)}$ est consistant.
+
+\textbf{Loi limite:} 
+\begin{align*}
+\sqrt{n}(\hat{\theta}_n^{(2)} - \theta) &= \sqrt{n}\left(\frac{n-1}{n}\hat{\theta}_n - \theta\right) \\
+&= \frac{n-1}{n}\sqrt{n}(\hat{\theta}_n - \theta) - \theta\sqrt{n}\left(1 - \frac{n-1}{n}\right) \\
+&= \frac{n-1}{n}\sqrt{n}(\hat{\theta}_n - \theta) - \frac{\theta}{\sqrt{n}}
+\end{align*}
+
+Or $\sqrt{n}(\hat{\theta}_n - \theta) \xrightarrow{\mathcal{L}} \mathcal{N}(0, \theta^2)$ et $\frac{\theta}{\sqrt{n}} \to 0$.
+
+Par le lemme de Slutsky:
+\[ \boxed{\sqrt{n}(\hat{\theta}_n^{(2)} - \theta) \xrightarrow{\mathcal{L}} \mathcal{N}(0, \theta^2)} \]
+
+\textbf{Conclusion:} Oui, $\hat{\theta}_n^{(2)}$ vérifie les mêmes propriétés asymptotiques que $\hat{\theta}_n$ (même loi limite).
+
+\ssques \textbf{Calcul des caractéristiques de} $\hat{\theta}_n^{(2)}$:
+
+\textbf{Espérance:}
+\[ \mathbb{E}[\hat{\theta}_n^{(2)}] = \frac{n-1}{n}\mathbb{E}[\hat{\theta}_n] = \frac{n-1}{n} \cdot \frac{n}{n-1}\theta = \theta \]
+
+Donc $\hat{\theta}_n^{(2)}$ est \textbf{sans biais} !
+
+\textbf{Variance:}
+\[ \mathbb{V}(\hat{\theta}_n^{(2)}) = \left(\frac{n-1}{n}\right)^2 \mathbb{V}(\hat{\theta}_n) = \frac{(n-1)^2}{n^2} \cdot \frac{n^2\theta^2}{(n-1)^2(n-2)} = \frac{\theta^2}{n-2} \]
+
+\textbf{EQM:}
+
+Puisque $\hat{\theta}_n^{(2)}$ est sans biais:
+\[ \boxed{\mathbb{E}[(\hat{\theta}_n^{(2)} - \theta)^2] = \mathbb{V}(\hat{\theta}_n^{(2)}) = \frac{\theta^2}{n-2}} \]
+
+\textbf{Comparaison des estimateurs:}
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline
+Estimateur & Biais & Variance & EQM \\
+\hline
+$\hat{\theta}_n$ & $\frac{\theta}{n-1}$ & $\frac{n^2\theta^2}{(n-1)^2(n-2)}$ & $\frac{\theta^2(n+2)}{(n-1)(n-2)}$ \\
+\hline
+$\hat{\theta}_n^{(2)}$ & $0$ & $\frac{\theta^2}{n-2}$ & $\frac{\theta^2}{n-2}$ \\
+\hline
+\end{tabular}
+\end{center}
+
+\textbf{Comparaison de l'EQM:}
+\[ \frac{\text{EQM}(\hat{\theta}_n)}{\text{EQM}(\hat{\theta}_n^{(2)})} = \frac{\theta^2(n+2)}{(n-1)(n-2)} \cdot \frac{n-2}{\theta^2} = \frac{n+2}{n-1} > 1 \]
+
+\textbf{Conclusion:} On préfère $\boxed{\hat{\theta}_n^{(2)}}$ car:
+\begin{itemize}
+\item Il est sans biais
+\item Il a une variance plus faible que $\hat{\theta}_n$
+\item Il a un risque quadratique plus faible: $\text{EQM}(\hat{\theta}_n^{(2)}) < \text{EQM}(\hat{\theta}_n)$
+\item Il conserve les mêmes propriétés asymptotiques (consistance, normalité asymptotique)
+\end{itemize}
+
+L'estimateur $\hat{\theta}_n^{(2)}$ est obtenu en corrigeant le biais de $\hat{\theta}_n$. C'est un estimateur \textbf{sans biais à variance minimale} parmi ceux de la forme $c\hat{\theta}_n$.
+
+\end{correction}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\exo
+
+\begin{enonce}
+
+Soit $(X_i)_{i \geq 1}$ une suite de variables aléatoires indépendantes et identiquement distribuées de loi de densité sur $\mathbb{R}$ donnée par
+
+$$ f_{\theta}(x) = \frac{2x}{\theta^2} \mathbb{1}_{[0, \theta]}(x), $$
+
+où $\theta > 0$ est un paramètre inconnu.
+
+\ques On pose $X_{(n)} = \max_{1 \leq i \leq n} X_i$.
+
+\ssques Donner la densité de $X_{(n)}$.
+
+\ssques Calculer $\mathbb{E}[X_{(n)}]$, $\mathbb{E}[X_{(n)}^2]$, puis en déduire $\mathbb{V}(X_{(n)})$.
+
+\ssques Montrer que $X_{(n)}$ est consistant pour l'estimation de $\theta$.
+
+\ques Calculer $\mathbb{E}[X_1]$ puis en déduire un estimateur $\widehat{\theta}_n$ consistant de $\theta$.
+
+\ques Qui de $X_{(n)}$ ou $\widehat{\theta}_n$ choisiriez-vous pour estimer $\theta$ ?
+
+\end{enonce}
+
+\begin{correction}
+
+\ques 
+
+\ssques Soit $t \in [0, \theta]$,
+
+\begin{align*}
+\mathbb{P}_{\theta}(X_{(n)} \le t) &= \mathbb{P}_{\theta}(\forall i,\, X_i \le t) \\
+&= [\mathbb{P}_{\theta}(X_i \le t)]^n
+\end{align*}
+
+On sait que :
+\begin{align*}
+\mathbb{P}_{\theta}(X_i \le t) &= \int_0^t \frac{2x}{\theta^2}\, dx \\
+&= \frac{2}{\theta^2} \left[ \frac{x^2}{2} \right]_0^t \\
+&= \frac{t^2}{\theta^2}
+\end{align*}
+
+Donc :
+\[
+\mathbb{P}(X_{(n)} \le t) = \frac{t^{2n}}{\theta^{2n}}
+\]
+
+Ainsi $X_{(n)}$ admet pour densité :
+\[
+f_{X_{(n)}}(x) = \frac{2n}{\theta^{2n}} x^{2n-1} \mathbb{1}_{[0, \theta]}(x)
+\]
+
+\ssques Calcul de l’espérance :
+\begin{align*}
+\mathbb{E}[X_{(n)}] &= \int_0^\theta x \frac{2n}{\theta^{2n}} x^{2n-1}\, dx \\
+&= \frac{2n}{\theta^{2n}} \int_0^\theta x^{2n}\, dx \\
+&= \frac{2n}{\theta^{2n}} \left[ \frac{x^{2n+1}}{2n+1} \right]_0^\theta \\
+&= \frac{2n}{2n+1}\,\theta
+\end{align*}
+
+Et :
+\begin{align*}
+\mathbb{E}[X_{(n)}^2] &= \int_0^\theta x^2 \frac{2n}{\theta^{2n}} x^{2n-1}\, dx \\
+&= \frac{2n}{\theta^{2n}} \int_0^\theta x^{2n+1}\, dx \\
+&= \frac{2n}{\theta^{2n}} \left[ \frac{x^{2n+2}}{2n+2} \right]_0^\theta \\
+&= \frac{n}{n+1}\,\theta^2
+\end{align*}
+
+Ainsi :
+\begin{align*}
+\mathbb{V}_{\theta}[X_{(n)}] &= \mathbb{E}[X_{(n)}^2] - \mathbb{E}^2[X_{(n)}] \\
+&= \frac{n}{n+1}\theta^2 - \frac{4n^2}{(2n+1)^2}\theta^2 \\
+&= \frac{n\theta^2}{(n+1)(2n+1)^2}
+\end{align*}
+
+\ssques \textbf{Méthode 1 :}
+
+\[
+R(X_{(n)}, \theta) = 
+\underbrace{\mathbb{V}_{\theta}(X_{(n)})}_{\xrightarrow{n \to \infty} 0} 
++ \underbrace{(B(X_{(n)}, \theta))^2}_{\xrightarrow{n \to \infty} 0}
+\]
+
+Ainsi $X_{(n)}$ est \textbf{consistant} (puisque convergent en $L^2$).
+
+\bigskip
+
+\textbf{MÉTHODE 2 :} Soit $\epsilon > 0$ tel que $\theta - \epsilon > 0$.
+
+\begin{align*}
+\mathbb{P}_{\theta}(|X_{(n)} - \theta| \ge \epsilon) &= \mathbb{P}_{\theta}(\theta - X_{(n)} \ge \epsilon) \\
+&= \mathbb{P}_{\theta}(X_{(n)} \le \theta - \epsilon) \\
+&= \frac{(\theta - \epsilon)^{2n}}{\theta^{2n}} \\
+&= \left( \frac{\theta - \epsilon}{\theta} \right)^{2n}  \xrightarrow[n \to \infty]{} 0
+\end{align*}
+
+Ainsi, $X_{(n)} \xrightarrow{P} \theta$ (consistance faible).
+
+
+\ques On a :
+
+\[
+\mathbb{E}_{\theta}[X_i] = \int_0^\theta x \frac{2x}{\theta^2} \, dx
+= \frac{2}{\theta^2} \left[ \frac{x^3}{3} \right]_0^\theta
+= \frac{2}{3}\theta
+\]
+
+On pose :
+\[
+\hat{\theta}_n = \frac{3}{2}\bar{X}_n
+\]
+un estimateur du moment de $\theta$, sans biais et (faiblement) consistant.
+
+\ques Calcul du risque quadratique :
+
+\[
+R(\hat{\theta}_n, \theta) = \mathbb{V}_{\theta}(\hat{\theta}_n)
+= \frac{9}{4} \mathbb{V}_{\theta}(\bar{X}_n)
+= \frac{9}{4n} \mathbb{V}_{\theta}(X_i)
+\]
+
+Or,
+\[
+\mathbb{E}_{\theta}[X_i^2] = \int_0^{\theta} x^2 \frac{2x}{\theta^2} \, dx
+= \frac{2}{\theta^2} \left[ \frac{x^4}{4} \right]_0^{\theta}
+= \frac{\theta^2}{2}
+\]
+
+Donc :
+\[
+\mathbb{V}_{\theta}(X_i) = \mathbb{E}_{\theta}[X_i^2] - \mathbb{E}_{\theta}^2[X_i]
+= \frac{\theta^2}{2} - \left( \frac{2}{3}\theta \right)^2
+= \frac{\theta^2}{18}
+\]
+
+Ainsi :
+\[
+R(\hat{\theta}_n, \theta) = \frac{9}{4n} \cdot \frac{\theta^2}{18}
+= \frac{\theta^2}{8n}
+\]
+
+et
+\begin{align*}
+R(X_{(n)}, \theta) &= \frac{\theta^2 (2n+1) }{(n+1)(2n+1)^2} \\
+&= \frac{\theta^2}{(n+1)(2n+1)}
+\end{align*}
+
+\medskip
+\noindent
+Donc, d'un point de vue asymptotique, on préfère $X_{(n)}$, car la convergence de son risque quadratique est beaucoup plus rapide !
+
+\begin{commentaire}
+ \textbf{Remarque :}
+\[
+\frac{R(X_{(n)}, \theta)}{R(\hat{\theta}_n, \theta)}
+= \frac{8n}{(n+1)(2n+1)}
+\]
+
+et
+\[
+\frac{R(X_{(n)}, \theta)}{R(\hat{\theta}_n, \theta)} \le 1
+\Longleftrightarrow 8n \le (n+1)(2n+1)
+\Longleftrightarrow 2n^2 - 5n + 1 \ge 0
+\]
+
+On remarque que pour $n \ge 3$, on a bien :
+\[
+R(X_{(n)}, \theta) \le R(\hat{\theta}_n, \theta)
+\]
+\end{commentaire}
+
+
+
+
+\end{correction}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\exo
+
+\begin{enonce}
+
+Soit $(X_i)_{i \geq 1}$ une suite de variables aléatoires indépendantes et identiquement distribuées de loi de densité sur $\mathbb{R}$ donnée par
+
+$$ f_{\theta}(x) = \frac{1}{\theta} e^{-\frac{x-\theta}{\theta}} \mathbb{1}_{[\theta, +\infty]}(x), $$
+
+où $\theta > 0$ est un paramètre inconnu.
+
+\ques Montrer que $Y = X_1 / \theta - 1$ suit une loi exponentielle $\mathcal{E}(1)$.
+
+\ques
+
+\ssques Déterminer la fonction de répartition de $X_{(1)} = \min_{1 \leq i \leq n} X_i$.
+
+\ssques Calculer le risque quadratique de $X_{(1)}$ pour l'estimation de $\theta$ puis analyser la consistance de cet estimateur.
+
+\ques 
+
+\ssques Estimer $\theta$ par la méthode des moments.
+
+\ssques Quelle est la loi limite de l'estimateur ainsi obtenu ? Étudier également sa convergence en moyenne quadratique.
+
+\ques Comparer les deux estimateurs.
+
+\end{enonce}
+
+\begin{correction}
+
+\ques 
+Soit $Y = X_1 / \theta - 1$. On cherche la loi de $Y$.
+
+On a $X_1 \sim f_\theta$ où $f_\theta(x) = \frac{1}{\theta} e^{-\frac{x-\theta}{\theta}} \mathbb{1}_{[\theta, +\infty)}(x)$.
+
+Par changement de variable: $Y = \frac{X_1}{\theta} - 1 \Rightarrow X_1 = \theta(Y+1)$.
+
+On a $X_1 \geq \theta \Rightarrow Y + 1 \geq 1 \Rightarrow Y \geq 0$.
+
+Le Jacobien est $\frac{dX_1}{dY} = \theta$. Donc
+\begin{align*}
+f_Y(y) &= f_\theta(\theta(y+1)) \cdot |\theta| \\
+&= \frac{1}{\theta} e^{-\frac{\theta(y+1)-\theta}{\theta}} \cdot \theta \cdot \mathbb{1}_{[0,+\infty)}(y) \\
+&= e^{-y} \mathbb{1}_{[0,+\infty)}(y)
+\end{align*}
+
+\begin{commentaire}
+On reconnaît la densité de $\mathcal{E}(1)$. Donc $Y \sim \mathcal{E}(1)$.
+\end{commentaire}
+
+\textbf{Ainsi $Y = X_1/\theta - 1 \sim \mathcal{E}(1)$.}
+
+\bigskip
+
+\ques
+
+\ssques 
+Déterminer $F_{X_{(1)}}(x) = \mathbb{P}(X_{(1)} \leq x)$ où $X_{(1)} = \min_{1 \leq i \leq n} X_i$.
+
+\begin{align*}
+\mathbb{P}(X_{(1)} > x) &= \mathbb{P}(X_1 > x, \ldots, X_n > x) \\
+&= \prod_{i=1}^n \mathbb{P}(X_i > x) \quad \text{(indépendance)}\\
+&= \left[ \mathbb{P}(X_1 > x) \right]^n
+\end{align*}
+
+Or, pour $x \geq \theta$:
+\begin{align*}
+\mathbb{P}(X_1 > x) &= \int_x^{+\infty} \frac{1}{\theta} e^{-\frac{t-\theta}{\theta}} dt \\
+&= e^{-\frac{x-\theta}{\theta}}
+\end{align*}
+
+Pour $x < \theta$: $\mathbb{P}(X_1 > x) = 1$.
+
+Donc, pour $x \geq \theta$:
+\[ F_{X_{(1)}}(x) = 1 - e^{-n\frac{x-\theta}{\theta}} \]
+
+et pour $x < \theta$: $F_{X_{(1)}}(x) = 0$.
+
+\ssques 
+On peut écrire $X_{(1)} = \theta + \theta Z$ où $Z \sim \mathcal{E}(n)$. 
+
+En effet, pour $z \geq 0$:
+\[ \mathbb{P}(Z \leq z) = 1 - e^{-nz} \]
+ce qui est la CDF de $\mathcal{E}(n)$.
+
+Donc $\mathbb{E}[X_{(1)}] = \theta + \theta \mathbb{E}[Z] = \theta + \theta \cdot \frac{1}{n} = \theta \left(1 + \frac{1}{n}\right)$.
+
+Et $\mathbb{V}(X_{(1)}) = \theta^2 \mathbb{V}(Z) = \theta^2 \cdot \frac{1}{n^2}$.
+
+Le risque quadratique de $X_{(1)}$ pour estimer $\theta$ est:
+\begin{align*}
+R(\theta, X_{(1)}) &= \mathbb{E}[(X_{(1)} - \theta)^2] \\
+&= \mathbb{V}(X_{(1)}) + (\mathbb{E}[X_{(1)}] - \theta)^2 \\
+&= \frac{\theta^2}{n^2} + \left(\frac{\theta}{n}\right)^2 \\
+&= \frac{\theta^2}{n^2} + \frac{\theta^2}{n^2} \\
+&= \frac{2\theta^2}{n^2}
+\end{align*}
+
+\begin{commentaire}
+Bien sûr, on peut aussi calculer directement: $\mathbb{E}[(X_{(1)} - \theta)^2] = \mathbb{V}(\theta Z) + \left(\mathbb{E}[\theta Z]\right)^2 = \theta^2 \mathbb{V}(Z) + \theta^2 \left(\mathbb{E}[Z]\right)^2 = \theta^2 \left( \frac{1}{n^2} + \frac{1}{n^2} \right) = \frac{2\theta^2}{n^2}$.
+\end{commentaire}
+
+Le risque quadratique tend vers 0 quand $n \to \infty$ à vitesse $1/n^2$. 
+
+\textbf{L'estimateur $X_{(1)}$ est convergent en moyenne quadratique.}
+
+Par Chebyshev, $X_{(1)} \xrightarrow{L^2} \theta$, donc aussi $X_{(1)} \xrightarrow{p} \theta$.
+
+\bigskip
+
+\ques
+
+\ssques 
+
+Estimation par la méthode des moments.
+
+D'abord, calculons $\mathbb{E}[X_1]$:
+\begin{align*}
+\mathbb{E}[X_1] &= \int_\theta^{+\infty} x \cdot \frac{1}{\theta} e^{-\frac{x-\theta}{\theta}} dx
+\end{align*}
+
+Par changement de variable $u = \frac{x-\theta}{\theta}$, on a $x = \theta(u+1)$ et $dx = \theta du$:
+\begin{align*}
+\mathbb{E}[X_1] &= \int_0^{+\infty} \theta(u+1) e^{-u} du \\
+&= \theta \int_0^{+\infty} (u+1) e^{-u} du \\
+&= \theta \left[ \int_0^{+\infty} u e^{-u} du + \int_0^{+\infty} e^{-u} du \right] \\
+&= \theta [1 + 1] = 2\theta
+\end{align*}
+
+\begin{commentaire}
+$\int_0^{+\infty} u e^{-u} du = \Gamma(2) = 1$ et $\int_0^{+\infty} e^{-u} du = 1$.
+\end{commentaire}
+
+Par la méthode des moments, on égalise le moment empirique au moment théorique:
+\[ \overline{X}_n = \frac{1}{n} \sum_{i=1}^n X_i = 2\theta \]
+
+Donc l'estimateur est:
+\[ \widehat{\theta}_n^{(MM)} = \frac{\overline{X}_n}{2} \]
+
+\bigskip
+
+\ssques 
+Loi limite et convergence en moyenne quadratique.
+
+Par le théorème limite central, puisque $\mathbb{E}[X_1] = 2\theta$ et $\mathbb{V}(X_1) < \infty$, on a:
+\[ \sqrt{n}(\overline{X}_n - 2\theta) \xrightarrow{d} \mathcal{N}(0, \sigma^2) \]
+où $\sigma^2 = \mathbb{V}(X_1)$.
+
+Calculons $\mathbb{V}(X_1) = \mathbb{E}[X_1^2] - (\mathbb{E}[X_1])^2$.
+
+\begin{align*}
+\mathbb{E}[X_1^2] &= \int_\theta^{+\infty} x^2 \cdot \frac{1}{\theta} e^{-\frac{x-\theta}{\theta}} dx \\
+&= \int_0^{+\infty} \theta^2(u+1)^2 e^{-u} du \\
+&= \theta^2 \int_0^{+\infty} (u^2 + 2u + 1) e^{-u} du \\
+&= \theta^2 [2 + 2 + 1] = 5\theta^2
+\end{align*}
+
+\begin{commentaire}
+$\int_0^{+\infty} u^2 e^{-u} du = \Gamma(3) = 2$.
+\end{commentaire}
+
+Donc $\mathbb{V}(X_1) = 5\theta^2 - 4\theta^2 = \theta^2$.
+
+Par conséquent:
+\[ \sqrt{n}(\overline{X}_n - 2\theta) \xrightarrow{d} \mathcal{N}(0, \theta^2) \]
+
+Donc:
+\[ \sqrt{n}\left(\widehat{\theta}_n^{(MM)} - \theta\right) = \sqrt{n}\left(\frac{\overline{X}_n}{2} - \theta\right) = \frac{1}{2}\sqrt{n}(\overline{X}_n - 2\theta) \xrightarrow{d} \mathcal{N}\left(0, \frac{\theta^2}{4}\right) \]
+
+\textbf{Loi limite: } $\sqrt{n}\left(\widehat{\theta}_n^{(MM)} - \theta\right) \xrightarrow{d} \mathcal{N}\left(0, \frac{\theta^2}{4}\right)$.
+
+Pour la convergence en moyenne quadratique:
+\begin{align*}
+\mathbb{E}\left[\left(\widehat{\theta}_n^{(MM)} - \theta\right)^2\right] &= \mathbb{E}\left[\left(\frac{\overline{X}_n - 2\theta}{2}\right)^2\right] \\
+&= \frac{1}{4} \mathbb{E}[(\overline{X}_n - 2\theta)^2] \\
+&= \frac{1}{4} \left( \mathbb{V}(\overline{X}_n) + (\mathbb{E}[\overline{X}_n] - 2\theta)^2 \right) \\
+&= \frac{1}{4} \cdot \frac{\theta^2}{n} \\
+&= \frac{\theta^2}{4n}
+\end{align*}
+
+\textbf{L'estimateur converge en moyenne quadratique avec $R(\theta, \widehat{\theta}_n^{(MM)}) = \frac{\theta^2}{4n}$.}
+
+\bigskip
+
+\ques 
+\textbf{Comparaison des deux estimateurs.}
+
+\begin{itemize}
+\item \textbf{Estimateur du minimum:} $\hat{\theta}_n^{(1)} = X_{(1)}$
+  \begin{itemize}
+  \item Risque quadratique: $R(\theta, X_{(1)}) = \frac{2\theta^2}{n^2}$
+  \item Vitesse de convergence: $1/n^2$ (super-rapide!)
+  \item Biais: $\mathbb{E}[X_{(1)}] - \theta = \frac{\theta}{n}$ (estimateur biaisé)
+  \end{itemize}
+
+\item \textbf{Estimateur des moments:} $\widehat{\theta}_n^{(MM)} = \frac{\overline{X}_n}{2}$
+  \begin{itemize}
+  \item Risque quadratique: $R(\theta, \widehat{\theta}_n^{(MM)}) = \frac{\theta^2}{4n}$
+  \item Vitesse de convergence: $1/n$ (convergence standard)
+  \item Biais: $\mathbb{E}[\widehat{\theta}_n^{(MM)}] - \theta = 0$ (estimateur sans biais)
+  \end{itemize}
+\end{itemize}
+
+
+\begin{commentaire}
+Le ratio des risques est $\frac{R(\theta, X_{(1)})}{R(\theta, \widehat{\theta}_n^{(MM)})} = \frac{2\theta^2/n^2}{\theta^2/(4n)} = \frac{8}{n}$. Pour $n$ grand, $X_{(1)}$ est beaucoup meilleur que l'estimateur des moments!
+\end{commentaire}
+
+\textbf{Conclusion:} $X_{(1)}$ est un meilleur estimateur que $\widehat{\theta}_n^{(MM)}$ asymptotiquement, car il converge plus vite (à vitesse $1/n^2$ au lieu de $1/n$). Bien que $X_{(1)}$ soit biaisé, son biais décroît assez vite pour que le risque global soit plus petit.
+
+\end{correction}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
