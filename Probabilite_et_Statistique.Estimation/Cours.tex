@@ -13,6 +13,8 @@
 
 % ===== MATHÉMATIQUES =====
 \usepackage{amsmath, amssymb, amsthm}
+\usepackage{amsfonts}
+\usepackage{bbold}
 \usepackage{mathtools}
 \usepackage{bm}
 
@@ -281,6 +283,117 @@
 \newmdtheoremenv[style=thmstyle]{proposition}{Proposition}[chapter]
 \newmdtheoremenv[style=thmstyle]{lemme}{Lemme}[chapter]
 \newmdtheoremenv[style=thmstyle]{corollaire}{Corollaire}[chapter]
+
+% ===== BOÎTE COMMENTAIRE (AJOUT) =====
+\newtcolorbox{commentairebox}{
+    breakable,
+    colback=graybg,
+    colframe=graysoft,
+    boxrule=1.5pt,
+    sharp corners,
+    left=8pt,
+    right=8pt,
+    top=6pt,
+    bottom=6pt
+}
+
+% Environnement commentaire (pas de macro avec argument)
+\newenvironment{commentaire}{%
+    \begin{commentairebox}%
+}{%
+    \end{commentairebox}%
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%  AFFICHAGE / MASQUAGE DES CORRECTIONS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newif\ifaffichecorrection
+
+% Par défaut : corrections affichées
+\affichecorrectiontrue
+% Pour cacher : remplacer par \affichecorrectionfalse
+
+% Commandes locales
+\newcommand{\sanscorrection}{\affichecorrectionfalse}
+\newcommand{\avecorr}{\affichecorrectiontrue}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%  VOTRE CODE MODIFIÉ VA ICI
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{tcolorbox}
+\tcbuselibrary{breakable}
+
+\newcounter{exo}
+
+% Commande \exo
+\newcommand{\exo}{
+    \refstepcounter{exo}
+    \par\medskip
+}
+
+% --- AJOUTS POUR LES QUESTIONS PERSONNALISÉES ---
+\newcounter{qnum}  % Compteur pour les questions (1, 2, 3...)
+\newcounter{sqnum} % Compteur pour les sous-questions (a, b, c...)
+
+% Commande \ques (question principale)
+\newcommand{\ques}{%
+    \par\addvspace{3pt} % Ajoute un espace vertical avant la question
+    \refstepcounter{qnum}% Incrémente le compteur de question
+    \setcounter{sqnum}{0}% Réinitialise le compteur de sous-question
+    \leavevmode
+    \noindent % Commence au début de la ligne
+    \textbf{\theqnum.} % Affiche "1.", "2.", etc. en gras
+    \hspace{0.5em} % Ajoute un petit espace après le numéro
+}
+
+% Commande \ssques (sous-question)
+\newcommand{\ssques}{%
+    \par\addvspace{2pt} % Ajoute un espace vertical (plus petit)
+    \refstepcounter{sqnum}% Incrémente le compteur de sous-question
+    \noindent % Commence au début de la ligne
+    \hspace*{2em} % Indentation pour la sous-question (ajustez si besoin)
+    \textbf{\alph{sqnum}.} % Affiche "a.", "b.", etc. en gras
+    \hspace{0.5em} % Ajoute un petit espace après la lettre
+}
+% --- FIN DES AJOUTS ---
+
+
+% Énoncé : affiché toujours
+\newenvironment{enonce}{
+    \setcounter{qnum}{0} % <-- MODIFICATION : Réinitialise les questions
+    \begin{tcolorbox}[
+        breakable,
+        colframe=blue!80,
+        colback=white,
+        title={Exercice \theexo}
+    ]
+}{
+    \end{tcolorbox}
+    \par\medskip
+}
+
+% Correction : affichée seulement si activée
+\newif\ifaffichecorrection
+\affichecorrectiontrue % Mettez \affichecorrectionfalse pour les cacher
+
+\newenvironment{correction}{
+    \setcounter{qnum}{0}     % Réinitialise les questions
+    \setcounter{sqnum}{0}    % Réinitialise les sous-questions
+    \ifaffichecorrection
+        \begin{tcolorbox}[
+            breakable,
+            colframe=green!50,
+            colback=white,
+            title={Corrigé de l'exercice \theexo}
+        ]
+    \fi
+}{
+    \ifaffichecorrection
+        \end{tcolorbox}
+    \fi
+    \par\medskip
+}
 
 % ===== DOCUMENT =====
 \begin{document}
