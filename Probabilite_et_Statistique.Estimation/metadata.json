@@ -3,6 +3,7 @@
   "semestre": "M1S1",
   "resume": "Maximum de vraisemblance"
     "fichiers": [
-    {"nom": "Cours", "fichier": "Cours.pdf"}
+    {"nom": "Cours", "fichier": "Cours.pdf"},
+    {"nom": "TD", "fichier": "TD.pdf"}
   ]
 }
