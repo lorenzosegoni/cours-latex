@@ -1,0 +1,419 @@
+\documentclass[12pt,a4paper]{book}
+
+% ===== ENCODAGE ET LANGUE =====
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{lmodern}
+
+% ===== MISE EN PAGE =====
+\usepackage[left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm]{geometry}
+\usepackage{setspace}
+\onehalfspacing
+
+% ===== MATHÉMATIQUES =====
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{amsfonts}
+\usepackage{bbold}
+\usepackage{mathtools}
+\usepackage{bm}
+
+% ===== FIGURES, TABLEAUX, CODE =====
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{xcolor}
+\usepackage{listings}
+
+\lstloadlanguages{Python, R, SQL}
+
+% ===== BOÎTES MINIMALISTES =====
+\usepackage{mdframed}
+
+% ===== STRUCTURE ET NAVIGATION =====
+\usepackage{titlesec}
+\usepackage{titletoc}
+\usepackage{fancyhdr}
+\setlength{\headheight}{14.5pt}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    citecolor=blue,
+    urlcolor=blue,
+    bookmarks=true,
+    bookmarksopen=true
+}
+
+% ===== LISTES PERSONNALISÉES =====
+\usepackage{enumitem}
+\setlist[itemize]{itemsep=0.3em, topsep=0.5em}
+\setlist[enumerate]{itemsep=0.3em, topsep=0.5em}
+
+% ===== EN-TÊTES ET PIEDS =====
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\leftmark}
+\fancyhead[R]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% ===== NUMÉROTATION DES ÉQUATIONS =====
+\numberwithin{equation}{chapter}
+
+% ===== DÉFINITION STYLES DE LISTINGS =====
+% --- Packages nécessaires ---
+\usepackage[most]{tcolorbox}
+\usepackage{listings}
+\usepackage{xcolor}
+
+% --- Couleurs des headers ---
+% Python
+\definecolor{pyhead}{RGB}{30,60,160}        % bleu foncé
+\definecolor{pyheadlight}{RGB}{180,200,255} % bleu clair output
+
+% R
+\definecolor{rhead}{RGB}{180,20,20}         % rouge foncé
+\definecolor{rheadlight}{RGB}{255,200,200}  % rouge clair output
+
+% SQL
+\definecolor{sqlhead}{RGB}{40,140,230}       % bleu clair
+\definecolor{sqlheadlight}{RGB}{200,230,255} % bleu très clair output
+
+% --- Style listings : texte noir, syntaxe sobre ---
+\lstset{
+    basicstyle=\ttfamily\small\color{black},
+    commentstyle=\color{gray}\itshape,
+    stringstyle=\color{gray!70},
+    keywordstyle=\bfseries\color{black},
+    breaklines=true,
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+}
+
+% ====== PYTHON ======
+\newtcolorbox{pycodebox}{
+    colback=white,
+    colframe=pyhead,
+    fonttitle=\bfseries\ttfamily\small,
+    coltitle=white,
+    title=Python,
+    enhanced,
+    sharp corners,
+    top=2pt, bottom=2pt, left=2pt, right=2pt,
+    attach boxed title to top left={
+        xshift=2pt, yshift*=-\tcboxedtitleheight
+    },
+    boxed title style={
+        colback=pyhead,
+        colframe=pyhead,
+        boxrule=0.8pt,
+        sharp corners
+    }
+}
+
+\newtcolorbox{pyoutputbox}{
+    colback=white,
+    colframe=pyheadlight,
+    fonttitle=\bfseries\ttfamily\small,
+    coltitle=black,
+    title=Python~Output,
+    enhanced,
+    sharp corners,
+    top=2pt, bottom=2pt, left=2pt, right=2pt,
+    attach boxed title to top left={
+        xshift=2pt, yshift*=-\tcboxedtitleheight
+    },
+    boxed title style={
+        colback=pyheadlight,
+        colframe=pyheadlight,
+        boxrule=0.8pt,
+        sharp corners
+    }
+}
+
+% ====== R ======
+\newtcolorbox{rcodebox}{
+    colback=white,
+    colframe=rhead,
+    fonttitle=\bfseries\ttfamily\small,
+    coltitle=white,
+    title=R,
+    enhanced,
+    sharp corners,
+    top=2pt, bottom=2pt, left=2pt, right=2pt,
+    attach boxed title to top left={
+        xshift=2pt, yshift*=-\tcboxedtitleheight
+    },
+    boxed title style={
+        colback=rhead,
+        colframe=rhead,
+        boxrule=0.8pt,
+        sharp corners
+    }
+}
+
+\newtcolorbox{routputbox}{
+    colback=white,
+    colframe=rheadlight,
+    fonttitle=\bfseries\ttfamily\small,
+    coltitle=black,
+    title=R~Output,
+    enhanced,
+    sharp corners,
+    top=2pt, bottom=2pt, left=2pt, right=2pt,
+    attach boxed title to top left={
+        xshift=2pt, yshift*=-\tcboxedtitleheight
+    },
+    boxed title style={
+        colback=rheadlight,
+        colframe=rheadlight,
+        boxrule=0.8pt,
+        sharp corners
+    }
+}
+
+% ====== SQL ======
+\newtcolorbox{sqlcodebox}{
+    colback=white,
+    colframe=sqlhead,
+    fonttitle=\bfseries\ttfamily\small,
+    coltitle=white,
+    title=SQL,
+    enhanced,
+    sharp corners,
+    top=2pt, bottom=2pt, left=2pt, right=2pt,
+    attach boxed title to top left={
+        xshift=2pt, yshift*=-\tcboxedtitleheight
+    },
+    boxed title style={
+        colback=sqlhead,
+        colframe=sqlhead,
+        boxrule=0.8pt,
+        sharp corners
+    }
+}
+
+\newtcolorbox{sqloutputbox}{
+    colback=white,
+    colframe=sqlheadlight,
+    fonttitle=\bfseries\ttfamily\small,
+    coltitle=black,
+    title=SQL~Output,
+    enhanced,
+    sharp corners,
+    top=2pt, bottom=2pt, left=2pt, right=2pt,
+    attach boxed title to top left={
+        xshift=2pt, yshift*=-\tcboxedtitleheight
+    },
+    boxed title style={
+        colback=sqlheadlight,
+        colframe=sqlheadlight,
+        boxrule=0.8pt,
+        sharp corners
+    }
+}
+
+% ===== COMMANDES PERSONNALISÉES MATHS =====
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\C}{\mathbb{C}}
+
+% ===== COULEURS DOUCES =====
+\definecolor{redsoft}{RGB}{230, 100, 100}
+\definecolor{redbg}{RGB}{255, 245, 245}
+\definecolor{yellowsoft}{RGB}{220, 180, 80}
+\definecolor{yellowbg}{RGB}{255, 252, 240}
+\definecolor{graysoft}{RGB}{140, 140, 140}
+\definecolor{graybg}{RGB}{248, 248, 248}
+
+% ===== STYLES DES BOÎTES =====
+\mdfdefinestyle{thmstyle}{
+    linecolor=redsoft,
+    linewidth=1.5pt,
+    backgroundcolor=redbg,
+    innerleftmargin=8pt,
+    innerrightmargin=8pt,
+    innertopmargin=6pt,
+    innerbottommargin=6pt,
+    skipabove=0.8em,
+    skipbelow=0.8em
+}
+
+\mdfdefinestyle{exstyle}{
+    linecolor=yellowsoft,
+    linewidth=1.5pt,
+    backgroundcolor=yellowbg,
+    innerleftmargin=8pt,
+    innerrightmargin=8pt,
+    innertopmargin=6pt,
+    innerbottommargin=6pt,
+    skipabove=0.8em,
+    skipbelow=0.8em
+}
+
+\mdfdefinestyle{remstyle}{
+    linecolor=graysoft,
+    linewidth=1.5pt,
+    backgroundcolor=graybg,
+    innerleftmargin=8pt,
+    innerrightmargin=8pt,
+    innertopmargin=6pt,
+    innerbottommargin=6pt,
+    skipabove=0.8em,
+    skipbelow=0.8em
+}
+
+% ===== ENVIRONNEMENTS =====
+\theoremstyle{definition}
+\newmdtheoremenv[style=thmstyle]{definition}{Définition}[chapter]
+\newmdtheoremenv[style=thmstyle]{notation}{Notation}[chapter]
+\newmdtheoremenv[style=exstyle]{exemple}{Exemple}[chapter]
+\newmdtheoremenv[style=remstyle]{remarque}{Remarque}[chapter]
+\newmdtheoremenv[style=remstyle]{note}{Note}[chapter]
+
+\theoremstyle{plain}
+\newmdtheoremenv[style=thmstyle]{theoreme}{Théorème}[chapter]
+\newmdtheoremenv[style=thmstyle]{proposition}{Proposition}[chapter]
+\newmdtheoremenv[style=thmstyle]{lemme}{Lemme}[chapter]
+\newmdtheoremenv[style=thmstyle]{corollaire}{Corollaire}[chapter]
+
+% ===== BOÎTE COMMENTAIRE (AJOUT) =====
+\newtcolorbox{commentairebox}{
+    breakable,
+    colback=graybg,
+    colframe=graysoft,
+    boxrule=1.5pt,
+    sharp corners,
+    left=8pt,
+    right=8pt,
+    top=6pt,
+    bottom=6pt
+}
+
+% Environnement commentaire (pas de macro avec argument)
+\newenvironment{commentaire}{%
+    \begin{commentairebox}%
+}{%
+    \end{commentairebox}%
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%  AFFICHAGE / MASQUAGE DES CORRECTIONS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newif\ifaffichecorrection
+
+% Par défaut : corrections affichées
+\affichecorrectiontrue
+% Pour cacher : remplacer par \affichecorrectionfalse
+
+% Commandes locales
+\newcommand{\sanscorrection}{\affichecorrectionfalse}
+\newcommand{\avecorr}{\affichecorrectiontrue}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%  VOTRE CODE MODIFIÉ VA ICI
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{tcolorbox}
+\tcbuselibrary{breakable}
+
+\newcounter{exo}
+
+% Commande \exo
+\newcommand{\exo}{
+    \refstepcounter{exo}
+    \par\medskip
+}
+
+% --- AJOUTS POUR LES QUESTIONS PERSONNALISÉES ---
+\newcounter{qnum}  % Compteur pour les questions (1, 2, 3...)
+\newcounter{sqnum} % Compteur pour les sous-questions (a, b, c...)
+
+% Commande \ques (question principale)
+\newcommand{\ques}{%
+    \par\addvspace{3pt} % Ajoute un espace vertical avant la question
+    \refstepcounter{qnum}% Incrémente le compteur de question
+    \setcounter{sqnum}{0}% Réinitialise le compteur de sous-question
+    \leavevmode
+    \noindent % Commence au début de la ligne
+    \textbf{\theqnum.} % Affiche "1.", "2.", etc. en gras
+    \hspace{0.5em} % Ajoute un petit espace après le numéro
+}
+
+% Commande \ssques (sous-question)
+\newcommand{\ssques}{%
+    \par\addvspace{2pt} % Ajoute un espace vertical (plus petit)
+    \refstepcounter{sqnum}% Incrémente le compteur de sous-question
+    \noindent % Commence au début de la ligne
+    \hspace*{2em} % Indentation pour la sous-question (ajustez si besoin)
+    \textbf{\alph{sqnum}.} % Affiche "a.", "b.", etc. en gras
+    \hspace{0.5em} % Ajoute un petit espace après la lettre
+}
+% --- FIN DES AJOUTS ---
+
+
+% Énoncé : affiché toujours
+\newenvironment{enonce}{
+    \setcounter{qnum}{0} % <-- MODIFICATION : Réinitialise les questions
+    \begin{tcolorbox}[
+        breakable,
+        colframe=blue!80,
+        colback=white,
+        title={Exercice \theexo}
+    ]
+}{
+    \end{tcolorbox}
+    \par\medskip
+}
+
+% Correction : affichée seulement si activée
+\newif\ifaffichecorrection
+\affichecorrectiontrue % Mettez \affichecorrectionfalse pour les cacher
+
+\newenvironment{correction}{
+    \setcounter{qnum}{0}     % Réinitialise les questions
+    \setcounter{sqnum}{0}    % Réinitialise les sous-questions
+    \ifaffichecorrection
+        \begin{tcolorbox}[
+            breakable,
+            colframe=green!50,
+            colback=white,
+            title={Corrigé de l'exercice \theexo}
+        ]
+    \fi
+}{
+    \ifaffichecorrection
+        \end{tcolorbox}
+    \fi
+    \par\medskip
+}
+
+% ===== DOCUMENT =====
+\begin{document}
+
+\frontmatter
+\title{Exemple}
+\author{Lorenzo Segoni}
+\date{\today}
+\maketitle
+
+\tableofcontents
+
+\mainmatter
+
+% Exemple de chapitre
+\input{Ch1exo}
+
+
+
+
+
+
+\end{document}
