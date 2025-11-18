@@ -1,0 +1,536 @@
+\section{Bases de Données (BD) et SGBD}
+
+\subsection{Introduction : La problématique des fichiers}
+
+Avant l'invention des bases de données (années 1960), l'informatique reposait sur des systèmes de gestion de fichiers classiques. Cette méthode présentait des limites majeures qui ont conduit à la création des SGBD
+
+\subsubsection{Limite des systèmes de gestion de fichiers}
+
+Lorsqu'une application gère ses données via de simples fichiers, nous rencontrons trois problèmes fondamentaux :
+
+\begin{itemize}
+\item \textbf{La Redondance des données :} Les mêmes informations sont souvent répétées dans plusieurs fichiers pour différentes applications.
+
+\textit{Conséquence :} Gaspillage d'espace et risque d'incohérence (si on modifie une info à un endroit mais pas à l'autre).
+\item \textbf{La Dépendance Programmes / Données :} La structure des données est "codée en dur" dans le programme.
+
+\textit{Conséquence :} Si l'on change l'organisation physique d'un fichier, il faut réécrire tous les programmes qui l'utilisent. C'est une gestion complexe.
+\item \textbf{La Gestion des accès :} Il est difficile de permettre à plusieurs utilisateurs d'accéder et de modifier le même fichier en même temps sans créer de conflits.
+\end{itemize}
+
+\subsection{Définitions Fondamentales}
+
+Il est crucial de ne pas confondre le contenu (la base) et le contenant/gestionnaire (le système).
+
+
+\subsubsection{Base de Données (BD)}
+
+\begin{definition}
+Une Base de Données est une collection de données représentant des informations du monde réel.
+\end{definition}
+
+Pour être qualifiée de BD, cette collection doit respecter quatre critères :
+
+\begin{itemize}
+\item \textbf{Cohérence et Structure :} Les données suivent un schéma logique défini.
+\item \textbf{Indépendance :} Les données existent indépendamment des applications qui les utilisent.
+\item \textbf{Non-redondance :} On évite de stocker deux fois la même information (redondance minimale).
+\item \textbf{Accessibilité :} Les données sont accessibles par plusieurs utilisateurs simultanément.
+\end{itemize}
+
+\subsubsection{Système de Gestion de Base de Données (SGBD)}
+
+\begin{definition}
+Le SGBD est le logiciel qui sert d'interface entre les utilisateurs (ou applications) et la base de données.
+\end{definition}
+
+Ses rôles principaux sont :
+
+\begin{itemize}
+\item La structuration des données.
+\item Le stockage physique.
+\item La mise à jour et la consultation.
+\end{itemize}
+
+\textbf{Exemples de domaines d'application :} Gestion d'entreprise, systèmes transactionnels (banques), e-commerce, bibliothèques numériques, etc.
+
+\subsection{Objectifs d'une approche Base de Données}
+
+L'utilisation d'un SGBD vise à résoudre les problèmes des systèmes de fichiers (vus en partie 1) en atteignant les objectifs suivants :
+
+\begin{itemize}
+\item \textbf{Indépendance Physique et Logique :} Le changement de la structure interne des données ou de leur stockage physique ne doit pas impacter les programmes. C'est l'objectif le plus important.
+\item \textbf{Manipulation aisée :} Permettre à des non-informaticiens d'interroger et de mettre à jour les données facilement.
+\item \textbf{Partage et Sécurité :} Plusieurs applications peuvent utiliser les mêmes données sans conflit.
+\item \textbf{Performance :} Garantir une efficacité d'accès (temps de réponse rapide) même avec de gros volumes de données.
+\end{itemize}
+
+\subsection{Les Fonctions du SGBD}
+Pour atteindre ces objectifs, le SGBD offre quatre fonctions techniques majeures. Il est important de bien distinguer les deux langages (LDD et LMD).
+
+\subsubsection{Le Langage de Définition des Données (LDD)}
+Il permet de décrire la \textbf{structure} de la base (le squelette).
+
+\begin{itemize}
+\item \textbf{Rôle :} Définir les objets (tables), leurs attributs (colonnes), les liens entre eux et les contraintes.
+\item \textbf{Résultat :} On obtient le Schéma de la Base de Données.
+\end{itemize}
+
+\subsubsection{Le Langage de Manipulation des Données (LMD)}
+Il permet de gérer le \textbf{contenu} de la base (les données elles-mêmes).
+
+\begin{itemize}
+\item \textbf{Rôle :} Créer, modifier, supprimer ou consulter des données.
+\item \textbf{Outil :} C'est ici qu'intervient le langage SQL.
+\end{itemize}
+
+\subsubsection{Le Contrôle de l'intégrité}
+Le SGBD s'assure que les données respectent les règles définies (par le schéma ou le programme). Il empêche l'insertion de données aberrantes.
+
+\subsubsection{La Sécurité de fonctionnement}
+Le SGBD gère les aspects critiques de l'exploitation :
+
+\begin{itemize}
+\item \textbf{Les Transactions et la journalisation :} Assurer que si une opération plante au milieu, on peut revenir en arrière (rollback) pour ne pas corrompre la base.
+\item \textbf{Les Accès concurrents :} Gérer plusieurs utilisateurs en même temps.
+\item \textbf{La Confidentialité :} Gérer les droits d'accès (qui a le droit de voir quoi).
+\end{itemize}
+
+%Image
+
+\newpage
+
+\section{Le Modèle Conceptuel de Données (E/A)}
+
+Le modèle Entité / Association
+
+\subsection{Le Principe du Modèle E/A}
+
+Avant de créer des tables dans l'ordinateur, il faut dessiner le schéma sur papier.
+
+\begin{itemize}
+\item \textbf{Origine :} Proposé par Peter Chen en 1976.
+\item \textbf{Objectif :} C'est une représentation graphique standardisée pour décrire les données d'un Système d'Information (SI).
+\item \textbf{Utilité :} Il sert de pont. Une fois le modèle E/A terminé, il est très facile de le traduire en tables SQL.
+\end{itemize}
+
+\subsection{Les Composants Fondamentaux}
+
+Pour dessiner ce modèle, nous avons besoin de trois briques de base : l'Entité, l'Attribut et l'Identifiant.
+
+\subsubsection{L'Entité (L'objet)}
+
+\begin{definition}
+Une entité est un objet (concret ou abstrait) à propos duquel on souhaite gérer des informations.
+\end{definition}
+
+Il ne faut pas confondre le "moule" et l'objet créé :
+
+\begin{enumerate}
+\item \textbf{Type d'entité (Le moule) :} C'est la classe générale, le concept.
+
+\textit{Exemple :} L'entité \texttt{Étudiant}, \texttt{Client}, \texttt{Département}.
+
+\item \textbf{Occurrence d'entité (L'individu) :} C'est un élément précis, un individu spécifique qui appartient à ce type.
+
+\textit{Exemple :} L'employé \texttt{Alex Térieur} ou \texttt{Paul Auchon}.
+\end{enumerate}
+
+\subsubsection{Les Attributs (Les détails)}
+
+\begin{definition}
+Ce sont les propriétés qui décrivent une entité (ou une association).
+\end{definition}
+
+Chaque attribut possède :
+
+\begin{enumerate}
+\item \textbf{Un Nom :} (ex: \texttt{Nom}, \texttt{Prix}, \texttt{Couleur}).
+\item \textbf{Un Domaine :} L'ensemble des valeurs possibles (ex: Entier, Réel positif, Chaîne de caractères, liste de choix {Rouge, Vert, Bleu}).
+\item \textbf{Une Occurrence :} La valeur précise pour un individu (ex: "Rouge" est une occurrence de l'attribut \texttt{Couleur}).
+\end{enumerate}
+
+\textbf{Représentation Graphique :} Dans le schéma, l'Entité est un Rectangle et les Attributs sont listés à l'intérieur (ou dans des bulles reliées au rectangle).
+
+\medskip
+
+\begin{tikzpicture}[node distance=3cm]
+
+% Style pour les entités
+\tikzstyle{entity} = [rectangle, draw, minimum width=2cm, minimum height=1cm, text centered]
+\tikzstyle{attribute} = [ellipse, draw, minimum width=1.2cm, minimum height=0.6cm, text centered, font=\small]
+\tikzstyle{relation} = [diamond, draw, minimum width=1.5cm, minimum height=1cm, text centered]
+
+% Entité Employé au centre
+\node[entity] (employe) {Employé};
+
+% Attributs de Employé
+\node[attribute, above of=employe] (nom) {nom};
+\node[attribute, above left of=employe, xshift=-1.5cm] (prenom) {prenom};
+\node[attribute, above right of=employe, xshift=1.5cm] (datedenaissance) {date\_\-naissance};
+\node[attribute, left of=employe] (rue) {rue};
+\node[attribute, right of=employe] (codepostal) {code\_postal};
+\node[attribute, below left of=employe, xshift=-1.5cm] (ville) {ville};
+
+% Connexions entités-attributs
+\draw (employe) -- (nom);
+\draw (employe) -- (prenom);
+\draw (employe) -- (datedenaissance);
+\draw (employe) -- (rue);
+\draw (employe) -- (codepostal);
+\draw (employe) -- (ville);
+
+\end{tikzpicture}
+
+Que on peut representer aussi:
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|}
+\hline
+\textbf{Entité : Employé}  \\
+\hline
+ nom  \\
+ prénom   \\
+date de naissance \\
+rue \\
+code postal  \\
+ville  \\
+\hline
+\end{tabular}
+\caption{ Tableau Exemple }
+\end{table}
+
+\subsubsection{L'Identifiant (La clé)}
+
+C'est le concept le plus important pour retrouver une info précise.
+
+\begin{definition}
+L'identifiant est l'ensemble minimal d'attributs qui permet de distinguer de façon unique chaque occurrence.
+\end{definition}
+
+\textbf{Évolution de l'identifiant (Exemple du cours) :}
+
+\begin{enumerate}
+\item \textbf{Mauvaise pratique :} Utiliser \{\texttt{Nom}, \texttt{Prénom}, \texttt{Date de naissance} \}. C'est lourd et il y a toujours un risque d'homonyme parfait.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|}
+\hline
+\textbf{Entité : Employé}  \\
+\hline
+\underline{nom}  \\
+\underline{prénom}  \\
+\underline{date de naissance} \\
+rue \\
+code postal  \\
+ville  \\
+\hline
+\end{tabular}
+\caption{ Tableau avec la mauvaise pratique }
+\end{table}
+\item \textbf{ Bonne pratique (Identifiant artificiel) :} On ajoute un attribut dédié, souvent souligné dans le schéma.
+
+\textit{ Exemple : } On ajoute \texttt{Numero\_Employe}.
+
+\smallskip
+
+Dans le schéma graphique, l'identifiant est toujours souligné.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|}
+\hline
+\textbf{Entité : Employé}  \\
+\hline
+\underline{Numero\_Employé} \\
+nom  \\
+prénom  \\
+date de naissance \\
+rue \\
+code postal  \\
+ville  \\
+\hline
+\end{tabular}
+\caption{ Tableau avec la bonne pratique }
+\end{table}
+\end{enumerate}
+
+\subsection{Les Associations (Les liens)}
+
+Les données ne vivent pas seules, elles sont reliées entre elles.
+
+\subsubsection{Définition}
+
+\begin{definition}
+Une Association est un lien sémantique entre plusieurs entités. Elle est souvent représentée par un verbe.
+\end{definition}
+
+\begin{itemize}
+\item \textit{Exemple :}
+
+\begin{tikzpicture}[node distance=3cm]
+
+% Style pour les entités
+\tikzstyle{entity} = [rectangle, draw, minimum width=2.5cm, minimum height=1cm, text centered, font=\bfseries]
+\tikzstyle{relation} = [diamond, draw, minimum width=2cm, minimum height=1.2cm, text centered, font=\bfseries]
+
+% Entité Client (gauche)
+\node[entity] (client) {Client};
+
+% Relation Commander (centre)
+\node[relation, right of=client, xshift=3.5cm] (commander) {Commander};
+
+% Entité Produit (droite)
+\node[entity, right of=commander, xshift=3.5cm] (produit) {Produit};
+
+% Liaisons entités-relations avec cardinalités et étiquettes
+% Client vers Commander
+\draw (client) -- (commander) 
+    node[midway, above] {1} 
+    node[midway, below, font=\small, color=blue] {a commandé};
+
+% Commander vers Produit
+\draw (commander) -- (produit) 
+    node[midway, above] {N} 
+    node[midway, below, font=\small, color=blue] {est commandé par};
+
+\end{tikzpicture}
+
+\item \textbf{Attributs d'association :} Parfois, une donnée n'appartient ni à l'un, ni à l'autre, mais au lien lui-même.
+
+\textit{Exemple :} La \texttt{Quantité} (des produits commandé) et la \texttt{Date} (de la commande). Elles n'existent que parce qu'il y a une commande entre le client et le produit.
+
+\begin{tikzpicture}[node distance=3cm]
+
+% Style pour les entités
+\tikzstyle{entity} = [rectangle, draw, minimum width=2.5cm, minimum height=1cm, text centered, font=\bfseries]
+\tikzstyle{relation} = [diamond, draw, minimum width=2cm, minimum height=1.2cm, text centered, font=\bfseries]
+\tikzstyle{attribute} = [ellipse, draw, minimum width=1.2cm, minimum height=0.6cm, text centered, font=\small]
+
+% Entité Client (gauche)
+\node[entity] (client) {Client};
+
+% Relation Commander (centre)
+\node[relation, right of=client, xshift=3.5cm] (commander) {Commander};
+
+% Entité Produit (droite)
+\node[entity, right of=commander, xshift=3.5cm] (produit) {Produit};
+
+% Attributs de la relation Commander
+\node[attribute, above of=commander] (date) {date};
+\node[attribute, below of=commander] (qte) {qté};
+
+% Liaisons entités-relations
+\draw (client) -- (commander) 
+    node[midway, above] {1} 
+    node[midway, below, font=\small, color=blue] {a commandé};
+
+\draw (commander) -- (produit) 
+    node[midway, above] {N} 
+    node[midway, below, font=\small, color=blue] {est commandé par};
+
+% Liaisons relation-attributs
+\draw (commander) -- (date);
+\draw (commander) -- (qte);
+
+\end{tikzpicture}
+\end{itemize}
+
+\subsubsection{Typologie des Associations}
+
+\begin{itemize}
+\item \textbf{Binaire :} Relie 2 entités (le plus courant).
+\item \textbf{Ternaire :} Relie 3 entités.
+\item \textbf{Réflexive :} Une entité est reliée à elle-même (ex: Un employé est marié à un autre employé).
+\end{itemize}
+
+\subsubsection{Les Cardinalités (La règle du jeu)}
+
+\begin{definition}
+Les cardinalités définissent les règles de quantité dans une association. Elles s'écrivent sous la forme (min, max) à côté de chaque entité.
+\end{definition}
+
+\begin{tikzpicture}[node distance=3cm]
+
+% Style pour les entités
+\tikzstyle{entity} = [rectangle, draw, minimum width=2.5cm, minimum height=1cm, text centered, font=\bfseries]
+\tikzstyle{relation} = [diamond, draw, minimum width=2cm, minimum height=1.2cm, text centered, font=\bfseries]
+
+% Entité 1 (gauche)
+\node[entity] (entite1) {Identité1};
+
+% Relation (centre)
+\node[relation, right of=entite1, xshift=3.5cm] (assoc) {Assoc};
+
+% Entité 2 (droite)
+\node[entity, right of=assoc, xshift=3.5cm] (entite2) {Identité2};
+
+% Liaisons entités-relations avec cardinalités (min,max)
+% De Identité1 à Assoc
+\draw (entite1) -- (assoc) 
+    node[midway, above, font=\small] {1} 
+    node[midway, below, font=\small] {(min1, max1)};
+
+% De Assoc à Identité2
+\draw (assoc) -- (entite2) 
+    node[midway, above, font=\small] {2} 
+    node[midway, below, font=\small] {(min2, max2)};
+
+\end{tikzpicture}
+
+\subsubsection{ Comprendre le (min, max)}
+
+\begin{enumerate}
+\item \textbf{Min (0 ou 1) :} Est-ce que l'entité est obligée de participer ?
+
+\begin{itemize}
+\item 0 = Non (Optionnel).
+\item 1 = Oui (Obligatoire).
+\end{itemize}
+\item \textbf{Max (1 ou N) :} Combien de fois maximum peut-elle participer ?
+
+\begin{itemize}
+\item 1 = Une seule fois.
+\item N (ou M) = Plusieurs fois (No limit).
+\end{itemize}
+\end{enumerate}
+
+\subsubsection{ Les 3 grands types de relations }
+On classe les associations selon leur cardinalité \textbf{maximale} (le chiffre de droite) des deux côtés :
+
+\begin{enumerate}
+\item \textbf{Relation 1-1 (One-to-One) :}
+
+Une occurrence de E est liée à \textbf{une seule} occurrence de F, et inversement.
+\item \textbf{Relation 1-N (One-to-Many) :}
+
+D'un côté, c'est unique (1), de l'autre c'est multiple (N).
+
+\medskip
+
+\textit{Exemple :} Un \texttt{Auteur} écrit plusieurs \texttt{Livres}, mais un \texttt{Livre} est écrit par un seul \texttt{Auteur} (dans ce modèle simplifié).
+
+\item \textbf{Relation N-M (Many-to-Many) :}
+
+Plusieurs des deux côtés.
+
+\medskip
+
+\textit{Exemple :} Un \texttt{Client} commande plusieurs \texttt{Produits}, et un \texttt{Produit} peut être commandé par plusieurs \texttt{Clients}.
+\end{enumerate}
+
+\subsection{ Concepts Complémentaires }
+
+\subsubsection{ Entités Faibles }
+
+\begin{definition}
+Une entité qui ne possède pas d'identifiant propre.
+\end{definition}
+
+\begin {itemize}
+\item Elle ne peut exister que si elle est rattachée à une "Entité Forte".
+\item Son identifiant est composé de celui de l'entité forte + un identifiant partiel.
+\end{itemize}
+
+La cardinalité vers l'entité forte est toujours \textbf{(1,1)} (dépendance totale).
+
+\subsubsection{Contraintes d'Intégrité (CI)}
+Ce sont des règles pour garantir que les données restent logiques.
+
+\begin{itemize}
+\item \textbf{CI Statiques :} Doivent être vraies tout le temps (ex: Le \texttt{Nom} est obligatoire, \texttt{Date naissance} < \texttt{Date mariage} , \texttt{Fax} attributs facultatifs, ... ).
+\item \textbf{CI Dynamiques :} Règles logiques sur des valeurs (ex: le \texttt{salaire} ne peut qu'augmenter).
+\end{itemize}
+
+\subsection{ Formalisation et Documentation }
+
+Pour qu’un projet de base de données soit valide, il ne suffit pas de faire un dessin (le schéma). Il faut respecter des \textbf{règles de complétude} : chaque objet dessiné doit être décrit textuellement de manière exhaustive.
+
+L'ensemble de ces descriptions constitue \textbf{l'Univers du Discours} (le résumé synthétique de l'application).
+
+\subsubsection{ La Description des Objets (Entités et Associations) }
+
+Chaque élément graphique doit avoir sa fiche d'identité textuelle.
+
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|}
+\hline
+\textbf{Nom} & \texttt{Auteur} \\
+\hline
+\textbf{Définition (Contexte)} & Personne ayant écrit un livre référencé par l'éditeur \\
+\hline
+\textbf{Liste d'attributs} & \{nom, prénom, adresse\} \\
+\hline
+\textbf{Identifiant} & \{nom, prénom\} \\
+\hline
+\end{tabular}
+\caption{ Description d'une Entité }
+\end{table}
+
+
+\subsubsection{ Description d'une Association}
+
+Prenons l'association \texttt{Écriture} qui relie les auteurs aux livres.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|}
+\hline
+\textbf{Nom} & \texttt{Ecriture} \\
+\hline
+\textbf{Définition} & L'écriture associe les livres à l'auteur qui les a écrits \\
+\hline
+\textbf{Entités} & Auteur, Livre \\
+\hline
+\textbf{Rôles \& Cardinalités} & Un Auteur écrit $1$ à $N$ Livres. Un Livre est écrit par $1$ à $1$ Auteur (1-1) \\
+\hline
+\textbf{Attributs propres} & $\emptyset$ (Aucun attribut sur l'association elle-même) \\
+\hline
+\end{tabular}
+\caption{ Description d'une Association }
+\end{table}
+
+\subsubsection{ Le Dictionnaire des Données }
+
+Le dictionnaire des données descend au niveau le plus fin : \textbf{l'attribut}. Il précise le format et les règles de chaque donnée.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|}
+\hline
+\textbf{Nom} & \texttt{Ville auteur} \\
+\hline
+\textbf{Définition} & Nom de la ville où réside un auteur. \\
+\hline
+\textbf{Structure} & Atomique (Mono-valué) \\
+\hline
+\textbf{Rôles / cardinalité} & Chaîne de caractères alphabétiques. \\
+\hline
+\textbf{Obligatoire ?} & Non. On peut créer un auteur sans connaître sa ville. \\
+\hline
+\end{tabular}
+\caption{ Description d'un Attribut }
+\end{table}
+
+\subsubsection{ Les Contraintes d'Intégrité (CI) }
+
+Certaines règles logiques ne peuvent pas être dessinées sur le schéma. Il faut les écrire sous forme d'expressions logiques ou mathématiques.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|}
+\hline
+\textbf{Nom de la contrainte} & Existence d'un mariage \\
+\hline
+\textbf{Éléments concernés} & Association : \underline{\texttt{Mariage}}, Attribut :`\texttt{Âge de l'entité} et \underline{\texttt{Personne}}. \\
+\hline
+\textbf{Expression logique (La règle)} & Une occurrence de l'association \texttt{Mariage} n'est valide que si :$Age(P_1) \geq 18$ et $Age(P_2) \geq 18$ \\
+\hline
+\hline
+\end{tabular}
+\caption{ Contrainte sur une Association }
+\end{table}
