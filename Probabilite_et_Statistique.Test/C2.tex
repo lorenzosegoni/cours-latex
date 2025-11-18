@@ -1,0 +1,174 @@
+\chapter{Tests de comparaison moyennes/mediannes pour 2 échantillons}
+
+\begin{obs}
+\begin{itemize}
+\item $(X_1,...,X_{n_1})$ $n_1$-echantillion d'une $1^{ere}$ population de loi $P$
+\item $(Y_1,...,Y_{n_2})$ $n_2$-echantillion d'une $2^{eme}$ popuation de loi $Q$
+\end{itemize}
+\end{obs}
+
+Soit $\mu_x$ l'esperance de $P$ et $\mu_y$ l'esperance de $Q$
+
+On veut tester: 
+
+\[ \mathcal{H}_0 : \mu_x = \mu_y \quad \text{contre} \quad \mathcal{H}_1 : \mu_x \neq \mu_y \]
+
+ou
+
+\[ \mathcal{H}_0 : Med(P) = Med(Q) \quad \text{contre} \quad \mathcal{H}_1 : Med(P) \neq Med(Q) \]
+
+
+\section{Données appariées}
+
+Soit :
+\begin{itemize}
+\item $n_1 = n_2 = n $ 
+\item Les valeurs $X_i$ et $Y_i$ correspondent au même individu $i$
+\end{itemize}
+
+\begin{exemple}
+Pression artelliele de patients avant/apres une prise de médicament
+\end{exemple}
+
+On se ramene au cadre de test sur 1 echantillon en considerant $D_i = X_i - Y_i$
+
+On teste:
+
+\[ \mathcal{H}_0 : \mu_d = 0 \quad \text{contre} \quad \mathcal{H}_1 : \mu_d \neq 0 \]
+
+où $\mu_D$ l'esperance de $D$, donc $\mu_D = \mu_x - \mu_u$
+
+ou
+
+\[ \mathcal{H}_0 : Med(D) = Med(X-Y) = 0 \quad \text{contre} \quad \mathcal{H}_1 : Med(D) \neq 0 \]
+
+\begin{commentaire}
+\textbf{Attention : } $Med(X-Y) \neq Med(X) - Med(Y)$
+\end{commentaire}
+
+\begin{itemize}
+\item Test de Student
+\item Test du signe
+\item Test de Wilconson des rangs signes
+\end{itemize}
+
+\begin{commentaire}
+\textbf{Sur} \texttt{R} : 
+\begin{itemize}
+\item Soit on indique \texttt{paired = T} et on donne les $2$ echantillon
+\item Soit on utilise le tests sur $1$ Echantillon avec les $D_i$
+\end{itemize}
+\end{commentaire}
+
+\section{Données non appariées}
+
+\subsection{Test de Student / Welch}
+
+On note $\sigma^2_X = \mathbb{V}[P]$ et $\sigma^2_Y = \mathbb{V}[Q]$.
+
+$\frac{\sqrt{n}(\bar{X}_{n_1} - \bar{Y}_{n_2} }{\hat{\sigma}}$ aura un bon comportement sous $\mathcal{H}_0$
+
+\begin{exemple}
+\begin{itemize}
+\item $P =\mathcal{N}(\mu_x , \sigma^2)$
+\item $Q =\mathcal{N}(\mu_y , \sigma^2)$
+\end{itemize}
+
+On a alors: $\bar{X}_{n_1} - \bar{Y}_{n_2} \sim \mathcal{N}(\mu_x - \mu_y , \frac{\sigma^2}{n_1} + \frac{\sigma^2}{n_2} )$
+
+On a \[ \hat{\sigma}^2_p = \frac{(n_1 - 1) \hat{\sigma}_x^2 + (n_2-1) \hat{\sigma}^2_Y}{n_1 + n_2 -2} = w \hat{\sigma}_X^2 + (1-w) \hat{\sigma}_Y^2 \]
+
+où $w=\frac{n_1 - 1 }{n_1 + n_2 - 2} \in ]0,1[$ 
+
+où $\hat{\sigma}^2_X = \frac{1}{n_1 -1} \sum_{i=1}^n (X_i - \bar{X}_{n1}$ et de même pour $\hat{\sigma}^2_Y$
+
+$\hat{\sigma}^2_p$ estimateurs consistant de $\sigma^2$
+
+Alors
+
+\[ T_{n_1,n_2} = \frac{\bar{X}_{n_1} - \bar{Y}_{n_2}}{\hat{\sigma}_p \sqrt{\frac{1}{n_1} + \frac{1}{n_2}} }\sim \mathcal{C}(n_1 + n_2 -2\]
+
+sous $\mathcal{H}_0$
+
+\subsubsection{Cas generale}
+
+Soit $n = (n_1, n_2)$. $n \to \infty$ signifie $n_1 \to \infty$ et $n_2 \to \infty$.
+
+Soit $$ et $$ "statistique de Welch. Alors
+
+\[ T_N \xrightarrow{loi sous \mathcal{H_0}} \mathcal{N}(0,1)\]
+
+On a aussi lorsque $\hat{\sigma}^2-n = \frac{\hat{\sigma}^2_x}{n_1} + \frac{\hat{\sigma}^2_y}{n_2}$ et $T_n = \frac{}{}$
+
+\[ loi(T_n) \approx{sous \mathcal{H}_0} \mathcal{X} (\ni) \]
+
+où $\ni$ explicite (formule compliquée).
+
+\begin{commentaire}
+\textbf{Sur } \texttt{R} : \texttt{t.test(x,y)}
+\end{commentaire}
+
+\begin{remarque}
+\begin{itemize}
+\item Si on indique égalité des variances, test de Student
+\item En pratique, on ne sait jamais si le variances sont egales ou non. On utilise toujours le test de Welch. (meme dans le cas d'egalité de variances
+\end{itemize}
+\end{remarque}
+
+\subsection{Test de Wilsoxn-Mann-Whitney}
+
+On veut tester
+
+\[ \mathcal{H}_0 : Med(X-Y) = 0 \quad \mathcal{H}_1 : Med(X-Y) \neq 0 \]
+
+On suppose $P$ et $Q$ ne sont differentes que par une translation.
+
+\textbf{Statistique:}
+
+Soit $C = (X_1 , ... , X_{n_1}, Y_1  , ... , Y_{n_2} ) $. Soit $R(X,C)$ le vexteur contenant les rangs associés à $X$ dans $C$. De meme pour $R(Y,C)$.
+
+On definit:
+
+\[ W_\alpha = \sum_{i=1}^{n_1} R_i(X,C)\]
+
+\begin{exemple}
+Soit:
+\begin{itemize}
+\item $x = (4,6,2)$
+\item $y = (1,3,8,9)$
+\item $c = (4,6,2,1,3,8,9)$
+\end{itemize}
+
+Alors $r(x) = (4,5,2,1,3,6,7)$. Donc:
+
+\[ w_X = 4 + 5 + 2 = 11 \]
+\end{exemple}
+
+Autre aprroche
+
+\[ U_n = \sum_{i=1}^{n_1} \sum_{j=1}^{n_2} \mathbb{1}_{X_i} > Y_j \]
+
+On a
+
+\[ U_n = W_X - \frac{n_1 ( n_1 +1)}{n_2}\]
+
+\textbf{Résultat :} Sous $\mathcal{H_0}$, la loi de $W_X$ est connue et ne dépend pas de $P$ ni de $Q$. On a aussi un resultat asymptotique lorsque $n \to \infty$
+
+\begin{commentaire}
+\textbf{Sur} \texttt{R} : \texttt{wilcox.test(x,y)}
+\end{commentaire}
+
+\textbf{Resultat :} sans l'hypothese "$P$ et $Q$ sont efales à une translation pres" le test de WilconxonMW test
+
+\[ 
+\begin{cases}
+\mathcal{H}_0 : P = Q \\
+\mathcal{H}_1 : P \neq Q
+\end{cases}
+\]
+
+On peut le corriger asymptotiquement pour qu'il teste correctement $Med(X-Y) = 0$ contre $Med(X-Y) \neq 0$ (Voir exercice 4 TD2)
+
+
+
+
