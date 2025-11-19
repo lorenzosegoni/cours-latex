@@ -4,11 +4,6 @@
 
 %\url{https://pbastide.github.io/MV4AE035/}
 
-\bigskip
-
-
-
-
 \section{Introduction}
 Le but de la régression linéaire est de modéliser un nuage de points, et donc de trouver la meilleure droite possible pour résumer un nuage de points. On peut avoir deux objectifs différents :
 
@@ -20,6 +15,14 @@ Le but de la régression linéaire est de modéliser un nuage de points, et donc
 \textbf{L'hypothèse fondamentale est que le modèle est linéaire.}
 
 \subsection{Le modèle}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.5\textwidth]{CM1/Image/Reg_lin.jpg}
+    \caption{Régression Linéaire}
+    \label{fig:reg_lin}
+\end{figure}
+
 
 \begin{notation}[Régression linéaire sans aléa]
 On suppose que la relation entre la variable à prédire $y_i$ et la variable prédictive $x_i$ peut s'écrire sous la forme :
@@ -41,10 +44,10 @@ On va introduire cette nouvelle notation :
 Où $\varepsilon_i$ est la variable aléatoire représentant l'erreur (le "bruit de fond"). Ce que l'on comprend, c'est que $\varepsilon_i$ est une variable aléatoire et $Y_i$ dépend directement de ce bruit de fond.
 \end{notation}
 
-\begin{defi}[Modèle de régression linéaire simple]
+\begin{definition}[Modèle de régression linéaire simple]
 Un modèle de régression linéaire simple est défini par une équation de la forme :
 \[ \forall i \in \{1,...,n\}, \quad y_i = \beta_0 + \beta_1 x_i + \varepsilon_i \]
-\end{defi}
+\end{definition}
 
 \subsection{Hypothèses sur l'erreur}
 
@@ -62,13 +65,15 @@ La variance et la covariance peuvent s'écrire de façon condensée :
 
 \[ \text{Cov}(\varepsilon_i,\varepsilon_j) = \delta_{i,j} \sigma^2 \text{ pour tout couple } (i,j) \]
 
-\commentaire{Car $\text{Cov}(\varepsilon_i,\varepsilon_i) = \mathbb{V}[\varepsilon_i]$ }
+\begin{commentaire}
+Car $\text{Cov}(\varepsilon_i,\varepsilon_i) = \mathbb{V}[\varepsilon_i]$ 
+\end{commentaire}
 
 Le symbole de Kronecker est défini par :
 
 \[ \delta_{i,j} = \begin{cases} 1 \text{ si } j=i \\ 0 \text{ si } i \neq j \end{cases} \]
 
-\begin{defi}[Hypothèses sur l'erreur]
+\begin{definition}[Hypothèses sur l'erreur]
 Les hypothèses de \textbf{Gauss-Markov} sont :
 
 \[ (\mathcal{H}) : \begin{cases}
@@ -76,7 +81,7 @@ Les hypothèses de \textbf{Gauss-Markov} sont :
 (\mathcal{H}_2) : \quad \text{Cov}(\varepsilon_i,\varepsilon_j) = \delta_{i,j}\sigma^2 \quad \text{ pour tout couple } (i,j)
 \end{cases} \]
 
-\end{defi}
+\end{definition}
 
 \begin{objectif}
 Trouver les valeurs $\hat{\beta}_0$ et $\hat{\beta}_1$. On note que la notation $\hat{\ }$ (chapeau) indique un \textbf{estimateur} calculé à partir des données observées.
@@ -102,11 +107,11 @@ On va la noter $L(y_i,\beta'_0,\beta'_1)= \sum_{i=1}^n (\beta'_0 + \beta'_1 x_i 
 
 \smallskip
 
-\begin{defi}[Estimateurs des Moindres Carrés Ordinaires]
+\begin{definition}[Estimateurs des Moindres Carrés Ordinaires]
 On appelle estimateurs des Moindres Carrés Ordinaires (en abrégé MCO) $\hat{\beta}_0$ et $\hat{\beta}_1$ les valeurs minimisant la quantité :
 
 \[ L(y_i,\beta'_0,\beta'_1)= \sum_{i=1}^n (\beta'_0 + \beta'_1 x_i - y_i)^2 \]
-\end{defi}
+\end{definition}
 
 \subsection{Calcul des estimateurs de $\beta_0$ et $\beta_1$}
 
@@ -115,22 +120,23 @@ On a vu donc les moindres carrés ordinaires. On a compris donc que l'on veut mi
 \smallskip
 
 
-\begin{defi}
+\begin{definition}
 Les estimateurs de $\beta_0$ et $\beta_1$ sont :
 \[ (\hat{\beta}_0, \hat{\beta}_1) = \arg \min_{\beta'_0 \in \mathbb{R}, \beta'_1 \in \mathbb{R}}  \sum_{i=1}^n (Y_i - \beta'_0 - \beta'_1 x_i)^2 \]
-\end{defi}
+\end{definition}
 
 Une première chose est de montrer :
 
-\begin{prop}
+\begin{proposition}
 Soit
 
 \[ L(\beta'_0,\beta'_1) = \sum_{i=1}^n (\beta'_0 + \beta'_1 x_i - y_i)^2, \]
 
 considérée comme fonction de $(\beta'_0,\beta'_1)\in\mathbb{R}^2$ (les $x_i$ et $y_i$ étant fixés). Alors $L$ est convexe. De plus $L$ est strictement convexe si et seulement si les abscisses $x_1,\dots,x_n$ ne sont pas toutes égales.
-\end{prop}
+\end{proposition}
 
-\commentaire{ Ceci n'est pas important dans le cours, mais nous donne des spécificités importante de la fonction
+\begin{commentaire}
+Ceci n'est pas important dans le cours, mais nous donne des spécificités importante de la fonction
 
 \begin{proof}
 Posons $\beta'=(\beta'_0,\beta'_1)^\top\in\mathbb{R}^2$ et pour tout $i$ définissons le vecteur $z_i=(1,x_i)^\top$. On a
@@ -154,11 +160,12 @@ Ainsi $\nabla^2 L(\beta') \geq 0$, ce qui montre que $L$ est convexe.
 
 Par ailleurs, l'inégalité est stricte (i.e. $u^\top \nabla^2 L(\beta')\, u >0$ pour tout $u\neq 0$) si et seulement si il n'existe pas de vecteur non nul $u$ tel que $u_0+u_1 x_i=0$ pour tout $i$. Cela équivaut exactement au fait que les $x_i$ ne soient pas tous égaux. Donc sous l'hypothèse « les $x_i$ ne sont pas tous égaux », la matrice $\nabla^2 L(\beta')$ est définie positive et $L$ est strictement convexe.
 \end{proof}
-}
+\end{commentaire}
+
 
 Si on développe cette expression, on arrive à cette proposition :
 
-\begin{prop}[Estimateurs $\hat{\beta}_0$ et $\hat{\beta}_1$]
+\begin{proposition}[Estimateurs $\hat{\beta}_0$ et $\hat{\beta}_1$]
 Les estimateurs des MCO ont pour expressions :
 
 \[ \hat{\beta}_0 = \bar{y} - \hat{\beta}_1 \, \bar{x}, \]
@@ -176,11 +183,11 @@ s_x^2 = \frac{1}{n} \sum_{i=1}^n (x_i - \bar{x})^2 \quad (\text{(co-)variance em
 s_{x,y}^2 = \frac{1}{n} \sum_{i=1}^n (x_i - \bar{x})(y_i-\bar{y}) \quad (\text{(co-)variance empirique})
 \end{cases} \]
 
-\end{prop}
+\end{proposition}
 
 \bigskip
 
-\commentaire{
+\begin{commentaire}
 On a:
 
 \begin{align*}
@@ -191,27 +198,7 @@ On a:
 \end{align*}
 
 De même pour: $\sum_{i=1}^{n}(y_i - \bar{y}) = 0$
-}
-
-
-
-
-
-
-
-
-
-
-%\begin{proof}
-%\end{proof}
-
-
-
-
-
-
-
-
+\end{commentaire}
 
 \begin{proof}
 La premiere methode utilise donc ce que on a montré avant, c'est à dire que $L$ est strictement convexe.
@@ -249,14 +236,17 @@ En remplaçant $\hat{\beta}_0$ par son expression, nous obtenons :
 &= \frac{s_{x,y}^2}{s_x^2}
 \end{align*}
 
-\commentaire{ La seconde méthode consiste à appliquer la technique de Gauss de réduction des formes quadratiques, c’est-à-dire à décomposer $L(\beta_1,\beta_2)$ en somme de carrés. Après calculs, on obtient :
-\[
-S(\beta_0,\beta_1) =
-n\left(\beta_0 - (\bar{y} - \beta_1 \bar{x})\right)^2
-+ \Bigg(\sum_{i=1}^n (x_i - \bar{x})^2\Bigg)\left(\beta_1 - \hat{\beta}_1\right)^2
-+ \Bigg(\sum_{i=1}^n (y_i - \bar{y})^2 - \frac{\big(\sum_{i=1}^n (x_i - \bar{x})(y_i - \bar{y})\big)^2}{\sum_{i=1}^n (x_i - \bar{x})^2}\Bigg).
-\]
-Le dernier terme est indépendant de $\beta_0$ et $\beta_1$. Le second est nul si et seulement si $\beta_1=\hat{\beta}_1$, puis le premier est nul si et seulement si $\beta_0=\hat{\beta}_0$.}
+\begin{commentaire} La seconde méthode consiste à appliquer la technique de Gauss de réduction des formes quadratiques, c’est-à-dire à décomposer $L(\beta_1,\beta_2)$ en somme de carrés. Après calculs, on obtient :
+
+\begin{align*}
+S(\beta_0,\beta_1) &=
+n\left(\beta_0 - (\bar{y} - \beta_1 \bar{x})\right)^2 
++ \Bigg(\sum_{i=1}^n (x_i - \bar{x})^2\Bigg)\left(\beta_1 - \hat{\beta}_1\right)^2 \\
+&+ \Bigg(\sum_{i=1}^n (y_i - \bar{y})^2 - \frac{\big(\sum_{i=1}^n (x_i - \bar{x})(y_i - \bar{y})\big)^2}{\sum_{i=1}^n (x_i - \bar{x})^2}\Bigg).
+\end{align*}
+
+Le dernier terme est indépendant de $\beta_0$ et $\beta_1$. Le second est nul si et seulement si $\beta_1=\hat{\beta}_1$, puis le premier est nul si et seulement si $\beta_0=\hat{\beta}_0$.
+\end{commentaire}
 
 \end{proof}
 
@@ -264,11 +254,11 @@ Le dernier terme est indépendant de $\beta_0$ et $\beta_1$. Le second est nul s
 
 \subsection{Quelques propriétés des estimateurs $\hat{\beta}_0$ et $\hat{\beta}_1$.}
 
-\begin{theo}[Estimateurs sans biais]
+\begin{theoreme}[Estimateurs sans biais]
 $\hat{\beta}_0$ et $\hat{\beta}_1$ sont des estimateurs sans biais de $\beta_0$ et $\beta_1$ sous l'hypothèse de $\mathbb{E}[\varepsilon_i]=0$, c'est à dire:
 
 \[ \mathbb{E}[\hat{\beta}_0]=\beta_0 \quad \mathbb{E}[\hat{\beta}_1]=\beta_1 \]
-\end{theo}
+\end{theoreme}
 
 
 \begin{proof} 
@@ -305,7 +295,7 @@ On en déduit que:
 
 \end{proof}
 
-\commentaire{
+\begin{commentaire}
 On peut aussi montrer que
 
 \begin{align*}
@@ -314,9 +304,10 @@ On peut aussi montrer que
 &= \beta_1 + \frac{1}{n \cdot s^2_x} \sum_{i=1}^n (x_i - \bar{x}) \varepsilon_i \\
 \end{align*}
 
-Ce qui nous permet de montrer que $\hat{\beta}_1$ est un estimateur sans biais }
+Ce qui nous permet de montrer que $\hat{\beta}_1$ est un estimateur sans biais 
+\end{commentaire}
 
-\begin{theo}[Variances et covariance]
+\begin{theoreme}[Variances et covariance]
 Les variances des estimateurs sont (sous les hypothèses $(\mathcal{H})$) :
 
 \[ \mathbb{V}[\hat{\beta}_0] = \frac{\sigma^2}{n} \left( 1 + \frac{\bar{x}^2}{s^2_x} \right)
@@ -330,7 +321,7 @@ tandis que leur covariance vaut :
 \text{Cov}[\hat{\beta}_0, \hat{\beta}_1] = - \frac{\sigma^2}{n}  \frac{\bar{x}}{s^2_x}
 \]
 
-\end{theo}
+\end{theoreme}
 
 \begin{proof}
 
@@ -348,14 +339,16 @@ Et on a aussi:
 \begin{align*}
 \mathbb{V}[\hat{\beta}_0] &= \mathbb{V}[ \bar{y} - \hat{\beta}_1 \bar{x}] \\
 &= \mathbb{V}[ \bar{y} ] + \mathbb{V}[ \hat{\beta}_1 \bar{x} ] -  2 \text{Cov} [ \bar{y} , \hat{\beta}_1 \bar{x} ] \\
-&= \frac{1}{n^2} \mathbb{V} \left[ \sum_{i=1}^{n} \varepsilon_i \right] = \bar{x}^2 \mathbb{V} [\hat{\beta}_1] \\
+&= \frac{1}{n^2} \mathbb{V} \left[ \sum_{i=1}^{n} \varepsilon_i \right] \\ 
+&= \bar{x}^2 \mathbb{V} [\hat{\beta}_1] \\
 &= \frac{1}{n} \sigma^2 + \frac{\bar{x}^2 \sigma^2}{n s^2_x} \\
 &=\frac{\sigma^2}{n} \left( 1 + \frac{\bar{x}^2}{s^2_x} \right)
 \end{align*}
 
 
 
-\commentaire{ \text{Attention} $\bar{y}$ et $\hat{\beta}_1$ peuvent être corrélé (à cause $\varepsilon_i$)
+\begin{commentaire} 
+\text{Attention} $\bar{y}$ et $\hat{\beta}_1$ peuvent être corrélé (à cause $\varepsilon_i$)
 
 \begin{align*}
 \text{Cov} [\bar{y},\hat{\beta}_1] &=\text{Cov} \left[ \beta_0 + \beta_1 \bar{x} + \bar{\varepsilon}, \beta_1 + \frac{1}{n s^2_x} \sum_{i=1}^n (x_i - \bar{x}) \varepsilon_i \right] \\
@@ -364,10 +357,7 @@ Et on a aussi:
 &= \frac{1}{(n s^2_x)^2} \sum_{i=1}^n \text{Cov}[\varepsilon_i,(x_i - \bar{x}) \varepsilon_i] \\
 &= 0
 \end{align*}
-}
-
-
-------------------------------------------------------------------------------------------------------------------------------------
+\end{commentaire}
 
 Et on a aussi:
 
