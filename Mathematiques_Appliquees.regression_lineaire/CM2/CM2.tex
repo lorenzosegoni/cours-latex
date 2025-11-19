@@ -18,13 +18,13 @@
 
 \subsection{Théorème Gauss-Markov } %(Question 1)
 
-\begin{theo}[Gauss-Markov]
-Sous les hypothèses du modèle, les estimateurs MCO $(\hat{\beta}_0, \hat{\beta}_1)$ sont les estimateurs \textbf{linéaires} et \textbf{non-biaisés} de $\beta_0, \beta_1$ ayant la variance minimale.  
+\begin{theoreme}[Gauss-Markov]
+Sous les hypothèses du modèle, les estimateurs MCO $(\hat{\beta}_0, \hat{\beta}_1)$ sont les estimateurs \textbf{linéaires} et \textbf{biaisés} de $\beta_0, \beta_1$ ayant la variance minimale.  
 
 Autrement dit, on dit que les estimateurs OLS sont \textbf{BLUE} :
 
 \[ \text{Best Linear Unbiased Estimators}. \]
-\end{theo}
+\end{theoreme}
 
 \begin{proof}
 On peut écrire que:
@@ -56,7 +56,8 @@ Montrons que $\mathbb{V}[\tilde{\beta}_1] \geq \mathbb{V}[\hat{\beta}_1]$. Donc 
 &= \mathbb{V}[\tilde{\beta}_1 - \hat{\beta}_1] +\mathbb{V}[\hat{\beta}_1]
 \end{align*}
 
-\commentaire{ Car
+\begin{commentaire}
+Car
 
 \begin{align*}
 \text{Cov} [ \tilde{\beta}_1 - \hat{\beta}_1 , \hat{\beta}_1 ] &= \text{Cov} [ \tilde{\beta}_1 , \hat{\beta}_1 ] - \mathbb{V}[\hat{\beta}_1] \\
@@ -64,7 +65,7 @@ Montrons que $\mathbb{V}[\tilde{\beta}_1] \geq \mathbb{V}[\hat{\beta}_1]$. Donc 
 &= \frac{\sigma^2}{n s^2_x} \left( \sum_{i=1}^{n} q_i x_i - \sum_{i=1}^{n} q_i \bar{x} - 1 \right ) \\
 &=0
 \end{align*}
-}
+\end{commentaire}
 
 Puisque $\mathbb{V}[\tilde{\beta}_1 - \hat{\beta}_1] \geq 0$ par la propriété de la variance, on a alors que:
 
@@ -73,7 +74,7 @@ Puisque $\mathbb{V}[\tilde{\beta}_1 - \hat{\beta}_1] \geq 0$ par la propriété 
 On peut faire de même pour $\hat{\beta}_0$.
 \end{proof}
 
-\commentaire{\textbf{Remarque:}
+\begin{remarque}
 Dans le cadre du modèle linéaire simple $Y_i = \beta_0 + \beta_1 x_i + \varepsilon_i$, avec $\varepsilon_i \sim \mathcal{N}(0, \sigma^2)$ indépendants, les estimateurs des moindres carrés ordinaires (MCO) présentent des propriétés de dispersion étroitement liées à la répartition des observations en $x_i$.  
 
 La variance de l’estimateur de la pente s’écrit :
@@ -94,7 +95,7 @@ Enfin, les deux estimateurs sont corrélés négativement :
 \text{Cov}[\hat{\beta}_0, \hat{\beta}_1] \leq 0.
 \]
 En effet, pour $\bar{x} > 0$, une augmentation de la pente $\hat{\beta}_1$ tend à diminuer l’ordonnée à l’origine $\hat{\beta}_0$. Par ailleurs, lorsque la dispersion des $x_i$ (mesurée par $s^2_{\mathbf{x}}$) est fixe, les variances de $\hat{\beta}_0$ et $\hat{\beta}_1$ décroissent proportionnellement à $1/n$, illustrant le gain de précision avec la taille de l’échantillon.
-}
+\end{remarque}
 
 \subsection{Prévision } %(Question 2)
 
@@ -106,12 +107,12 @@ On considère une nouvelle valeur $x_{n+1}$ et la variable aléatoire associée 
 \[ \hat{y}_{n+1} = \hat{\beta}_0 + \hat{\beta}_1 x_{n+1}. \]
 \end{notation}
 
-%\begin{figure}[H]
-%\centering
-%\includegraphics[width=8cm, height=6cm]{Regression_Estimation.jpg}
-%\caption{Estimation du point n+1}
-%\label{fig:estimation_reg}
-%\end{figure}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.5\textwidth]{CM2/Image/Regression_Estimation.jpg}
+\caption{Estimation du point n+1}
+\label{fig:estimation_reg}
+\end{figure}
 
 \begin{hypothese}
 On suppose que $(x_{n+1}, y_{n+1})$ suit le même modèle que les données d’apprentissage, c’est-à-dire :
@@ -129,7 +130,7 @@ avec
 \]
 \end{hypothese}
 
-\begin{prop}[Erreur de prédiction]
+\begin{proposition}[Erreur de prédiction]
 On définit
 
 \[ \hat{\varepsilon}_{n+1} = y_{n+1} - \hat{y}_{n+1}. \]
@@ -151,7 +152,7 @@ On a:
 \]
 
 où $\bar{x} = \frac{1}{n}\sum_{i=1}^n x_i $ et $ s_x^2 = \frac{1}{n}\sum_{i=1}^n (x_i - \bar{x})^2.$
-\end{prop}
+\end{proposition}
 
 \begin{proof}
 \textbf{Espérance.}  
@@ -211,7 +212,8 @@ On a aussi:
 \end{cases}
 \]
 
-\commentaire{ D’après les formules connues :
+\begin{commentaire} 
+D’après les formules connues :
 \[
 \mathbb{V}(\hat{\beta}_0) = \frac{\sigma^2}{n}\left(1+\frac{\bar{x}^2}{s_x^2}\right), 
 \quad 
@@ -219,7 +221,7 @@ On a aussi:
 \quad 
 \mathrm{Cov}(\hat{\beta}_0,\hat{\beta}_1) = -\frac{\sigma^2}{n}\cdot\frac{\bar{x}}{s_x^2}.
 \]
-}
+\end{commentaire}
 
 Ainsi :
 
@@ -238,7 +240,7 @@ Enfin :
 \]
 \end{proof}
 
-\commentaire{
+\begin{commentaire}
 \textbf{Interprétation:}  Le terme
 
 \[
@@ -256,24 +258,24 @@ contrôle l’incertitude de la prédiction :
   le point à prédire est très différent de l’échantillon d’apprentissage.  
   $\;\Rightarrow$ l’incertitude de la prédiction est plus élevée.
 \end{itemize}
-}
+\end{commentaire}
 
 \subsection{Calcul des résidus et de la variance résiduelle } %(Question 3)
 
-\begin{defi}
+\begin{definition}
 On définit les valeurs ajustées et les résidus :
 \[
 \hat{Y}_i = \hat{\beta}_0 + \hat{\beta}_1 x_i, 
 \qquad
 \hat{\varepsilon}_i = Y_i - \hat{Y}_i.
 \]
-\end{defi}
+\end{definition}
 
-\begin{prop}
+\begin{proposition}
 Avec cette construction, la somme des résidus est nulle, c'est à dire,
 
 \[ \sum_{i=1}^{n} \hat{\varepsilon}_i = 0\]
-\end{prop}
+\end{proposition}
 
 \begin{proof}
 On a:
@@ -299,7 +301,7 @@ On appelle \textbf{SCR} (somme des carrés des résidus) :
 
 \end{notation}
 
-\begin{defi}
+\begin{definition}
 La variance empirique des $x_i$ est
 \[
 s_x^2 = \frac{1}{n-1} \sum_{i=1}^n (x_i - \bar{x})^2.
@@ -314,17 +316,18 @@ Donc l’estimateur de la variance de l’erreur est donné par
 = \frac{1}{n-2} \sum_{i=1}^n \hat{\varepsilon}_i^2
 = \frac{1}{n-2} \, \mathrm{SCR}.
 \]
-\end{defi}
+\end{definition}
 
-\begin{theo}
+\begin{theoreme}
 La statistique $\hat{\sigma}^2 $ est un estimateur sans biais de $\sigma^2$.
-\end{theo}
+\end{theoreme}
 
 \begin{proof}
 
 Ce qui nous intéresse le plus est $\mathbb{E} [ \sum_{i=1}^{n} \hat{\varepsilon}^2_i ]$:
 
-\commentaire{ On a:
+\begin{commentaire} 
+On a:
 
 \begin{align*}
 \mathbb{V}[ \hat{\varepsilon}^2_i] &= \mathbb{V}[ y_i - \hat{y}_i] \\
@@ -354,7 +357,7 @@ Ceci nous donne:
 \mathbb{V}[ \hat{\varepsilon}^2_i] &= \mathbb{V}[ \varepsilon_i ] + \mathbb{V}[ \hat{\beta}_0 + \hat{\beta}_1 x_i ] -2 \text{Cov}[ \varepsilon_i , \hat{\beta}_0 + \hat{\beta}_1 x_i ] \\
 &= \sigma^2 - \frac{\sigma^2}{n} - \frac{\sigma^2 (x_i - \bar{x})^2}{n s_x^2}
 \end{align*}
-}
+\end{commentaire}
 
 \begin{align*}
 \mathbb{E} [ \sum_{i=1}^{n} \hat{\varepsilon}^2_i ] &= \sum_{i=1}^{n}  \mathbb{E} [ \hat{\varepsilon}^2_i ] \\
@@ -374,8 +377,10 @@ Ceci nous donne:
 
 \end{proof}
 
-\commentaire{\textbf{Attention :} le dénominateur est bien $n-2$ (et non $n$), car deux paramètres
-$\hat{\beta}_0$ et $\hat{\beta}_1$ ont été estimés.}
+\begin{commentaire}
+\textbf{Attention :} le dénominateur est bien $n-2$ (et non $n$), car deux paramètres
+$\hat{\beta}_0$ et $\hat{\beta}_1$ ont été estimés.
+\end{commentaire}
 
 \section{interprétations géométrique}
 
@@ -418,20 +423,20 @@ Avec ces notations, le modèle s’écrit de façon compacte :
 \[ y = \beta_0 \cdot \mathbb{1} + \beta_1 \cdot x + \varepsilon. \]
 \end{notation}
 
-\begin{defi}
+\begin{definition}
 On définit le sous-espace vectoriel engendré par les deux vecteurs explicatifs :
 \[
 \mathcal{M}(x) = \mathrm{Vect}(\mathbb{1}, x).
 \]
 Toute combinaison linéaire $\tilde{y} = \beta_0 \mathbb{1} + \beta_1 x$ appartient à cet espace.
-\end{defi}
+\end{definition}
 
-\begin{defi}
+\begin{definition}
 La projection orthogonale du vecteur $y$ sur $M(x)$ correspond alors au vecteur des valeurs ajustées :
 
 \[ \mathrm{Proj}_{\mathcal{M}(x)} y = \arg\min_{\tilde{y} \in \mathcal{M}(x)} \| y - \tilde{y} \|^2. \]
 
-\end{defi}
+\end{definition}
 
 \begin{proof}
 En effet:
@@ -445,10 +450,18 @@ En effet:
 
 \end{proof}
 
-\commentaire{ On a donc que $\hat{y}$ est la projection de $y$ sur $\mathcal{M}(x)$ 
 
-%Image{\label{image_projection}} 
-}
+\begin{commentaire}
+On a donc que $\hat{y}$ est la projection de $y$ sur $\mathcal{M}(x)$ 
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.5\textwidth]{CM2/Image/Projection.jpg}
+\caption{Projection}
+\label{fig:projection_img}
+\end{figure}
+
+\end{commentaire}
 
 \begin{rappel}
 On note :
@@ -498,13 +511,13 @@ Avec la notation d'avant on a:
 \end{itemize}
 \end{notation}
 
-\begin{prop}
+\begin{proposition}
 On a:
 
 \[ 
 \mathrm{SCT} = \mathrm{SCE} + \mathrm{SCR}
 \]
-\end{prop}
+\end{proposition}
 
 \begin{proof}
 On a par le théorème de Pythagore:
@@ -518,7 +531,7 @@ On a par le théorème de Pythagore:
 \end{align*}
 \end{proof}
 
-\begin{defi}
+\begin{definition}
 Le coefficient de détermination $R^2$ est définie par:
 
 \[ R^2 =  \frac{\mathrm{SCE}}{\mathrm{SCT}}
@@ -528,7 +541,7 @@ Le coefficient de détermination $R^2$ est définie par:
 \]
 
 $R^2$ est la proportion de la variabilité de $y$ qui peut être expliquée par la régression. (ou encore le cosinus carrées de $\theta$)
-\end{defi}
+\end{definition}
 
 De façon schématique, on peut différencier les cas suivants :
 
