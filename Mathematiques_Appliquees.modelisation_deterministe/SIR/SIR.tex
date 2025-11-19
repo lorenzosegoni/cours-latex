@@ -16,8 +16,7 @@ Ce modèle se distingue par l'hypothèse d'une \textbf{immunité permanente cont
 \item La transition vers le compartiment $R$ est proportionnelle à $I$. La constante de proportionnalité $\gamma$ représente le \textbf{taux} (\textit{par unité de temps et par individu infecté}) \textbf{de guérison} (lorsque $R$ représente les individus guéris). Par un raisonnement analogue à celui effectué pour le modèle $SIS$, son inverse $\frac{1}{\gamma}$ représente la \textbf{durée moyenne de la maladie}, c'est-à-dire la \textit{durée moyenne de séjour d'un individu infectieux dans le compartiment $I$}.
 \end{itemize}
 
-\bigskip
-\begin{defi}
+\begin{definition}
 On en déduit le système :
 \begin{equation}
 \begin{cases}
@@ -28,7 +27,7 @@ On en déduit le système :
 \end{cases}
 \label{seq:equa_diff_sir_3d}
 \end{equation}
-\end{defi}
+\end{definition}
 
 \paragraph{Hypothèse de population constante} Pour tout $t>0$, on a $S(t) + I(t) + R(t) = N$. Ainsi, N est une \textbf{constante} (variable non dynamique). Les fonctions positives S, I et R sont donc \textit{bornées}.
 
@@ -41,7 +40,7 @@ Les conditions initiales sont $S(0)>0$ et $I(0)\geq0$. Pour $R$, on distingue di
 
 \bigskip
 
-\begin{prop}
+\begin{proposition}
 Les deux premières équations du système (\ref{seq:equa_diff_sir_3d}) ne faisant pas intervenir R, l'étude de ce système peut se ramener à celle du système réduit :
 
 \begin{equation}
@@ -53,22 +52,22 @@ S(0) + I(0) + R(0) = N
 \end{cases}
 \label{seq:equa_diff_sir_2d}
 \end{equation}
-\end{prop}
+\end{proposition}
 
 
 Ce modèle, formulé en 1927 par \textbf{Kermack et McKendrick}, constitue un fondement historique de l'épidémiologie mathématique.
 
 \bigskip
 
-\begin{defi}
+\begin{definition}
 Dans toute la suite, on notera $\rho = \frac{\gamma}{\lambda}$ le paramètre représentant le \textbf{taux relatif de retrait} (ou \textbf{de guérison} si R représente les \textit{individus guéris}).
-\end{defi}
+\end{definition}
 
 
 
 \section{Situation épidémique et de non épidémique}
 
-\begin{prop}
+\begin{proposition}
 On a  une situation d'equilibre à $t\to \infty$, c'est à dire:
 
 \begin{itemize}
@@ -76,7 +75,7 @@ On a  une situation d'equilibre à $t\to \infty$, c'est à dire:
 \item $I_\infty = \lim_{t \to \infty} I(t) \text{ existe}$
 \item $R_\infty = \lim_{t \to \infty} R(t) \text{ existe}$
 \end{itemize}
-\end{prop}
+\end{proposition}
 
 
 \begin{proof}
@@ -97,15 +96,15 @@ R_\infty &= \lim_{t \to \infty} R(t) \text{ existe}
 Par conséquent, puisque $S(t) + I(t) + R(t) = N$ pour tout $t \geq 0$, on en déduit que $I_\infty = \lim_{t \to \infty} I(t)$ existe également.
 \end{proof}
 
-\begin{prop}
+\begin{proposition}
 On a $S_\infty > 0$ et $I_\infty = 0$.
 
 Autrement dit, l'épidémie s'interrompt lorsqu'il n'y a plus d'individus infectés, et non lorsqu'il n'y a plus d'individus susceptibles de contracter la maladie.
-\end{prop}
+\end{proposition}
 
-\commentaire{
+\begin{commentaire}
 Il existe des situations où \textbf{l'épidémie s'arrête} alors qu'il reste encore \textit{des individus susceptibles}.
-}
+\end{commentaire}
 
 \begin{proof}
 Considérons le système d'équations différentielles :
@@ -209,17 +208,17 @@ Par conséquent, l'hypothèse $I_{\infty} > 0$ est fausse, et donc $I_{\infty} =
 
 \bigskip
 
-\begin{prop}
+\begin{proposition}
 L'épidémie présente deux évolutions distinctes selon la valeur de $S_0$ par rapport au seuil $\rho$ :
 \begin{itemize}
 \item Si $S_0 < \rho$ : régime sous-critique (pas d'épidémie)
 \item Si $S_0 > \rho$ : régime épidémique
 \end{itemize}
-\end{prop}
+\end{proposition}
 
-\commentaire{
+\begin{commentaire}
 Le paramètre $\rho$ joue donc le rôle d'un \textbf{seuil épidémique}.
-}
+\end{commentaire}
 
 \begin{proof}
 D'après les équations du modèle, calculons la dérivée de $I$ à $t=0$ :
@@ -234,7 +233,7 @@ D'après les équations du modèle, calculons la dérivée de $I$ à $t=0$ :
 Le signe de cette dérivée dépend du signe de $(S_0 - \rho)$. Distinguons deux cas :
 
 \bigskip
-\noindent\textbf{Cas 1 : $S_0 < \rho$ (régime sous-critique)}
+\textbf{Cas 1 : $S_0 < \rho$ (régime sous-critique)}
 
 Si $S_0 < \rho$, alors $\left.\frac{dI}{dt}\right|_{t=0} < 0$. 
 
@@ -249,7 +248,7 @@ Ainsi, $I$ est strictement décroissante sur $[0, +\infty[$.
 En conclusion, lorsque $t \to +\infty$, l'infection disparaît sans jamais se propager significativement. Il n'y a pas d'épidémie.
 
 \bigskip
-\noindent\textbf{Cas 2 : $S_0 > \rho$ (régime épidémique)}
+\textbf{Cas 2 : $S_0 > \rho$ (régime épidémique)}
 
 Si $S_0 > \rho$, alors $\left.\frac{dI}{dt}\right|_{t=0} > 0$.
 
@@ -286,7 +285,7 @@ Ce qui précède montre un comportement radicalement différent du système (\re
 
 Donc:
 
-\begin{defi}
+\begin{definition}
 Posons $\mathcal{R}_0 = \frac{S_0}{\rho}$, alors:
 
 \begin{itemize}
@@ -295,7 +294,7 @@ Posons $\mathcal{R}_0 = \frac{S_0}{\rho}$, alors:
 \end{itemize}
 
 $\mathcal{R}_0$ détermine donc quand il y a ou pas épidémie.
-\end{defi}
+\end{definition}
 
 \bigskip
 
@@ -325,7 +324,7 @@ Comme dans le cas du modèle SIS, $\mathcal{R}_0$ représente le \textbf{nombre 
 
 \section{Étude qualitative du système (\ref{seq:equa_diff_sir_3d})}
 
-\begin{prop}
+\begin{proposition}
 Supposons que la solution $(S,I,R)$ du système (\ref{seq:equa_diff_sir_3d}) soit définie pour tout $t\geq 0$ et que la limite suivante existe :
 \[ \lim_{t\to\infty} (S(t),I(t),R(t))=(S_\infty,I_\infty,R_\infty). \]
 Autrement dit :
@@ -335,13 +334,13 @@ Autrement dit :
 \item $\lim_{t\to\infty} R(t)=R_\infty =: R^*$
 \end{itemize}
 Alors $(S_\infty,I_\infty,R_\infty)$ est un point d'équilibre du système (\ref{seq:equa_diff_sir_3d}), c'est-à-dire que les dérivées s'annulent en ce point.
-\end{prop}
+\end{proposition}
 
 \begin{proof}
 La démonstration repose sur le fait que si une fonction converge vers une limite, alors sa dérivée tend vers zéro. Nous allons le montrer rigoureusement.
 
 \bigskip
-\noindent\textbf{Étape 1 : Condition de Cauchy}
+\textbf{Étape 1 : Condition de Cauchy}
 
 Puisque $S(t) \xrightarrow[t\to\infty]{} S_\infty$, la fonction $S$ satisfait la condition de Cauchy. Pour tout $\epsilon > 0$, il existe $T > 0$ tel que pour tous $t_1, t_2 \geq T$ :
 \begin{align*}
@@ -357,7 +356,7 @@ Ainsi :
 \]
 
 \bigskip
-\noindent\textbf{Étape 2 : Application du théorème des accroissements finis}
+\textbf{Étape 2 : Application du théorème des accroissements finis}
 
 Fixons $h > 0$ arbitrairement. Pour $t$ suffisamment grand, posons $t_1 = t$ et $t_2 = t+h$. 
 
@@ -375,7 +374,7 @@ Donc l'équation précédente devient :
 \[ S(t+h) - S(t) = -h \lambda S(\tau_{t,h}) I(\tau_{t,h}) \]
 
 \bigskip
-\noindent\textbf{Étape 3 : Passage à la limite}
+\textbf{Étape 3 : Passage à la limite}
 
 Lorsque $t \to \infty$, on observe que :
 \begin{itemize}
@@ -405,7 +404,7 @@ S_\infty I_\infty = 0
 Cela signifie que $S'_\infty = -\lambda S_\infty I_\infty = 0$ au point limite.
 
 \bigskip
-\noindent\textbf{Étape 4 : Généralisation aux autres composantes}
+\textbf{Étape 4 : Généralisation aux autres composantes}
 
 Par un raisonnement identique appliqué aux fonctions $I$ et $R$, on montre que :
 \begin{align*}
@@ -472,10 +471,10 @@ C'est-à-dire $(S_{\infty},I_{\infty},R_{\infty}) = (S^*,I^*,R^*)$ est un point 
 
 \subsection{Les points d'équilibre du système (\ref{seq:equa_diff_sir_2d})}
 
-\begin{prop}
+\begin{proposition}
 Les points d'équilibre du système (\ref{seq:equa_diff_sir_2d}), notés $P^*$, sont de la forme :
 \[ P^* = (S^*, 0) \text{ avec } S^* \in [0, N]. \]
-\end{prop}
+\end{proposition}
 
 \begin{proof}
 \textbf{Identification des points d'équilibre}
@@ -502,7 +501,7 @@ Par conséquent, les points d'équilibre sont de la forme $P^* = (S^*, 0)$ avec 
 
 \end{proof}
 
-\begin{prop}
+\begin{proposition}
 Soit $I(S)$ la fonction définie par la relation entre le nombre d'infectés et le nombre de susceptibles le long d'une trajectoire du système (\ref{seq:equa_diff_sir_2d}). Alors :
 \begin{enumerate}
 \item La relation entre $I$ et $S$ / $t$ est donnée par :
@@ -520,7 +519,7 @@ I(t) = I_0 - S(t) + \rho \ln ( S(t) ) + S_0 - \rho \ln (S_0)
 I_{\max} = I_0 + S_0 - \rho + \rho \ln\left(\frac{\rho}{S_0}\right) 
 \end{equation}
 \end{enumerate}
-\end{prop}
+\end{proposition}
 
 
 \begin{proof}
@@ -619,7 +618,7 @@ I_{\max} &= I(S = \rho) \\
 Cette valeur représente le \textbf{pic épidémique}, c'est-à-dire le nombre maximal d'individus infectés simultanément au cours de l'épidémie.
 \end{proof}
 
-\commentaire{
+\begin{commentaire}
 \begin{itemize}
 \item La stricte concavité de $I(S)$ garantit l'\textbf{unicité du maximum}.
 \item Le pic épidémique est atteint lorsque le nombre de susceptibles descend exactement au niveau du seuil épidémique $\rho = \frac{\gamma}{\lambda}$.
@@ -629,7 +628,7 @@ Cette valeur représente le \textbf{pic épidémique}, c'est-à-dire le nombre m
 \[ S_\infty = I_0 + S_0 + \rho \ln\left(\frac{S_\infty}{S_0}\right) \]
 Cette équation transcendante ne peut généralement pas être résolue explicitement.
 \end{itemize}
-}
+\end{commentaire}
 
 
 
@@ -666,9 +665,9 @@ où $P^*$ est un point d'équilibre du système (\ref{seq:equa_diff_sir_2d}). Po
 
 étudions le comportement des trajectoires dans le plan de phase $(S, I)$.
 
-\begin{prop}
+\begin{proposition}
 Chaque trajectoire issue d'un point $P_0 = (S_0, I_0)$ avec $I_0 > 0$ coupe l'axe des abscisses ($I = 0$) en un unique point, qui est le point d'équilibre $P^* = (S_\infty, 0)$.
-\end{prop}
+\end{proposition}
 
 
 \begin{proof}
@@ -700,9 +699,9 @@ Ceci contredit l'hypothèse $I(t) > 0$ pour $t \in \,]t_1, t_2[$.
 Par conséquent, la trajectoire coupe l'axe $I = 0$ en un unique point, qui est nécessairement le point limite $P^* = (S_\infty, 0)$.
 \end{proof}
 
-\begin{prop}
+\begin{proposition}
 La valeur asymptotique $S_\infty$ vérifie $S_\infty \in \,]0, \rho]$.
-\end{prop}
+\end{proposition}
 
 
 \begin{proof}
@@ -737,14 +736,14 @@ Si $S_0 \leq \rho$, alors $S(t) \leq S_0 \leq \rho$ pour tout $t \geq 0$, donc $
 \end{figure}
 
 \newpage
-\noindent\textbf{Interprétation du portrait de phase}
+\textbf{Interprétation du portrait de phase}
 
 La figure (\ref{fig:triangle_sir}) représente quelques trajectoires correspondant à différentes valeurs initiales $P(0) = (S_0, I_0)$. Une trajectoire particulière démarre en un point $P(0)$ situé dans le domaine admissible :
 \[ \mathcal{D} = \{(S, I) : S \geq 0, I \geq 0, S + I \leq N\} \]
 
 Lorsque $t$ croît, la population d'individus susceptibles décroît de manière monotone. Deux comportements distincts se manifestent selon la position de $S_0$ par rapport au seuil $\rho$ :
 
-\begin{defi}
+\begin{definition}
 \begin{enumerate}
 \item \textbf{Région épidémique ($S_0 > \rho$)} : Si $P(0)$ est choisi avec $S_0 > \rho$, alors :
 \begin{itemize}
@@ -760,10 +759,10 @@ Lorsque $t$ croît, la population d'individus susceptibles décroît de manière
 \item Il n'y a pas de phase de croissance épidémique
 \end{itemize}
 \end{enumerate}
-\end{defi}
+\end{definition}
 
 \bigskip
-\noindent\textbf{Dynamique de la propagation épidémique}
+\textbf{Dynamique de la propagation épidémique}
 
 Analysons plus en détail ce que ces résultats impliquent du point de vue de la propagation de l'épidémie dans la population.
 
@@ -832,9 +831,9 @@ s = s_0 e^{-R_0(1-s)}
 \label{eq:s_infty_equation}
 \end{equation}
 
-\begin{prop}
+\begin{proposition}
 L'équation (\ref{eq:S_infty_equation}) admet une unique solution dans l'intervalle $[0, S_0]$ (respectivement, l'équation (\ref{eq:s_infty_equation}) admet une unique solution dans $[0, s_0]$). Cette solution peut être déterminée numériquement par la méthode des approximations successives (méthode du point fixe).
-\end{prop}
+\end{proposition}
 
 \begin{proof}
 Nous allons démontrer ce résultat pour l'équation adimensionnée (\ref{eq:s_infty_equation}), le résultat pour (\ref{eq:S_infty_equation}) s'en déduisant immédiatement.
@@ -845,7 +844,7 @@ Définissons la fonction $\varphi : [0, s_0] \to \mathbb{R}$ par :
 Nous devons montrer que $\varphi$ admet un unique point fixe dans $[0, s_0]$.
 
 \bigskip
-\noindent\textbf{Étape 1 : $\varphi$ est bien définie et à valeurs dans $[0, s_0]$}
+\textbf{Étape 1 : $\varphi$ est bien définie et à valeurs dans $[0, s_0]$}
 
 Pour tout $s \in [0, s_0]$, on a :
 \begin{itemize}
@@ -860,7 +859,7 @@ En particulier :
 Donc $\varphi : [0, s_0] \to [0, s_0]$ est bien définie.
 
 \bigskip
-\noindent\textbf{Étape 2 : Existence d'un point fixe}
+\textbf{Étape 2 : Existence d'un point fixe}
 
 Considérons la fonction auxiliaire $g(s) = \varphi(s) - s$ pour $s \in [0, s_0]$. On a :
 \begin{align*}
@@ -871,7 +870,7 @@ g(s_0) &= s_0 - s_0 = 0
 La fonction $g$ est continue sur $[0, s_0]$. Par le théorème des valeurs intermédiaires, il existe au moins un $s_\infty \in [0, s_0]$ tel que $g(s_\infty) = 0$, c'est-à-dire $\varphi(s_\infty) = s_\infty$.
 
 \bigskip
-\noindent\textbf{Étape 3 : Unicité du point fixe}
+\textbf{Étape 3 : Unicité du point fixe}
 
 Calculons la dérivée de $\varphi$ :
 \[ \varphi'(s) = s_0 e^{-R_0(1-s)} \cdot R_0 = R_0 \varphi(s) \]
@@ -902,7 +901,7 @@ Mais considérons la fonction $h(s) = s - \varphi(s) = s - s_0 e^{-R_0(1-s)}$ su
 Si $h'(s_0) < 0$, alors $h$ est décroissante sur un voisinage de $s_0$, ce qui contredit l'existence de deux points fixes. L'analyse complète montre que $h$ est strictement monotone, garantissant l'unicité.
 
 \bigskip
-\noindent\textbf{Étape 4 : Méthode des approximations successives}
+\textbf{Étape 4 : Méthode des approximations successives}
 
 La suite définie par la récurrence :
 \[ s_{n+1} = \varphi(s_n) = s_0 e^{-R_0(1-s_n)}, \quad s_0 \text{ donné} \]
@@ -910,13 +909,13 @@ La suite définie par la récurrence :
 converge vers l'unique point fixe $s_\infty$ de $\varphi$. Cette méthode du point fixe fournit une approximation numérique efficace de $s_\infty$.
 \end{proof}
 
-\commentaire{
+\begin{commentaire}
 \begin{itemize}
 \item La proportion finale de susceptibles $s_\infty$ dépend de manière critique du nombre de reproduction de base $R_0 = \frac{N}{\rho}$.
 \item Plus $R_0$ est grand, plus $s_\infty$ est petit, c'est-à-dire plus l'épidémie touche une grande partie de la population.
 \item Le taux d'attaque final, défini par $1 - s_\infty$, représente la proportion totale de la population qui aura contracté la maladie au terme de l'épidémie.
 \end{itemize}
-}
+\end{commentaire}
 
 \subsection{Solution approchée dans le cas d'une épidémie non sévère}
 
@@ -937,9 +936,9 @@ En substituant cette approximation dans l'équation différentielle :
 &= \gamma \left( (N - S_0) - R\left(1 - \frac{S_0}{\rho}\right) - \frac{S_0 R^2}{2\rho^2} \right)
 \end{align*}
 
-\commentaire{
+\begin{commentaire}
 Il est nécessaire d'aller jusqu'à l'ordre 2 dans le développement de Taylor. En effet, un développement à l'ordre 1 conduit à une contradiction (voir Proposition \ref{ordre_1_probleme}).
-}
+\end{commentaire}
 
 \subsubsection{Solution explicite approchée}
 
@@ -994,14 +993,14 @@ R'(t) = \frac{\gamma\alpha^2\rho^2}{2S_0} \cdot \operatorname{sech}^2\left(\frac
 
 où $\operatorname{sech}(u) = \frac{1}{\cosh(u)} = \frac{2}{e^u + e^{-u}}$ est la sécante hyperbolique.
 
-\commentaire{
+\begin{commentaire}
 La dérivée de la tangente hyperbolique est :
 \begin{align*}
 \frac{d}{du}[\tanh(u)] &= \operatorname{sech}^2(u) \\
 &= \frac{1}{\cosh^2(u)} \\
 &= \left(\frac{2}{e^u + e^{-u}}\right)^2
 \end{align*}
-}
+\end{commentaire}
 
 Le pic épidémique (maximum de l'incidence) est atteint lorsque la dérivée de $R'(t)$ s'annule, soit au temps :
 \begin{equation}
@@ -1009,9 +1008,9 @@ t_{\max} = \frac{2\Phi}{\alpha\gamma}
 \label{eq:temps_pic}
 \end{equation}
 
-\begin{prop}\label{ordre_1_probleme}
+\begin{proposition}\label{ordre_1_probleme}
 Un développement de Taylor à l'ordre 1 conduit à une contradiction mathématique.
-\end{prop}
+\end{proposition}
 
 \begin{proof}
 Si l'on utilise uniquement l'approximation à l'ordre 1 :
@@ -1094,12 +1093,12 @@ est le nombre approximatif d'individus infectés durant l'épidémie.
 
 \subsection{Estimation des paramètres du modèle}
 
-\begin{prop}
+\begin{proposition}
 On a l'approximation
 
 \[ \rho \approx \frac{S_0 - S_\infty}{\ln(S_0/S_\infty)}
 \quad \mathcal{R}_0 \approx S_0 \frac{\ln(S_0/S_\infty)}{S_0 - S_\infty} \]
-\end{prop}
+\end{proposition}
 
 
 \begin{proof}
@@ -1160,10 +1159,10 @@ On note :
 \end{itemize}
 \end{notation}
 
-\begin{prop}[Seuil d'immunité collective]
+\begin{proposition}[Seuil d'immunité collective]
 La proportion minimale de population à vacciner pour empêcher l'apparition d'une épidémie est donnée par :
 \[ p_{\min} = 1 - \frac{1}{\mathcal{R}_0} \]
-\end{prop}
+\end{proposition}
 
 \begin{proof}
 Lorsqu'une proportion $p$ de la population est vaccinée avec succès, les individus immunisés passent directement du compartiment $S$ au compartiment $R$. Le nombre initial de susceptibles devient alors :
@@ -1185,11 +1184,11 @@ D'où $p_{\min} = 1 - \frac{1}{\mathcal{R}_0}$.
 \end{proof}
 
 \bigskip
-\noindent\textbf{Implications pratiques}
+\textbf{Implications pratiques}
 
 Cette formule montre que plus $\mathcal{R}_0$ est élevé, plus la couverture vaccinale requise est importante. Par exemple, pour une maladie avec $\mathcal{R}_0 = 2$, il faut vacciner au moins 50\% de la population, tandis que pour $\mathcal{R}_0 = 18$, une couverture d'environ 94\% est nécessaire.
 
-\commentaire{
+\begin{commentaire}
 \textbf{Exemple historique : l'éradication de la variole}
 
 \medskip
@@ -1197,10 +1196,10 @@ Cette formule montre que plus $\mathcal{R}_0$ est élevé, plus la couverture va
 La campagne mondiale de vaccination contre la variole, lancée par l'OMS en 1967, illustre parfaitement l'efficacité de cette stratégie. La maladie a été officiellement éradiquée en 1980, première victoire totale de la vaccination sur une pathologie humaine.
 
 Cependant, cette réussite crée aujourd'hui une vulnérabilité : les personnes vaccinées avant 1980 ont vu leur immunité décliner, et les générations suivantes n'ont jamais été immunisées. En cas de réémergence du virus, la population serait largement susceptible, soulignant l'importance d'une vigilance épidémiologique continue.
-}
+\end{commentaire}
 
 \bigskip
-\noindent\textbf{Valeurs du nombre de reproduction de base pour différentes maladies}
+\textbf{Valeurs du nombre de reproduction de base pour différentes maladies}
 
 Le tableau suivant présente les valeurs estimées de $\mathcal{R}_0$ et du seuil d'immunité collective $p_{\min}$ pour diverses maladies infectieuses :
 
