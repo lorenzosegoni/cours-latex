@@ -36,7 +36,7 @@ On a ce modèle:
 
 \newpage
 
-\begin{defi}
+\begin{definition}
 Le système d'équations différentielles est :
 
 \begin{equation}
@@ -54,12 +54,12 @@ où
 \item $\lambda$ est le \textit{taux d'infection} (ou de contact) (\textbf{par unité de temps et par individu}). 
 \item $\gamma$ représente le \textit{taux de guérison} \textbf{par unité de temps et par individu infectieux}.
 \end{itemize}
-\end{defi}
+\end{definition}
 
 Puisque il y a pas de changement de population (population fermé) et on a pas de naissance et de mort, on a que $S+I$ est constante et égale à $N$
 
 
-\begin{prop}
+\begin{proposition}
 En remplaçant $S$ par $N-I$ le système différentiel (\ref{eq:sis_system}) se réduit à l'équation différentielle suivante :
 
 \begin{equation}
@@ -77,7 +77,7 @@ Là encore, (\ref{eq:sis_reduced}) est une équation différentielle logistique 
     \label{eq:sis_solution}
 \end{align*}
 
-\end{prop}
+\end{proposition}
 
 \begin{proof}
 
@@ -103,12 +103,13 @@ Posons $K = \frac{\lambda N - \gamma}{\lambda}$. L'équation se réécrit :
 Dans ce cas, $K \neq 0$ et l'équation est une équation différentielle de type logistique. Nous allons la résoudre par séparation des variables.
 
 \smallskip
-\noindent\textit{Séparation des variables.} L'équation se réécrit :
+\textit{Séparation des variables.} L'équation se réécrit :
 
 \[ \frac{dI}{I(K - I)} = \lambda \, dt \]
 
 \smallskip
-\noindent\textit{Décomposition en éléments simples.} Pour intégrer le membre de gauche, décomposons en éléments simples :
+
+\textit{Décomposition en éléments simples.} Pour intégrer le membre de gauche, décomposons en éléments simples :
 
 \[ \frac{1}{I(K - I)} = \frac{A}{I} + \frac{B}{K - I} \]
 
@@ -127,7 +128,7 @@ D'où :
 \[ \frac{1}{I(K - I)} = \frac{1}{K} \left( \frac{1}{I} + \frac{1}{K - I} \right) \]
 
 \smallskip
-\noindent\textit{Intégration.} En intégrant des deux côtés :
+\textit{Intégration.} En intégrant des deux côtés :
 
 \begin{align*}
 \int \frac{1}{K} \left( \frac{1}{I} + \frac{1}{K - I} \right) dI &= \int \lambda \, dt \\
@@ -145,7 +146,7 @@ En prenant l'exponentielle :
 où $C = e^{C_2}$ est une constante positive.
 
 \smallskip
-\noindent\textit{Résolution pour $I(t)$.} En résolvant pour $I$ :
+\textit{Résolution pour $I(t)$.} En résolvant pour $I$ :
 
 \begin{align*}
 I &= C(K - I) e^{K\lambda t} \\
@@ -156,7 +157,7 @@ I(t) &= \frac{CK e^{K\lambda t}}{1 + C e^{K\lambda t}}
 \end{align*}
 
 \smallskip
-\noindent\textit{Détermination de la constante $C$.} À $t = 0$ :
+\textit{Détermination de la constante $C$.} À $t = 0$ :
 
 \[ I_0 = \frac{CK}{1 + C} \]
 
@@ -171,7 +172,7 @@ C &= \frac{I_0}{K - I_0}
 \end{align*}
 
 \smallskip
-\noindent\textit{Expression finale.} En substituant $C$ et $K = \frac{\lambda N - \gamma}{\lambda}$ :
+\textit{Expression finale.} En substituant $C$ et $K = \frac{\lambda N - \gamma}{\lambda}$ :
 
 \begin{align*}
 I(t) &= \frac{\frac{I_0}{K - I_0} \cdot K e^{K\lambda t}}{1 + \frac{I_0}{K - I_0} e^{K\lambda t}} \\
@@ -201,7 +202,7 @@ Dans ce cas, $K = 0$ et l'équation d'avant devient :
 \[ I'(t) = -\lambda I^2(t) \]
 
 \smallskip
-\noindent\textit{Changement de variable.} Posons $Y(t) = \frac{1}{I(t)}$, qui est bien défini car $I(t) > 0$ pour tout $t \geq 0$.
+\textit{Changement de variable.} Posons $Y(t) = \frac{1}{I(t)}$, qui est bien défini car $I(t) > 0$ pour tout $t \geq 0$.
 
 En dérivant :
 
@@ -216,7 +217,7 @@ Ceci est une équation différentielle élémentaire dont la solution générale
 \[ Y(t) = \lambda t + C \]
 
 \smallskip
-\noindent\textit{Détermination de la constante.} À $t = 0$ :
+\textit{Détermination de la constante.} À $t = 0$ :
 
 \[ Y(0) = \frac{1}{I_0} = C \]
 
@@ -225,7 +226,7 @@ Donc :
 \[ Y(t) = \lambda t + \frac{1}{I_0} \]
 
 \smallskip
-\noindent\textit{Expression de $I(t)$.} En revenant à $I(t) = \frac{1}{Y(t)}$ :
+\textit{Expression de $I(t)$.} En revenant à $I(t) = \frac{1}{Y(t)}$ :
 
 \[ I(t) = \frac{1}{\lambda t + \frac{1}{I_0}} = \frac{I_0}{1 + \lambda I_0 t} \]
 
@@ -242,8 +243,7 @@ En combinant les deux cas, on obtient la solution complète :
 
 \end{proof}
 
-\commentaire{
-
+\begin{commentaire}
 Lorsque $t$ tend vers $+\infty$, 
 
 \[ I(t) \to \begin{cases}
@@ -251,8 +251,7 @@ Lorsque $t$ tend vers $+\infty$,
         0 & \text{sinon.}
     \end{cases}
 \]
-
-}
+\end{commentaire}
 
 
 \begin{proof}
@@ -304,11 +303,11 @@ Les conditions $\mathcal{R}_0 > 1$ et $\mathcal{R}_0 \leq 1$ conduisent à des c
 
 \section{Recherche des points d'équilibre du modèle}
 
-\begin{defi}
+\begin{definition}
 On obtient les deux points d'équilibre suivants :
 
 \[ (S^*_1 = N , I^*_1 = 0) \quad \text{et} \quad (S^*_2 = \frac{\gamma}{\lambda}, I^*_2 = N - \frac{\gamma}{\lambda}) \]
-\end{defi}
+\end{definition}
 
 \begin{itemize}
 \item Le point $(S^*_1, I^*_1)$ est un point d'équilibre d'\textbf{absence d'épidémie} car il n'y a pas de propagation de l'épidémie s'il n'y a pas au moins un individu infectieux.
