@@ -202,7 +202,7 @@ jobs:
           path: |
             /usr/share/texlive
             ~/.texmf-var
-          key: texlive-${{ runner.os }}-full-v2
+          key: texlive-${{ runner.os }}-full-v2-${{ github.run_id }}
       - name: Archive error logs
         if: always()
         uses: actions/upload-artifact@v4
