@@ -3,7 +3,7 @@
 \section{Théorèmes fondamentaux : des gendarmes et des accroissements finis}
 
 
-\begin{theo}[des gendarmes]
+\begin{theoreme}[des gendarmes]
 Soient $f, g, h$ trois fonctions définies sur un intervalle $I$ contenant un point $a$, telles que :
 \[
 \forall x \in I, \quad f(x) \leq g(x) \leq h(x)
@@ -16,7 +16,7 @@ Alors :
 \[
 \lim_{x \to a} g(x) = \ell
 \]
-\end{theo}
+\end{theoreme}
 
 
 \begin{proof}
@@ -39,13 +39,13 @@ ce qui prouve que $\displaystyle \lim_{x \to a} g(x) = \ell$.
 \bigskip
 
 
-\begin{theo}[des accroissements finis — TAF]
+\begin{theoreme}[des accroissements finis — TAF]
 Soit $f : [a,b] \to \mathbb{R}$ une fonction continue sur $[a,b]$ et dérivable sur $]a,b[$.  
 Alors il existe au moins un point $c \in ]a,b[$ tel que :
 \[
 f'(c) = \frac{f(b) - f(a)}{b - a}
 \]
-\end{theo}
+\end{theoreme}
 
 \begin{proof}
 On applique le théorème de Rolle à la fonction :
@@ -66,17 +66,17 @@ f'(c) = \frac{f(b) - f(a)}{b - a}
 \]
 \end{proof}
 
-\commentaire{
+\begin{commentaire}
 Le théorème des accroissements finis formalise l'idée intuitive qu’une fonction dérivable atteint, en au moins un point, une pente égale à la pente de la corde reliant ses extrémités.  
 Il permet notamment de démontrer la croissance ou la décroissance d’une fonction à partir du signe de sa dérivée.
-}
+\end{commentaire}
 
 
 
 \section{Théorèmes Equation Differentielle}
 
 
-\begin{theo}[Cauchy--Lipschitz]
+\begin{theoreme}[Cauchy--Lipschitz]
 Soient $t_0 \in \mathbb{R}$, $x_0 \in \mathbb{R}^n$, et $U \subset \mathbb{R} \times \mathbb{R}^n$ un ouvert contenant $(t_0,x_0)$. 
 Soit $f : U \to \mathbb{R}^n$ une application continue, localement lipschitzienne par rapport à la variable $x$. 
 
@@ -90,11 +90,11 @@ x(t_0) = x_0,
 admet une solution $x : I \to \mathbb{R}^n$, définie sur un intervalle $I$ contenant $t_0$. 
 
 De plus, cette solution est unique : si $y$ est une autre solution définie sur un intervalle $J$ contenant $t_0$, alors $x(t)=y(t)$ pour tout $t \in I \cap J$.
-\end{theo}
+\end{theoreme}
 
-\commentaire{
+\begin{commentaire}
 Le théorème dit que si une fonction suit des hypothèses très usuelles dans le monde réelle, et si on prend un intervalle spécifique (comme $\mathbb{R}^+$), et une condition initial, le système différentielle admet une unique solution
-}
+\end{commentaire}
 
 
 
@@ -153,7 +153,7 @@ Le théorème dit que si une fonction suit des hypothèses très usuelles dans l
 
 Dans cette annexe nous rassemblons les définitions, propriétés, identités et résultats usuels sur les fonctions hyperboliques. L'approche reste élémentaire : définitions par exponentielles, dérivées, formules d'addition, identités fondamentales, fonctions réciproques, séries de Taylor, intégrales usuelles et quelques applications.
 
-\begin{defi}
+\begin{definition}
 Les \emph{fonctions hyperboliques} $\sinh,\cosh,\tanh,\operatorname{sech},\operatorname{csch},\coth$ sont définies pour tout réel $x$ par :
 \[
 \begin{aligned}
@@ -165,9 +165,9 @@ Les \emph{fonctions hyperboliques} $\sinh,\cosh,\tanh,\operatorname{sech},\opera
 \coth x &= \frac{\cosh x}{\sinh x}\quad(x\neq0).
 \end{aligned}
 \]
-\end{defi}
+\end{definition}
 
-\begin{prop}
+\begin{proposition}
 \begin{enumerate}
 \item Domaines :
 \[
@@ -184,14 +184,14 @@ Les \emph{fonctions hyperboliques} $\sinh,\cosh,\tanh,\operatorname{sech},\opera
 \]
 avec $\sinh 0=0$, $\cosh 0=1$. De plus $\tanh x$ est strictement croissante et $-1<\tanh x<1$ pour tout $x\in\mathbb R$.
 \end{enumerate}
-\end{prop}
+\end{proposition}
 
-\begin{prop}[Identité fondamentale]
+\begin{proposition}[Identité fondamentale]
 Pour tout réel $x$,
 \[
 \boxed{\ \cosh^2 x-\sinh^2 x=1\ }\!.
 \]
-\end{prop}
+\end{proposition}
 
 \begin{proof}
 \[
@@ -201,7 +201,7 @@ Pour tout réel $x$,
 \]
 \end{proof}
 
-\begin{prop}[Formules d'addition]
+\begin{proposition}[Formules d'addition]
 Pour tous réels $x,y$,
 \[
 \begin{aligned}
@@ -209,7 +209,7 @@ Pour tous réels $x,y$,
 \cosh(x+y)&=\cosh x\cosh y+\sinh x\sinh y.
 \end{aligned}
 \]
-\end{prop}
+\end{proposition}
 
 \begin{proof}
 \[
@@ -220,7 +220,7 @@ La formule pour $\cosh(x+y)$ se démontre de façon analogue.
 \end{proof}
 
 
-\begin{prop}[Dérivées usuelles]
+\begin{proposition}[Dérivées usuelles]
 \[
 \begin{aligned}
 (\sinh x)'&=\cosh x,\\
@@ -231,13 +231,13 @@ La formule pour $\cosh(x+y)$ se démontre de façon analogue.
 (\coth x)'&=-\operatorname{csch}^2 x.
 \end{aligned}
 \]
-\end{prop}
+\end{proposition}
 
 \begin{proof}
 Direct par dérivation des définitions à l’aide de $e^x$.
 \end{proof}
 
-\begin{prop}[Séries de Taylor]
+\begin{proposition}[Séries de Taylor]
 Pour tout $x\in\mathbb R$ :
 \[
 \begin{aligned}
@@ -245,16 +245,16 @@ Pour tout $x\in\mathbb R$ :
 \cosh x &= \sum_{n=0}^{\infty}\frac{x^{2n}}{(2n)!}=1+\frac{x^2}{2!}+\frac{x^4}{4!}+\cdots.
 \end{aligned}
 \]
-\end{prop}
+\end{proposition}
 
-\begin{prop}[Limites et asymptotiques]
+\begin{proposition}[Limites et asymptotiques]
 \begin{enumerate}
 \item $\displaystyle \lim_{x\to+\infty}\sinh x=\lim_{x\to+\infty}\cosh x=+\infty$, et $\cosh x\sim\frac{e^{x}}{2}$, $\sinh x\sim\frac{e^{x}}{2}$ quand $x\to+\infty$.
 \item $\displaystyle \lim_{x\to-\infty}\sinh x=-\infty$, $\cosh x\to+\infty$, et $\tanh x\to\pm1$ quand $x\to\pm\infty$.
 \end{enumerate}
-\end{prop}
+\end{proposition}
 
-\begin{prop}[Fonctions hyperboliques inverses]
+\begin{proposition}[Fonctions hyperboliques inverses]
 \[
 \begin{aligned}
 \operatorname{arsinh} x&=\ln\big(x+\sqrt{x^2+1}\big),\qquad (\operatorname{arsinh} x)'=\frac{1}{\sqrt{1+x^2}},\\[4pt]
@@ -262,9 +262,9 @@ Pour tout $x\in\mathbb R$ :
 \operatorname{artanh} x&=\tfrac{1}{2}\ln\!\big(\tfrac{1+x}{1-x}\big)\quad(|x|<1),\qquad (\operatorname{artanh} x)'=\frac{1}{1-x^2}.
 \end{aligned}
 \]
-\end{prop}
+\end{proposition}
 
-\begin{prop}[Intégrales usuelles]
+\begin{proposition}[Intégrales usuelles]
 \[
 \begin{aligned}
 \int \sinh x\,dx &=\cosh x + C,\\
@@ -274,9 +274,9 @@ Pour tout $x\in\mathbb R$ :
 \int \operatorname{sech}\,x\,dx &= 2\arctan\big(\tanh(\tfrac x2)\big)+C.
 \end{aligned}
 \]
-\end{prop}
+\end{proposition}
 
-\begin{prop}[Identités supplémentaires]
+\begin{proposition}[Identités supplémentaires]
 \[
 \begin{aligned}
 \cosh(2x)&=\cosh^2x+\sinh^2x=2\cosh^2x-1=1+2\sinh^2x,\\
@@ -284,31 +284,31 @@ Pour tout $x\in\mathbb R$ :
 \tanh(2x)&=\frac{2\tanh x}{1+\tanh^2 x}.
 \end{aligned}
 \]
-\end{prop}
+\end{proposition}
 
-\begin{prop}[Solutions d'équation différentielle simple]
+\begin{proposition}[Solutions d'équation différentielle simple]
 L'équation $y''=y$ admet la base de solutions $\{\cosh x,\sinh x\}$.  
 Ainsi, la solution générale est
 \[
 y(x)=A\cosh x+B\sinh x,\qquad A,B\in\mathbb R.
 \]
-\end{prop}
+\end{proposition}
 
-\begin{prop}[Lien avec les fonctions trigonométriques]
+\begin{proposition}[Lien avec les fonctions trigonométriques]
 La substitution $x\mapsto ix$ relie les fonctions trigonométriques et hyperboliques :
 \[
 \cos(ix)=\cosh x,\qquad \sin(ix)=i\sinh x.
 \]
-\end{prop}
+\end{proposition}
 
 
-\begin{prop}[Formules d'exponentielle utiles]
+\begin{proposition}[Formules d'exponentielle utiles]
 \[
 e^x=\cosh x+\sinh x,\qquad e^{-x}=\cosh x-\sinh x.
 \]
-\end{prop}
+\end{proposition}
 
-\commentaire{
+\begin{commentaire}
 \textbf{Remarques pratiques :}
 \begin{itemize}
 \item La substitution $t=\tanh(x/2)$ simplifie souvent les intégrales rationnelles en $\sinh$ et $\cosh$.
@@ -317,7 +317,7 @@ e^x=\cosh x+\sinh x,\qquad e^{-x}=\cosh x-\sinh x.
 \end{itemize}
 
 \vspace{6pt}
-\noindent\textbf{Table récapitulative}
+\textbf{Table récapitulative}
 \[
 \begin{array}{l|l}
 \text{Fonction} & \text{Dérivée}\\\hline
@@ -329,7 +329,7 @@ e^x=\cosh x+\sinh x,\qquad e^{-x}=\cosh x-\sinh x.
 \coth x & -\operatorname{csch}^2 x
 \end{array}
 \]
-}
+\end{commentaire}
 
 
 \newpage
@@ -339,7 +339,7 @@ e^x=\cosh x+\sinh x,\qquad e^{-x}=\cosh x-\sinh x.
 Les développements limités (DL) permettent d’approcher une fonction par un polynôme au voisinage d’un point, le plus souvent $0$.  
 Ils sont fondamentaux pour l’analyse locale des fonctions, les approximations numériques et les calculs de limites.
 
-\begin{defi}[Développement limité]
+\begin{definition}[Développement limité]
 Soit $f$ une fonction définie dans un voisinage de $a\in\mathbb R$.  
 On dit que $f$ admet un \emph{développement limité à l’ordre $n$ en $a$} si :
 \[
@@ -351,10 +351,10 @@ Autrement dit :
 \[
 P_n(x-a) = \sum_{k=0}^n \frac{f^{(k)}(a)}{k!}(x-a)^k.
 \]
-\end{defi}
+\end{definition}
 
 
-\begin{prop}
+\begin{proposition}
 \begin{enumerate}
 \item Si $f$ est de classe $\mathcal C^n$ au voisinage de $a$, alors elle admet un DL à l’ordre $n$ en $a$.
 \item Si $f$ et $g$ admettent des DL au voisinage de $a$, alors :
@@ -367,10 +367,10 @@ P_n(x-a) = \sum_{k=0}^n \frac{f^{(k)}(a)}{k!}(x-a)^k.
 \]
 \item Le DL est \textbf{unique} : si $f(x)=P(x)+o((x-a)^n)=Q(x)+o((x-a)^n)$, alors $P=Q$.
 \end{enumerate}
-\end{prop}
+\end{proposition}
 
 
-\begin{prop}[Développements limités usuels en $0$]
+\begin{proposition}[Développements limités usuels en $0$]
 On a, pour $x$ réel petit :
 \[
 \begin{aligned}
@@ -386,7 +386,7 @@ e^x &= 1 + x + \frac{x^2}{2!} + \frac{x^3}{3!} + \frac{x^4}{4!} + o(x^4),\\[6pt]
 \frac{1}{1-x} &= 1 + x + x^2 + x^3 + o(x^3)\quad(|x|<1).
 \end{aligned}
 \]
-\end{prop}
+\end{proposition}
 
 \begin{proof}
 Ces développements se déduisent de la série de Taylor :
@@ -396,7 +396,7 @@ f(x) = \sum_{k=0}^{n} \frac{f^{(k)}(0)}{k!}x^k + o(x^n),
 ou par manipulation algébrique (produit, quotient, inversion de série).
 \end{proof}
 
-\begin{prop}[Comportement du reste]
+\begin{proposition}[Comportement du reste]
 Si $f$ est de classe $\mathcal C^{n+1}$ au voisinage de $a$, on peut écrire :
 \[
 f(x) = P_n(x-a) + R_n(x),
@@ -405,46 +405,46 @@ avec une \emph{forme de Lagrange du reste} :
 \[
 R_n(x) = \frac{f^{(n+1)}(\xi)}{(n+1)!}(x-a)^{n+1},\quad \xi\in(a,x).
 \]
-\end{prop}
+\end{proposition}
 
 
-\begin{prop}[DL de fonctions composées]
+\begin{proposition}[DL de fonctions composées]
 Si $f$ admet un DL en $a$ et $g$ admet un DL en $f(a)$, alors :
 \[
 g(f(x)) = g(f(a)) + g'(f(a))(f(x)-f(a)) + \cdots
 \]
 On procède en remplaçant le DL de $f$ dans celui de $g$ et en développant à l’ordre voulu.
-\end{prop}
+\end{proposition}
 
 
-\commentaire{
+\begin{commentaire}
 \[
 \begin{aligned}
 \sin(x^2) &= x^2 - \frac{(x^2)^3}{3!} + o(x^6) = x^2 - \frac{x^6}{6} + o(x^6),\\[6pt]
 e^{\sin x} &= 1 + \sin x + \frac{(\sin x)^2}{2} + o(x^2) = 1 + x + \frac{x^2}{2} - \frac{x^3}{6} + o(x^3).
 \end{aligned}
 \]
-}
+\end{commentaire}
 
-\begin{prop}[Règles pratiques de calcul de DL]
+\begin{proposition}[Règles pratiques de calcul de DL]
 \begin{enumerate}
 \item On ne garde que les termes jusqu’à l’ordre demandé.
 \item On remplace successivement les fonctions par leur DL tronqué.
 \item On simplifie à chaque étape (en négligeant les $o(x^n)$ inutiles).
 \item On peut utiliser des logiciels de calcul formel pour vérifier (par ex. \texttt{sympy} ou \texttt{Maple}).
 \end{enumerate}
-\end{prop}
+\end{proposition}
 
-\begin{prop}[Applications classiques]
+\begin{proposition}[Applications classiques]
 \begin{enumerate}
 \item \textbf{Calcul de limites} : $\displaystyle \lim_{x\to0}\frac{\sin x}{x}=1$ découle du DL de $\sin x$.
 \item \textbf{Études de fonctions} : signe, convexité, asymptotes locales.
 \item \textbf{Approximation numérique} : $e^x\simeq 1+x+\frac{x^2}{2}$ pour $|x|\ll1$.
 \end{enumerate}
-\end{prop}
+\end{proposition}
 
 \vspace{0.4cm}
-\noindent\textbf{Table récapitulative des développements limités usuels :}
+\textbf{Table récapitulative des développements limités usuels :}
 \[
 \begin{array}{l|l}
 \text{Fonction} & \text{Développement limité en } 0\\\hline
