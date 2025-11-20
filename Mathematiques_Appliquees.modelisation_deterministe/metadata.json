@@ -1,5 +1,8 @@
 {
   "nom": "Modélisation Déterministe",
   "semestre": "M1S1",
-  "resume": "Introduction à l'épidémiologie / Modèles SI, SIS, SIR / Étude de systèmes d'équations différentielles ordinaires"
+  "resume": "Introduction à l'épidémiologie / Modèles SI, SIS, SIR / Étude de systèmes d'équations différentielles ordinaires",
+  "fichiers": [
+    {"nom": "Cours", "fichier": "Cours.pdf"}
+  ]
 }
