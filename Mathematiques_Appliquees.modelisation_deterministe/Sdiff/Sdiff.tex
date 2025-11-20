@@ -18,15 +18,15 @@ est une fonction non linéaire de $x_1, \cdots , x_n $. Malheureusement, il n'ex
 
 \begin{enumerate}
 \item Existe t-il un point $x^* = (x_1^* , \cdots , x_n^*)^T$ ne dépendant pas de $t$, solution de (\ref{equa:5.1})? Un tel point s'il existe est appelé \textbf{point d'équilibre}.
-\item Soit $\Phi$ et $\Gamma$ deux solutions de (\ref{equa:5.1}) tells que $\Gamma(0)$ soit \textit{proche} de $\Phi(0)$,c'est-à-dire pour $j \in \{ 1, \cdots , n \} , \Gamma_j (0)$ \textit{proche} de $ \Phi_j(0) $. La solution $\Gamma$ restera t'elle \textit{proche} de $\Phi(t)$ ou s'en \textit{éloignera} t-elle lorsque $t$ tend vers l'infini?
+\item Soit $\Phi$ et $\Gamma$ deux solutions de (\ref{equa:5.1}) tells que $\Gamma(0)$ soit "proche" de $\Phi(0)$,c'est-à-dire pour $j \in \{ 1, \cdots , n \} , \Gamma_j (0)$ "proche de $ \Phi_j(0) $. La solution $\Gamma$ restera t'elle "proche" de $\Phi(t)$ ou s'en "éloignera" t-elle lorsque $t$ tend vers l'infini?
 
 C'est le problème de \textbf{stabilité} : problème fondamental dans l'étude qualitative des équations différentielles.
 \item Que se passe t-il pour les solutions $x(t)$ de (\ref{equa:5.1}) lorsque $t$ tend ver l'infini? Tendent-elles toutes vers des points d'équilibre? Si tel n'est pas le cas, tendent-elles alors vers une solution périodique?
 \end{enumerate}
 
-\begin{defi}[Point d'équilibre]
+\begin{definition}[Point d'équilibre]
 $x^* = (x_1^* , \cdots , x_n^*) \in \mathbb{R}^n$  est un point d'equilibre de (\ref{equa:5.1}) si, et seulment si, $f(t,x^*)\equiv 0$.
-\end{defi}
+\end{definition}
 
 \begin{exemple}
 Chercher tous les points d'équilibre du système d'equations différentielles:
@@ -64,13 +64,13 @@ Dans cette section, nous nous intéressons au problème de la stabilité d'un po
 \dot{x} = f(x)
 \end{equation}
 
-Nous voulons savoir quand $x^*$ est stable, asymptotiquement stable ou instable, c'est-à-dire nous voulons savoir si tout solution $\Phi$ de (\ref{equa:5.2}) \textit{suffisamment proche} de $x^*$ à l'instant $t=0$, reste \textit{proche} de $x^*$ pour tour instant $t>0$.
+Nous voulons savoir quand $x^*$ est stable, asymptotiquement stable ou instable, c'est-à-dire nous voulons savoir si tout solution $\Phi$ de (\ref{equa:5.2}) "suffisamment proche" de $x^*$ à l'instant $t=0$, reste "proche" de $x^*$ pour tour instant $t>0$.
 
 Cette notion est due au mathématicien russe Aleksandr Lyapounov (1857-1918).
 
-\begin{defi}[Stabilité, Stabilité asymptotique, Instabilité]
+\begin{definition}[Stabilité, Stabilité asymptotique, Instabilité]
 \begin{enumerate}
-\item U point d'équilibre $x^*$ de (\ref{equa:5.2}) est stable si toute solution $\Phi$ de (\ref{equa:5.2}) \textit{suffisamment proche} de $x^*$ à l'instant $t=0$ reste \textit{proche} de $x^*$ pour tout $t>0$. Autrement dit, $x^*$ est stable si pour tout $\varepsilon >0$, il existe un $\delta >0$, tel que pour toute solution $\Phi$ de (\ref{equa:5.2}), on ait:
+\item U point d'équilibre $x^*$ de (\ref{equa:5.2}) est stable si toute solution $\Phi$ de (\ref{equa:5.2}) "suffisamment proche" de $x^*$ à l'instant $t=0$ reste "proche" de $x^*$ pour tout $t>0$. Autrement dit, $x^*$ est stable si pour tout $\varepsilon >0$, il existe un $\delta >0$, tel que pour toute solution $\Phi$ de (\ref{equa:5.2}), on ait:
 
 \[ | \Phi_j(t) -x^* | < \varepsilon \quad \text{si} \quad |\Phi_j(0) - x^*| < \delta(\varepsilon ) \quad j = \{ 1 , \cdots , n \} \quad t>0 \]
 
@@ -78,9 +78,9 @@ Ou de manière équivalente
 
 \[ \| \Phi(0) - x^* \| < \delta \Rightarrow \|\Phi(t) - x^* \| < \varepsilon, \quad \forall t >0 \]
 \item Si de plus, $\delta$ peut être choisi de sorte que $x^*$ soit stable et que $\lim_{t \to \infty} \| \Phi(t) - x^* \| =0$, c'est-à-dire $\lim_{t \to \infty} \Phi = x^*$, alors $x^*$ est dit asymptotiquement stable.
-\item $x^*$ est dit instable si $x^*$ n'est pas stable. Autrement dit, s'il existe une solution $\Phi$ de (\ref{equa:5.2}) qui soit \textit{proche} de $x^*$ à $t=0$ mais qui ne le soit plus ("proche") pour $t>0$.
+\item $x^*$ est dit instable si $x^*$ n'est pas stable. Autrement dit, s'il existe une solution $\Phi$ de (\ref{equa:5.2}) qui soit "proche" de $x^*$ à $t=0$ mais qui ne le soit plus ("proche") pour $t>0$.
 \end{enumerate}
-\end{defi}
+\end{definition}
 
 \begin{figure}[h]
 \centering
@@ -98,7 +98,7 @@ La stabilité peut être complètement résolue dans le cas des equations diffé
 
 Cela n'est pas une surprise dans la mesure où l'equation (\ref{equa:5.3}) peut être compkètement résolue (algèbre linéaire).
 
-\commentaire{
+\begin{commentaire}
 
 On a:
 
@@ -164,12 +164,11 @@ et la solution du système différentiel est :
 \boxed{ Y(t) =  P e^{J (t - t_0)} P^{-1} Y_0. }
 \]
 \end{enumerate}
-
-}
+\end{commentaire}
 
 On a le théorème important:
 
-\begin{theo}\label{theo:5.3.1}
+\begin{theoreme}\label{theo:5.3.1}
 Le point d'équilibre $0$ de (\ref{equa:5.3}) est:
 
 \begin{enumerate}
@@ -181,11 +180,11 @@ Le point d'équilibre $0$ de (\ref{equa:5.3}) est:
 
 où tous les zéros de $Q$ sont de partie réelle strictement négative. Alors, $0$ est stable si pour tout $j \in \{ 1, \cdots , p \}$ la dimension du sous-espace propre associé à $i \sigma_j$ est égale à $n_j$. Dans le cas contraire, $0$ est instable.
 \end{enumerate}
-\end{theo}
+\end{theoreme}
 
-\begin{defi}[Hyperbolicité d'un point d'équilibre de (\ref{equa:5.3})]
+\begin{definition}[Hyperbolicité d'un point d'équilibre de (\ref{equa:5.3})]
 Le point d'équilibre $0$ (ou la matrice $A$) de (\ref{equa:5.3}) est dit(e) \textbf{hyperbolique} si pour tout $\lambda \in Sp(A) , Re(\lambda) \neq 0$.
-\end{defi}
+\end{definition}
 
 \begin{exemple}
 
@@ -247,7 +246,7 @@ Si $g(x) = \begin{pmatrix} x_1 x_2^2 \\  x_1 x_2 \end{pmatrix}$ alors $\frac{x_1
 
 Si $g(0)=0$, alors $x(t) \equiv 0$ est un pont d'équilibre de (\ref{equa:5.4}). Nous voudrions savoir si ce point est stable ou instable. A première vue, il semble impossible de répondre à cette question car nous ne savons pas résoudre explicitement l'équation (\ref{equa:5.4}). Toutefois, si $x$ est très petit, alors $g(x)$ l'est devant $Ax$. Ainsi, il paraît intuitif que la stabilité du point d'équilibre $x(t) \equiv 0$ de (\ref{equa:5.4}) soit déterminée par la stabilité de la partie linéaire de l'équation \ref{equa:5.4}): $\dot{x} = Ax$.
 
-\begin{theo}\label{theo:5.4.1}
+\begin{theoreme}\label{theo:5.4.1}
 Supposons que $\frac{g(x)}{\| x \|} = \frac{g(x)}{\max \{ |x_1| , \cdot , |x_n| \}}$ soit une fonction continue des variables $x_1, \cdots , x_n $ nulle en $x=0$. Alors:
 
 \begin{enumerate}
@@ -256,7 +255,7 @@ Supposons que $\frac{g(x)}{\| x \|} = \frac{g(x)}{\max \{ |x_1| , \cdot , |x_n|�
 \item La stabilité de $x(t) \equiv 0$ de (\ref{equa:5.4}) ne peut pas être déduite de celle du point $x(t) \equiv 0$ du système $\dot{x} = Ax$ si toutes les valeurs propres de $A$ sont de parie réelle $\leq 0$ avec au moins l'une d'entre elle, imaginaire pure.
 \end{enumerate}
 
-\end{theo}
+\end{theoreme}
 
 \begin{exemple}
 Soit le système différentiel:
@@ -335,7 +334,7 @@ A = \begin{pmatrix}
 
 \end{proof}
 
-\begin{algo}
+\begin{proposition}
 
 Le Théorème \ref{theo:5.4.1} et le Lemme \ref{lemme:5.5.1} nous fournissent un algorithme d'étude de la stabilité d'un point d'équilibre $x(t) = x^*$ de l'équation $\dot{x}=f(x)$:
 
@@ -349,11 +348,11 @@ Le Théorème \ref{theo:5.4.1} et le Lemme \ref{lemme:5.5.1} nous fournissent un
 \end{itemize}
 \end{enumerate}
 
-\end{algo}
+\end{proposition}
 
-\begin{defi}[Hyperbolicité d'un point d'équilibre de \ref{equa:5.6}]
+\begin{definition}[Hyperbolicité d'un point d'équilibre de \ref{equa:5.6}]
 L'équilibre $x^*$ est dit \textbf{hyperbolique} si la matrice $A$ du système linéarisé autour de $x*$ n'a aucune valeur propre de partie réelle nulle.
-\end{defi}
+\end{definition}
 
 \begin{exemple}
 Soit le système différentiel:
