@@ -11,7 +11,9 @@ Chercher tous les points d'équilibre du système d'équations différentielles:
 \frac{dy}{dt}=(x+1)(y+1)
 \end{cases}
 \]
+
 \end{enonce}
+
 \begin{correction}
 On cherche les points d'équilibre 
 
@@ -48,14 +50,29 @@ y' = (-1+1)(1+1) = 0
 On a donc les points d'équilibres $P_{eq}^{(1)} = (1,-1)$ et $P_{eq}^{(2)} = (-1,1)$.
 \end{correction}
 
+
+
 \exo
 
 \begin{enonce}
 Soit $A = \begin{pmatrix} 2 & -3 & 0 \\ 0 & -6 & -2 \\ -6 & 0 & -3 \end{pmatrix}$. Montrer que la solution nulle de l'équation différentielle $\dot{x} = Ax$ est instable.
 \end{enonce}
 \begin{correction}
-On a le
+On a que:
+
+\begin{align*}
+det(A - \lambda) &= \begin{vmatrix} 2 - \lambda & -3 & 0 \\ 0 & -6 - \lambda & -2 \\ -6 & 0 & -3 - \lambda \end{vmatrix} \\
+&= (2- \lambda) \cdot \begin{vmatrix}  -6 - \lambda & -2 \\ 0 & -3 - \lambda \end{vmatrix}  -(-3)- \cdot \begin{vmatrix} 0 & -2 \\ -6 & -3 - \lambda \end{vmatrix}  + 0 \cdot \begin{vmatrix} 0 & -6 - \lambda \\ -6 & 0 \end{vmatrix}  \\
+&= (2 - \lambda) \left[ (6 + \lambda)(3+ \lambda) \right] +3 [-12] \\
+&= (2 - \lambda) [18 +9\lambda + \lambda^2] -36 \\
+&= -\lambda^3 -7\lambda^2 \\
+&= -\lambda^2 (\lambda +7)
+\end{align*}
+
+Donc on a $Sp(A)= \{ -7 , 0\}$ avec $0$ de multiplicité $2$.
+
 \end{correction}
+
 
 \exo
 
@@ -142,7 +159,7 @@ y' = 1 \cdot 1 - 1 = 1
 
 On a donc les points d'équilibres $P_{eq}^{(1)} = (0,0)$ et $P_{eq}^{(2)} = (1,1)$.
 
-------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------
 
 Soit $A(P(x,y))$ la matrice jacobienne du système linéaire au tour du point $P(x,y)$, alors:
 
@@ -237,7 +254,7 @@ y' = 1 - 1 = 0
 
 On a donc les points d'équilibres $P_{eq}^{(1)} = (0,0)$ et $P_{eq}^{(2)} = (1,1)$ et $P_{eq}^{(3)} = (-1,1)$ .
 
-------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------
 
 Soit $A(P(x,y))$ la matrice jacobienne du système linéaire au tour du point $P(x,y)$, alors:
 
@@ -340,7 +357,7 @@ y' = 4 \cdot 0  - 1 \cdot 0 = 0
 
 On a donc les points d'équilibres $P_{eq} = (0,0)$ .
 
-------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------
 
 Soit $A(P(x,y))$ la matrice jacobienne du système linéaire au tour du point $P(x,y)$, alors:
 
@@ -358,61 +375,13 @@ A(P(x,y))=
 
 On regarde le spectre:
 
-\[ \chi_{\lambda}(A) = A - \lambda I_2 = \lambda^2 - Tr(A) \lambda + det(A) =  \lambda^2 - 4 \lambda +11  = 0 \Rightarrow Sp(A) = \{ 2-i \sqrt{7} , 2+i\sqrt{7} \}  \]
+\[ \chi_{\lambda}(A) = A - \lambda I_2 = \lambda^2 - Tr(A) \lambda + det(A) =  \lambda^2 - 4 \lambda +11  = 0 \]
+
+\[ \Rightarrow Sp(A) = \{ 2-i \sqrt{7} , 2+i\sqrt{7} \}  \]
 
 Puisque $\forall \lambda \in Sp(A) , Re(\lambda) = 2 > 0 $ On a des points d'équilibre hyperbolique instable. 
 
-------------------------------------------------------------------------------------------------------------------------
-
-
-
-
-
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-
+-----------------------------------------------------------------------------------------------------------
 
 On peut écrire l'equation: 
 
@@ -457,17 +426,6 @@ y(t) = e^{2t} \left( \frac{4}{\sqrt{7}} \sin(\sqrt{7} t) x_0 + ( \cos(\sqrt{7} t
 \end{correction}
 
 
-
-
-
-
-
-
-
-
-
-
-
 \exo
 
 \begin{enonce}
@@ -488,21 +446,122 @@ x(0) \geq 0 \quad , \quad y(0)\geq 0
 \ques Pour chaque point d'équilibre hyperbolique, étudier sa stabilité.
 
 \end{enonce}
+
 \begin{correction}
-\end{correction}
+\ques Détermination des points d'équilibre
+
+Les points d'équilibre sont les solutions du système :
+
+\[
+\begin{cases}
+x(4-x-2y) = 0 \\
+y(x-y-1) = 0
+\end{cases}
+\]
+
+\begin{itemize}
+\item Cas 1 : $x = 0$. La deuxième équation donne : $y(-y-1) = 0$
+
+Soit $y = 0$ ou $y = -1$.Puisque $y(0) \geq 0$, on obtient le point $\boxed{E_1 = (0, 0)}$
+\item Cas 2 : $y = 0$ et $x \neq 0$. La première équation donne : $x(4-x) = 0$
+
+Soit $x = 4$ ou $x = 0$. On obtient le point $\boxed{E_2 = (4, 0)}$
+\item Cas 3 : $x \neq 0$ et $y \neq 0$.
+
+De la première équation : $4 - x - 2y = 0 \Rightarrow x = 4 - 2y$.
+
+De la deuxième équation : $x - y - 1 = 0 \Rightarrow x = y + 1$.
+
+En égalisant : $4 - 2y = y + 1 \Rightarrow 3 = 3y \Rightarrow y = 1 \Rightarrow x = 1 + 1 = 2$.
+
+On obtient le point $\boxed{E_3 = (2, 1)}$
+\end{itemize}
+
+Le système s'écrit sous la forme :
+
+\[
+\begin{cases}
+f(x,y) = x(4-x-2y) = 4x - x^2 - 2xy \\
+g(x,y) = y(x-y-1) = xy - y^2 - y
+\end{cases}
+\]
+
+Les dérivées partielles sont :
+
+\[ \frac{\partial f}{\partial x} = 4 - 2x - 2y, \quad \frac{\partial f}{\partial y} = -2x \]
+\[ \frac{\partial g}{\partial x} = y, \quad \frac{\partial g}{\partial y} = x - 2y - 1 \]
+
+La matrice jacobienne est :
+
+\[ J(x,y) = \begin{pmatrix} 4 - 2x - 2y & -2x \\ y & x - 2y - 1 \end{pmatrix}\]
+
+\begin{itemize}
+\item Au point $E_1 = (0, 0)$ :
+
+\[ J(0,0) = \begin{pmatrix} 4 & 0 \\ 0 & -1 \end{pmatrix} \]
+\item Au point $E_2 = (4, 0)$ :
+
+\[ J(4,0) = \begin{pmatrix} 4 - 8 - 0 & -8 \\ 0 & 4 - 0 - 1 \end{pmatrix} = \begin{pmatrix} -4 & -8 \\ 0 & 3 \end{pmatrix} \]
+\item Au point $E_3 = (2, 1)$ :
+
+\[ J(2,1) = \begin{pmatrix} 4 - 4 - 2 & -4 \\ 1 & 2 - 2 - 1 \end{pmatrix} = \begin{pmatrix} -2 & -4 \\ 1 & -1 \end{pmatrix} \]
+\end{itemize}
+
+\ques Un point d'équilibre est hyperbolique si aucune valeur propre de la jacobienne n'a une partie réelle nulle.
+
+\begin{itemize}
+\item Point $E_1 = (0, 0)$
+
+Les valeurs propres de $J(0,0) = \begin{pmatrix} 4 & 0 \\ 0 & -1 \end{pmatrix}$ sont :
+
+\[ \lambda_1 = 4, \quad \lambda_2 = -1 \]
+
+Aucune valeur propre n'a une partie réelle nulle, donc $E_1$ est hyperbolique.
+\item Point $E_2 = (4, 0)$
+
+Les valeurs propres de $J(4,0) = \begin{pmatrix} -4 & -8 \\ 0 & 3 \end{pmatrix}$ sont :
+
+\[ \lambda_1 = -4, \quad \lambda_2 = 3 \]
+
+Aucune valeur propre n'a une partie réelle nulle. $E_2$ est hyperbolique.
+\item Point $E_3 = (2, 1)$. Le polynôme caractéristique de $J(2,1) = \begin{pmatrix} -2 & -4 \\ 1 & -1 \end{pmatrix}$ est $= \lambda^2 + 3\lambda + 6$.
+
+Le discriminant est $\Delta = 9 - 24 = -15 < 0$. Les valeurs propres sont complexes conjuguées :
+
+\[ \lambda = \frac{-3 \pm i\sqrt{15}}{2} \]
+
+La partie réelle est $-\frac{3}{2} \neq 0$. $E_3$ est hyperbolique.
+\end{itemize}
+
+\ques
+
+\begin{itemize}
+\item Point $E_1 = (0, 0)$. Valeurs propres : $\lambda_1 = 4 > 0$ et $\lambda_2 = -1 < 0$
+
+Il y a une valeur propre positive et une négative. $E_1$ est un point selle (instable).
+\item Point $E_2 = (4, 0)$. Valeurs propres : $\lambda_1 = -4 < 0$ et $\lambda_2 = 3 > 0$
+
+Il y a une valeur propre positive et une négative. $E_2$ est un point selle (instable).
+\item Point $E_3 = (2, 1)$. Valeurs propres : $\lambda = \frac{-3 \pm i\sqrt{15}}{2}$
+
+Les deux valeurs propres ont une partie réelle $\text{Re}(\lambda) = -\frac{3}{2} < 0$. $E_3$ est asymptotiquement stable.
+\end{itemize}
+\end{correction} 
 
 \exo
 
 \begin{enonce}
 Soient $D = \{ (u,v) \in \mathbb{R}^2 , \quad u \geq 0, v \geq 0 \} $, le premier quadrant de $\mathbb{R}^2$ et le système différentiel suivant :
 
-\[ \begin{cases} 
-x' = -axy-bx+c
-y' = axy-dy
+\[ 
+\begin{cases} 
+x' = -axy-bx+c\\
+y' = axy-dy \\
 a >0 \quad b>0 \quad d>0 \\
 c \geq 0 \\
 ( x(0) , y(0) ) \in D
-\end{cases} \]
+\end{cases} 
+\]
 
 \ques Déterminer les points d'équilibre de ce système.
 \ques Ces points d'équilibre existe-t-ils toujours dans $D$? Sinon donner une condition nécessaire d'existence dans $D$. Lorsque l'existence dans $D$ de l'un d'entre eux n'est pas toujours assurée, exprimer cette condition (d'existence dans $D$) à l'aide d'une relation faisant intervenir une quantité que l'on notera $\mathcal{R}_0$.
@@ -513,6 +572,254 @@ c \geq 0 \\
 
 \end{enonce}
 \begin{correction}
+
+\ques Les points d'équilibre sont les solutions du système :
+
+\[
+\begin{cases}
+-axy - bx + c = 0 \\
+axy - dy = 0
+\end{cases}
+\]
+
+En ajoutant les deux équations :
+
+\[ -bx - dy + c = 0 \quad \Rightarrow \quad bx + dy = c \quad \quad (*) \]
+
+De la deuxième équation : $axy = dy$
+
+\begin{itemize}
+\item Cas 1 : $y = 0$. De l'équation $(*)$ : $bx = c \Rightarrow x = \frac{c}{b}$.
+
+Point d'équilibre : $\boxed{E_1 = \left(\frac{c}{b}, 0\right)}$
+\item Cas 2 : $y \neq 0$. De la deuxième équation : $ax = d \Rightarrow x = \frac{d}{a}$
+
+De l'équation $(*)$ : $b \cdot \frac{d}{a} + dy = c \Rightarrow dy = c - \frac{bd}{a} \Rightarrow y = \frac{c}{d} - \frac{b}{a}$
+
+Point d'équilibre : $\boxed{E_2 = \left(\frac{d}{a}, \frac{c}{d} - \frac{b}{a}\right)}$
+\end{itemize}
+
+\ques Le domaine $D = \{(x,y) \in \mathbb{R}^2 : x \geq 0, y \geq 0\}$ est le premier quadrant.
+
+\begin{itemize}
+\item Point $E_1 = \left(\frac{c}{b}, 0\right)$
+
+Comme $b > 0$ et $c \geq 0$, on a $\frac{c}{b} \geq 0$.
+
+$E_1$ existe toujours dans $D$.
+\item Point $E_2 = \left(\frac{d}{a}, \frac{ac - bd}{ad}\right)$
+
+La première coordonnée : $\frac{d}{a} > 0$ (toujours positive) eta deuxième coordonnée : $y = \frac{ac - bd}{ad}$ doit satisfaire $y \geq 0$
+
+$$\frac{ac - bd}{ad} \geq 0 \quad \Rightarrow \quad ac - bd \geq 0 \quad \Rightarrow \quad ac \geq bd$$
+
+Condition d'existence de $E_2$ dans $D$ : $\boxed{ac \geq bd}$
+\end{itemize}
+
+On définit :
+
+$$\boxed{\mathcal{R}_0 = \frac{ac}{bd}}$$
+
+La condition d'existence de $E_2$ dans $D$ s'écrit :
+
+\[ \boxed{\mathcal{R}_0 \geq 1} \]
+
+Interpretation :
+
+\begin{itemize}
+\item Si $\mathcal{R}_0 < 1$ : seul $E_1$ existe dans $D$
+\item Si $\mathcal{R}_0 \geq 1$ : les deux points $E_1$ et $E_2$ coexistent dans $D$
+\item Si $\mathcal{R}_0 = 1$ : le point $E_2$ se réduit à $E_1$ (cas limite)
+\end{itemize}
+
+\ques Calcul de la matrice jacobienne
+
+Le système s'écrit :
+
+\[
+\begin{cases}
+f(x,y) = -axy - bx + c \\
+g(x,y) = axy - dy
+\end{cases}
+\]
+
+Les dérivées partielles sont :
+
+\begin{itemize}
+\item $\frac{\partial f}{\partial x} = -ay - b, \quad \frac{\partial f}{\partial y} = -ax$
+\item $\frac{\partial g}{\partial x} = ay, \quad \frac{\partial g}{\partial y} = ax - d$
+\end{itemize}
+
+La matrice jacobienne est :
+
+\[ 
+J(x,y) = \begin{pmatrix} -ay - b & -ax \\ ay & ax - d \end{pmatrix}
+\]
+
+\bigskip
+
+Point $E_1 = \left(\frac{c}{b}, 0\right)$
+
+\[ 
+J(E_1) = \begin{pmatrix} -b & -\frac{ac}{b} \\ 0 & \frac{ac}{b} - d \end{pmatrix}
+\]
+
+Les valeurs propres sont les éléments diagonaux (matrice triangulaire) :
+
+\[ \lambda_1 = -b, \quad \lambda_2 = \frac{ac}{b} - d = \frac{ac - bd}{b} \]
+
+\begin{itemize}
+\item $\lambda_1 = -b < 0$ toujours
+\item $\lambda_2 = \frac{ac - bd}{b}$
+\end{itemize}
+
+Pour que $E_1$ soit hyperbolique, il faut $\lambda_2 \neq 0$, c'est-à-dire $ac \neq bd$, ou $\mathcal{R}_0 \neq 1$.
+
+\begin{itemize}
+\item Si $\mathcal{R}_0 \neq 1$ : $E_1$ est hyperbolique
+\item Si $\mathcal{R}_0 = 1$ : $E_1$ est non-hyperbolique (bifurcation)
+\end{itemize}
+
+\bigskip
+
+Point $E_2 = \left(\frac{d}{a}, \frac{ac - bd}{ad}\right)$ (existe quand $\mathcal{R}_0 \geq 1$)
+
+\begin{align*}
+J(E_2) &= \begin{pmatrix} -a \cdot \frac{ac-bd}{ad} - b & -a \cdot \frac{d}{a} \\ a \cdot \frac{ac-bd}{ad} & a \cdot \frac{d}{a} - d \end{pmatrix} \\
+&= \begin{pmatrix} -\frac{ac-bd}{d} - b & -d \\ \frac{ac-bd}{d} & 0 \end{pmatrix} \\
+&= \begin{pmatrix} -\frac{ac-bd+bd}{d} & -d \\ \frac{ac-bd}{d} & 0 \end{pmatrix} \\
+&= \begin{pmatrix} -\frac{ac}{d} & -d \\ \frac{ac-bd}{d} & 0 \end{pmatrix} 
+\end{align*}
+
+Le polynôme caractéristique est :
+
+\begin{align*}
+\det(J - \lambda I) &= \det \begin{pmatrix} -\frac{ac}{d} - \lambda & -d \\ \frac{ac-bd}{d} & -\lambda \end{pmatrix} \\
+&= \left(-\frac{ac}{d} - \lambda\right)(-\lambda) + d \cdot \frac{ac-bd}{d} \\
+&= \frac{ac}{d}\lambda + \lambda^2 + ac - bd \\
+&= \lambda^2 + \frac{ac}{d}\lambda + (ac - bd)
+\end{align*}
+
+Pour que $E_2$ soit hyperbolique, le discriminant doit être non-nul :
+
+\[ \Delta = \left(\frac{ac}{d}\right)^2 - 4(ac - bd) \neq 0 = \frac{a^2c^2}{d^2} - 4ac + 4bd \]
+
+En général, pour $\mathcal{R}_0 > 1$, on a $\Delta > 0$ et les valeurs propres sont réelles.
+
+\bigskip 
+
+\textbf{Conclusion :} $E_2$ est hyperbolique quand il existe dans $D$ (c'est-à-dire quand $\mathcal{R}_0 > 1$).
+
+Pour le cas limite $\mathcal{R}_0 = 1$, les deux points coïncident en un seul point non-hyperbolique.
+
+\ques Stabilité des points d'équilibre hyperboliques
+
+Stabilité de $E_1$ (quand $\mathcal{R}_0 \neq 1$)
+
+Valeurs propres : $\lambda_1 = -b < 0$ et $\lambda_2 = \frac{ac - bd}{b}$
+
+\begin{itemize}
+\item Cas 1 : Si $\mathcal{R}_0 < 1$ (i.e., $ac < bd$), alors $\lambda_2 = \frac{ac - bd}{b} < 0$
+
+Les deux valeurs propres sont négatives, donc $E_1$ est asymptotiquement stable (puits)
+\item Cas 2 : Si $\mathcal{R}_0 > 1$ (i.e., $ac > bd$), alors $\lambda_2 = \frac{ac - bd}{b} > 0$.
+
+Il y a une valeur propre positive, donc $E_1$ est instable (point selle)
+\end{itemize}
+
+\bigskip
+
+Stabilité de $E_2$ (quand $\mathcal{R}_0 > 1$)
+
+Valeurs propres du polynôme $\lambda^2 + \frac{ac}{d}\lambda + (ac - bd) = 0$ :
+
+Les valeurs propres sont : $\lambda_1, \lambda_2 = \frac{-ac \pm \sqrt{a^2c^2 - 4acd^2 + 4bd^3}}{2d}$
+
+Comme $\frac{ac}{d} > 0$ et le produit des racines est $ac - bd > 0$, on a :
+
+\begin{itemize}
+\item La somme des racines : $-\frac{ac}{d} < 0$
+\item Le produit des racines : $ac - bd > 0$
+\end{itemize}
+
+\textbf{Conclusion :} Les deux valeurs propres ont une partie réelle négative, donc $E_2$ est asymptotiquement stable (puits) quand $\mathcal{R}_0 > 1$.
+
+\ques 
+
+Stabilité conjointe des deux points
+
+\textbf{Théorème :} Deux points d'équilibre hyperboliques d'un système autonome en dimension 2 ne peuvent pas être conjointement asymptotiquement stables.
+
+\textbf{Preuve par argument topologique :} Chaque puits attire un bassin de convergence non-vide. Si deux puits coexistaient, leurs bassins seraient disjoints et recouvreraient une partie ouverte du domaine $D$. Cependant, la dynamique du système ne permet pas cette configuration en dimension 2.
+
+Analyse du système :
+
+\begin{itemize}
+\item Quand $\mathcal{R}_0 < 1$ : $E_1$ est stable, $E_2$ n'existe pas
+\item Quand $\mathcal{R}_0 = 1$ : bifurcation transcritique, les deux points fusionnent
+\item Quand $\mathcal{R}_0 > 1$ : $E_1$ devient instable (selle), $E_2$ devient stable
+\end{itemize}
+
+Conclusion: les deux points d'équilibre ne peuvent pas être conjointement stables.
+
+Il existe une bifurcation transcritique au point $\mathcal{R}_0 = 1$ où la stabilité est transférée de $E_1$ à $E_2$.
+
+\ques Quand $c = 0$, le système devient :
+
+\[
+\begin{cases}
+x' = -axy - bx = -x(ay + b) \\
+y' = axy - dy = y(ax - d)
+\end{cases}
+\]
+
+Points d'équilibre:
+
+\begin{itemize}
+\item On a $E_1 = \left(\frac{0}{b} , 0 \right) = (0, 0)$
+\item On a $E_2 = \left(\frac{d}{a}, \frac{0 - bd}{ad}\right) = \left(\frac{d}{a}, -\frac{b}{a}\right)$
+\end{itemize}
+
+Le point $E_2$ n'existe pas dans $D$ car sa deuxième coordonnée est négative. Seul $E_1 = (0, 0)$ existe dans $D$.
+
+\medskip
+
+Matrice jacobienne en $E_1 = (0, 0)$
+
+\[
+J(0, 0) = \begin{pmatrix} -b & 0 \\ 0 & -d \end{pmatrix}
+\]
+
+Valeurs propres : $\lambda_1 = -b < 0$, $\lambda_2 = -d < 0$
+
+Donc $E_1$ est hyperbolique et asymptotiquement stable (puits).
+
+\medskip
+
+Pour $c = 0$, on note $\mathcal{R}_0 = \frac{0}{bd} = 0 < 1$. Le système ne produit pas de comportement endogène (aucune source interne).
+
+Propriétés :
+
+\begin{enumerate}
+\item Domaine invariant : $D$ est invariant. Si $(x(0), y(0)) \in D$, alors $(x(t), y(t)) \in D$ pour tout $t \geq 0$.
+\begin{itemize}
+\item De $x' = -x(ay + b) \leq 0$, $x$ est décroissante
+\item De $y' = y(ax - d)$, si $x < \frac{d}{a}$, alors $y' < 0$, donc $y$ est décroissante
+\end{itemize}  
+\item Convergence globale :*Toute trajectoire converge vers $(0, 0)$.
+\item Interprétation biologique :
+\begin{itemize}
+\item Sans terme source ($c = 0$), le système ne peut maintenir de population à l'équilibre
+\item Les deux espèces s'éteignent exponentiellement
+\item C'est le régime d'extinction
+\end{itemize}   
+\end{enumerate}
+
+
+Conclusion :
+
+\[ \boxed{\text{Pour } c = 0 \text{ : seul } E_1 = (0, 0) \text{ existe et est globalement asymptotiquement stable.}} \]
+
 \end{correction}
 
 \exo
@@ -526,16 +833,132 @@ y'(t) = x - y \sqrt{x^2 + y^2} \\
 x(0) \quad. y(0) \quad \text{ donnés}
  \end{cases} \]
 
-\ques Montrer que ce systéme admet un unique point d'équilibre $P* = (x*,y*)$ de $\mathbb{R}^2$.
-\ques Etudier la stabilité du point $0$, point d'équilibre du système linéarisé autour de $P*$. Peut-on conclure quant à la stabilité de $P*$?
-\ques Soit $d(P(t),P*)$, la distance euclidienne entre le point $P(t) = (x(t),y(t))$ solution du système donné et $P*$. C'est une fonction numérique de la variable $t$ d'expression
+\ques Montrer que ce systéme admet un unique point d'équilibre $P^* = (x^*,y^*)$ de $\mathbb{R}^2$.
+\ques Etudier la stabilité du point $0$, point d'équilibre du système linéarisé autour de $P^*$. Peut-on conclure quant à la stabilité de $P^*$?
+\ques Soit $d(P(t),P^*)$, la distance euclidienne entre le point $P(t) = (x(t),y(t))$ solution du système donné et $P^*$. C'est une fonction numérique de la variable $t$ d'expression
 
-\[ d(P(t),P*) = \sqrt{ ( x(t) - x*)^2 + ( y(t) - y*)^2 } \]
+\[ d(P(t),P^*) = \sqrt{ ( x(t) - x^*)^2 + ( y(t) - y^*)^2 } \]
 
 Etudier les variations de la fonction $d$ puis en déduire la stabilité du point $P$.
 \end{enonce}
+
 \begin{correction}
+Un point d'équilibre satisfait $x'(t) = 0$ et $y'(t) = 0$, soit le système :
+
+\[
+\begin{cases}
+-y - x\sqrt{x^2 + y^2} = 0 \\
+x - y\sqrt{x^2 + y^2} = 0
+\end{cases}
+\]
+
+On obtient (et on note):
+
+\begin{equation}\label{equa:1}
+x = y\sqrt{x^2 + y^2}
+\end{equation}
+
+\begin{equation}\label{equa:2}
+y = -x\sqrt{x^2 + y^2}
+\end{equation}
+
+On multiplie les deux équations
+
+\[
+xy = -xy(x^2 + y^2)
+\]
+
+Cela donne : $xy[1 + (x^2 + y^2)] = 0$. Puisque $1 + (x^2 + y^2) > 0$, on a nécessairement $xy = 0$.
+
+\begin{itemize}
+\item Si $x = 0$, alors de l'équation \ref{equa:1} : $0 = 0$ et de l'équation \ref{equa:2} : $y = 0$.
+\item Si $y = 0$, alors de l'équation \ref{equa:2} : $x = 0$, donc $y = 0$.
+\end{itemize}
+
+Le seul point d'équilibre est $P^* = (0, 0)$.
+
+\ques Calcul de la matrice jacobienne en un point $(x, y)$ :
+
+\[
+F(x,y) = \begin{pmatrix} 
+-y - x\sqrt{x^2 + y^2} \\ 
+x - y\sqrt{x^2 + y^2} 
+\end{pmatrix}
+\]
+
+Posons $r = \sqrt{x^2 + y^2}$.
+
+\[
+\frac{\partial F_1}{\partial x} = -\frac{x^2}{r} - r \quad ; \quad \frac{\partial F_1}{\partial y} = -1 - \frac{xy}{r}
+\]
+
+\[
+\frac{\partial F_2}{\partial x} = 1 - \frac{xy}{r} \quad ; \quad \frac{\partial F_2}{\partial y} = -\frac{y^2}{r} - r
+\]
+
+À l'origine $(0,0)$, nous rencontrons une forme indéterminée. En utilisant la continuité et en passant à la limite, ou directement par développement limité au voisinage de l'origine, on établit que la jacobienne s'écrit formellement comme :
+
+\[
+J_F(0,0) = \begin{pmatrix} 0 & -1 \\ 1 & 0 \end{pmatrix}
+\]
+
+Valeurs propres : 
+
+\[ \det(J_F - \lambda I) = \lambda^2 + 1 = 0 \Rightarrow \lambda = \pm i \]
+
+Les valeurs propres sont purement imaginaires. Le système linéarisé a un centre à l'origine. On ne peut pas conclure directement sur la stabilité de $P^*$ par la théorème de linéarisation (cas critique).
+
+\ques On a avec le point $P^*=(0,0)$:
+
+\[ d(P(t), P^*) = \sqrt{x(t)^2 + y(t)^2} \]
+
+On a:
+
+\[ \frac{d}{dt}d = \frac{x \cdot x' + y \cdot y'}{d} \]
+
+Avec $d \neq 0$, on a :
+
+\begin{align*}
+\dot{d} &= \frac{1}{d}\left[x(-y - x\sqrt{x^2+y^2}) + y(x - y\sqrt{x^2+y^2})\right] \\
+&= \frac{1}{d}\left[-xy - x^2\sqrt{x^2+y^2} + xy - y^2\sqrt{x^2+y^2}\right] \\
+&= \frac{1}{d}\left[-(x^2 + y^2)\sqrt{x^2+y^2}\right] \\
+&= \frac{1}{d} \cdot (-d^2 \cdot d) = -d^3
+\end{align*}
+
+Par conséquent :
+
+\[ \boxed{\dot{d} = -d^3} \]
+
+\textbf{Étude des variations} :
+
+\begin{itemize}
+\item $\dot{d} < 0$ pour tout $d > 0$
+\item La fonction $d(t)$ est strictement décroissante pour toute solution avec $d(0) > 0$
+\item $d(t)$ tend vers $0$ lorsque $t \to +\infty$
+\end{itemize}
+
+\textbf{Résolution explicite} (pour information) :
+
+\[ \frac{d(d)}{dt} = -d^3 \Rightarrow \frac{d(d)}{d^3} = -dt \]
+
+Intégrant : $-\frac{1}{2d^2} = -t + C$
+
+Avec la condition initiale $d(0) = 0$ : $C = \frac{1}{2d_0^2}$
+
+\[ d(t) = \frac{d_0}{\sqrt{1 + 2d_0^2 t}} \]
+
+Conclusion sur la stabilité de $P^* = (0,0)$ :
+
+\begin{itemize}
+\item Pour toute condition initiale proche de l'origine, la distance $d(t)$ est décroissante
+\item Pour tout $t \geq 0$ : $d(t) \to 0$ quand $t \to \infty$
+\item Le point $P^* = (0,0)$ est asymptotiquement stable (au sens du voisinage)
+\end{itemize}
+
+\textbf{Remarque :} La décroissance en $-d^3$ (plutôt que $-\lambda d$ linéaire) signifie que nous avons une convergence plus rapide que la stabilité linéaire.
+
 \end{correction}
+
 
 \exo
 
@@ -544,18 +967,17 @@ Soit $A = \begin{pmatrix} 0 & -3 \\ 2 & 0 \end{pmatrix}$
 \ques Montrer que la solution nulle de l'équation différentielle $\dot{x} = Ax$ est stable mais pas asymptotiquement stable.
 \ques Trouver l'espace vectoriel des solutions.
 \end{enonce}
+
 \begin{correction}
 \ques On a le polynôme caractéristique:
 
-\[ \chi_A(\lambda) = \lambda^2 + 6 \Rightleftarrow Sp(A) = \{ -i\sqrt{6} , i \sqrt{6} \} \]
+\[ \chi_A(\lambda) = \lambda^2 + 6 \Leftrightarrow Sp(A) = \{ -i\sqrt{6} , i \sqrt{6} \} \]
 
 Les valeurs propres sont purement imaginaires.
 
-\commentaire{On peut remarque que $A^2=-6 I_2$}
-
-
-
-
+\begin{commentaire}
+On peut remarque que $A^2=-6 I_2$
+\end{commentaire}
 
 La solution générale s’écrit alors :
 \[
@@ -638,29 +1060,4 @@ T = \frac{2\pi}{\omega} = \frac{2\pi}{\sqrt{6}}.
 
 \textbf{Conclusion :} l’origine est un \emph{centre} — stable mais non asymptotiquement stable —,  
 et les solutions décrivent des ellipses centrées en l’origine.
-
-
-
-
-
-
-\end{correction}
-
-\exo
-
-\begin{enonce}
-Soient $f,g \in \mathcal{C}^1 (\mathbb{R}^2)$ et le système différentiel suivant:
-
-\[
-\begin{cases}
-x'(t) = f(x,y) \\
-y'(t) = g(x,y) \\
-x(0) \quad , \quad y(0) \quad \text{donnés}
-\end{cases}
-\]
-
-Montrer que si $\lim_{t\to \infty} (x(t),y(t)) = (x_\infty,y_\infty) \in \mathbb{R}^2$, alors $(x_\infty,y_\infty)$ est un point d'équilibre de ce système différentiel.
-
-\end{enonce}
-\begin{correction}
 \end{correction}
