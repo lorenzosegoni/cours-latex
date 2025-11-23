@@ -1,0 +1,324 @@
+\chapter{Introduction}
+
+\section{Tests statistiques : Principe et terminologie}
+
+\begin{observation}
+\textbf{Observation :} Soit $x$ réalisation de $X$ variable aléatoire.
+
+Souvent $x=(x_1,...,x_n)$ réalisation de $(X_1,...,X_n)$ où les $X_i$ sont des variables indépendantes.
+\end{observation}
+
+\section{Hypothèses de tests}
+
+\begin{definition}
+Un test statistique est une procédure de décision entre deux hypothèses concernant un ou plusieurs échantillons.
+\end{definition}
+
+\begin{exemple}[Test tension artérielle]
+Deux séries de personnes, l'une soumise à un médicament, l'autre à un placebo. On mesure la tension artérielle des individus.
+Au vu des mesures, le médicament a-t-il un effet ?
+\end{exemple}
+
+
+\begin{definition}
+\begin{itemize}
+\item \textbf{L'hypothèse nulle}, notée $\mathcal{H}_0$, est l'hypothèse de travail : "c'est celle que l'on veut vérifier".
+Le but du test est de décider si, à partir des observations, $\mathcal{H}_0$ est crédible ou non.
+\item \textbf{L'hypothèse alternative}, notée $\mathcal{H}_1$, sera la "négation" de $\mathcal{H}_0$.
+\end{itemize}
+Le postulat est qu'une seule des deux hypothèses est vraie.
+\end{definition}
+
+\begin{exemple}[Test tension artérielle:]
+Par exemple :
+\begin{itemize}
+\item $\mathcal{H}_0$ : "Le médicament n'a pas d'effet"
+\item $\mathcal{H}_1$ : "Il a un effet"
+\end{itemize}
+\end{exemple}
+
+La conclusion d'un test :
+
+\begin{itemize}
+\item \textbf{Rejet} de $\mathcal{H}_0$ au profit de $\mathcal{H}_1$ : les observations conduisent à rejeter l'hypothèse de travail.
+\item \textbf{Non-rejet} de $\mathcal{H}_0$ : les observations conduisent à "accepter $\mathcal{H}_0$" comme hypothèse crédible.
+\end{itemize}
+
+Le non-rejet signifie qu'il n'y a pas d'évidence nette allant à l'encontre de $\mathcal{H}_0$. Cela ne signifie pas que $\mathcal{H}_0$ est vraie et $\mathcal{H}_1$ fausse.
+
+\begin{exemple}[Test tension artérielle:]
+Soient $\mu_1$ et $\mu_2$ les espérances des tensions des deux populations correspondantes respectivement à la prise du médicament et à la prise du placebo. On a :
+\begin{itemize}
+\item $\mathcal{H}_0$ : "les espérances $\mu_1$ et $\mu_2$ sont égales"
+\item $\mathcal{H}_1$ : "elles sont différentes"
+\end{itemize}
+ou écrit différemment :
+\begin{itemize}
+\item $\mathcal{H}_0$ : "$\mu_1 = \mu_2$"
+\item $\mathcal{H}_1$ : "$\mu_1 \neq \mu_2$"
+\end{itemize}
+\end{exemple}
+
+\section{Statistique de test}
+
+\begin{definition}
+La \textbf{statistique de test} est une fonction construite à partir des observations et va permettre de décider si on rejette ou non $\mathcal{H}_0$.
+\end{definition}
+
+\begin{exemple}[Test tension artérielle:]
+On estime $\mu_1$ (respectivement $\mu_2$) par les moyennes empiriques $\bar{\mu}_1$ et $\bar{\mu}_2$ sur les deux échantillons.
+
+\textbf{Question :} Imaginons :
+\begin{itemize}
+\item $\bar{\mu}_1 = 13{,}4$
+\item $\bar{\mu}_2 = 12{,}8$
+\end{itemize}
+Peut-on conclure sur un effet du médicament ? \textbf{Non.}
+\end{exemple}
+
+Ce n'est pas parce que $\bar{\mu}_1$ et $\bar{\mu}_2$ sont différents qu'il en va de même pour $\mu_1$ et $\mu_2$.
+
+Les symboles "$=$", "$\leq$", "$\geq$" ont un sens pour comparer $\mu_1$ et $\mu_2$, mais ne peuvent être transposés tels quels pour des quantités estimées.
+
+On va accepter $\mathcal{H}_0$ lorsque $\bar{\mu}_1$ et $\bar{\mu}_2$ ne sont pas \textbf{significativement} différents.
+
+\begin{objectif}
+Construire $S$ statistique de test de telle sorte que la loi de $S$ sous $\mathcal{H}_0$ (c'est-à-dire lorsque $\mathcal{H}_0$ est vraie) soit \textbf{connue} et dont la loi est différente sous $\mathcal{H}_1$.
+
+On note $s_{\text{obs}}$ la réalisation de $S$ sur les observations.
+\end{objectif}
+
+\begin{exemple}[Test taille enfant]
+Taille d'enfants de 5 ans dans une population.
+
+On suppose qu'elle suive une loi $\mathcal{N}(\mu, 1)$ où $\mu$ est inconnue.
+
+On considère 100 enfants de 5 ans et on note $x_1, \ldots, x_{100}$ leurs tailles.
+
+On souhaite tester :
+\begin{itemize}
+\item $\mathcal{H}_0$ : $\mu = 110$
+\item $\mathcal{H}_1$ : $\mu \neq 110$
+\end{itemize}
+
+On relève :
+\[
+\bar{\mu}_{\text{obs}} = \frac{1}{100} \sum_{i=1}^{100} x_i = 110{,}5
+\]
+
+Soit $\hat{\mu} = \frac{1}{100} \sum_{i=1}^{100} X_i$.
+
+Alors si $\mathcal{H}_0$ est vraie, $\hat{\mu} \sim \mathcal{N}\left(110, \frac{1}{100}\right)$.
+
+En fait, on considère (on centralise et réduit la loi normale) :
+\[
+S = 10(\hat{\mu} - 110) \sim \mathcal{N}(0, 1)
+\]
+
+Ainsi :
+\[
+s_{\text{obs}} = 10(110{,}5 - 110) = 5
+\]
+
+\textbf{La question :} est-il \textbf{surprenant} d'observer $s_{\text{obs}}$ lorsque $\mathcal{H}_0$ est vraie ?
+\end{exemple}
+
+\section{Région de rejet et règle de décision}
+
+\begin{definition}
+La \textbf{zone de rejet d'un test} de statistique $S$ est un ensemble $\mathcal{R}$ tel que :
+\begin{itemize}
+\item on rejette $\mathcal{H}_0$ si $s_{\text{obs}} \in \mathcal{R}$
+\item on ne rejette pas $\mathcal{H}_0$ si $s_{\text{obs}} \notin \mathcal{R}$
+\end{itemize}
+\end{definition}
+
+\begin{definition}
+\begin{itemize}
+\item Le \textbf{risque de première espèce $\alpha$} est la probabilité de rejet de $\mathcal{H}_0$ conditionnellement au fait que $\mathcal{H}_0$ est vraie :
+
+\[
+\alpha = \mathbb{P}_{\mathcal{H}_0} \big( \text{rejet de } \mathcal{H}_0 \big).
+\]
+
+La quantité $1-\alpha$ s'appelle la \textbf{confiance du test}.
+
+\item Le \textbf{risque de deuxième espèce $\beta$} est la probabilité d'acceptation de $\mathcal{H}_0$ alors que $\mathcal{H}_1$ est vraie :
+
+\[
+\beta = \mathbb{P}_{\mathcal{H}_1} \big( \text{acceptation de } \mathcal{H}_0 \big).
+\]
+
+La quantité $1-\beta$ s'appelle la \textbf{puissance du test}.
+\end{itemize}
+\end{definition}
+
+Pour définir la région de rejet, \textbf{on fixe} $\alpha$, le risque de première espèce.  
+
+En pratique, on choisit souvent $\alpha \in \{0.01,\, 0.05,\, 0.1\}$.  
+
+La région de rejet $\mathcal{R} = \mathcal{R}(\alpha)$ est telle que  
+
+\[
+\mathbb{P}_{\mathcal{H}_0}(S \in \mathcal{R}) = \alpha.
+\]
+
+\begin{exemple}[Test taille enfant: Test bilatéral]
+On considère les hypothèses :
+\[
+\begin{cases}
+\mathcal{H}_0 : \mu = 110, \\
+\mathcal{H}_1 : \mu \neq 110.
+\end{cases}
+\]
+
+Lorsque $\mathcal{H}_0$ est vraie, $s_{\text{obs}}$ est proche de 0, positif ou négatif.  
+Sous $\mathcal{H}_1$, $s_{\text{obs}}$ est éloigné de 0 en valeur absolue.  
+
+Soit $q_\alpha^{\mathcal{N}(0,1)}$ le quantile d’ordre $\alpha$ de la loi $\mathcal{N}(0,1)$, défini par
+\[
+\mathbb{P}(Z \leq q_\alpha^{\mathcal{N}(0,1)}) = \alpha, 
+\quad \text{avec } Z \sim \mathcal{N}(0,1).
+\]
+
+Pour un test bilatéral de niveau de confiance $95\%$ :
+\[
+\mathbb{P}\big(|S| \geq q_{0.975}^{\mathcal{N}(0,1)}\big) = 0.05.
+\]
+
+On obtient
+\[
+\mathcal{R}(0.05) = ]-\infty, -1.96[ \,\cup\, ]1.96, +\infty[,
+\]
+puisque $q_{0.975}^{\mathcal{N}(0,1)} \approx 1.96$.
+
+Ainsi, si $s_{\text{obs}} = 5 \in \mathcal{R}(0.05)$, on rejette $\mathcal{H}_0$ au risque $5\%$.
+\end{exemple}
+
+\begin{exemple}[Test taille enfant: Test unilatéral à gauche]
+On considère :
+\[
+\begin{cases}
+\mathcal{H}_0 : \mu = 110, \\
+\mathcal{H}_1 : \mu < 110.
+\end{cases}
+\]
+
+Lorsque $\mathcal{H}_0$ est vraie, $s_{\text{obs}}$ est proche de 0 et positif.  
+Sous $\mathcal{H}_1$, $s_{\text{obs}}$ tend à être négatif.  
+
+On rejette $\mathcal{H}_0$ lorsque $s_{\text{obs}}$ est suffisamment négatif.  
+
+On obtient la région de rejet :
+\[
+\mathcal{R}(0.05) = ]-\infty, \, q_{0.05}^{\mathcal{N}(0,1)}[.
+\]
+\end{exemple}
+
+\begin{exemple}[Test taille enfant: Test unilatéral à droite]
+On considère :
+\[
+\begin{cases}
+\mathcal{H}_0 : \mu = 110, \\
+\mathcal{H}_1 : \mu > 110.
+\end{cases}
+\]
+
+La région de rejet est :
+\[
+\mathcal{R}(0.05) = ]q_{0.95}^{\mathcal{N}(0,1)}, \, +\infty[.
+\]
+\end{exemple}
+
+\begin{exemple}[Test de vitesse sur une route]
+Une route est limitée à 75 km/h.  
+
+On suspecte que les usagers roulent \textit{plus vite}.  
+On suppose que la vitesse d'une voiture sur cette route est modélisable par une loi d'espérance $\mu$.
+
+On pose les hypothèses :
+\[
+\begin{cases}
+\mathcal{H}_0 : \mu = 75, \\
+\mathcal{H}_1 : \mu > 75.
+\end{cases}
+\]
+
+Si on rejette $\mathcal{H}_0$ : cela signifie que les usagers roulent significativement \textit{plus vite}.  
+
+Si on ne rejette pas $\mathcal{H}_0$ : on ne peut pas conclure spécifiquement que la vitesse est respectée.
+\end{exemple}
+
+\begin{remarque}
+Il serait "plus logique" de poser :
+\[
+\mathcal{H}_0 : \mu \leq 75.
+\]
+
+En effet, on considère le risque maximal de première espèce lorsque $\mu$ parcourt les valeurs possibles dans $\mathcal{H}_0$.  
+
+On dira que le test est de risque $\alpha$.  
+Si ce risque maximal est inférieur à $\alpha$, alors le test est valide.  
+
+En fait, pour les hypothèses du type
+\[
+\mathcal{H}_0 : \mu \leq \mu_0 \quad \text{ou} \quad \mathcal{H}_0 : \mu \geq \mu_0,
+\]
+le risque maximal est atteint en $\mu = \mu_0$.
+\end{remarque}
+
+\section{Puissance du test}
+
+Une fois fixé $\alpha$, on ne peut plus fixer librement $\beta$.  
+
+À échantillon fixé :
+  \begin{itemize}
+  \item si on augmente $\alpha$, on diminue $\beta$ ;
+  \item si on diminue $\alpha$, on augmente $\beta$.
+  \end{itemize}
+
+On utilise donc la puissance du test comme critère de qualité du test.  
+Pour un même échantillon, entre deux tests de risque $\alpha$, on préférera celui dont la puissance est plus grande.
+
+\section{Probabilité critique (p-valeur)}
+
+La \textbf{p-valeur} mesure l'adéquation entre $\mathcal{H}_0$ et les observations : c'est un indice de crédibilité de $\mathcal{H}_0$.  
+
+On la note $p_{\text{obs}}$.  
+
+\begin{itemize}
+\item si $p_{\text{obs}} < \alpha$, on rejette $\mathcal{H}_0$ ;  
+\item si $p_{\text{obs}} > \alpha$, on ne rejette pas $\mathcal{H}_0$.  
+\end{itemize}
+
+De plus, plus la p-valeur est petite, plus les preuves contre $\mathcal{H}_0$ sont fortes.
+
+\begin{remarque}
+\textbf{Attention : 2 mauvaises interprétations fréquentes}
+\begin{itemize}
+\item Une p-valeur importante n'implique pas forcément que $\mathcal{H}_0$ est vraie.
+\item La p-valeur n'est pas la probabilité que $\mathcal{H}_0$ soit vraie au vu des observations.
+\end{itemize}
+\end{remarque}
+
+
+\begin{proposition}
+Dans le cas où $\mathcal{H}_0$ est simple (par exemple $\mu = 75$) :
+
+\begin{itemize}
+\item si $\mathcal{R}_\alpha = [c_\alpha, +\infty[$ alors
+\[
+p_{\text{obs}} = \mathbb{P}_{\mathcal{H}_0}(S \geq s_{\text{obs}}).
+\]
+
+\item si $\mathcal{R}_\alpha = ]-\infty, c_\alpha]$ alors
+\[
+p_{\text{obs}} = \mathbb{P}_{\mathcal{H}_0}(S \leq s_{\text{obs}}).
+\]
+
+\item si $\mathcal{R}_\alpha = ]-\infty, -c_\alpha] \,\cup\, [c_\alpha, +\infty[$ alors
+\[
+p_{\text{obs}} = \mathbb{P}_{\mathcal{H}_0}\big(|S| \geq |s_{\text{obs}}|\big).
+\]
+\end{itemize}
+\end{proposition}
