@@ -1,26 +1,33 @@
-# _quarto.yml
-
 project:
   type: website
-  output-dir: .
+  output-dir: _output
 
+# Configuration globale pour TOUS les fichiers HTML
 format:
   html:
-    theme:
-      # Charge le thème 'cosmo', PUIS applique vos styles 'custom.scss' par-dessus
-      light: [cosmo, custom.scss] 
-      
-    toc: true
-    toc-depth: 3
-    toc-location: right
-    number-sections: true
-    smooth-scroll: true
-    grid:
-      body-width: 900px
-      margin-width: 200px
-    fontsize: 1.1em
-    linestretch: 1.6
+    # Thème de base
+    theme: default
     
-    # Options de code (vous les aviez sur false, je les garde)
-    code-fold: false
-    code-tools: false
+    # Votre fichier SCSS personnalisé
+    scss: custom.scss
+    
+    # Votre feuille de styles CSS supplémentaire
+    css: styles.css
+    
+    # Options de mise en page
+    toc: true
+    toc-location: right
+    toc-depth: 3
+    number-sections: true
+    
+    # Typographie et spacing
+    linestretch: 1.5
+    
+    # Code highlighting
+    code-block-bg: true
+    code-block-border-left: true
+    
+    # Autres options utiles
+    embed-resources: true
+    self-contained: false
+    smooth-scroll: true
