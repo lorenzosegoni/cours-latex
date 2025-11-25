@@ -14,7 +14,6 @@ $code-color: #1a1a1a;
 // Style de surbrillance du code (remplace 'highlight-style' du YAML)
 $code-highlight-style: github;
 
-
 /*-- scss:rules --*/
 
 // Bloc de code avec cadre défini
@@ -91,10 +90,6 @@ p {
 // Liens discrets mais visibles
 a {
   text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
 }
 
 a:hover {
