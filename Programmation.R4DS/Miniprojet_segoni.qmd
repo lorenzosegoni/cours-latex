@@ -5,6 +5,8 @@ format: html
 editor: visual
 ---
 
+90%
+
 # Introduction
 
 Ce mini-projet a pour objectif de créer une **animation du mot "MAP5"** suivant une **trajectoire sinusoïdale**.\
