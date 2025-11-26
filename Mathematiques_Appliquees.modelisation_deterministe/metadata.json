@@ -3,6 +3,7 @@
   "semestre": "M1S1",
   "resume": "Introduction à l'épidémiologie / Modèles SI, SIS, SIR / Étude de systèmes d'équations différentielles ordinaires",
   "fichiers": [
-    {"nom": "Cours", "fichier": "Cours.pdf"}
+    {"nom": "Cours 1", "fichier": "Cours.pdf"},
+    {"nom": "Cours 2", "fichier": "TD.pdf"}
   ]
 }
