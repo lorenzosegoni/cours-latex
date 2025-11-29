@@ -1,0 +1,1248 @@
+\chapter{Le langage SQL (SGBD Oracle)}
+
+Le langage \textbf{SQL} (Structured Query Language) est le langage standard utilisé pour interagir avec une base de données relationnelle. Il se compose de trois parties :
+
+\begin{itemize}
+    \item \textbf{LDD} (Langage de Définition des Données) : permet de créer, modifier ou supprimer la structure des tables (schémas).\\
+    Exemples : \texttt{CREATE TABLE}, \texttt{DROP TABLE}, \texttt{ALTER TABLE}.
+    \item \textbf{LMD} (Langage de Manipulation des Données) : permet d’ajouter, supprimer, modifier et interroger les données.\\
+    Exemples : \texttt{INSERT}, \texttt{DELETE}, \texttt{UPDATE}, \texttt{SELECT}, \texttt{COMMIT}/\texttt{ROLLBACK}.
+    \item \textbf{LCD} (Langage de Contrôle des Données) : utilisé pour gérer les droits d’accès.\\
+    Exemples : \texttt{GRANT}, \texttt{REVOKE}.
+\end{itemize}
+
+\section{Introduction au SGBD Oracle}
+
+Oracle est un \textbf{système de gestion de bases de données relationnelles} (SGBDR), développé par Oracle Corporation depuis 1981.
+
+La version de référence du cours est \textbf{Oracle 12c} (sortie en 2013), suivie par Oracle 18c et 19c.
+
+Oracle constitue un \textbf{écosystème logiciel complet}, comprenant notamment :
+
+\begin{itemize}
+    \item des serveurs de données et utilitaires (SQL*Plus, import/export loader, \dots) ;
+    \item des environnements de développement (web, Java, pré-compilateurs, \dots) ;
+    \item des outils d’aide à la décision (data warehouse, Oracle Discoverer, \dots) ;
+    \item des progiciels client-serveur et Internet (Oracle Applications, Oracle e-Business Suite).
+    \item $\cdots$
+\end{itemize}
+
+\section{Structure générale d’une requête}
+
+Pour illustrer les requêtes SQL, on utilise une base de données exemple composée des tables suivantes :
+
+\begin{itemize}
+    \item \textbf{Client} (\underline{noClient}, nom, prénom, ddn, rue, CP, ville)
+    \item \textbf{Produit} (\underline{noProduit}, libellé, prixUnitaire, \textit{noFournisseur})
+    \item \textbf{Fournisseur} (\underline{noFournisseur}, raisonSociale)
+    \item \textbf{Commande} (\underline{\textit{noClient}}, \underline{\textit{noProduit}}, \underline{dateCommande} , quantité)
+\end{itemize}
+
+Les attributs \underline{soulignés} désignent les \textbf{clés primaires} ;  
+les attributs en \textit{italique} correspondent aux \textbf{clés étrangères}.
+
+\subsection*{Conventions de notation}
+
+\begin{itemize}
+    \item \texttt{[élément]} : élément optionnel.
+    \item \texttt{élément1 | élément2} : choisir l’un des deux éléments.
+    \item \texttt{\{ élémentx | élémenty \}} : liste de choix possibles.
+    \item \texttt{\{élémentx\} | \{élémenty\}} : choix entre deux ensembles.
+\end{itemize}
+
+\subsection{Syntaxe générale de la commande \texttt{SELECT}}
+
+La commande \texttt{SELECT} permet d’interroger les données d’une ou plusieurs tables. Sa syntaxe générale est :
+
+\begin{sqlcodebox}
+\begin{lstlisting}[language=SQL]
+SELECT * | {[ALL | DISTINCT]
+        expression [[AS] nomColonne]
+        [, expression [[AS] nomColonne]]... } 
+FROM relation [alias] [, relation [alias] ...]
+[WHERE condition]
+[GROUP BY nomColonne [, nomColonne]...]
+[HAVING condition]
+[ORDER BY nomColonne [ASC | DESC]
+         [, nomColonne [ASC | DESC] ...]];
+\end{lstlisting}
+\end{sqlcodebox}
+
+Deux commandes \texttt{SELECT} peuvent être combinées :
+
+\begin{sqlcodebox}
+\begin{lstlisting}[language=SQL]
+CdeSelect {UNION | INTERSECT | EXCEPT} CdeSelect
+\end{lstlisting}
+\end{sqlcodebox}
+
+\subsection{Oracle-SQL et la casse des caractères}
+
+Dans Oracle, il n’existe \textbf{aucune différence} entre identifiants écrits en majuscules ou en minuscules : les noms de tables, attributs ou contraintes sont insensibles à la casse.
+
+La seule exception concerne la \textbf{comparaison de chaînes de caractères}, où \texttt{'Dupont'} et \texttt{'dupont'} sont considérés comme différents.
+
+Exemple :
+
+\begin{sqlcodebox}
+\begin{lstlisting}[language=SQL]
+SELECT *
+FROM Client
+WHERE nom = 'Dupont';
+\end{lstlisting}
+\end{sqlcodebox}
+
+Les instructions suivantes sont équivalentes :
+
+\begin{sqlcodebox}
+\begin{lstlisting}[language=SQL]
+SELECT *
+FROM CLIENT
+WHERE NOM = 'Dupont';
+\end{lstlisting}
+\end{sqlcodebox}
+
+
+
+
+
+
+
+\section{Projection d'une relation}
+
+La \textbf{projection} consiste à extraire seulement certains attributs d’une relation.  
+Par exemple, pour récupérer les \textbf{numéros de clients} et les \textbf{dates de commande} de toutes les commandes, on utilise :
+
+\begin{sqlcodebox}
+\begin{lstlisting}[language=SQL]
+SELECT noClient, dateCommande
+FROM Commande;
+\end{lstlisting}
+\end{sqlcodebox}
+
+Résultat :
+
+\begin{tabular}{|c|c|}
+    \hline
+    \textbf{noClient} & \textbf{dateCommande}  \\
+    \hline
+    100 & 04/05/2003 \\
+200 & 12/04/2003 \\
+100 & 05/01/2004 \\
+300 & 25/02/2004 \\
+400 & 30/01/2004 \\
+400 & 30/01/2004 \\
+    \hline
+\end{tabular}
+
+Cette requête est équivalente à :
+
+\begin{sqlcodebox}
+\begin{lstlisting}[language=SQL]
+SELECT ALL noClient, dateCommande
+FROM Commande;
+\end{lstlisting}
+\end{sqlcodebox}
+
+\subsection{La clause DISTINCT}
+
+Pour éliminer les doublons, on utilise la clause \texttt{DISTINCT}.  
+La requête suivante retourne chaque couple \texttt{(noClient, dateCommande)} une seule fois :
+
+\begin{sqlcodebox}
+\begin{lstlisting}[language=SQL]
+SELECT DISTINCT noClient, dateCommande
+FROM Commande;
+\end{lstlisting}
+\end{sqlcodebox}
+
+Résultat :
+
+\begin{tabular}{|c|c|}
+    \hline
+    \textbf{noClient} & \textbf{dateCommande}  \\
+    \hline
+    100 & 04/05/2003 \\
+200 & 12/04/2003 \\
+100 & 05/01/2004 \\
+300 & 25/02/2004 \\
+400 & 30/01/2004 \\
+    \hline
+\end{tabular}
+
+Expression algébrique équivalente :
+
+\[
+\pi_{\text{noClient},\ \text{dateCommande}}(\text{Commande})
+\]
+
+%----------------------------------------------------
+
+\section{Restriction d’une relation}
+
+La \textbf{restriction} permet de sélectionner les tuples satisfaisant une condition logique.  
+Exemple : on veut les articles dont le prix est inférieur à 20\,€ et dont le numéro est supérieur à 30 :
+
+\begin{sqlcodebox}
+\begin{lstlisting}[language=SQL]
+SELECT *
+FROM Article
+WHERE prixUnitaire < 20 AND noArticle > 30;
+\end{lstlisting}
+\end{sqlcodebox}
+
+Résultat :
+
+
+\begin{tabular}{|c|c|c|}
+    \hline
+    \textbf{noArticle} & \textbf{libellé} & \textbf{prixUnitaire} \\
+    \hline
+31 & Brosse & 12 \\
+40 & Tableau & 9.99 \\
+50 & Visseuse & 19.99 \\
+    \hline
+\end{tabular}
+
+Expression algébrique équivalente :
+
+\[
+\sigma_{\text{prixUnitaire} < 20\ \wedge\ \text{noArticle} > 30}(\text{Article})
+\]
+
+\subsection{Restriction : syntaxe d'une condition}
+
+La syntaxe générale est :
+
+\begin{sqlcodebox}
+\begin{lstlisting}[language=SQL]
+SELECT *
+FROM nomRelation
+WHERE condition;
+\end{lstlisting}
+\end{sqlcodebox}
+
+Les formes possibles d’une condition :
+
+\begin{itemize}
+    \item \texttt{conditionSimple}
+    \item \texttt{(condition)}
+    \item \texttt{NOT (condition)}
+    \item \texttt{condition AND condition}
+    \item \texttt{condition OR condition}
+\end{itemize}
+
+Une \texttt{conditionSimple} peut être de la forme :
+
+\begin{itemize}
+    \item \texttt{expression =, <, >, <=, >=, <> expression}
+    \item \texttt{expression [NOT] BETWEEN valeur1 AND valeur2}
+    \item \texttt{expression IS [NOT] NULL}
+    \item \texttt{expression [NOT] IN (liste)}
+    \item \texttt{expression [NOT] LIKE patron}
+\end{itemize}
+
+\subsection{Restriction : exemples}
+
+\textbf{Produits dont le prix est compris entre 50 et 100\,€}
+
+\begin{sqlcodebox}
+\begin{lstlisting}[language=SQL]
+SELECT *
+FROM Produit
+WHERE prixUnitaire >= 50
+  AND prixUnitaire <= 100;
+\end{lstlisting}
+\end{sqlcodebox}
+
+\textbf{Produits dont le prix est inférieur à 50\,€ ou supérieur à 100\,€}
+
+\begin{sqlcodebox}
+\begin{lstlisting}[language=SQL]
+SELECT *
+FROM Produit
+WHERE prixUnitaire < 50
+   OR prixUnitaire > 100;
+\end{lstlisting}
+\end{sqlcodebox}
+
+Écriture équivalente avec \texttt{BETWEEN} :
+
+\begin{sqlcodebox}
+\begin{lstlisting}[language=SQL]
+SELECT *
+FROM Produit
+WHERE prixUnitaire BETWEEN 50 AND 100;
+\end{lstlisting}
+\end{sqlcodebox}
+
+\subsection{Notion de valeur indéfinie (NULL)}
+
+Une valeur \texttt{NULL} indique qu’un attribut est \textbf{inconnu} ou \textbf{indéfini}.  
+Règles importantes :
+
+\begin{itemize}
+    \item On ne peut tester \texttt{NULL} qu’avec : \texttt{IS NULL} ou \texttt{IS NOT NULL}.
+    \item Toute expression arithmétique impliquant \texttt{NULL} retourne \texttt{NULL}.
+    \item Toute comparaison impliquant \texttt{NULL} retourne \texttt{UNKNOWN}.
+\end{itemize}
+
+\subsection{Restriction : opérateurs IS NULL et LIKE}
+
+\textbf{Commandes dont la quantité est indéterminée}
+
+\begin{sqlcodebox}
+\begin{lstlisting}[language=SQL]
+SELECT *
+FROM Commande
+WHERE quantite IS NULL;
+\end{lstlisting}
+\end{sqlcodebox}
+
+\textbf{Clients dont le nom commence par B, finit par B et contient au moins 3 caractères}
+
+\begin{sqlcodebox}
+\begin{lstlisting}[language=SQL]
+SELECT *
+FROM Client
+WHERE nom LIKE 'B_\%B';
+\end{lstlisting}
+\end{sqlcodebox}
+
+Rappels sur les patrons \texttt{LIKE} :
+
+\begin{itemize}
+    \item \texttt{\%} représente une suite de 0 à $n$ caractères.
+    \item \texttt{\_} représente exactement un caractère.
+\end{itemize}
+
+\subsection{Restriction : opérateur IN}
+
+ \textbf{Clients dont le nom appartient à un ensemble donné}
+
+\begin{sqlcodebox}
+\begin{lstlisting}[language=SQL]
+SELECT prenom
+FROM Client
+WHERE nom IN ('Dupond', 'Durant', 'Martin');
+\end{lstlisting}
+\end{sqlcodebox}
+
+\textbf{Clients dont le nom n'appartient pas à cet ensemble}
+
+\begin{sqlcodebox}
+\begin{lstlisting}[language=SQL]
+SELECT prenom
+FROM Client
+WHERE nom NOT IN ('Dupond', 'Durant', 'Martin');
+\end{lstlisting}
+\end{sqlcodebox}
+
+%----------------------------------------------------
+
+\section{Restriction et projection}
+
+On peut combiner restriction et projection.  
+Exemple : obtenir les numéros de clients et dates de commande pour les commandes postérieures au 01/01/2004 :
+
+\begin{sqlcodebox}
+\begin{lstlisting}[language=SQL]
+SELECT noClient, dateCommande
+FROM Commande
+WHERE dateCommande > '01/01/2004';
+\end{lstlisting}
+\end{sqlcodebox}
+
+Résultat :
+
+\begin{tabular}{|c|c|}
+    \hline
+    \textbf{noClient} & \textbf{dateCommande}  \\
+    \hline
+    100 & 05/01/2004  \\
+    300 & 25/02/2004  \\
+    400 & 30/01/2004 \\
+    \hline
+\end{tabular}
+
+Expression algébrique équivalente :
+
+\[
+\pi_{\text{noClient},\ \text{dateCommande}}
+\bigl(
+    \sigma_{\text{dateCommande} > '01/01/2004'}(\text{Commande})
+\bigr)
+\]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Jointure — Produit cartésien}
+
+La jointure débute par l’opération la plus simple : le \textbf{produit cartésien}.  
+Lorsqu’on liste plusieurs relations dans la clause \texttt{FROM}, sans condition supplémentaire, SQL génère toutes les combinaisons possibles de leurs tuples.
+
+\begin{itemize}
+    \item Exemple : produire toutes les paires possibles Client × Commande.
+\end{itemize}
+
+\begin{sqlcodebox}
+\begin{lstlisting}[language=SQL]
+SELECT *
+FROM Client, Commande;
+\end{lstlisting}
+\end{sqlcodebox}
+
+Expression algébrique équivalente :
+\[
+\text{Client} \times \text{Commande}
+\]
+
+
+\subsection{Jointure}
+
+Une jointure SQL correspond en fait à la combinaison :
+\[
+\text{Produit cartésien} + \text{Restriction} + \text{Projection}
+\]
+
+Forme générale :
+
+\begin{sqlcodebox}
+\begin{lstlisting}[language=SQL]
+SELECT attribut1 [, attribut2, ... ]
+FROM relation1, relation2 [, relation3, ...]
+WHERE condition;
+\end{lstlisting}
+\end{sqlcodebox}
+
+Expression algébrique équivalente :
+\[
+\pi_{\text{attributs}} \big( \sigma_{\text{condition}} (\text{relation1} 
+\times \text{relation2} \times \cdots ) \big)
+\]
+
+
+\subsection{Jointure : exemple de requête}
+
+Afficher la liste des commandes accompagnées du nom du client :
+
+\begin{sqlcodebox}
+\begin{lstlisting}[language=SQL]
+SELECT nom, Client.noClient,
+       noProduit, dateCommande, quantite
+FROM Commande, Client
+WHERE Client.noClient = Commande.noClient;
+\end{lstlisting}
+\end{sqlcodebox}
+
+\textbf{Remarque :} lorsqu’un attribut existe dans plusieurs relations, il faut le préfixer par le nom de la relation pour éviter toute ambiguïté.
+
+
+\subsection{Jointure : autre exemple de requête}
+
+Produire la liste des produits commandés en quantité supérieure à 100 et dont le prix dépasse 1000\,€.  
+On affiche : numéro du produit, libellé, prix unitaire, date de commande.
+
+\begin{sqlcodebox}
+\begin{lstlisting}[language=SQL]
+SELECT Produit.noProduit, libelle, prixUnitaire, date
+FROM Produit, Commande
+WHERE quantite > 100
+  AND prixUnitaire > 1000
+  AND Produit.noProduit = Commande.noProd;
+\end{lstlisting}
+\end{sqlcodebox}
+
+\subsection{Jointure : utilisation d’alias}
+
+Les alias permettent d’alléger l’écriture, surtout lorsqu’on joint plusieurs relations.
+
+Exemple : afficher les commandes avec le nom et le numéro du client.
+
+\begin{sqlcodebox}
+\begin{lstlisting}[language=SQL]
+SELECT C2.noClient, nom, date, quantite
+FROM Commande C1, Client C2
+WHERE C1.noClient = C2.noClient;
+\end{lstlisting}
+\end{sqlcodebox}
+
+\begin{itemize}
+    \item \texttt{Commande} est renommée \texttt{C1}
+    \item \texttt{Client} est renommée \texttt{C2}
+\end{itemize}
+
+
+\subsection{Quelques règles de nommage}
+
+\textbf{Nom d’une colonne dans le résultat :}
+
+\begin{itemize}
+    \item Par défaut : nom de l’attribut correspondant.
+\end{itemize}
+
+\begin{sqlcodebox}
+\begin{lstlisting}[language=SQL]
+SELECT * FROM Produit;
+\end{lstlisting}
+\end{sqlcodebox}
+
+Résultat : \texttt{noProduit}, \texttt{libellé}, \texttt{prixUnitaire}
+
+\medskip
+
+\textbf{Renommage possible :}
+
+\begin{sqlcodebox}
+\begin{lstlisting}[language=SQL]
+SELECT noProduit AS "Numero produit"
+FROM Produit;
+\end{lstlisting}
+\end{sqlcodebox}
+
+Résultat : colonne \texttt{Numéro produit}.
+
+
+\section{Opérations ensemblistes (UNION, INTERSECT, EXCEPT)}
+
+On peut combiner deux commandes \texttt{SELECT} avec les opérateurs :
+\begin{itemize}
+    \item \texttt{UNION} : union ensembliste
+    \item \texttt{INTERSECT} : intersection
+    \item \texttt{EXCEPT} : différence
+\end{itemize}
+
+Exemple : trouver les employés qui sont aussi passagers.
+
+\begin{center}
+\begin{tabular}{c c c c}
+\multicolumn{2}{c}{\textbf{Employé}} & 
+\multicolumn{2}{c}{\textbf{Passager}} \\
+\hline
+10 & Henry John & 4 & Harry Peter \\
+15 & Conrad James & 78 & Conrad James \\
+35 & Jenqua Jessica & 9 & Land Robert \\
+46 & Leconte Jean & 466 & Leconte Jean 
+\end{tabular}
+\end{center}
+
+Requête :
+
+\begin{sqlcodebox}
+\begin{lstlisting}[language=SQL]
+(SELECT nomEmp AS nom, prenomEmp AS prenom
+ FROM Employe)
+INTERSECT
+(SELECT nomPass AS nom, prenomPass AS prenom
+ FROM Passager);
+\end{lstlisting}
+\end{sqlcodebox}
+
+
+\section{Expression de calcul dans les colonnes projetées}
+
+On peut intégrer des expressions arithmétiques directement dans la liste des résultats.
+
+Exemple : afficher le prix TTC (taxe 15\%) :
+
+\begin{sqlcodebox}
+\begin{lstlisting}[language=SQL]
+SELECT noArticle, prixUnitaire,
+       prixUnitaire * 1.15 AS prixTTC
+FROM Article;
+\end{lstlisting}
+\end{sqlcodebox}
+
+
+\subsection{Expression de calcul dans la condition (WHERE)}
+
+Les expressions peuvent aussi apparaître dans les conditions.
+
+Produits dont le prix TTC dépasse 20\,€ :
+
+\begin{sqlcodebox}
+\begin{lstlisting}[language=SQL]
+SELECT noArticle
+FROM Article
+WHERE prixUnitaire * 1.15 > 20;
+\end{lstlisting}
+\end{sqlcodebox}
+
+Elles peuvent également utiliser des fonctions prédéfinies.
+
+Exemple : commandes du jour :
+
+\begin{sqlcodebox}
+\begin{lstlisting}[language=SQL]
+SELECT *
+FROM Commande
+WHERE dateCommande = CURRENT_DATE;
+\end{lstlisting}
+\end{sqlcodebox}
+
+
+\section{Requêtes imbriquées}
+
+Une requête peut apparaître à l’intérieur d’une autre, notamment dans la clause \texttt{WHERE}.  
+On parle alors de \textbf{sous-requête} ou \textbf{requête imbriquée}.
+
+Forme générale :
+
+\begin{sqlcodebox}
+\begin{lstlisting}[language=SQL]
+SELECT colonne(s)
+FROM relation(s)
+WHERE expression [NOT] IN (sous-requete)
+   OR EXISTS (sous-requete)
+   OR NOT EXISTS (sous-requete);
+\end{lstlisting}
+\end{sqlcodebox}
+
+
+\subsection{Requêtes imbriquées : IN / NOT IN}
+
+Exemple : noms des clients ayant passé une commande le 24/10/2000.
+
+\begin{sqlcodebox}
+\begin{lstlisting}[language=SQL]
+SELECT nom
+FROM Client
+WHERE noClient IN (SELECT noClient
+                   FROM Commande
+                   WHERE dateCommande = '24/10/2000');
+\end{lstlisting}
+\end{sqlcodebox}
+
+
+\subsection{Requêtes imbriquées : EXISTS / NOT EXISTS}
+
+Clients ayant passé au moins une commande :
+
+\begin{sqlcodebox}
+\begin{lstlisting}[language=SQL]
+SELECT *
+FROM Client C1
+WHERE EXISTS (
+  SELECT *
+  FROM Commande C2
+  WHERE C1.noClient = C2.noClient
+);
+\end{lstlisting}
+\end{sqlcodebox}
+
+Clients n’ayant passé aucune commande :
+
+\begin{sqlcodebox}
+\begin{lstlisting}[language=SQL]
+SELECT *
+FROM Client C1
+WHERE NOT EXISTS (
+  SELECT *
+  FROM Commande C2
+  WHERE C1.noClient = C2.noClient
+);
+\end{lstlisting}
+\end{sqlcodebox}
+
+\section{Fonctions d’agrégation}
+
+Les fonctions d’agrégation permettent d’appliquer un calcul sur un ensemble de valeurs (souvent un groupe de lignes) pour produire une valeur unique.
+
+La forme générale est :
+
+\begin{sqlcodebox}
+\begin{lstlisting}[language=SQL]
+SELECT fctAgregation
+FROM relation(s)
+[WHERE condition];
+\end{lstlisting}
+\end{sqlcodebox}
+
+Les principales fonctions sont :
+
+\begin{itemize}
+    \item \textbf{COUNT(*)} : nombre total de lignes du résultat.
+    \item \textbf{COUNT([DISTINCT] expr)} : nombre de valeurs non NULL (distinctes éventuellement).
+    \item \textbf{SUM(n)} : somme des valeurs de n (ignore les NULL).
+    \item \textbf{MAX(n)} : valeur maximale.
+    \item \textbf{MIN(n)} : valeur minimale.
+    \item \textbf{AVG(n)} : moyenne des valeurs (ignore les NULL).
+\end{itemize}
+
+Ici, $n$ désigne une expression numérique et $expr$ toute expression valide.
+
+\subsection*{Exemples}
+
+\textbf{Nombre total d’articles et prix moyen :}
+
+\begin{sqlcodebox}
+\begin{lstlisting}[language=SQL]
+SELECT COUNT(*) AS nbArticles,
+       AVG(prixUnitaire) AS prixMoyen
+FROM Article;
+\end{lstlisting}
+\end{sqlcodebox}
+
+\textbf{Nombre de prix non NULL :}
+
+\begin{sqlcodebox}
+\begin{lstlisting}[language=SQL]
+SELECT COUNT(prixUnitaire) AS nbPrixNonNull
+FROM Article;
+\end{lstlisting}
+\end{sqlcodebox}
+
+\textbf{Nombre de prix distincts :}
+
+\begin{sqlcodebox}
+\begin{lstlisting}[language=SQL]
+SELECT COUNT(DISTINCT prixUnitaire) AS nbPrix
+FROM Article;
+\end{lstlisting}
+\end{sqlcodebox}
+
+% ---------------------------------------------------------
+
+\section{Partition de relations (GROUP BY)}
+
+La clause \texttt{GROUP BY} permet de regrouper les lignes selon une ou plusieurs colonnes, puis d’appliquer une fonction d’agrégation sur chaque groupe.
+
+\subsection*{Exemple}
+
+Nombre de produits commandés par client :
+
+\begin{sqlcodebox}
+\begin{lstlisting}[language=SQL]
+SELECT noClient, COUNT(*) AS totalProduits
+FROM Commande
+GROUP BY noClient;
+\end{lstlisting}
+\end{sqlcodebox}
+
+\textbf{Principe :}
+\begin{enumerate}
+    \item Les commandes sont regroupées selon \texttt{noClient}.
+    \item Pour chaque groupe, on calcule le nombre d’éléments.
+\end{enumerate}
+
+Important : \textit{chaque expression présente dans le SELECT doit avoir une valeur unique par groupe.}
+
+\subsection*{Exemple avec condition préalable}
+
+Quantité totale commandée par client, hors produit \texttt{F565} :
+
+\begin{sqlcodebox}
+\begin{lstlisting}[language=SQL]
+SELECT noClient, SUM(quantite)
+FROM Commande
+WHERE noProduit <> 'F565'
+GROUP BY noClient;
+\end{lstlisting}
+\end{sqlcodebox}
+
+Étapes :
+\begin{enumerate}
+    \item La clause WHERE élimine les commandes du produit F565.
+    \item Les lignes restantes sont regroupées par client.
+    \item Pour chaque groupe, la somme des quantités est calculée.
+\end{enumerate}
+
+% ---------------------------------------------------------
+
+\subsection{Restriction des groupes : HAVING}
+
+La clause \texttt{HAVING} agit comme un filtre, mais \textbf{sur les groupes}.  
+Elle ne s’utilise qu’en présence d’un \texttt{GROUP BY}.
+
+\subsection*{Exemple}
+
+Quantité moyenne commandée par produit pour les produits ayant reçu plus de 3 commandes (en ignorant le client C47) :
+
+\begin{sqlcodebox}
+\begin{lstlisting}[language=SQL]
+SELECT noProduit, AVG(quantite)
+FROM Commande
+WHERE noClient <> 'C47'
+GROUP BY noProduit
+HAVING COUNT(*) > 3;
+\end{lstlisting}
+\end{sqlcodebox}
+
+Étapes :
+\begin{enumerate}
+    \item Élimination des commandes du client C47 (WHERE).
+    \item Regroupement par produit.
+    \item Élimination des groupes comptant moins de 3 commandes (HAVING).
+    \item Calcul de la moyenne pour les groupes restants.
+\end{enumerate}
+
+% ---------------------------------------------------------
+
+\subsection{Partition sur plusieurs colonnes}
+
+Il est possible de grouper sur plusieurs attributs.
+
+\subsection*{Exemple}
+
+Nombre de produits commandés par client \textit{et par date} :
+
+\begin{sqlcodebox}
+\begin{lstlisting}[language=SQL]
+SELECT noClient, dateCommande, COUNT(noProduit) AS nbProduits
+FROM Commande
+GROUP BY noClient, dateCommande;
+\end{lstlisting}
+\end{sqlcodebox}
+
+Chaque combinaison \texttt{(noClient, dateCommande)} forme un groupe distinct.
+
+% ---------------------------------------------------------
+
+\subsection{Sous-requête et fonctions d’agrégation}
+
+Une fonction d’agrégation ne peut pas être utilisée directement dans un SELECT si elle produit un résultat incompatible avec les autres colonnes.
+
+\textbf{Exemple incorrect :}
+
+\begin{sqlcodebox}
+\begin{lstlisting}[language=SQL]
+SELECT noProduit, MAX(prixUnitaire)
+FROM Produit;
+\end{lstlisting}
+\end{sqlcodebox}
+
+Cette requête est invalide car \texttt{noProduit} n’est pas unique.
+
+\medskip
+
+Pour contourner, on utilise une sous-requête :
+
+\begin{sqlcodebox}
+\begin{lstlisting}[language=SQL]
+SELECT noProduit, libelle
+FROM Produit
+WHERE prixUnitaire > (
+    SELECT AVG(prixUnitaire)
+    FROM Produit
+);
+\end{lstlisting}
+\end{sqlcodebox}
+
+% ---------------------------------------------------------
+
+\section{Tri du résultat d’une requête (ORDER BY)}
+
+La clause \texttt{ORDER BY} permet de trier le résultat d'une requête selon une ou plusieurs colonnes.
+
+\begin{itemize}
+    \item \textbf{ASC} : ordre croissant (défaut)
+    \item \textbf{DESC} : ordre décroissant
+\end{itemize}
+
+\subsection*{Exemple}
+
+Liste des commandes triées par numéro de client (croissant), puis par date (décroissant) :
+
+\begin{sqlcodebox}
+\begin{lstlisting}[language=SQL]
+SELECT *
+FROM Commande
+ORDER BY noClient, dateCommande DESC;
+\end{lstlisting}
+\end{sqlcodebox}
+
+\section{Mise à jour des données}
+
+Les opérations de mise à jour permettent d’ajouter, de modifier ou de supprimer
+des tuples dans une relation. Elles s'effectuent à l’aide des instructions
+\texttt{INSERT}, \texttt{UPDATE} et \texttt{DELETE}.
+
+\subsection{Ajout de tuples (INSERT)}
+
+L’instruction \texttt{INSERT} permet d’insérer un ou plusieurs tuples dans une relation.
+Sa forme générale est la suivante :
+
+\begin{sqlcodebox}
+\begin{lstlisting}[language=SQL]
+INSERT INTO nom_relation [(attribut, attribut, ...)]
+VALUES (valeur, valeur, ...)
+\end{lstlisting}
+\end{sqlcodebox}
+
+ou bien :
+
+\begin{sqlcodebox}
+\begin{lstlisting}[language=SQL]
+INSERT INTO nom_relation [(attribut, attribut, ...)]
+commande-SELECT
+\end{lstlisting}
+\end{sqlcodebox}
+
+\textbf{Exemple : ajout d'un produit}
+
+\begin{sqlcodebox}
+\begin{lstlisting}[language=SQL]
+INSERT INTO Produit VALUES (430, 'lecteur DVD', 9.99);
+\end{lstlisting}
+\end{sqlcodebox}
+
+Tous les attributs doivent être fournis dans le même ordre que dans la définition
+de la table.
+
+\textbf{Exemple : insertion provenant d’un SELECT}
+
+\begin{sqlcodebox}
+\begin{lstlisting}[language=SQL]
+INSERT INTO Commande (noClient, noProduit)
+SELECT noClient, noProduit FROM Produit, Client;
+\end{lstlisting}
+\end{sqlcodebox}
+
+Les attributs non mentionnés dans la liste sont automatiquement positionnés à
+\texttt{NULL}.
+
+\subsection{Modification de tuples (UPDATE)}
+
+L’instruction \texttt{UPDATE} permet de modifier la valeur d’un ou plusieurs attributs
+pour les tuples vérifiant une condition.
+
+\begin{sqlcodebox}
+\begin{lstlisting}[language=SQL]
+UPDATE nom_relation
+SET attribut = expression
+    [, attribut = expression ...]
+[WHERE condition];
+\end{lstlisting}
+\end{sqlcodebox}
+
+\textbf{Exemple : modifier le nom du client n°3}
+
+\begin{sqlcodebox}
+\begin{lstlisting}[language=SQL]
+UPDATE Client
+SET nom = 'Durand'
+WHERE noClient = 3;
+\end{lstlisting}
+\end{sqlcodebox}
+
+\textbf{Exemple : augmenter de 5\% le prix de certains produits}
+
+\begin{sqlcodebox}
+\begin{lstlisting}[language=SQL]
+UPDATE Produit
+SET prixUnitaire = prixUnitaire * 1.05
+WHERE libelle IN ('CD-ROM', 'DVD', 'ZIP');
+\end{lstlisting}
+\end{sqlcodebox}
+
+\paragraph{Exemple : mise à jour basée sur une sous-requête}
+
+Augmenter de 10\% les prix des produits fournis par le fournisseur « Titu » :
+
+\begin{sqlcodebox}
+\begin{lstlisting}[language=SQL]
+UPDATE Produit p
+SET prixUnitaire = prixUnitaire * 1.1
+WHERE p.noFournisseur IN (
+    SELECT f.noFournisseur
+    FROM Fournisseur f
+    WHERE f.raisonSociale = 'Titu'
+);
+\end{lstlisting}
+\end{sqlcodebox}
+
+\paragraph{Autre exemple}
+
+Positionner le libellé du produit n°99 et lui attribuer le prix moyen :
+
+\begin{sqlcodebox}
+\begin{lstlisting}[language=SQL]
+UPDATE Produit
+SET libell" = "produiTest",
+    prixUnitaire = (SELECT AVG(prixUnitaire) FROM Produit)
+WHERE noProduit = 99;
+\end{lstlisting}
+\end{sqlcodebox}
+
+\subsection{Suppression de tuples (DELETE)}
+
+L’instruction \texttt{DELETE} supprime les tuples correspondant à une condition.
+
+\begin{sqlcodebox}
+\begin{lstlisting}[language=SQL]
+DELETE FROM relation
+[WHERE condition];
+\end{lstlisting}
+\end{sqlcodebox}
+
+\textbf{Exemple : supprimer les clients habitant Metz}
+
+\begin{sqlcodebox}
+\begin{lstlisting}[language=SQL]
+DELETE FROM Client
+WHERE ville = 'Metz';
+\end{lstlisting}
+\end{sqlcodebox}
+
+\textbf{Exemple : suppression totale}
+
+\begin{sqlcodebox}
+\begin{lstlisting}[language=SQL]
+DELETE FROM Client;
+\end{lstlisting}
+\end{sqlcodebox}
+
+Toutes les lignes sont supprimées, mais le schéma de la table demeure.
+
+% ---------------------------------------------------------------------------
+
+\section{CREATE TABLE}
+
+L’instruction \texttt{CREATE TABLE} permet de créer une nouvelle table en précisant
+ses attributs et ses contraintes.
+
+\begin{sqlcodebox}
+\begin{lstlisting}[language=SQL]
+CREATE TABLE nomTable (
+    definitionAttribut,
+    ...
+    definitionContrainte
+);
+\end{lstlisting}
+\end{sqlcodebox}
+
+\subsection*{Syntaxe de définition d’un attribut}
+
+\begin{sqlcodebox}
+\begin{lstlisting}[language=SQL]
+nomAttribut type
+    [DEFAULT valeur]
+    [NULL | NOT NULL]
+    [UNIQUE | PRIMARY KEY]
+    [REFERENCES autreTable(attribut)]
+    [CONSTRAINT nom CHECK (condition)]
+\end{lstlisting}
+\end{sqlcodebox}
+
+Il n’y a pas de distinction entre minuscules et majuscules dans les noms.
+
+\subsection*{Syntaxe de définition d’une contrainte}
+
+\begin{sqlcodebox}
+\begin{lstlisting}[language=SQL]
+[CONSTRAINT nom]
+PRIMARY KEY (liste_attributs)
+UNIQUE (liste_attributs)
+FOREIGN KEY (liste_attributs)
+    REFERENCES tableBis (liste_attributs)
+    [ON DELETE regle]
+    [ON UPDATE regle]
+CHECK (condition)
+\end{lstlisting}
+\end{sqlcodebox}
+
+% ---------------------------------------------------------------------------
+
+\subsection{Types de données dans ORACLE}
+
+\paragraph{Types numériques}
+
+Les types ANSI INT, SMALLINT, FLOAT, REAL… sont convertis en type ORACLE
+\texttt{NUMBER}.
+
+\begin{center}
+\begin{tabular}{ll}
+\textbf{Type SQL ANSI} & \textbf{Type ORACLE} \\
+NUMERIC(p,c), DECIMAL(p,c) & NUMBER(p,c) \\
+INTEGER, SMALLINT & NUMBER(38) \\
+FLOAT(b), REAL & NUMBER \\
+\end{tabular}
+\end{center}
+
+\paragraph{Chaînes de caractères}
+
+\begin{itemize}
+\item \texttt{CHAR(n)} : taille fixe ($n \leq 2000$)
+\item \texttt{VARCHAR(n)} : taille variable ($n \leq 4000$)
+\end{itemize}
+
+% ---------------------------------------------------------------------------
+
+\subsection{Contraintes sur le domaine d’un attribut}
+
+\paragraph{Contrainte NOT NULL}
+
+L’utilisateur doit fournir une valeur.
+
+\begin{sqlcodebox}
+\begin{lstlisting}[language=SQL]
+CREATE TABLE Client (
+    noClient INTEGER NOT NULL,
+    nom VARCHAR(50) NOT NULL,
+    ddn VARCHAR(15),
+    telephone VARCHAR(15)
+);
+\end{lstlisting}
+\end{sqlcodebox}
+
+\textbf{Contrainte CHECK sur un attribut}
+
+\begin{sqlcodebox}
+\begin{lstlisting}[language=SQL]
+CREATE TABLE Client (
+    noClient INTEGER NOT NULL
+        CHECK (noClient > 0 AND noClient < 1000),
+    nom VARCHAR(50) NOT NULL,
+    ddn VARCHAR(15)
+);
+\end{lstlisting}
+\end{sqlcodebox}
+
+\textbf{Contrainte CHECK sur plusieurs attributs}
+
+\begin{sqlcodebox}
+\begin{lstlisting}[language=SQL]
+CREATE TABLE Produit (
+    noProduit INTEGER NOT NULL,
+    libelle VARCHAR(50),
+    prixUnitaire NUMBER(10,2) NOT NULL,
+    CHECK (noProduit <= 100 OR prixUnitaire > 15)
+);
+\end{lstlisting}
+\end{sqlcodebox}
+
+\textbf{Valeur par défaut}
+
+\begin{sqlcodebox}
+\begin{lstlisting}[language=SQL]
+CREATE TABLE employe (
+    numEmp INTEGER,
+    numTel VARCHAR(15) DEFAULT 'confidentiel' NOT NULL
+);
+\end{lstlisting}
+\end{sqlcodebox}
+
+% ---------------------------------------------------------------------------
+
+\subsection{Contrainte de clé primaire (PRIMARY KEY)}
+
+La clé primaire identifie de manière unique chaque tuple et ne peut contenir
+de valeur \texttt{NULL}.
+
+\begin{sqlcodebox}
+\begin{lstlisting}[language=SQL]
+CREATE TABLE Client (
+    noClient INTEGER PRIMARY KEY,
+    nom VARCHAR(50) NOT NULL,
+    ddn VARCHAR(15)
+);
+\end{lstlisting}
+\end{sqlcodebox}
+
+\textbf{Clé primaire composée}
+
+\begin{sqlcodebox}
+\begin{lstlisting}[language=SQL]
+CREATE TABLE Commande (
+    noClient INTEGER,
+    noProduit INTEGER,
+    dateCommande DATE,
+    quantite INTEGER,
+    PRIMARY KEY (noClient, noProduit, dateCommande)
+);
+\end{lstlisting}
+\end{sqlcodebox}
+
+\textbf{Contrainte d’unicité (UNIQUE)}
+
+\begin{sqlcodebox}
+\begin{lstlisting}[language=SQL]
+CREATE TABLE Citoyen (
+    numSecu INTEGER PRIMARY KEY,
+    nom VARCHAR(50),
+    prenom VARCHAR(50),
+    ddn DATE,
+    noPassport INTEGER UNIQUE
+);
+\end{lstlisting}
+\end{sqlcodebox}
+
+\textbf{Contrainte d’intégrité référentielle (FOREIGN KEY)}
+
+\begin{sqlcodebox}
+\begin{lstlisting}[language=SQL]
+CREATE TABLE Commande (
+    noCommande INTEGER PRIMARY KEY,
+    noClient INTEGER REFERENCES Client(noClient),
+    noProduit INTEGER,
+    dateCommande DATE,
+    quantite INTEGER,
+    FOREIGN KEY (noProduit)
+        REFERENCES Produit(noProduit)
+);
+\end{lstlisting}
+\end{sqlcodebox}
+
+Les tables référencées doivent exister et posséder une clé primaire ou une clé
+unique.
+
+% ---------------------------------------------------------------------------
+
+\subsection{Création de schéma + instanciation}
+
+\begin{sqlcodebox}
+\begin{lstlisting}[language=SQL]
+CREATE TABLE nomTable [(attributs)]
+AS SELECT ...
+\end{lstlisting}
+\end{sqlcodebox}
+
+Cette syntaxe :
+
+\begin{enumerate}
+\item crée la structure de la table,
+\item insère les résultats d’un \texttt{SELECT}.
+\end{enumerate}
+
+\textbf{Exemple :}
+
+\begin{sqlcodebox}
+\begin{lstlisting}[language=SQL]
+CREATE TABLE Client54 AS
+SELECT noClient, nom
+FROM Client
+WHERE CP BETWEEN 54000 AND 54999;
+\end{lstlisting}
+\end{sqlcodebox}
