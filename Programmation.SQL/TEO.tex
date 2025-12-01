@@ -1,10 +1,10 @@
-\section{Bases de Données (BD) et SGBD}
+\chapter{Bases de Données (BD) et SGBD}
 
-\subsection{Introduction : La problématique des fichiers}
+\section{Introduction : La problématique des fichiers}
 
 Avant l'invention des bases de données (années 1960), l'informatique reposait sur des systèmes de gestion de fichiers classiques. Cette méthode présentait des limites majeures qui ont conduit à la création des SGBD
 
-\subsubsection{Limite des systèmes de gestion de fichiers}
+\subsection{Limite des systèmes de gestion de fichiers}
 
 Lorsqu'une application gère ses données via de simples fichiers, nous rencontrons trois problèmes fondamentaux :
 
@@ -18,12 +18,12 @@ Lorsqu'une application gère ses données via de simples fichiers, nous rencontr
 \item \textbf{La Gestion des accès :} Il est difficile de permettre à plusieurs utilisateurs d'accéder et de modifier le même fichier en même temps sans créer de conflits.
 \end{itemize}
 
-\subsection{Définitions Fondamentales}
+\section{Définitions Fondamentales}
 
 Il est crucial de ne pas confondre le contenu (la base) et le contenant/gestionnaire (le système).
 
 
-\subsubsection{Base de Données (BD)}
+\subsection{Base de Données (BD)}
 
 \begin{definition}
 Une Base de Données est une collection de données représentant des informations du monde réel.
@@ -38,7 +38,7 @@ Pour être qualifiée de BD, cette collection doit respecter quatre critères :
 \item \textbf{Accessibilité :} Les données sont accessibles par plusieurs utilisateurs simultanément.
 \end{itemize}
 
-\subsubsection{Système de Gestion de Base de Données (SGBD)}
+\subsection{Système de Gestion de Base de Données (SGBD)}
 
 \begin{definition}
 Le SGBD est le logiciel qui sert d'interface entre les utilisateurs (ou applications) et la base de données.
@@ -54,7 +54,7 @@ Ses rôles principaux sont :
 
 \textbf{Exemples de domaines d'application :} Gestion d'entreprise, systèmes transactionnels (banques), e-commerce, bibliothèques numériques, etc.
 
-\subsection{Objectifs d'une approche Base de Données}
+\section{Objectifs d'une approche Base de Données}
 
 L'utilisation d'un SGBD vise à résoudre les problèmes des systèmes de fichiers (vus en partie 1) en atteignant les objectifs suivants :
 
@@ -65,10 +65,10 @@ L'utilisation d'un SGBD vise à résoudre les problèmes des systèmes de fichie
 \item \textbf{Performance :} Garantir une efficacité d'accès (temps de réponse rapide) même avec de gros volumes de données.
 \end{itemize}
 
-\subsection{Les Fonctions du SGBD}
+\section{Les Fonctions du SGBD}
 Pour atteindre ces objectifs, le SGBD offre quatre fonctions techniques majeures. Il est important de bien distinguer les deux langages (LDD et LMD).
 
-\subsubsection{Le Langage de Définition des Données (LDD)}
+\subsection{Le Langage de Définition des Données (LDD)}
 Il permet de décrire la \textbf{structure} de la base (le squelette).
 
 \begin{itemize}
@@ -76,7 +76,7 @@ Il permet de décrire la \textbf{structure} de la base (le squelette).
 \item \textbf{Résultat :} On obtient le Schéma de la Base de Données.
 \end{itemize}
 
-\subsubsection{Le Langage de Manipulation des Données (LMD)}
+\subsection{Le Langage de Manipulation des Données (LMD)}
 Il permet de gérer le \textbf{contenu} de la base (les données elles-mêmes).
 
 \begin{itemize}
@@ -84,10 +84,10 @@ Il permet de gérer le \textbf{contenu} de la base (les données elles-mêmes).
 \item \textbf{Outil :} C'est ici qu'intervient le langage SQL.
 \end{itemize}
 
-\subsubsection{Le Contrôle de l'intégrité}
+\subsection{Le Contrôle de l'intégrité}
 Le SGBD s'assure que les données respectent les règles définies (par le schéma ou le programme). Il empêche l'insertion de données aberrantes.
 
-\subsubsection{La Sécurité de fonctionnement}
+\subsection{La Sécurité de fonctionnement}
 Le SGBD gère les aspects critiques de l'exploitation :
 
 \begin{itemize}
@@ -100,11 +100,11 @@ Le SGBD gère les aspects critiques de l'exploitation :
 
 \newpage
 
-\section{Le Modèle Conceptuel de Données (E/A)}
+\chapter{Le Modèle Conceptuel de Données (E/A)}
 
 Le modèle Entité / Association
 
-\subsection{Le Principe du Modèle E/A}
+\section{Le Principe du Modèle E/A}
 
 Avant de créer des tables dans l'ordinateur, il faut dessiner le schéma sur papier.
 
@@ -114,11 +114,11 @@ Avant de créer des tables dans l'ordinateur, il faut dessiner le schéma sur pa
 \item \textbf{Utilité :} Il sert de pont. Une fois le modèle E/A terminé, il est très facile de le traduire en tables SQL.
 \end{itemize}
 
-\subsection{Les Composants Fondamentaux}
+\section{Les Composants Fondamentaux}
 
 Pour dessiner ce modèle, nous avons besoin de trois briques de base : l'Entité, l'Attribut et l'Identifiant.
 
-\subsubsection{L'Entité (L'objet)}
+\subsection{L'Entité (L'objet)}
 
 \begin{definition}
 Une entité est un objet (concret ou abstrait) à propos duquel on souhaite gérer des informations.
@@ -136,7 +136,7 @@ Il ne faut pas confondre le "moule" et l'objet créé :
 \textit{Exemple :} L'employé \texttt{Alex Térieur} ou \texttt{Paul Auchon}.
 \end{enumerate}
 
-\subsubsection{Les Attributs (Les détails)}
+\subsection{Les Attributs (Les détails)}
 
 \begin{definition}
 Ce sont les propriétés qui décrivent une entité (ou une association).
@@ -201,7 +201,7 @@ ville  \\
 \caption{ Tableau Exemple }
 \end{table}
 
-\subsubsection{L'Identifiant (La clé)}
+\subsection{L'Identifiant (La clé)}
 
 C'est le concept le plus important pour retrouver une info précise.
 
@@ -257,11 +257,11 @@ ville  \\
 \end{table}
 \end{enumerate}
 
-\subsection{Les Associations (Les liens)}
+\section{Les Associations (Les liens)}
 
 Les données ne vivent pas seules, elles sont reliées entre elles.
 
-\subsubsection{Définition}
+\subsection{Définition}
 
 \begin{definition}
 Une Association est un lien sémantique entre plusieurs entités. Elle est souvent représentée par un verbe.
@@ -346,7 +346,7 @@ Une Association est un lien sémantique entre plusieurs entités. Elle est souve
 \item \textbf{Réflexive :} Une entité est reliée à elle-même (ex: Un employé est marié à un autre employé).
 \end{itemize}
 
-\subsubsection{Les Cardinalités (La règle du jeu)}
+\subsection{Les Cardinalités (La règle du jeu)}
 
 \begin{definition}
 Les cardinalités définissent les règles de quantité dans une association. Elles s'écrivent sous la forme (min, max) à côté de chaque entité.
@@ -380,7 +380,7 @@ Les cardinalités définissent les règles de quantité dans une association. El
 
 \end{tikzpicture}
 
-\subsubsection{ Comprendre le (min, max)}
+\subsection{ Comprendre le (min, max)}
 
 \begin{enumerate}
 \item \textbf{Min (0 ou 1) :} Est-ce que l'entité est obligée de participer ?
@@ -397,7 +397,7 @@ Les cardinalités définissent les règles de quantité dans une association. El
 \end{itemize}
 \end{enumerate}
 
-\subsubsection{ Les 3 grands types de relations }
+\subsection{ Les 3 grands types de relations }
 On classe les associations selon leur cardinalité \textbf{maximale} (le chiffre de droite) des deux côtés :
 
 \begin{enumerate}
@@ -421,9 +421,9 @@ Plusieurs des deux côtés.
 \textit{Exemple :} Un \texttt{Client} commande plusieurs \texttt{Produits}, et un \texttt{Produit} peut être commandé par plusieurs \texttt{Clients}.
 \end{enumerate}
 
-\subsection{ Concepts Complémentaires }
+\section{ Concepts Complémentaires }
 
-\subsubsection{ Entités Faibles }
+\subsection{ Entités Faibles }
 
 \begin{definition}
 Une entité qui ne possède pas d'identifiant propre.
@@ -436,7 +436,7 @@ Une entité qui ne possède pas d'identifiant propre.
 
 La cardinalité vers l'entité forte est toujours \textbf{(1,1)} (dépendance totale).
 
-\subsubsection{Contraintes d'Intégrité (CI)}
+\subsection{Contraintes d'Intégrité (CI)}
 Ce sont des règles pour garantir que les données restent logiques.
 
 \begin{itemize}
@@ -444,13 +444,13 @@ Ce sont des règles pour garantir que les données restent logiques.
 \item \textbf{CI Dynamiques :} Règles logiques sur des valeurs (ex: le \texttt{salaire} ne peut qu'augmenter).
 \end{itemize}
 
-\subsection{ Formalisation et Documentation }
+\section{ Formalisation et Documentation }
 
 Pour qu’un projet de base de données soit valide, il ne suffit pas de faire un dessin (le schéma). Il faut respecter des \textbf{règles de complétude} : chaque objet dessiné doit être décrit textuellement de manière exhaustive.
 
 L'ensemble de ces descriptions constitue \textbf{l'Univers du Discours} (le résumé synthétique de l'application).
 
-\subsubsection{ La Description des Objets (Entités et Associations) }
+\subsection{ La Description des Objets (Entités et Associations) }
 
 Chaque élément graphique doit avoir sa fiche d'identité textuelle.
 
@@ -472,7 +472,7 @@ Chaque élément graphique doit avoir sa fiche d'identité textuelle.
 \end{table}
 
 
-\subsubsection{ Description d'une Association}
+\subsection{ Description d'une Association}
 
 Prenons l'association \texttt{Écriture} qui relie les auteurs aux livres.
 
@@ -494,7 +494,7 @@ Prenons l'association \texttt{Écriture} qui relie les auteurs aux livres.
 \caption{ Description d'une Association }
 \end{table}
 
-\subsubsection{ Le Dictionnaire des Données }
+\subsection{ Le Dictionnaire des Données }
 
 Le dictionnaire des données descend au niveau le plus fin : \textbf{l'attribut}. Il précise le format et les règles de chaque donnée.
 
@@ -516,7 +516,7 @@ Le dictionnaire des données descend au niveau le plus fin : \textbf{l'attribut}
 \caption{ Description d'un Attribut }
 \end{table}
 
-\subsubsection{ Les Contraintes d'Intégrité (CI) }
+\subsection{ Les Contraintes d'Intégrité (CI) }
 
 Certaines règles logiques ne peuvent pas être dessinées sur le schéma. Il faut les écrire sous forme d'expressions logiques ou mathématiques.
 
