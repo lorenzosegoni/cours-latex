@@ -1,0 +1,454 @@
+---
+title: "Tests du Chi2"
+format: pdf
+editor: visual
+---
+
+# Introduction
+
+Dans ce TP, on cherche à savoir si la loi sous jacente $P$ de nos observations $X_1,\cdots,X_n$ un $n$-échantillon correspond à une loi fixée, ou à une famille de lois fixée. On regardera également le cas bivarié (observations de deux échantillons $X_1,\cdots, X_{n_1}$ et $Y_1,\cdots, Y_{n_2}$) et on cherchera à teste l'homogénéité des lois dans les deux population.
+
+# Test d'adéquation à une loi
+
+On observe un $n$-échantillon $(x_1 , \cdots , x_n)$ réalisations de v.a. i.i.d. $\mathcal{H}_0$, copies de $X$ où $X$ est une variable aléatoire réelle de loi $P$. On se donne également une loi $P_0$ (**connue**) et on cherche à tester
+
+$$
+\mathcal{H}_0 : P = P_0 \quad \quad \mathcal{H}_1 : P \neq P_0
+$$
+
+------------------------------------------------------------------------
+
+# Exercice 1
+
+On suppose que $X$ ne peut prendre ue $K$ valeurs $(a_1,\cdots,a_k)$ et on identifie alors la loi $P$ au vecteur colonne $p= (p_1,\cdots,p_K)^T$, où pour tout $1 \leq k \leq K$, $p_k = P (a_k)$. On note ensuite pour tout $1\leq k \leq K$,
+
+$$
+N_k = \sum_{i=1}^{n} \mathbb{1}_{ \{ X_i=a_k \} } 
+$$
+
+## 1
+
+Montrer que pour tout $(n_1,\cdots,n_K) \in \mathbb{N}^K$
+
+$$
+\mathbb{P}(N_1=n_1,\cdots,N_K=n_K) = \begin{cases}
+\frac{n! \prod_{k=1}^{K} p_k^{n_k}}{\prod_{k=1}^{K}n_k! } & \text{si} \sum_{k=1}^{K} n_k = n \\
+0 & \text{sinon}
+\end{cases}
+$$
+
+*Indication : on cherchera d'abord à identifier le terme* $\prod_{k=1}^{K} p_k^{n_k}$ *comme la probabilité d'un certain événement que l'on peut écrire en fonction des* $X_i$
+
+### Correction
+
+[**Si**$K=2$ et $a_1=0 , a_2=1$.]{.underline}
+
+On a alors $X \sim \mathcal{B}(p_2)$ où $p_2 = \mathbb{P}(X=1) =\mathbb{P}(X=a_2)$.
+
+Alors
+
+$$
+N_1 = \sum_{i=1}^{n} \mathbb{1}_{ \{ X_i = 0\} }  \quad N_2 = \sum_{i=1}^{n} \mathbb{1}_{ \{ X_i = 1 \} } \sim \mathcal{B}(n,p_2)
+$$
+
+On a que $N_1 + N_2 = n \Rightarrow N_2 = n - N_1$, donc
+
+$$
+\mathbb{P}(N_1 = n_1 , N_2 = n_2 ) = \mathbb{P}(N_1 = n - n_2 , N_2 =n_2 )
+$$
+
+-   Si $n_1 + n_2 \neq n$:
+
+$$
+\mathbb{P} (N_1 = n_1 , N_2 = n_2) = 0
+$$
+
+-   Si $n_1 + n_2 = n$ :
+
+$$
+\mathbb{P} (N_1 = n_1 , N_2 = n_2) = \mathbb{P}(N_2 = n_2) = \binom{n}{n_2} p_2^{n_2} (1-p)^{n-n_2} = \frac{n! p_1^{n_1} p_2^{n_2} }{n_2 ! n_1!} = \frac{n!}{\prod_{k=1}^{2} n_k!} \cdot \prod_{k=1}^{2} p_k^{n_k}
+$$
+
+Si on se focalise sur l'expression $\binom{n}{n_2} p_2^{n_2} (1-p)^{n-n_2}$:
+
+-   $\mathbb{P}(X_1 = 1 , \cdots , X_{n_2} = 1 , X_{n_2 + 1} = 0 , \cdots , X_n = 0) = p_2^{n_2} (1-p)^{n-n_2}$
+
+-   $\binom{n}{n_2}$ Ceci sont les combinaison de -melange- de événement.
+
+[Maitenant on se place dans $K$**quelconque**:]{.underline}
+
+SI on s'inspire à ce que on a vue avant (avec $\sum_{k=1}^K = n_k = n$)
+
+$$
+\prod_{k=1}^{K} p_k^{n_k}= \mathbb{P}(X_1 = a_1 , \cdots , X_{n_1} = a_1 ,  X_{n_1 +1} = a_2 , \cdots , X_{n_1 + n_2 } = a_2, \cdots \cdots , X_{\sum^{K-1}_{k=1} n_k} = a_{K-1},  X_{1+ \sum^{K-1}_{k=1} n_k } = a_{K} ,\cdots ,  X_{\sum^{K}_{k=1} n_k} = a_{K} )
+$$
+
+Le terme $\frac{n!}{n_1! \cdots n_K!}$ correspond au nombre de façoon de ranger $n$ objets en $K$ groupes de tailles $n_1 \cdots,n_K$.
+
+## 2
+
+Montrer que
+
+$$
+\mathbb{E}[N] = np \quad \mathbb{V}[n \Sigma_p]
+$$
+
+où $\Sigma_p = diag(p) - p^T p$, et $diag(p)$ désique la matrice diagonale de taille $K \times K$ de diagonale $p_1,\cdots, p_K$.
+
+### Correction
+
+Si $N = \begin{pmatrix} N_1 \\ \vdots \\ N_k \end{pmatrix} \in \mathbb{R}^K$, avec $N_k \sim \mathcal{B}(n,p_k)$, alors
+
+$$
+\mathbb{E}[N] = \begin{pmatrix} \mathbb{E}[N_1] \\ \vdots \\ \mathbb{E}[N_K] \end{pmatrix} = \begin{pmatrix} np_1 \\ \vdots \\ n p_K \end{pmatrix} = np
+$$
+
+On a aussi $\mathbb{V} [N]= \begin{pmatrix} \mathbb{V} [N] && Cov[N_i,N_j]_{j<i} \\ &\ddots& \\ Cov[N_j,N_i]_{j<i} && \mathbb{V} [N_] \end{pmatrix} \in \mathcal{M}_k (\mathbb{R})$
+
+En particulier:
+
+-   $\mathbb{V}[N_k] = n p_K(1-p_k)$
+
+-   Si $i<j$:
+
+$$
+Cov[N_i,N_j] = \mathbb{E}[N_i N_j] - \mathbb{E}[N_i]\mathbb{E}[N_j] = \mathbb{E}[N_i  N_j] - n^2 p_i p_j
+$$
+
+On a que $\mathbb{E}[N_iN_j] = \sum_{k=1}^{n} \sum_{l = 1 / l \neq k}^{n} k \cdot l \cdot \mathbb{P}(N_i=k,N_j=l)$ est orrible à calculer. Donc on exprime (puisque $a_i \neq a_j$ ):
+
+$$
+N_i N_j = \left( \sum_{k=1}^{n} \mathbb{1}_{X_k = a_i} \right) \left( \sum_{l=1}^{n} \mathbb{1}_{X_l = a_j} \right) = \sum_{k=1}^{n} \sum_{l = 1 / l \neq k}^{n} \mathbb{1}_{ \{ X_k = a_i , X_l = a_j \}}
+$$
+
+Alors :
+
+$$
+\mathbb{E}[N_iN_j] = \sum_{k=1}^{n} \sum_{l = 1 / l \neq k}^{n} \mathbb{P}(X_k = a_i , X_l = a_) = \sum_{k=1}^{n} \sum_{l = 1 / l \neq k}^{n} p_i p_j = p_i p_j  \sum_{k=1}^{n} \sum_{l = 1 / l \neq k}^{n} 1
+$$
+
+par indépendance de $p_i$ et $p_j$ . Donc
+
+$$
+\mathbb{E}[N_iN_j] = p_i p_j \sum_{k=1}^{n} (n-1) = n (n-1) p_i p_j
+$$
+
+Ce qui donne
+
+$$
+Cov[N_i,N_j] = n(n-1) p_i p_j - n^2 p_i p_j = - n p_i p_j
+$$
+
+On a:
+
+$$
+p^T p = \begin{pmatrix} p_1^2 & & (p_i p_j) \\ & \ddots & \\ (p_i p_j) & & p_k^2\end{pmatrix}
+$$
+
+Donc on a bien
+
+$$
+\mathbb{V}[N] = \left( diag(p) - p^T p \right) n = \begin{pmatrix} np_1(1-p_1) &&(-np_ip_j) \\ &\ddots& \\ (-np_ip_j)&& np_K(1-p_K) \\ \end{pmatrix}
+$$
+
+## 3
+
+Quelle est la limite de $\frac{N}{n}$?
+
+### Correction
+
+On a que $\frac{N}{n} \xrightarrow{p.s.} p$. LGN appliquée coordonnée par coordonnée.
+
+$$
+\left( \frac{N_k}{n} \xrightarrow{p.s.} p_k  \right)
+$$
+
+## 4
+
+Quelle est la loi limide de $\sqrt{n} \left( \frac{N}{n} - p \right)$?
+
+### Correction
+
+On applique le TCL multidimensionnel aux vecteurs aleatoires i.i.d.
+
+$$
+Y_i = (\mathbb{1}_{X_i=a_1}, \cdots , \mathbb{1}_{X_i=a_K} )
+$$
+
+d'esperance $p$ et de variance $\Sigma_p$ . On pose $N = \sum_{i=1}^{n} Y_i$ . Alors
+
+$$
+\sqrt{n}\left( \frac{N}{n} - p\right) \xrightarrow{loi} \mathcal{N}(0,\Sigma_p)
+$$
+
+------------------------------------------------------------------------
+
+Dans la suite, on admettra le résultat suivant:
+
+**Proposition 1** : Soit $Z = (Z_1,\cdots,Z_n) \sim \mathcal{N}_K (0, \Sigma_p)$. Alors
+
+$$
+\sum_{k=1}^K \frac{Z_k^2}{p_k} \sim \chi^2 (K-1)
+$$
+
+Soit maitenant,
+
+$$
+T_n = \sum_{k=1}^{K} \left( \frac{\sqrt{n}}{\sqrt{p_k}} \left( \frac{N_k}{n} - p_k\right) \right)^2
+$$
+
+------------------------------------------------------------------------
+
+## 5
+
+Montrer que $T_n$ converge en loi vers une loi du $\chi^2$ à $K-1$ degrés de liberté
+
+### Correction
+
+$$
+\sqrt{n} \left( \frac{N}{n} - p \right) = \left( \sqrt{n} \left(\frac{N_k}{n} -p_K \right)\right) _{1 \leq k \leq K}
+$$
+
+Avec : $f : x = (x_1, \cdots , x_k) \in \mathbb{R}^K \to \sum_{k=1}^{K} x_k^2 \in \mathbb{R}$ continue. Ainsi, par le LAC:
+
+$$
+T_n f \left ( \sqrt{n} \left( \frac{N}{n} - p\right) \right) \xrightarrow{loi} f \left( \mathcal{N}_K (0,\Sigma_p) \right) \sim \chi^2(K-1)
+$$
+
+Par la proposition 1
+
+## 6
+
+Soit $Q=(q_1, \cdots,q_K)^T$ une loi de probabilité sur $\{ a_1 , \cdots , a_K \}$ différente de $P$. Montrer que
+
+$$
+\sum_{k=1}^{K} \frac{(N_k / n-q_k)^2}{q_k} \xrightarrow{p.s.} \sum_{k=1}^{K} \frac{(p_k - q_k)^2}{q_k}
+$$
+
+### Correction
+
+LGN
+
+## 7
+
+À l'aide des résultats précédents, établir un test de statistique $D_n$ à définir) de $\mathcal{H_0}$ contre $\mathcal{H_1}$. Vous préciserez le comportement asymtotique de $D_n$ sous $\mathcal{H}_0$ et sous $\mathcal{H_1}$.
+
+### Correction
+
+$$
+D_n = \sum_{k=1}^{K} \left( \frac{\sqrt{n}(\frac{N_K}{n}-p_{0,k})}{\sqrt{p_{0,k}}} \right)^2 = n \sum_{k=1}^{K}  \frac{(\frac{N_K}{n}-p_{0,k})^2}{p_{0,k}} = \sum_{k=1}^{K} \frac{(N_K-np_{0,k})^2}{n p_{0,k}}
+$$
+
+Si on se pose dans le test:
+
+$$
+\mathcal{H}_0 : P = P_0 \quad \mathcal{H}_1 : P \neq P_0
+$$
+
+-   Sous $\mathcal{H}_0$, alors
+
+$$
+D_n \xrightarrow{loi} \chi^2 (K-1)
+$$
+
+-   Sous $\mathcal{H}_1$ , alors
+
+$$
+ D_n \xrightarrow{p.s.} + \infty
+$$
+
+On a alors
+
+$$
+\mathcal{R}_\alpha = \{ t \in \mathbb{R}_{+} : t > q^{\chi^2(K-1)}_{1-\alpha}\}
+$$
+
+region de rejet du test de risque $\alpha$
+
+**Interpretation**
+
+-   $n p_{0,k}$ effectif theorique (ou attendu sous $\mathcal{H}_0$ du nombre de $a_k$
+-   $N_k$ effectif observé dans l'echantillon
+
+## 8
+
+Sur `R`, le test est accessible avec la commande `chisq.test`. Vérifiez sur des jeux de données simulés, que le test est bien calibré (i.e. que le taux de rejet est bien de $5\%$ (asymptotiquement) sous $\mathcal{H}_0$).
+
+### Correction
+
+```{r}
+
+p0 <- c(1/6, 1/6, 4/6)   
+N <- 2000
+Rejet <- 0  # Initialiser Rejet
+i <- 1
+
+while(i < N){
+  i <- i + 1 
+  x <- sample(1:3, 500, replace = TRUE, prob = p0)
+  
+  t <- table(x)
+  
+  pval <- chisq.test(t, p = p0, rescale.p = FALSE, 
+                     simulate.p.value = FALSE)
+  test <- pval$p.value < 0.05  # Accéder à $p.value
+  Rejet <- Rejet + test / N
+}
+
+print(Rejet)
+```
+
+------------------------------------------------------------------------
+
+En pratique on considére l'asymptotique comme valide lorsque
+
+-   $n \geq 30$
+-   les effectifs théoriques $n p_{0,k}$, $1 \leq k \leq K$ vérifient $n p_{0,k} \geq 5$
+
+Si le dernier point n'est pas vérifié, il faut regrouper des classes à trop faible effectifs pour atteindre le seuil exigé.
+
+------------------------------------------------------------------------
+
+## 9
+
+Si le support de $K$ n'est pas fini, que peut-on faire pour se ramener au cas précédent ? Même question si $P$ est une loi continue ? Commenter.
+
+### Correction
+
+Dans ce cas, on partitionne l'ensemble des valeurs possibles pour $x$ en un nombre fini d'intervalles
+
+$$
+I_K = [a_k,a_k+1[ \quad 1 \leq k \leq K 
+$$
+
+et on se ramène au cas précendent
+
+$$
+p_k = \mathbb{P}(X \in I_k) \quad p_{0,k} = P_0(I_k)
+$$
+
+Le test est ainsi
+
+$$
+\mathcal{H}'_0 : \forall 1 \leq k \leq K \quad P(I_k) = P_0 (I_k)
+$$
+
+contre
+
+$$
+\mathcal{H}'_1 : \exists k , \quad P(I_k) \neq P_0(I_k)
+$$
+
+**Remarque :** On peut avoir $\mathcal{H}_0$ faux mais $\mathcal{H}'_0$ .
+
+Donc en decidant de rejeter $\mathcal{H}_0$ si $\mathcal{H}'_0$ est rejetée, on fait un choix conservatif.
+
+( Conserve $\mathcal{H}_0$ si on conserve $\mathcal{H}'_0$ )
+
+## Plus
+
+Pourquoi on a pris:
+
+$$
+R_\alpha = \{ D_n > q_{1-\alpha}^{\chi^2(K-1)}\}
+$$
+
+Avec $D_n \xrightarrow{\text{loi sous } \mathcal{H}_0} \chi^2(K-1)$ et $D_n = \sum_{k=1}^n \frac{(N_k - n p_{0,k})^2}{n p_{0,k}}$ avec $N_k$ effectif observé et $np_{0,k}$ effectif theorique.
+
+**Choix de** $R_\alpha$
+
+-   Loi $\chi^2(K-1)$
+
+-   On s'attend sous $\mathcal{H}_0$ à ce que $D_n$ soit -petit-. On rejette $\mathcal{H}_0$ lorsque $D_n$ est trop grand.
+
+De plus:
+
+$$
+D_n \xrightarrow{\text{sous } \mathcal{H}_1} + \infty
+$$
+
+Donc
+
+$$
+\mathbb{P}_{\mathcal{H}_1} (\text{rejet } \mathcal{H}_0) = \mathbb{P}_{\mathcal{H}_1}(D_n >q^{\chi^2(K-1)}_{1-\alpha}) \xrightarrow{n \to \infty} 1
+$$
+
+On dit que le test est **consistant** .
+
+------------------------------------------------------------------------
+
+Un résultat plus difficile montre le résultat de convergence suivant :
+
+**Théorème 1:**
+
+$$
+\sqrt{n} \| F_n F_P\|_\infty \xrightarrow{loi} \mu_{KS}
+$$
+
+où la loi $\mu_{KS}$ est universelle (ne dépend pas de $P$) de support $\mathbb{R}^+$, et a pour fonction de répartition
+
+$$
+\mu_{KS}(]-\infty , t]) = 1+2 \sum_{k=1}^{+\infty} (-1)^k \exp (-2k^2t^2)
+$$
+
+Ainsi, asymptotiquement, la loi de $\sqrt{n}D_n$ est libre et ne dépend pas de n. La fonction `ks.test`de `R` permet de réaliser le test ci-dessus, appelé test de Kolmogorov-Smirnov, exact lorsque $n$ est petit et asymptotique lorsque $n$ est grand.
+
+------------------------------------------------------------------------
+
+## 10
+
+Chargez le fichier `donnees_loi_normale.txt` et exécuter un test de Kolmogorov-Smirnov avec $P_0 = \mathcal{N}(2,1)$.
+
+### Correction
+
+## 11
+
+Calculer la fonction de répartition empirique sur `R` à l’aide de la question 7. et vérifier avec la valeur donnée par la fonction `ks.test`.
+
+### Correction
+
+------------------------------------------------------------------------
+
+# Test d’adéquation à une famille de loi
+
+Le test précédent requière que l’on connaisse précisément la loi théorique $P_0$
+
+. Dans certaines situations, on cherche juste à savoir si la loi des données appartient à une famille générale de lois sans que l’on connaisse précisément les paramètres de cette loi (par exemple : famille des loi normales, exponentielles, etc.). On considère ainsi une famille de lois $\mathcal{F}$ indexée par un paramètre $\theta$ à valeurs dans un ouvert $\Theta \in \mathbb{R}^d$ :
+
+$$
+\mathcal{F} = \{ P_\theta : \theta \in \Theta\}
+$$
+
+On notera dans la suite, $F_\theta$ la fonction de répartition associée à la loi $P_\theta$. On cherche à tester
+
+$$
+\mathcal{H}_0 : P \in \mathcal{F} \quad \text{contre} \quad \mathcal{H}_1 : P \notin \mathcal{F}
+$$
+
+Une idée serait de considérer la statistique de test
+
+$$
+\|F_n - F_{\hat{\theta}_n} \| _\infty
+$$
+
+où $\hat{\theta}_n$ est un estimateur de $\theta$. Malheureusement, en toute généralité cette méthode n’aboutit pas. En revanche, elle fonctionne pour certains cas particulier.
+
+------------------------------------------------------------------------
+
+## 1
+
+On considère la famille exponentielle $F_\theta = (1 - \exp(-x/\theta)) \mathbb{1}_{x>0}$. Montrer que l’estimateur du maximum de vraisemblance $\hat{\theta}$ de $\theta$ est donné par $\bar{X}_n$.
+
+### Correction
+
+## 2
+
+Soit $D_n = \| F_n - F_{\hat{\theta}} \|_\infty$ .En reproduisant la preuve de la question 4. de la partie précédente, montrer que la loi de $D_n$ est libre de $\theta$ sous $\mathcal{H}_0$.
+
+### Correction
+
+## 3
+
+On peut alors utiliser la fonction `ks.test` pour réaliser ce test. Réaliser ce test sur les données `donnees_loi_exp.txt`.
+
+### Correction
