@@ -1,6 +1,6 @@
 ---
 title: "Tests du Chi2"
-format: pdf
+format: html
 editor: visual
 ---
 
