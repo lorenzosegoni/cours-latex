@@ -1,0 +1,268 @@
+\chapter{10-12-2025}
+
+\exo
+\begin{enonce}
+Exo 4 TD4
+
+
+\ques Donner un IC asymptotique de niveau $1- \alpha$ pour $\theta$.
+\end{enonce}
+\begin{correction}
+\ques $\hat{\theta}_n = \frac{P}{\bar{X}_n}$
+
+\textbf{TCL:}
+
+\[
+\sqrt{n}\left(\bar{X}_n - \frac{P}{\theta}\right) \xrightarrow{\text{loi}} \mathcal{N}\left(0, \frac{P}{\theta^2}\right)
+\]
+
+\textbf{Méthode delta avec } $g : x \mapsto \frac{P}{x}$
+
+\[
+g(\bar{X}_n) = \hat{\theta}_n \quad g\left(\frac{P}{\theta}\right) = \theta
+\]
+\[
+\sqrt{n}\left(\hat{\theta}_n - \theta\right) \xrightarrow{\text{loi}} \mathcal{N}\left(0, \frac{\theta^2}{P}\right)
+\]
+
+Alors:
+
+\[
+\sqrt{pn}\left(\frac{\hat{\theta}_n}{\theta} - 1\right) \xrightarrow{\text{loi}} \mathcal{N}(0, 1)
+\]
+
+Alors:
+
+\[
+\mathbb{P}_\theta\left(-q^{\mathcal{N}(0,1)}_{1-\frac{\alpha}{2}} \leq \sqrt{pn}\left(\frac{\hat{\theta}_n}{\theta} - 1\right) \leq q^{\mathcal{N}(0,1)}_{1-\frac{\alpha}{2}}\right) \xrightarrow{n \to \infty} 1 - \alpha
+\]
+
+On a:
+
+\begin{align*}
+-q^{\mathcal{N}(0,1)}_{1-\frac{\alpha}{2}} \leq \sqrt{pn}\left(\frac{\hat{\theta}_n}{\theta} - 1\right) \leq q^{\mathcal{N}(0,1)}_{1-\frac{\alpha}{2}}
+& \Leftrightarrow 1 - \frac{q_{1-\frac{\alpha}{2}}}{\sqrt{np}} \leq \frac{\hat{\theta}_n}{\theta} \leq 1 + \frac{q_{1-\frac{\alpha}{2}}}{\sqrt{np}} \\
+& \Leftrightarrow \frac{\hat{\theta}_n}{1 + \frac{q_{1-\frac{\alpha}{2}}}{\sqrt{np}}} \leq \theta \leq \frac{\hat{\theta}_n}{1 - \frac{q_{1-\frac{\alpha}{2}}}{\sqrt{np}}}
+\end{align*}
+
+Intervalle asymptotique de niveau de confiance $1 - \alpha$ :
+
+\[
+\left[\frac{\hat{\theta}_n}{1 + \frac{q_{1-\frac{\alpha}{2}}}{\sqrt{np}}}, \frac{\hat{\theta}_n}{1 - \frac{q_{1-\frac{\alpha}{2}}}{\sqrt{np}}}\right]
+\]
+
+\ques
+
+$\hat{\theta}_n = \frac{P}{\bar{X}_n}$
+
+\textbf{TCL:}
+\[
+\sqrt{n}\left(\bar{X}_n - \frac{P}{\theta}\right) \xrightarrow{\text{loi}} \mathcal{N}\left(0, \frac{P}{\theta^2}\right)
+\]
+
+\textbf{Méthode delta avec } $g : x \mapsto \frac{P}{x}$
+\[
+g(\bar{X}_n) = \hat{\theta}_n \quad g\left(\frac{P}{\theta}\right) = \theta
+\]
+\[
+\sqrt{n}\left(\hat{\theta}_n - \theta\right) \xrightarrow{\text{loi}} \mathcal{N}\left(0, \frac{\theta^2}{P}\right)
+\]
+
+Alors:
+\[
+\sqrt{n}\left(\frac{\hat{\theta}_n}{\theta} - 1\right) \xrightarrow{\text{loi}} \mathcal{N}(0, 1)
+\]
+
+\textbf{On remplace avec un estimateur pour } $p$ \textbf{:}
+
+On a: 
+
+\[
+\mathbb{E}_\theta [X] = \frac{p}{\theta}
+\]
+\[
+\mathbb{E}_\theta [\theta X] = p
+\]
+
+\textbf{Méthode des moments:}
+
+\[
+\hat{p}_n = \theta \bar{X}_n
+\]
+
+$\hat{p}_n$ est sans biais et fortement consistant.
+
+\textbf{TCL:}
+
+\[
+\sqrt{n}\left(\bar{X}_n - \frac{p}{\theta}\right) \xrightarrow{\text{loi}} \mathcal{N}\left(0, \frac{p}{\theta^2}\right)
+\]
+\[
+\sqrt{n}(\hat{p}_n - p) \xrightarrow{\text{loi}} \mathcal{N}(0, p)
+\]
+
+Donc:
+
+\[
+\frac{\sqrt{n}}{\sqrt{p}}(\hat{p}_n - p) \xrightarrow{\text{loi}} \mathcal{N}(0, 1) \quad (*)
+\]
+
+\textbf{Soit:}
+
+\[
+T_n = \frac{\sqrt{n}}{\sqrt{\hat{p}_n}}(\hat{p}_n - p)
+\]
+
+Alors, d'après le lemme de Slutsky (puisque $\sqrt{\hat{p}_n} \xrightarrow{\text{p.s.}} \sqrt{p}$):
+
+\[
+T_n = \frac{\sqrt{n}}{\sqrt{p}}(\hat{p}_n - p) \cdot \frac{\sqrt{p}}{\sqrt{\hat{p}_n}} \xrightarrow{\text{loi}} \mathcal{N}(0, 1) \cdot 1
+\]
+
+Alors:
+
+\[
+\mathbb{P}_\theta\left(|T_n| \leq q^{\mathcal{N}(0,1)}_{1-\alpha}\right) \xrightarrow{n \to \infty} 1 - \alpha
+\]
+
+\textbf{Intervalle de confiance asymptotique:}
+
+Par le même raisonnement:
+
+\[
+\left[\hat{p}_n - q_{1-\alpha} \frac{\sqrt{\hat{p}_n}}{\sqrt{n}}, \hat{p}_n + q_{1-\alpha} \frac{\sqrt{\hat{p}_n}}{\sqrt{n}}\right]
+\]
+
+C'est l'intervalle de confiance asymptotique de niveau $1-\alpha$ pour $p$.
+
+\ques 
+
+Ici on a pas les deux inconnue. Si on regarde que l'espérance ca va pas marcher.
+
+\[
+\mathbb{E}_\theta = \frac{p}{\theta}
+\]
+\[
+\mathbb{V}_\theta = \frac{p}{\theta^2}
+\]
+
+On a donc :
+
+\[
+\theta = \frac{\mathbb{E}_\theta}{\mathbb{V}_\theta}
+\]
+\[
+p = \frac{\mathbb{E}^2_\theta}{\mathbb{V}_\theta}
+\]
+
+Soit:
+
+\[
+\hat{\theta}^{(2)}_n = \frac{\bar{X}_n}{\hat{\sigma}^2_n}
+\]
+\[
+\hat{p}_n = \frac{(\bar{X}_n)^2}{\hat{\sigma}^2_n}
+\]
+
+où:
+
+\[
+\hat{\sigma}^2_n = \frac{1}{n} \sum_{i=1}^{n} (X_i - \bar{X}_n)^2
+\]
+
+Convergences:
+
+\[
+\bar{X}_n \xrightarrow{\text{p.s.} / \mathbb{P}} \frac{p}{\theta}
+\]
+\[
+(\bar{X}_n)^2 \xrightarrow{\text{p.s.} / \mathbb{P}} \frac{p^2}{\theta^2} \quad \text{(par continuité)}
+\]
+\[
+\hat{\sigma}^2_n \xrightarrow{\text{p.s.} / \mathbb{P}} \frac{p}{\theta^2} \quad \text{(LGN)}
+\]
+
+Alors:
+
+\[
+\hat{\theta}^{(2)}_n \xrightarrow{\text{p.s.} / \mathbb{P}} \frac{p/\theta}{p/\theta^2} = \theta
+\]
+\[
+\hat{p}_n \xrightarrow{\text{p.s.} / \mathbb{P}} \frac{p^2/\theta^2}{p/\theta^2} = p
+\]
+
+\end{correction}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\exo
+\begin{enonce}
+Ensuite EX5TD2 -
+\end{enonce}
+\begin{correction}
+\[
+\sqrt{n}(\hat{\theta}_n - \theta) \xrightarrow{\text{loi}} \mathcal{N}(0, \theta^2)
+\]
+\[
+\left(\sqrt{n}(\hat{\theta}^{(2)}_n - \theta) \xrightarrow{\text{loi}} \mathcal{N}(0, \theta^2)\right)
+\]
+
+Alors:
+\[
+\frac{\sqrt{n}}{\theta}(\hat{\theta}_n - \theta) \xrightarrow{\text{loi}} \mathcal{N}(0, 1)
+\]
+\[
+\sqrt{n}\left(\frac{\hat{\theta}_n}{\theta} - 1\right) \xrightarrow{\text{loi}} \mathcal{N}(0, 1)
+\]
+
+On a
+
+\[
+\mathbb{P}\left(\left|\sqrt{n}\left(\frac{\hat{\theta}_n}{\theta} - 1\right)\right| \leq q_{1-\frac{\alpha}{2}}\right) \xrightarrow{n \to \infty} 1 - \alpha
+\]
+
+\textbf{Intervalle de confiance asymptotique:}
+
+\[
+\text{IC} = \left[\frac{\hat{\theta}_n}{1 + \frac{q_{1-\frac{\alpha}{2}}}{\sqrt{n}}}, \frac{\hat{\theta}_n}{1 - \frac{q_{1-\frac{\alpha}{2}}}{\sqrt{n}}}\right]
+\]
+\end{correction}
+
+\exo
+\begin{enonce}
+Ensuite EX2TD4 -
+\ques
+\ques
+\ques
+\ques Donner un IC non asymptotique du niveau $1-\alpha$.
+\end{enonce}
+\begin{correction}
+\end{correction}
+
+\exo
+\begin{enonce}
+Ensuite EX6-7TD2 -
+Construire un IC non asymptotique de $\theta$
+\end{enonce}
+\begin{correction}
+\end{correction}
+
+
