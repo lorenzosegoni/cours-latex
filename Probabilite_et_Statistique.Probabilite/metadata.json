@@ -1,0 +1,9 @@
+{
+  "nom": "Probabilité",
+  "semestre": "L3S1",
+  "resume": "Cet ensemble pédagogique s'articule autour de deux grands volets, offrant une progression rigoureuse de l'étude unidimensionnelle vers l'analyse multidimensionnelle en probabilités. Le premier document pose les fondements de la discipline à travers l'étude approfondie d'une variable aléatoire réelle unique, en consolidant le cadre axiomatique, la caractérisation des lois (discrètes et à densité) et les méthodes de simulation. Ce socle théorique formalise ensuite le calcul de l'espérance et des moments via la fonction génératrice, avant d'aborder les inégalités probabilistes incontournables et les intégrales de Lebesgue et Riemann-Stieltjes. Dans sa continuité, le second document étend cette théorie aux vecteurs aléatoires, en explorant en profondeur la notion d'indépendance, la manipulation de fonctions de variables (convolution, jacobien) et les variables dépendantes (lois conditionnelles, covariance). L'aboutissement de ce cours porte sur les théorèmes limites, détaillant les modes de convergence, la loi des grands nombres et le théorème central limite, en distinguant constamment ce qui requiert l'indépendance de ce qui s'en affranchit.",
+  "fichiers": [
+    {"nom": "Cours unidimensionel", "fichier": "main1.pdf"},
+    {"nom": "Cours multidimensionel", "fichier": "main2.pdf"}
+  ]
+}
