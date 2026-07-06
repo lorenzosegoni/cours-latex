@@ -1,0 +1,113 @@
+\chapter*{TD4 : VARs, loi, moments.}
+
+\setcounter{exercice}{0}
+
+\begin{mdframed}
+\begin{exercice} 
+Posons, $n \in \mathbb{N}^*$ et $t > 0$ réel :
+
+$$
+I(n) = \int_t^\infty \frac{1}{(n - 1)!} x^{n-1}e^{-x} dx.
+$$
+
+\begin{enumerate}
+    \item Montrer que l'on a :
+    
+    $$
+    I(n) = \frac{1}{(n - 1)!} t^{n-1}e^{-t} + I(n - 1).
+    $$
+    \item En déduire :
+    
+    $$
+    I(n) = \sum_{k=0}^{n-1} e^{-t} \frac{t^k}{k!}.
+    $$
+    \item Soit $X_t \sim \mathcal{P}(t)$ et $Y_n \sim \Gamma(n, 1)$. Montrer que :
+    
+    $$
+    \mathbb{P}(X_t < n) = \mathbb{P}(Y_n > t).
+    $$
+\end{enumerate}
+\end{exercice}
+\end{mdframed}
+
+\medskip
+
+\begin{mdframed}
+\begin{exercice}
+\begin{enumerate}
+    \item On cherche à caractériser l'ensemble des lois des variables aléatoires réelles $X$ qui satisfont à l'égalité en loi :
+    
+    $$
+    X \overset{\text{loi}}{=} X^2.
+    $$
+    \begin{enumerate}
+        \item Quel est le signe de $X$ ? En déduire la fonction de répartition $F$ de $X$ sur $]-\infty, 0[$.
+        \item Montrer que $F$ satisfait $F(t) = F(t^2)$ pour tout $t \geq 0$.
+        \item En déduire que $F$ est constante sur les deux intervalles $[0, 1[$ et sur $[1, \infty[$.
+        \item Conclure : trouver l'ensemble des lois solutions.
+    \end{enumerate}
+    \item Adapter le raisonnement précédent pour les deux équations en loi suivantes :
+    \begin{enumerate}
+        \item $X \overset{\text{loi}}{=} X^3$
+        \item \textit{(plus difficile, en bonus)} $X \overset{\text{loi}}{=} -X^3$
+    \end{enumerate}
+\end{enumerate}
+\end{exercice}
+\end{mdframed}
+
+\medskip
+
+\begin{mdframed}
+\begin{exercice}
+On se donne $X_1, \dots, X_n$, $n$ variables aléatoires indépendantes de loi $\mathcal{U}(0, 1)$ et on note $X_{(1)} \leq \dots \leq X_{(n)}$ leur réordonnancement croissant (encore appelé statistique d'ordre) ; ainsi, $X_{(1)}$ est le plus petit des $X_i$, $i = 1 \dots n$, $X_{(2)}$ le deuxième plus petit...
+
+\begin{enumerate}
+    \item Montrer que $\mathbb{P}(X_{(n)} \leq t) = t^n$ pour tout $t \in [0, 1]$ et en déduire que $X_{(n)}$ suit une loi Bêta dont on précisera les paramètres.
+    \item Montrer que $\mathbb{P}(X_{(n-1)} \leq t) = t^n + n(1 - t)t^{n-1}$ pour tout $t \in [0, 1]$ et en déduire que $X_{(n-1)}$ suit une loi Bêta dont on précisera les paramètres.
+    \item De même, donner les lois de $X_{(1)}$ et $X_{(2)}$.
+    \item Quel résultat peut-on conjecturer de façon plus générale au sujet de la loi de $X_{(i)}$ si $i \in \{1, \dots, n\}$ ?
+\end{enumerate}
+\end{exercice}
+\end{mdframed}
+
+\medskip
+
+\begin{mdframed}
+\begin{exercice}
+Soit $\alpha, \beta > 0$ et $n \in \mathbb{N}^*$. On rappelle la définition de la fonction Gamma d'Euler :
+
+$$
+\Gamma(t) = \int_0^\infty x^{t-1}e^{-x} dx, \quad t > 0.
+$$
+
+\begin{enumerate}
+    \item Montrer que $\Gamma(n + 1) = n!$.
+    \item Calculer le $n$-ième moment de la loi exponentielle $\mathcal{E}(\beta)$, c'est-à-dire $\mathbb{E}[X^n]$ si $X \sim \mathcal{E}(\beta)$.
+    \item Calculer le $n$-ième moment de la loi Gamma $\Gamma(\alpha, \beta)$.
+    \item Comparez les résultats obtenus aux deux dernières questions.
+\end{enumerate}
+\end{exercice}
+\end{mdframed}
+
+\medskip
+
+\begin{mdframed}
+\begin{exercice}
+\begin{enumerate}
+    \item Calculer les moments impairs de la loi normale centrée réduite $\mathcal{N}(0, 1)$.
+    \item On cherche maintenant à calculer les moments pairs de $\mathcal{N}(0, 1)$.
+    \begin{enumerate}
+        \item Montrer à l'aide d'une intégration par parties que :
+        
+        $$
+        \int_{\mathbb{R}} x^{2n}e^{-\frac{x^2}{2}} dx = (2n - 1) \int_{\mathbb{R}} x^{2n-2}e^{-\frac{x^2}{2}} dx
+        $$
+        \item En déduire que le $2n$-ième moment de $\mathcal{N}(0, 1)$ vaut :
+        
+        $$
+        \prod_{k=1}^n (2k - 1) = \frac{(2n)!}{2^n \cdot n!}
+        $$
+    \end{enumerate}
+\end{enumerate}
+\end{exercice}
+\end{mdframed}

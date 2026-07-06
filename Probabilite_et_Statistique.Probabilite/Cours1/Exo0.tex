@@ -1,0 +1,160 @@
+\chapter*{TD$0$ : Préliminaires}
+
+\setcounter{exercice}{0}
+
+\begin{mdframed}
+\begin{exercice}
+On rappelle l'expression de la fonction gamma d'Euler :
+
+$$
+\forall x > 0, \quad \Gamma(x) = \int_0^\infty t^{x-1}e^{-t}dt.
+$$
+
+\begin{enumerate}
+\item Montrer que pour tout réel $x$ strictement positif,
+
+$$
+\Gamma(x + 1) = x\Gamma(x).
+$$
+\item  En déduire la valeur de $\Gamma(n)$ pour $n$ entier naturel non nul.
+\item Montrer que
+
+$$
+\Gamma\left(\frac{1}{2}\right) = \sqrt{\pi}.
+$$
+
+\textit{On pourra se ramener à l'intégrale de Gauss :}
+
+$$
+\int_{\mathbb{R}} e^{-x^2} dx = \sqrt{\pi}.
+$$
+\item En déduire que pour tout entier naturel $n$,
+
+$$
+\Gamma\left(n + \frac{1}{2}\right) = \frac{(2n)!}{2^{2n}n!} \sqrt{\pi}
+$$
+
+On pose pour tout entier naturel $n$ :
+
+$$
+\beta(n) = \int_{-\infty}^\infty x^n \exp\left(-\frac{x^2}{2}\right) dx.
+$$
+\item Calculer $\beta(0)$ et $\beta(1)$.
+\item Exprimer $\beta(n + 2)$ en fonction de $\beta(n)$.
+\item En déduire la valeur de $\beta(n)$ pour tout entier naturel $n$.
+\item Faire un lien entre les résultats des questions 4 et 7, et retrouver ce résultat par un changement de variable.
+\end{enumerate}
+\end{exercice}
+\end{mdframed}
+
+%Correction. 
+%1. Par intégration par parties :
+%$$\Gamma(x + 1) = \int_0^\infty t^x e^{-t}dt = \left[-t^x e^{-t}\right]_0^\infty + \int_0^\infty x t^{x-1}e^{-t}dt = x\Gamma(x).$$
+%2. On calcule directement $\Gamma(1) = 1$. Grâce à la formule de la question précédente, on en déduit par récurrence que $\Gamma(n) = (n - 1)!$.
+%3. (a) En posant le changement de variable $u = \sqrt{t}$, $t = u^2$ donc $dt = 2u du$,
+%$$\Gamma\left(\frac{1}{2}\right) = \int_0^\infty e^{-t}\frac{1}{\sqrt{t}} dt = 2 \int_0^\infty e^{-u^2} du = \sqrt{\pi}.$$
+%(b) En utilisant la question 1, on en déduit par récurrence :
+%$$\Gamma\left(n + \frac{1}{2}\right) = \left(n - \frac{1}{2}\right)\left(n - \frac{3}{2}\right) \dots \frac{3}{2} \frac{1}{2} \Gamma\left(\frac{1}{2}\right) = \frac{(2n)!}{2^{2n}n!} \sqrt{\pi}$$
+%(c) Par croissance de la fonction $\Gamma$ :
+%$$\Gamma(n) \le \Gamma\left(n + \frac{1}{2}\right) \le \Gamma(n + 1).$$
+%En utilisant les questions précédentes :
+%$$(n - 1)! \le \frac{n!\sqrt{\pi}}{2^{2n}} \binom{2n}{n} \le n!,$$
+%d'où l'encadrement demandé.
+%4. En posant le changement de variable $y = \beta x$, $x = \frac{y}{\beta}$ donc $dx = \frac{dy}{\beta}$,
+%$$\int_0^\infty x^k f(x)dx = \frac{\beta^\alpha}{\Gamma(\alpha)} \int_0^\infty x^{\alpha+k-1}e^{-\beta x}dx = \frac{\beta^\alpha}{\Gamma(\alpha)} \int_0^\infty \left(\frac{y}{\beta}\right)^{\alpha+k-1} e^{-y} \frac{dy}{\beta}$$
+%$$= \beta^{-k} \frac{\Gamma(\alpha + k)}{\Gamma(\alpha)} = \frac{\alpha(\alpha + 1) \dots (\alpha + k - 1)}{\beta^k}.$$
+
+\medskip
+
+\begin{mdframed}
+\begin{exercice}
+\begin{enumerate}
+\item Déterminer la valeur de $\sum_{k=1}^n k$ en calculant la somme $A = \sum_{k=1}^n (k + 1)^2 - \sum_{k=1}^n k^2$ de deux façons différentes.
+\item Par un raisonnement similaire, calculer $\sum_{k=1}^n k^2$.
+\item Donner des équivalents de ces deux sommes pour $n \to \infty$.
+\item Soit $\alpha > 0$ un réel. À l'aide de la comparaison série-intégrale :
+
+$$
+\int_{k-1}^k t^\alpha dt \le k^\alpha \le \int_k^{k+1} t^\alpha dt,
+$$
+
+proposer un encadrement puis donner un équivalent de $\sum_{k=1}^n k^\alpha$.
+\item On rappelle le résultat suivant au sujet de l'intégrale de Riemann : pour $f : [0, 1] \to \mathbb{R}$ continue bornée,
+
+$$
+\frac{1}{n} \sum_{k=1}^n f\left(\frac{k}{n}\right) \xrightarrow{n \to \infty} \int_0^1 f(t) dt.
+$$
+
+Retrouver à l'aide de ce résultat un équivalent de $\sum_{k=1}^n k^\alpha$ (sans encadrement toutefois).
+\end{enumerate}
+\end{exercice}
+\end{mdframed}
+
+%Correction.
+%1. En faisant apparaître une somme télescopique :
+%$$A = \sum_{k=1}^n (k + 1)^2 - \sum_{k=1}^n k^2 = \sum_{k=2}^{n+1} k^2 - \sum_{k=1}^n k^2 = (n + 1)^2 - 1$$
+%puis
+%$$A = \sum_{k=1}^n (k^2 + 2k + 1) - \sum_{k=1}^n k^2 = 2\sum_{k=1}^n k + \sum_{k=1}^n 1 = 2\sum_{k=1}^n k + n$$
+%D'où
+%$$\sum_{k=1}^n k = \frac{(n + 1)^2 - (n + 1)}{2} = \frac{n(n + 1)}{2}$$
+%On rappellera aussi aux étudiants le raisonnement géométrique du jeune Gauss qui constate que l'aire d'un rectangle de côtés $n$ et $n + 1$ comprend deux fois la somme $\sum_{k=1}^n k$.
+%2. Ensuite, on pose pour le calcul de la somme des carrés
+%$$B = \sum_{k=1}^n (k + 1)^3 - \sum_{k=1}^n k^3 = \sum_{k=1}^n (k^3 + 3k^2 + 3k + 1) - \sum_{k=1}^n k^3 = 3\sum_{k=1}^n k^2 + 3\sum_{k=1}^n k + n$$
+%et
+%$$B = \sum_{k=1}^n (k + 1)^3 - \sum_{k=1}^n k^3 = (n + 1)^3 - 1$$
+%d'où :
+%$$\sum_{k=1}^n k^2 = \frac{1}{3} \left((n + 1)^3 - 3\sum_{k=1}^n k - n - 1\right)$$
+%$$= \frac{1}{6} \left(2(n + 1)^3 - 3n(n + 1) - 2(n + 1)\right)$$
+%$$= \frac{1}{6} \left((n + 1)(2(n + 1)^2 - 3n - 2)\right)$$
+%$$= \frac{1}{6} n(n + 1)(2n + 1)$$
+%3. Ainsi, $\sum_{k=1}^n k \sim \frac{n^2}{2}$ et $\sum_{k=1}^n k^2 \sim \frac{n^3}{3}$.
+%4. Maintenant, puisque les fonctions $t \mapsto t$ et $t \mapsto t^2$ sont croissantes sur $\mathbb{R}_+$, on a pour tout $k \in \mathbb{N}^*$
+%$$\int_{k-1}^k t dt \le k \le \int_k^{k+1} t dt \quad \text{et} \quad \int_{k-1}^k t^2 dt \le k^2 \le \int_k^{k+1} t^2 dt$$
+%donc
+%$$\sum_{k=1}^n \int_{k-1}^k t dt \le \sum_{k=1}^n k \le \sum_{k=1}^n \int_k^{k+1} t dt \quad \text{et} \quad \sum_{k=1}^n \int_{k-1}^k t^2 dt \le \sum_{k=1}^n k^2 \le \sum_{k=1}^n \int_k^{k+1} t^2 dt$$
+%puis, en appliquant la relation de Chasles aux intégrales, on obtient : Au final,
+%$$\frac{n^2}{2} = \left[\frac{t^2}{2}\right]_0^n \le \sum_{k=1}^n k \le \left[\frac{t^2}{2}\right]_1^{n+1} = \frac{(n + 1)^2 - 1}{2}$$
+%et
+%$$\frac{n^3}{3} = \left[\frac{t^3}{3}\right]_0^n \le \sum_{k=1}^n k^2 \le \left[\frac{t^3}{3}\right]_1^{n+1} = \frac{(n + 1)^3 - 1}{3},$$
+%et les minorants et majorants sont équivalents à $n^2/2$ dans le premier cas et $n^3/3$ dans le second cas.
+
+\medskip
+
+\begin{mdframed}
+\begin{exercice}
+Soit $\lambda \in \mathbb{C}$ ; calculer les sommes des séries suivantes :
+
+\begin{enumerate}
+\item $A = \sum_{k=0}^\infty \frac{\lambda^k}{k!}$. 
+
+\textit{On peut au choix dire que c'est un DSE connu, ou se ramener à la définition de l'exponentielle comme unique solution de l'équation différentielle ordinaire $f' = f$, $f(0) = 1$.}
+\item $B = \sum_{k=0}^\infty k \frac{\lambda^k}{k!}$.
+\item $C = \sum_{k=0}^\infty k(k - 1) \frac{\lambda^k}{k!}$.
+\item $D = \sum_{k=0}^\infty k^2 \frac{\lambda^k}{k!}$.
+\end{enumerate}
+\end{exercice}
+\end{mdframed}
+
+%Correction. 
+%1. $A = \lambda \sum_{k=1}^\infty \frac{\lambda^{k-1}}{(k - 1)!} = \lambda \sum_{k=0}^\infty \frac{\lambda^k}{k!} = \lambda e^\lambda$.
+%2. De même, on obtient $B = \lambda^2 e^\lambda$.
+%3. On écrit enfin $k^2 = k(k - 1) + k$ pour obtenir $C = B + A = (\lambda^2 + \lambda)e^\lambda$.
+
+\medskip
+
+\begin{mdframed}
+\begin{exercice}
+\begin{enumerate}
+\item Soit $\lambda \in \mathbb{C}$, et $n \in \mathbb{N}$. Simplifier $(1 - \lambda) \sum_{k=0}^n \lambda^k$.
+\item En déduire, pour $|\lambda| < 1$, la valeur de la série entière $\sum_{k=0}^{+\infty} \lambda^k$.
+\item À l'aide d'un produit de Cauchy, développer en série entière $(1 - \lambda)^{-2}$ pour $|\lambda| < 1$.
+\item Retrouver cette identité au moyen du théorème de dérivation sous le signe somme des séries entières.
+
+\textit{Les questions qui suivent sont plus difficiles.}
+\item Montrer que $\sum_{k_1,\dots,k_n\ge 0} \mathbb{1}_{k_1+k_2+\dots+k_n=j} = \binom{j + n - 1}{j}$.
+
+\textit{On pourra remarquer que le membre de gauche compte aussi les chemins du plan $\mathbb{Z}^2$ avec des pas vers le haut et vers la droite reliant $(0, 0)$ à $(n - 1, j)$.}
+\item Soit $n \in \mathbb{N}^*$. Plus généralement, pour $|\lambda| < 1$, développer en série entière $(1 - \lambda)^{-n}$.
+\end{enumerate}
+\end{exercice}
+\end{mdframed}

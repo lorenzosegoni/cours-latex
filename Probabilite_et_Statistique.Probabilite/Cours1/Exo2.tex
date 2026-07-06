@@ -1,0 +1,102 @@
+\chapter*{TD2 : Convergence de variables aléatoires et théorèmes limites.}
+
+\setcounter{exercice}{0}
+
+\begin{mdframed}
+\begin{exercice}
+On reprend l'exercice 1 de la feuille précédente. On rappelle la fonction de masse de $X$ :
+
+\begin{align*}
+\mathbb{P}(X = -2) = \frac{1}{30}, \\
+\mathbb{P}(X = 0) = \frac{1}{20}, \\
+\mathbb{P}(X = 1) = \frac{1}{6}, \\ 
+\mathbb{P}(X = 3) = \frac{1}{12}, \\ 
+\mathbb{P}(X = 5) = \frac{2}{3}.
+\end{align*}
+
+\begin{enumerate}
+\item Montrer que $Y = -2X + 1$ est une v.a. discrète et déterminer sa fonction de masse. 
+\item Même question pour $Z = Y^2$.
+\end{enumerate}
+\end{exercice}
+\end{mdframed}
+
+\medskip
+
+\begin{mdframed}
+\begin{exercice}
+On reprend l'exercice 4 de la feuille précédente. On rappelle la fonction de répartition de $X$ :
+
+$$
+F_X(x) = \begin{cases} 
+0 & \text{si } x < 0, \\ 
+\frac{x}{4} & \text{si } 0 \leqslant x < 1, \\ 
+\frac{1}{4} & \text{si } 1 \leqslant x < 3, \\ 
+\frac{3x-7}{8} & \text{si } 3 \leqslant x < 5, \\ 
+1 & \text{si } x \geqslant 5. 
+\end{cases}
+$$
+
+\begin{enumerate}
+\item Justifier que la variable aléatoire $Y = 1/X$ est bien définie. 
+\item Montrer que $Y$ est à densité et calculer sa densité.
+\end{enumerate}
+\end{exercice}
+\end{mdframed}
+
+\medskip
+
+\begin{mdframed}
+\begin{exercice}
+Soit $f_X$ la densité d'une variable aléatoire réelle $X$ telle que $\mathbb{P}(X \geq 0) > 0$. On pose 
+
+$$
+f_Y(t) = af_X(|t|), \quad t \in \mathbb{R}
+$$
+
+\begin{enumerate}
+\item Calculer $a$ (en fonction de $f_X$) pour que $f_Y$ soit la densité d'une variable aléatoire $Y$. 
+\item Montrer que $Y$ et $-Y$ ont même loi.
+\end{enumerate}
+\end{exercice}
+\end{mdframed}
+
+\medskip
+
+\begin{mdframed}
+\begin{exercice}
+Soit $X$ une variable aléatoire de densité $f$ continue et de fonction de répartition $F$. 
+
+\begin{enumerate}
+\item Soit $Z = 2X\mathbb{1}_{\{X<0\}} + 3X\mathbb{1}_{\{X \geq 0\}}$. Donner la fonction de répartition de $Z$ en fonction de $F$, puis sa densité en fonction de $f$. 
+\item Soit $Y = X^2$. Donner la fonction de répartition de $Y$ en fonction de $F$, puis sa densité en fonction de $f$.
+\end{enumerate}
+\end{exercice}
+\end{mdframed}
+
+\medskip
+
+\begin{mdframed}
+\begin{exercice}
+Soit $X$ une variable aléatoire de fonction de répartition $F$, et soit $A = ]a, b]$ un intervalle. 
+
+\begin{enumerate}
+\item Soit $Y = \mathbb{1}_A(X)$. Donner la fonction de répartition de $Y$ en fonction de $F$. (On pourra observer que $Y \sim \text{Ber}(p)$ pour une valeur de $p$ à déterminer). 
+\item On suppose de plus $a > 0$. Soit $Z = X\mathbb{1}_A(X)$. Donner la fonction de répartition de $Z$ en fonction de $F$.
+\end{enumerate}
+\end{exercice}
+\end{mdframed}
+
+\medskip
+
+\begin{mdframed}
+\begin{exercice}
+Soit $X$ une variable aléatoire de fonction de répartition $F$. Soit $(a, b) \in \mathbb{R}^2$. 
+
+\begin{enumerate}
+\item Exprimer à l'aide de $F$ la fonction de répartition de la variable aléatoire $aX + b$. 
+\item Sous quelle condition sur le couple $(a, b)$ la fonction $t \mapsto F(at + b)$ est-elle une fonction de répartition ? Sous cette condition, de quelle variable aléatoire cette fonction est-elle la fonction de répartition ?
+\end{enumerate}
+\end{exercice}
+\end{mdframed}
+

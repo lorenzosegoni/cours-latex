@@ -1,0 +1,155 @@
+\chapter*{TD5 :  Moments de variables aléatoires.}
+
+\setcounter{exercice}{0}
+
+\medskip
+\begin{mdframed}
+\begin{exercice}
+Soit $\alpha, \beta > 0$ et $n \in \mathbb{N}^*$. On rappelle la définition de la fonction Gamma d'Euler :
+
+$$
+\Gamma(t) = \int_0^\infty x^{t-1}e^{-x} dx, \quad t > 0.
+$$
+
+\begin{enumerate}
+    \item Montrer que $\Gamma(n + 1) = n!$
+    \item Calculer le $n$-ième moment de $\mathcal{E}(\beta)$, c'est-à-dire $\mathbb{E}[X^n]$ si $X \sim \mathcal{E}(\beta)$.
+    \item Calculer le $n$-ième moment de $\Gamma(\alpha, \beta)$.
+    \item Comparez les résultats obtenus aux deux dernières questions.
+\end{enumerate}
+\end{exercice}
+\end{mdframed}
+
+\medskip
+
+\begin{mdframed}
+\begin{exercice}
+\begin{enumerate}
+    \item Calculer les moments impairs de $\mathcal{N}(0, 1)$.
+    \item On cherche maintenant à calculer les moments pairs de $\mathcal{N}(0, 1)$.
+    \begin{enumerate}
+        \item Montrer à l'aide d'une intégration par parties que :
+        $$
+        \int_{\mathbb{R}} x^{2n}e^{-\frac{x^2}{2}} dx = (2n - 1) \int_{\mathbb{R}} x^{2n-2}e^{-\frac{x^2}{2}} dx
+        $$
+        \item En déduire que le $2n$-ième moment de $\mathcal{N}(0, 1)$ vaut :
+        $$
+        \prod_{k=1}^n (2k - 1) = \frac{(2n)!}{2^n \cdot n!}
+        $$
+    \end{enumerate}
+\end{enumerate}
+\end{exercice}
+\end{mdframed}
+
+\medskip
+
+\begin{mdframed}
+\begin{exercice}
+Soit $n \in \mathbb{N}^*$, $p \in [0, 1]$, $\lambda > 0$.
+
+\begin{enumerate}
+    \item Calculer la variance de la loi $\text{Ber}(p)$. Pour quelle valeur de $p$ la variance de $\mathcal{B}(p)$ est maximale ?
+    \item Montrer que, pour $1 \leq k \leq n$,
+    $$
+    k \binom{n}{k} = n \binom{n - 1}{k - 1},
+    $$
+    et pour $2 \leq k \leq n$,
+    $$
+    k(k - 1) \binom{n}{k} = n(n - 1) \binom{n - 2}{k - 2}.
+    $$
+    \item En déduire la variance de la loi $\mathcal{B}(n, p)$. (On pourra commencer par calculer $\mathbb{E}[X]$ et $\mathbb{E}[X(X - 1)]$ si $X \sim \mathcal{B}(n, p)$). Commenter le résultat obtenu.
+    \item En utilisant la même méthode, calculer la variance de la loi $\mathcal{P}(\lambda)$. Commenter le résultat obtenu.
+\end{enumerate}
+\end{exercice}
+\end{mdframed}
+
+\medskip
+
+\begin{mdframed}
+\begin{exercice}
+Calculer la variance de la loi $\mathcal{U}(a, b)$ de deux façons :
+
+\begin{enumerate}
+    \item par un calcul direct
+    \item en déduisant cette variance de celle de $\mathcal{U}(0, 1)$.
+\end{enumerate}
+\end{exercice}
+\end{mdframed}
+
+\medskip
+
+\begin{mdframed}
+\begin{exercice}
+Soit $X \sim \mathcal{B}(p)$ et $Y \sim \mathcal{B}(n, p)$, $p \in [0, 1]$, $n \in \mathbb{N}^*$.
+
+\begin{enumerate}
+    \item Calculer les fonctions génératrices des moments de $\mathcal{B}(p)$ et $\mathcal{B}(n, p)$. Commenter.
+    \item Retrouver les valeurs de $\mathbb{E}[Y]$ et $\mathcal{V}(Y)$ calculées à l'exercice 3.
+\end{enumerate}
+\end{exercice}
+\end{mdframed}
+
+\medskip
+
+\begin{mdframed}
+\begin{exercice}
+Soit $\alpha, \beta > 0$.
+
+\begin{enumerate}
+    \item Calculer la fonction génératrice des moments $\phi$ de la loi $\mathcal{E}(\beta)$.
+    \item Développer le résultat obtenu en série entière, et retrouver la valeur des moments de la loi $\mathcal{E}(\beta)$.
+    \item Calculer la fonction génératrice des moments $\phi$ de la loi $\Gamma(\alpha, \beta)$.
+    \item Retrouver les deux premiers moments de la loi $\Gamma(\alpha, \beta)$ calculés à l'exercice 1.
+\end{enumerate}
+\end{exercice}
+\end{mdframed}
+
+\medskip
+
+\begin{mdframed}
+\begin{exercice}
+\begin{enumerate}
+    \item Calculer la fonction génératrice des moments $\phi$ de la loi $\mathcal{N}(0, 1)$.
+    \item Développer le résultat obtenu en série entière, et retrouver la valeur des moments de la loi $\mathcal{N}(0, 1)$.
+\end{enumerate}
+\end{exercice}
+\end{mdframed}
+
+\medskip
+
+\begin{mdframed}
+\begin{exercice}
+Soit $a < b$ deux réels, et $X$ variable aléatoire telle que $\mathbb{P}(X \in [a, b]) = 1$. On veut montrer :
+
+$$
+\mathcal{V}(X) \leq \frac{(b - a)^2}{4}.
+$$
+
+\begin{enumerate}
+    \item On suppose d'abord $a = -1$ et $b = 1$. Montrer que $\mathcal{V}(X) \leq 1$, puis trouver une variable aléatoire qui satisfait le cas d'égalité.
+    \item Trouver une fonction affine $\varphi : \mathbb{R} \to \mathbb{R}$ telle que $\varphi(a) = -1$ et $\varphi(b) = 1$.
+    \item Étudier $\varphi(X)$ et conclure.
+\end{enumerate}
+\end{exercice}
+\end{mdframed}
+
+\medskip
+
+\begin{mdframed}
+\begin{exercice}
+Soit $N$ une variable aléatoire à valeurs dans $\mathbb{N}$.
+
+\begin{enumerate}
+    \item Observer que pour $n \in \mathbb{N}$, $n = \sum_{i=1}^{+\infty} \mathbb{1}_{\{n \geq i\}}$ et en déduire :
+    
+    $$
+    \mathbb{E}[N] = \sum_{i=1}^{+\infty} \mathbb{P}(N \geq i)
+    $$
+    \item Dans le cas où $N$ est de plus de carré intégrable ($\mathbb{E}[N^2] < \infty$) montrer également que
+    
+    $$
+    \sum_{i=1}^{+\infty} i\mathbb{P}(N \geq i) = \frac{1}{2} (\mathbb{E}[N^2] + \mathbb{E}[N])
+    $$
+\end{enumerate}
+\end{exercice}
+\end{mdframed}

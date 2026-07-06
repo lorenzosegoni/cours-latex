@@ -1,0 +1,1148 @@
+\chapter{Variables aléatoires réelles}
+
+\section{Définition et axiomes}
+
+On veut modéliser une expérience aléatoire via une variable aléatoire (v.a.) $X$ à valeurs réelles, et donner un sens à $\mathbb{P}(X \in A)$ pour $A \subset \mathbb{R}$.
+
+Jusqu'à présent, on ne considérait que des v.a. \textit{discrètes}, prenant un nombre fini ou dénombrable de valeurs $S_X = \{x : \mathbb{P}(X=x) \neq 0\}$. Dans ce cas, la fonction de masse suffisait à définir la loi de $X$, puisque
+
+$$
+\mathbb{P}(X \in A) = \sum_{x \in A} \mathbb{P}(X = x).
+$$
+
+On souhaite maintenant s'affranchir de cette restriction, sans chercher à définir formellement une v.a. générale, mais seulement à en manipuler les probabilités.
+
+Un problème apparaît alors : cette approche par sommation ne fonctionne plus en général. Prenons l'exemple d'un nombre $X$ choisi uniformément dans $[0,1]$. Par symétrie, on voudrait que $\mathbb{P}(X=x)$ soit la même pour tout $x \in [0,1]$. Mais comme $[0,1]$ est infini (non dénombrable), cela force $\mathbb{P}(X=x) = 0$ pour tout $x$ — sinon $\mathbb{P}(X \in [0,1])$ serait infinie.
+
+Ainsi, connaître $\mathbb{P}(X=x)$ pour chaque $x$ (ici, tous nuls) ne permet pas de reconstruire $\mathbb{P}(X \in A)$ pour un ensemble $A$ quelconque.
+
+\subsection{Axiomes des probabilités}
+
+Il nous faut donc trouver une autre approche pour définir les probabilités $\mathbb{P}(X \in A)$ pour des ensembles $A \subset \mathbb{R}$, c'est-à-dire pour spécifier la loi de $X$. Le point de départ est l'observation suivante : ces probabilités ne peuvent pas être arbitraires, elles doivent satisfaire certaines propriétés de cohérence.
+
+\medskip
+
+\begin{mdframed}
+\begin{definition}
+Si $A, B \subset \mathbb{R}$ sont deux ensembles disjoints (d'intersection vide), on souhaite que la probabilité soit \textit{additive} sur ces ensembles, c'est-à-dire que
+
+$$
+\mathbb{P}(X \in A \cup B) = \mathbb{P}(X \in A) + \mathbb{P}(X \in B).
+$$
+\end{definition}
+\end{mdframed}
+
+Cette exigence de cohérence, ainsi que d'autres analogues, va nous permettre de construire une théorie générale. Pour définir la loi d'une variable aléatoire $X$ à valeurs réelles, on part donc d'un petit nombre de règles fondamentales, appelées axiomes. Avant de les énoncer, introduisons une convention qui simplifiera grandement la présentation :
+
+\medskip
+
+\begin{mdframed}
+\begin{definition}
+Dans toute la suite, on suppose que tout ensemble $A \subset \mathbb{R}$ considéré est soit un intervalle, soit une réunion finie d'intervalles disjoints.
+\end{definition}
+\end{mdframed}
+
+\begin{remarque}
+On entend ici par « intervalle » aussi bien les intervalles ouverts, fermés ou semi-ouverts, bornés ou non bornés. Cette notion englobe en particulier les cas limites que sont l'ensemble vide $\emptyset$ et la droite réelle $\mathbb{R}$ tout entière.
+\end{remarque}
+
+Cette classe d'ensembles présente l'avantage d'être stable pour un certain nombre d'opérations élémentaires, comme le montre la proposition suivante.
+
+\medskip
+
+\begin{mdframed}
+\begin{proposition}
+Notons $A^c = \mathbb{R} \setminus A$ le complémentaire d'un ensemble $A$.
+
+\begin{enumerate}
+\item Si $A \subset \mathbb{R}$ est de la forme décrite ci-dessus, alors son complémentaire $A^c$ l'est également.
+\item Si $A$ et $B$ sont tous deux de cette forme, alors leur union $A \cup B$ et leur intersection $A \cap B$ le sont aussi.
+\item En revanche, cette stabilité ne s'étend pas aux opérations infinies : si $A_0, A_1, A_2,$  $\dots$ est une suite (infinie) d'ensembles de cette forme, alors $\bigcup_{n \in \mathbb{N}} A_n$ et $\bigcap_{n \in \mathbb{N}} A_n$ ne sont pas nécessairement des réunions finies d'intervalles.
+\end{enumerate}
+\end{proposition}
+\end{mdframed}
+
+\begin{exercice}
+Démontrer cette proposition.
+\end{exercice}
+
+\newpage
+
+
+Précisons à présent les règles de calcul régissant les quantités $\mathbb{P}(X \in A)$, c'est-à-dire les axiomes que nous allons supposer valables pour toute la suite.
+
+\medskip
+
+\begin{mdframed}
+\begin{definition}
+On suppose que :
+
+\begin{itemize}
+\item[$\boxed{1.}$] \textit{Positivité : } $\mathbb{P}(X \in A) \geq 0$ pour tout $A \subset \mathbb{R}$   
+\item[$\boxed{2.}$] $\mathbb{P}(X \in \emptyset) = 0$ et $\mathbb{P}(X \in \mathbb{R}) = 1$,
+\item[$\boxed{3.}$] \textit{Additivité : } Si $A, B \subset \mathbb{R}$ sont disjoints, alors
+
+$$
+\mathbb{P}(X \in A \cup B) = \mathbb{P}(X \in A) + \mathbb{P}(X \in B).
+$$
+\end{itemize}
+\end{definition}
+\end{mdframed}
+
+Ces trois règles peuvent paraître minimales, mais elles suffisent déjà à en déduire un certain nombre de propriétés utiles, que nous établissons dans la proposition suivante. Nous introduirons un quatrième axiome un peu plus loin, une fois que nous aurons besoin de traiter des réunions infinies d'ensembles.
+
+\medskip
+
+\begin{mdframed}
+\begin{proposition}
+On a les propriétés:
+
+\begin{enumerate}
+\item Si $A \subset B$, alors
+
+$$
+\mathbb{P}(X \in A) \leq \mathbb{P}(X \in B) \quad \text{(monotonie de } A \mapsto \mathbb{P}(X \in A)\text{)}.
+$$
+\item $\mathbb{P}(X \in A) \in [0, 1]$ pour tout $A \subset \mathbb{R}$.
+\item Si $A \subset B$, alors
+
+$$
+\mathbb{P}(X \in B \setminus A) = \mathbb{P}(X \in B) - \mathbb{P}(X \in A).
+$$
+
+En particulier, en prenant $B = \mathbb{R}$,
+
+$$
+\mathbb{P}(X \in A^c) = 1 - \mathbb{P}(X \in A).
+$$
+\item \textit{Additivité finie : } Si $A_0, A_1, \dots, A_n \subset \mathbb{R}$ sont deux à deux disjoints, alors
+
+$$
+\mathbb{P}\left(X \in \bigcup_{k=0}^n A_k\right) = \sum_{k=0}^n \mathbb{P}(X \in A_k).
+$$
+\end{enumerate}
+\end{proposition}
+\end{mdframed}
+
+\begin{remarque}
+Ces propriétés ne sont pas des axiomes supplémentaires : elles découlent toutes des trois règles précédentes. Voyons rapidement pourquoi.
+
+\begin{itemize}
+\item Le point 1 (monotonie) découle immédiatement du point 3 : puisque $\mathbb{P}(X \in B \setminus A) \geq 0$ par positivité (règle 1), on a nécessairement $\mathbb{P}(X \in A) \leq \mathbb{P}(X \in B)$.
+\item Le point 2 est alors une conséquence de la monotonie appliquée à $\emptyset \subset A \subset \mathbb{R}$, combinée avec la règle 2 : on obtient $0 = \mathbb{P}(X \in \emptyset) \leq \mathbb{P}(X \in A) \leq \mathbb{P}(X \in \mathbb{R}) = 1$.
+\item Pour le point 3, remarquons que si $A \subset B$, alors $B$ se décompose comme la réunion disjointe $B = A \cup (B \setminus A)$. L'axiome d'additivité (règle 3) donne alors directement
+
+$$
+\mathbb{P}(X \in B) = \mathbb{P}(X \in A) + \mathbb{P}(X \in B \setminus A),
+$$
+
+d'où l'on tire $\mathbb{P}(X \in B \setminus A) = \mathbb{P}(X \in B) - \mathbb{P}(X \in A)$.
+\item Enfin, le point 4 s'obtient par une récurrence immédiate sur $n$, en appliquant l'axiome d'additivité (règle 3) de proche en proche aux ensembles $A_0, \dots, A_n$, qui sont deux à deux disjoints.
+\end{itemize}
+\end{remarque}
+
+On peut à présent introduire le quatrième axiome, qui vient compléter les trois premiers pour traiter le cas des réunions infinies.
+
+\medskip
+
+\begin{mdframed}
+\begin{definition}
+On suppose que :
+
+\begin{itemize}
+\item[$\boxed{4.}$] \textit{Continuité croissante : } Si $A_0, A_1, A_2, \dots$ est une suite croissante d'ensembles (c'est-à-dire $A_n \subset A_{n+1}$ pour tout $n \in \mathbb{N}$) telle que $\bigcup_{n \in \mathbb{N}} A_n$ est encore un ensemble de la forme considérée, alors
+
+$$
+\mathbb{P}\left(X \in \bigcup_{n \in \mathbb{N}} A_n\right) = \lim_{n \to \infty} \mathbb{P}(X \in A_n).
+$$
+
+Notons que cette limite existe bien, puisque la suite $\left(\mathbb{P}(X \in A_n)\right)_{n}$ est croissante par la propriété de monotonie établie plus haut, et majorée par $1$.
+\end{itemize}
+\end{definition}
+\end{mdframed}
+
+Cet axiome mérite un commentaire. En effet, il n'est pas totalement nouveau : une partie de l'énoncé peut déjà se déduire des axiomes 1 à 3. C'est l'objet de l'exercice suivant.
+
+\begin{exercice}
+En utilisant uniquement les axiomes 1 à 3, montrer que l'on a déjà l'inégalité
+
+$$
+\mathbb{P}\left(X \in \bigcup_{n \in \mathbb{N}} A_n\right) \geq \lim_{n \to \infty} \mathbb{P}(X \in A_n).
+$$
+\end{exercice}
+
+\newpage
+
+
+
+
+
+
+
+
+
+
+
+Remarquons également que l'axiome 4 admet une formulation équivalente en termes de suites décroissantes, que l'on obtient par un simple passage au complémentaire :
+
+\medskip
+
+\begin{mdframed}
+\begin{definition}
+\begin{itemize}
+\item[$\boxed{4^\prime.}$] Si $A_0, A_1, A_2, \dots$ est une suite **décroissante** d'ensembles (c'est-à-dire $A_{n+1} \subset A_n$ pour tout $n \in \mathbb{N}$) telle que $\bigcap_{n \in \mathbb{N}} A_n$ est encore un ensemble de la forme considérée, alors
+
+$$
+\mathbb{P}\left(X \in \bigcap_{n \in \mathbb{N}} A_n\right) = \lim_{n \to \infty} \mathbb{P}(X \in A_n) \quad \text{(continuité décroissante)}.
+$$
+\end{itemize}
+\end{definition}
+\end{mdframed}
+
+\begin{remarque}
+L'équivalence entre 4 et 4' se voit en posant $B_n = A_n^c$ : si $(A_n)$ est décroissante, alors $(B_n)$ est croissante, et $\bigcap_n A_n = \left(\bigcup_n B_n\right)^c$. Il suffit alors d'appliquer l'axiome 4 à la suite $(B_n)$ et de repasser au complémentaire à l'aide de la propriété 3 de la proposition précédente.
+\end{remarque}
+
+Maintenant que les quatre axiomes sont posés, nous sommes en mesure de définir formellement ce qu'est une variable aléatoire.
+
+\medskip
+
+\begin{mdframed}
+\begin{definition}
+On dit que $X$ est une variable aléatoire s'il existe une famille de nombres $(\mathbb{P}(X \in A))_{A \subset \mathbb{R}}$ (autrement dit, une fonction $A \mapsto \mathbb{P}(X \in A)$ à valeurs dans $\mathbb{R}$) qui satisfait aux axiomes 1, 2, 3 et 4 ci-dessus. Cette famille, ou cette fonction, est appelée la loi de $X$.
+\end{definition}
+\end{mdframed}
+
+Il est important de bien comprendre l'esprit de cette définition : on ne cherche pas ici à dire ce qu'est intrinsèquement une variable aléatoire, mais seulement à caractériser son comportement à travers les probabilités qu'elle induit sur les sous-ensembles de $\mathbb{R}$. C'est cette loi, c'est-à-dire la donnée de la fonction $A \mapsto \mathbb{P}(X \in A)$, qui contient toute l'information probabiliste dont nous aurons besoin par la suite.
+
+Une conséquence importante des axiomes 3 et 4 est la propriété de \textit{sigma-additivité}, qui étend l'additivité finie au cas d'une infinité dénombrable d'ensembles.
+
+\medskip
+
+\begin{mdframed}
+\begin{definition}
+\begin{itemize}
+\item[$\boxed{4^{\prime \prime}.}$] Si $A_0, A_1, A_2, \dots$ est une suite d'ensembles deux à deux disjoints (c'est-à-dire que $m \neq n$ implique $A_m \cap A_n = \emptyset$), alors
+
+$$
+\mathbb{P}\left(X \in \bigcup_{n \in \mathbb{N}} A_n\right) = \sum_{n \in \mathbb{N}} \mathbb{P}(X \in A_n).
+$$
+\end{itemize}
+\end{definition}
+\end{mdframed}
+
+\begin{proof} 
+Posons $B_n = \bigcup_{k=0}^n A_k$ : comme les $A_k$ sont deux à deux disjoints, cette union est disjointe, et la suite $(B_n)_{n \geq 0}$ est croissante, avec $\bigcup_{n \in \mathbb{N}} B_n = \bigcup_{n \in \mathbb{N}} A_n$. En appliquant successivement l'axiome 4 (continuité croissante), puis l'additivité finie (propriété 4 de la proposition précédente), on obtient :
+
+\begin{align*}
+\mathbb{P}\left(X \in \bigcup_{n \in \mathbb{N}} A_n\right) &= \mathbb{P}\left(X \in \bigcup_{n \in \mathbb{N}} B_n\right) \\
+&= \lim_{n \to \infty} \mathbb{P}(X \in B_n) \\
+&= \lim_{n \to \infty} \sum_{k=0}^n \mathbb{P}(X \in A_k),
+\end{align*}
+
+et cette dernière limite est précisément, par définition, la somme de la série $\sum_{n \in \mathbb{N}} \mathbb{P}(X \in A_n)$.
+\end{proof}
+
+Ce résultat montre que, sous les axiomes 1 à 4, la sigma-additivité est automatiquement satisfaite. Il est naturel de se demander si l'on peut en réalité s'en tenir à un jeu d'axiomes plus économique. C'est effectivement le cas, comme le résume la proposition suivante.
+
+\medskip
+
+\begin{mdframed}
+\begin{definition}
+Les jeux d'axiomes suivants sont équivalents :
+
+\begin{itemize}
+\item 1, 2, 3, 4
+\item 1, 2, 3, 4'
+\item 1, 2, 4''
+\end{itemize}
+
+Parmi ces jeux d'axiomes équivalents, il est courant de retenir le jeu 1, 2, 4''. Ce sont précisément ces trois axiomes qui figurent usuellement dans la définition d'une mesure de probabilité sur $\mathbb{R}$.
+\end{definition}
+\end{mdframed}
+
+Il nous reste un dernier point à traiter. Jusqu'ici, $\mathbb{P}(X \in A)$ n'a été défini que pour les ensembles $A$ qui sont des intervalles ou des réunions finies d'intervalles. Or nous aurons parfois besoin de donner un sens à $\mathbb{P}(X \in A)$ pour des ensembles $A$ qui ne sont pas de cette forme — par exemple $A = \mathbb{N}$, ou plus généralement n'importe quel ensemble dénombrable.
+
+Pour cela, on se limite aux ensembles $A$ qui peuvent s'écrire comme limite monotone d'une suite d'ensembles $(A_n)_{n \geq 0}$ de la forme considérée (réunion finie d'intervalles). Par limite monotone, on entend un ensemble de la forme $\bigcup_n A_n$ (pour une suite croissante $(A_n)$) ou $\bigcap_n A_n$ (pour une suite décroissante $(A_n)$), exactement comme dans les axiomes 4 et 4'. On pose alors, par définition,
+
+$$
+\mathbb{P}(X \in A) = \lim_{n \to \infty} \mathbb{P}(X \in A_n),
+$$
+
+où l'on note que cette limite existe toujours, par monotonie de la suite $\left(\mathbb{P}(X \in A_n)\right)_n$.
+
+Un exemple typique d'un tel ensemble est l'ensemble des rationnels $\mathbb{Q}$, ou plus généralement n'importe quel ensemble dénombrable $S \subset \mathbb{R}$. Pour un tel ensemble $S$, on vérifie que la définition ci-dessus redonne bien la formule attendue :
+
+$$
+\mathbb{P}(X \in S) = \sum_{x \in S} \mathbb{P}(X = x).
+$$
+
+\section{Événements}
+
+Rappelons pour finir la notion d'événement, qui nous accompagnera tout au long de ce cours. 
+
+\medskip
+
+\begin{mdframed}
+\begin{definition}
+Un événement est simplement un sous-ensemble de l'ensemble des résultats possibles d'une expérience aléatoire, et on dit que l'événement est réalisé si le résultat effectif de l'expérience appartient à ce sous-ensemble.
+\end{definition}
+\end{mdframed}
+
+\begin{exemple}
+Lors d'un lancer de dé, on pourrait s'intéresser à l'événement $E$ : « le dé donne un nombre pair ». 
+
+Si $X$ désigne la v.a. représentant le nombre obtenu, cet événement s'écrit symboliquement
+
+$$
+E = \{X \in \{2, 4, 6\}\}, \qquad \text{ou encore} \qquad E = \{X \text{ pair}\}.
+$$
+
+Cet événement se réalise alors avec la probabilité $\mathbb{P}(E) = \mathbb{P}(X \in \{2, 4, 6\})$ (on omet ici, par convention, les accolades autour de l'ensemble $\{2,4,6\}$ dans la notation).
+\end{exemple}
+
+Dans ce cours, nous nous limiterons aux événements définis à partir de variables aléatoires, c'est-à-dire aux événements de la forme
+
+$$
+E = \{X \in A\}, \qquad \text{pour } X \text{ une variable aléatoire et } A \subset \mathbb{R}.
+$$
+
+La probabilité d'un tel événement est alors naturellement définie par $\mathbb{P}(E) = \mathbb{P}(X \in A)$.
+
+L'intérêt de cette formulation est que l'on peut manipuler ces événements exactement comme des ensembles, en leur appliquant les opérations ensemblistes usuelles (complémentaire, union, intersection). On obtient ainsi les identités suivantes, qui traduisent simplement les opérations sur les ensembles $A$ et $B$ en opérations sur les événements correspondants :
+
+\begin{align*}
+\{X \in A\}^c &= \{X \in A^c\}, \\
+\{X \in A\} \cup \{X \in B\} &= \{X \in A \cup B\}, \\
+\{X \in A\} \cap \{X \in B\} &= \{X \in A \cap B\}.
+\end{align*}
+
+Ces identités permettent, en pratique, de traduire n'importe quelle combinaison logique d'événements (négation, « ou », « et ») en une opération sur les sous-ensembles de $\mathbb{R}$ correspondants, et donc de calculer sa probabilité à l'aide des axiomes énoncés précédemment.
+
+\medskip
+
+\begin{mdframed}
+\begin{definition}
+Un événement de probabilité 1 est dit presque sûr. Un événement de probabilité 0 est dit négligeable.
+
+Ainsi, un événement négligeable est le complémentaire d'un événement presque sûr.
+\end{definition}
+\end{mdframed}
+
+\begin{remarque}
+On rencontre la notation :
+
+$$
+X \in A, \text{ p.s.} \quad \text{ (pour un événement A presque sûr)}
+$$
+
+et qui se lit : "presque sûrement, $X$ appartient à $A$".
+\end{remarque}
+
+\section{Fonction de répartition}
+
+Nous avons vu, dans la section précédente, comment définir la loi d'une variable aléatoire à partir des axiomes 1 à 4. Cette loi est constituée d'une famille de nombres réels $\mathbb{P}(X \in A)$, indicée par tous les ensembles $A \subset \mathbb{R}$ (de la forme considérée). Une telle définition est en pratique très lourde à manipuler : pour caractériser une loi particulière, il faudrait a priori spécifier la valeur de $\mathbb{P}(X \in A)$ pour chacun de ces ensembles $A$, qui peuvent avoir des formes arbitrairement compliquées.
+
+Rappelons que, dans le cas d'une v.a. discrète (c'est-à-dire ne prenant qu'un nombre fini ou dénombrable de valeurs, que nous étudierons plus loin), cette difficulté disparaît : il suffit de connaître les valeurs $\mathbb{P}(X = x)$ pour tout $x$, c'est-à-dire la fonction de masse, pour reconstituer toute la loi. Nous avons cependant vu dans la section précédente que cette simplification n'est plus disponible dans le cadre général, puisque ces valeurs peuvent être nulles pour tout $x \in \mathbb{R}$, sans pour autant que $X$ soit une v.a. triviale.
+
+L'astuce consiste alors à ne plus considérer $\mathbb{P}(X = x)$, mais plutôt les valeurs de $\mathbb{P}(X \leq x)$ pour tout $x \in \mathbb{R}$. (On aurait tout aussi bien pu choisir $\mathbb{P}(X < x)$, $\mathbb{P}(X \geq x)$ ou $\mathbb{P}(X > x)$ ; c'est simplement la convention qui a retenu $\mathbb{P}(X \leq x)$.) On obtient ainsi une fonction $F_X : \mathbb{R} \to [0,1]$, définie par
+
+$$
+F_X(x) = \mathbb{P}(X \leq x), \quad x \in \mathbb{R},
+$$
+
+que l'on appelle la fonction de répartition de $X$.
+
+Il nous reste maintenant deux questions à élucider : d'une part, montrer que cette fonction $F_X$ détermine bien entièrement la loi de $X$ ; d'autre part, caractériser précisément quelles fonctions $F : \mathbb{R} \to [0,1]$ peuvent apparaître comme fonction de répartition d'une variable aléatoire. C'est l'objet du théorème suivant.
+
+\medskip
+
+\begin{mdframed}
+\begin{theoreme}
+\begin{enumerate}
+\item La fonction de répartition $F_X$ d'une v.a.r. possède les propriétés suivantes :
+\begin{itemize}
+\item elle est croissante,
+\item $F_X(-\infty) := \lim_{x \to -\infty} F_X(x) = 0$,
+\item $F_X(+\infty) := \lim_{x \to +\infty} F_X(x) = 1$,
+\item elle est continue à droite.
+\end{itemize}
+\item La loi d'une v.a.r. $X$ est déterminée de manière unique par sa fonction de répartition $F_X$.
+\item Réciproquement, toute fonction sur $\mathbb{R}$ possédant les propriétés énoncées au point 1. est la fonction de répartition d'une variable aléatoire réelle.
+\end{enumerate}
+\end{theoreme}
+\end{mdframed}
+
+Ce théorème est fondamental : il montre que la fonction de répartition permet d'atteindre, dans le cas général, le même degré de simplicité que la fonction de masse dans le cas discret. Dans les deux situations, la notion — a priori complexe — de loi d'une variable aléatoire se ramène finalement à la donnée d'une simple fonction sur $\mathbb{R}$.
+
+Il convient toutefois de nuancer cette simplicité : elle est avant tout conceptuelle. En pratique, la fonction de répartition $F_X$ n'admet bien souvent pas d'expression explicite simple, et son calcul effectif peut s'avérer difficile — ce qui n'enlève rien à son importance théorique comme objet caractérisant entièrement la loi de $X$.
+
+\begin{proof}
+\begin{enumerate}
+\item Montrons les propriétés énoncées :
+\begin{itemize}
+\item Croissance : Ceci est une conséquence immédiate de la monotonie de $\mathbb{P}(X \in A)$ en $A$. Plus précisément, soient $x, y \in \mathbb{R}$ avec $x < y$. Alors $]-\infty, x] \subset ]-\infty, y]$, si bien que
+
+$$
+F_X(x) = \mathbb{P}(X \in ]-\infty, x]) \leq \mathbb{P}(X \in ]-\infty, y]) = F_X(y).
+$$
+\item On remarque d'abord que la fonction $F_X$ est croissante et bornée inférieurement (par 0), la limite $F_X(-\infty) = \lim_{x \to -\infty} F_X(x)$ existe donc bien. En particulier,
+
+$$
+F_X(-\infty) = \lim_{n \to \infty} F_X(-n) = \lim_{n \to \infty} \mathbb{P}(X \in ]-\infty, -n]).
+$$
+
+La suite d'ensembles $A_n = ]-\infty, -n]$ est décroissante et d'intersection vide. L'axiome 4' donne donc :
+
+$$
+F_X(-\infty) = \mathbb{P}\left(X \in \bigcap_{n=1}^\infty ]-\infty, -n]\right) = \mathbb{P}(X \in \emptyset) = 0.
+$$
+\item Pareil que $F_X(-\infty)$, on utilise le fait que $F_X$ est bornée par 1 pour montrer l'existence de la limite, puis l'axiome 4 pour l'identifier.
+\item Continuité à droite. Soit $x \in \mathbb{R}$. Puisque $F_X$ est croissante et bornée inférieurement, la limite $F_X(x^+) := \lim_{y \downarrow x} F_X(y)$ existe. En particulier,
+
+$$
+F_X(x^+) = \lim_{n \to \infty} F_X\left(x + \frac{1}{n}\right) = \mathbb{P}\left(X \in \bigcap_{n=1}^\infty \left]-\infty, x + \frac{1}{n}\right]\right),
+$$
+
+où on a encore utilisé l'axiome 4'. Le point clé est alors l'égalité suivante :
+
+$$
+\bigcap_{n=1}^\infty \left]-\infty, x + \frac{1}{n}\right] = ]-\infty, x].
+$$
+
+Cela donne que $F_X(x^+) = \mathbb{P}(X \in ]-\infty, x]) = F_X(x)$ et donc $F_X$ est continue à droite en $x$. Puisque $x \in \mathbb{R}$ était arbitraire, $F_X$ est continue à droite sur $\mathbb{R}$.
+\end{itemize}
+\item On veut montrer que pour tout ensemble $A$ qui est une union finie d'intervalles disjoints, $\mathbb{P}(X \in A)$ s'écrit à partir de la fonction de répartition $F_X$. On procède cas par cas :
+\begin{itemize}
+\item $A = ]-\infty, x], x \in \mathbb{R}$ : Par définition, $\mathbb{P}(X \in ]-\infty, x]) = \mathbb{P}(X \leq x) = F_X(x)$.
+\item $A = ]-\infty, x[, x \in \mathbb{R}$ : L'intervalle ouvert $]-\infty, x[$ s'écrit comme l'union dénombrable d'intervalles fermés :
+
+$$
+]-\infty, x[ = \bigcup_{n=1}^\infty \left]-\infty, x - \frac{1}{n}\right].
+$$
+
+L'axiome 4 donne alors
+
+$$
+\mathbb{P}(X < x) = \lim_{n \to \infty} \mathbb{P}\left(X \leq x - \frac{1}{n}\right) = \lim_{n \to \infty} F_X\left(x - \frac{1}{n}\right) = F_X(x^-),
+$$
+
+où $F_X(x^-) := \lim_{y \uparrow x} F_X(y)$ qui existe car la fonction $F_X$ est croissante.
+\item $A = ]x, \infty[$ ou $A = [x, \infty[, x \in \mathbb{R}$ : On utilise le fait que $\mathbb{P}(A) = 1 - \mathbb{P}(A^c)$ et on se ramène aux deux premiers cas.
+\item $A = ]x, y], x < y$ : On obtient
+
+$$
+\mathbb{P}(x < X \leq y) = \mathbb{P}(X \leq y) - \mathbb{P}(X \leq x) = F_X(y) - F_X(x).
+$$
+\item $A = [x, y], A = [x, y[$ ou $A = ]x, y[$ : Similaire à $A = ]x, y]$, avec éventuellement $F_X(y^-)$ et $F_X(x^-)$ à la place de $F_X(y)$ ou $F_X(x)$. Par exemple
+
+$$
+\mathbb{P}(X \in [x, y]) = \mathbb{P}(X \leq y) - \mathbb{P}(X < x) = F_X(y) - F_X(x^-).
+$$
+\item  $A = I_1 \cup \dots \cup I_n$, avec $I_1, \dots, I_n$ des intervalles disjoints, alors par l'axiome 3, on a
+
+$$
+\mathbb{P}(X \in A) = \mathbb{P}(X \in I_1) + \dots + \mathbb{P}(X \in I_n).
+$$
+
+On se ramène alors au cas d'un intervalle traité précédemment.
+\end{itemize}
+\item Si $F$ est une fonction avec les propriétés du théorème, on définit la loi d'une variable aléatoire $X$ à partir de $F$ en utilisant les formules pour $\mathbb{P}(X \in A)$ ci-dessus. Il suffit alors de montrer que cette loi satisfait aux axiomes 1 à 4. On omet la preuve de ce fait qui est laissée en exercice. La fonction $F$ est alors par définition la fonction de répartition de cette variable aléatoire.
+\end{enumerate}
+\end{proof}
+
+Introduisons, pour tout réel $x$, la notation $F_X(x^-) = \lim_{t \to x,\, t < x} F_X(t)$ pour désigner la limite à gauche de $F_X$ en $x$ (limite qui existe bien, la fonction $F_X$ étant croissante).
+
+Soulignons un fait important, rencontré au fil de la preuve du théorème précédent : la fonction de répartition $F_X$, étant croissante, admet une limite à gauche en tout point $x$, et cette limite s'identifie précisément à
+
+$$
+F_X(x^-) = \mathbb{P}(X < x).
+$$
+\begin{exercice}
+Soit $F$ une fonction de répartition. On suppose qu'il existe $x_0 < x_1$ deux réels tels que $\lim_{x \to x_0, \, x > x_0} F(x) = 0, \lim_{x \to x_1, \, x < x_1} F(x) = 1$.
+
+\begin{enumerate}
+\item Calculer $F(x_0)$ et $F(x_1)$.
+\item En déduire que $F$ est caractérisée par sa restriction à l'intervalle $]x_0, x_1[$.
+\end{enumerate}
+\end{exercice}
+
+\newpage
+
+\section{Classes de variables aléatoires}
+
+Ayant établi, à travers le théorème précédent, la forme générale que peut prendre la loi d'une v.a. réelle via sa fonction de répartition, il est naturel de vouloir maintenant distinguer différentes classes de v.a. selon les propriétés de leur fonction de répartition. Un premier outil utile dans cette optique est la notion d'atome.
+
+\medskip
+
+\begin{mdframed}
+\begin{definition}
+On dit que $x \in \mathbb{R}$ est un atome de masse $m > 0$ de la loi de $X$ si $\mathbb{P}(X = x) = m$, ou, de façon équivalente, si $F_X(x) - F_X(x^-) = m$.
+\end{definition}
+\end{mdframed}
+
+Cette équivalence provient directement du calcul suivant :
+
+$$
+\mathbb{P}(X = x) = \mathbb{P}(X \leq x) - \mathbb{P}(X < x) = F_X(x) - F_X(x^-).
+$$
+
+Ainsi, un réel $x$ est un atome de masse $m > 0$ pour la loi de $X$ si et seulement si $x$ est un point de discontinuité de la fonction $F_X$ ; dans ce cas, $m$ est précisément la hauteur du saut de $F_X$ en $x$, à savoir $m = F_X(x) - F_X(x^-)$. En particulier, on retiendra le fait suivant : une v.a.r. $X$ n'a aucun atome si et seulement si sa fonction de répartition $F_X$ est continue sur $\mathbb{R}$.
+
+Il découle alors d'un résultat classique sur les fonctions croissantes que le nombre d'atomes d'une loi ne peut jamais être trop grand.
+
+\medskip
+
+\begin{mdframed}
+\begin{corollaire}
+La loi d'une variable aléatoire $X$ possède un nombre au plus dénombrable — c'est-à-dire fini ou dénombrable — d'atomes.
+\end{corollaire}
+\end{mdframed}
+
+\begin{proof}
+Puisque la fonction $F_X$ est croissante, il suffit de montrer qu'une fonction croissante ne peut avoir qu'un nombre au plus dénombrable de sauts. C'est un résultat classique d'analyse, que l'on pourra établir à titre d'exercice, en procédant en deux étapes : montrer d'abord que, pour une fonction croissante sur $[0,1]$, le nombre de sauts de taille supérieure ou égale à $1/n$ est nécessairement fini, majoré par $n \cdot (f(1) - f(0))$ ; passer ensuite à la limite croissante en $n$, en remarquant qu'une réunion dénombrable d'ensembles finis est dénombrable, pour conclure que l'ensemble de tous les sauts (de taille strictement positive) est au plus dénombrable.
+\end{proof}
+
+\paragraph{Variables aléatoires discrètes}
+
+Nous disposons maintenant du vocabulaire nécessaire pour définir précisément une première classe importante de v.a. : celles dont toute la masse de probabilité se trouve concentrée dans leurs atomes.
+
+\medskip
+
+\begin{mdframed}
+\begin{definition}
+Soit $X$ une v.a.r. On dit que $X$ est discrète s'il existe un sous-ensemble $S \subset \mathbb{R}$ au plus dénombrable tel que $\mathbb{P}(X \in S) = 1$.
+\end{definition}
+\end{mdframed}
+
+Notons que cette définition ne serait pas pertinente si $\mathbb{R}$ lui-même était dénombrable — ce qui, bien entendu, n'est pas le cas : le fait que $X$ concentre toute sa probabilité sur un ensemble dénombrable $S$ est donc bien une restriction non triviale.
+
+Parmi tous les ensembles dénombrables $S$ satisfaisant $\mathbb{P}(X \in S) = 1$, il en existe un qui joue un rôle privilégié : celui des atomes de la loi de $X$.
+
+\medskip
+
+\begin{mdframed}
+\begin{definition}
+On appelle ensemble des atomes de la loi de $X$, et on note $S_X$, l'ensemble
+
+$$
+S_X := \{x : \mathbb{P}(X = x) > 0\}.
+$$
+\end{definition}
+\end{mdframed}
+
+Nous avons vu au paragraphe précédent que $S_X$ est toujours au plus dénombrable, quelle que soit la v.a. $X$ considérée (discrète ou non). On peut donc toujours l'écrire sous la forme
+
+$$
+S_X = \{s_k, \, k \in \mathbb{N}\} \qquad \text{ou} \qquad S_X = \{s_k, \, 0 \leq k \leq n\} \text{ pour un certain } n \in \mathbb{N},
+$$
+
+où les réels $s_k$ sont deux à deux distincts (le premier cas, infini dénombrable, pouvant être vu comme correspondant formellement à $n = +\infty$). Par abus de notation, on écrira simplement $S_X = \{s_k\}$, sans préciser à chaque fois si l'ensemble d'indices est fini ou infini.
+
+Remarquons enfin que, pour une v.a. discrète, l'ensemble $S_X$ des atomes constitue précisément un choix possible — et en un sens le plus économique — pour l'ensemble $S$ de la définition : c'est le plus petit ensemble sur lequel se concentre toute la masse de probabilité de $X$.
+
+\begin{exercice}
+Montrer que $S_X$ es toujours au plus dénombrable : commencer par montrer qu'il y a au plus $n$ atomes de masse $\geq 1/n$.
+\end{exercice}
+
+\newpage
+
+Munis de la notion d'ensemble des atomes $S_X$, nous pouvons maintenant associer à toute v.a. discrète une fonction qui résume entièrement sa loi.
+
+\medskip
+
+\begin{mdframed}
+\begin{definition}[Fonction de masse]
+Soit $X$ une v.a.r. discrète, de support $S_X = \{s_k\}_k$. On appelle fonction de masse de $X$ la fonction
+
+$$
+\begin{cases} S_X \to \mathbb{R} \\ s_k \mapsto p_k := \mathbb{P}(X = s_k). \end{cases}
+$$
+
+Les éléments $s_k$ s'appellent alors les atomes de la loi, et $p_k$ est la masse de l'atome $s_k$.
+\end{definition}
+\end{mdframed}
+
+\medskip
+
+Il est naturel de se demander à quelle condition, exprimée directement en termes des masses $p_k$, une v.a.r. $X$ est effectivement discrète. La proposition suivante répond à cette question et fournit ainsi un critère pratique, souvent bien plus simple à vérifier que la définition initiale.
+
+\begin{mdframed}
+\begin{proposition}
+Soit $X$ une v.a.r. Alors les trois assertions suivantes sont équivalentes :
+\begin{itemize}
+\item $X$ est discrète ;
+\item l'ensemble $S_X$ des atomes de $X$ vérifie $\mathbb{P}(X \in S_X) = 1$ ;
+\item $\sum_k p_k = 1$.
+\end{itemize}
+\end{proposition}
+\end{mdframed}
+
+
+Intuitivement, cela signifie que toute la masse de la loi de $X$ est concentrée dans ses seuls atomes : on lit aussi que la loi de $X$ est "purement atomique".
+
+\begin{proof}
+\begin{itemize}
+\item Puisque l'ensemble des atomes est au plus dénombrable, $\mathbb{P}(X \in S_X) = 1$ implique directement que $X$ est discrète. 
+
+Si réciproquement $X$ est discrète, soit $S$ ensemble au plus dénombrable qui vérifie $\mathbb{P}(X \in S) = 1$. 
+\item D'abord, on doit avoir $S \subset S_X$ car pour $x \in S_X \cap S^c$, on aurait $0 < \mathbb{P}(X = x) \leq \mathbb{P}(X \in S^c) = 1 - \mathbb{P}(X \in S) = 0$, absurde. 
+
+Dès lors on peut écrire $S$ sous forme de la réunion disjointe : $S = S_X \cup (S \setminus S_X)$ donc $\mathbb{P}(X \in S \setminus S_X) = \sum_{s \in S \setminus S_X} \mathbb{P}(X = s) = \sum_{s \in S \setminus S_X} 0 = 0$ donc :
+
+\begin{align*}
+1 &= \mathbb{P}(X \in S) \\ 
+&= \mathbb{P}(X \in S \setminus S_X) + \mathbb{P}(X \in S_X) \\ 
+&= \mathbb{P}(X \in S_X)
+\end{align*}
+\item L'équivalence concernant la somme des masses des atomes découle simplement du fait que $S_X$ est une réunion au plus dénombrable de singletons (les atomes) :
+
+\begin{align*}
+\mathbb{P}(X \in S_X) &= \mathbb{P}\left(X \in \bigcup_k \{x_k\}\right) \\
+&= \sum_k \mathbb{P}(X = x_k) \\
+&= \sum_k p_k
+\end{align*}
+\end{itemize}
+\end{proof}
+Un corollaire immédiat de la démonstration de la proposition précédente mérite d'être souligné : $S_X$ est, dans le cas des v.a.r. discrètes, le plus petit ensemble $S \subset \mathbb{R}$ tel que $\mathbb{P}(X \in S) = 1$. C'est pour cette raison qu'on l'appelle également le support de la loi de $X$ : il s'agit, en quelque sorte, du plus petit sous-ensemble de $\mathbb{R}$ nécessaire pour « porter » toute la probabilité de $X$.
+
+Avant d'aller plus loin, il est utile d'introduire une notation qui va grandement simplifier l'écriture des formules à venir : la fonction indicatrice d'un ensemble $A$, définie par
+
+$$
+\mathbb{1}_A(x) = \begin{cases} 1, & x \in A \\ 0, & x \notin A. \end{cases}
+$$
+
+Cette fonction permet de « sélectionner » les éléments de $A$ au sein d'une somme, en annulant automatiquement les termes correspondant aux éléments qui n'en font pas partie. 
+
+\medskip
+
+\begin{mdframed}
+\begin{proposition}
+Soit $X$ une v.a.r. discrète, d'ensemble d'atomes $S = \{s_k\}_k$ de masses respectives $p_k = \mathbb{P}(X = s_k)$. Alors la fonction de masse caractérise entièrement la loi de $X$ : pour tout ensemble $A \subset \mathbb{R}$,
+
+$$
+\mathbb{P}(X \in A) = \sum_k p_k \, \mathbb{1}_A(s_k).
+$$
+
+En particulier, en prenant $A = (-\infty, x]$, la fonction de répartition de $X$ s'écrit
+
+$$
+F_X(x) = \sum_k p_k \, \mathbb{1}_{\{s_k \leq x\}}.
+$$
+\end{proposition}
+\end{mdframed}
+
+\begin{proof}
+Les deux cas $S$ fini et dénombrable sont quasiment identiques, traitons le cas $S$ dénombrable $S = \{s_k, k \in \mathbb{N}\}$. On décompose comme suit l'événement $\{X \in A\}$ :
+
+\begin{align*}
+\mathbb{P}(X \in A) &= \mathbb{P}(X \in A \cap S) + \mathbb{P}(X \in A \cap S^c) \\
+&= \mathbb{P}\left(X \in \bigcup_{k \in \mathbb{N}} (A \cap \{s_k\})\right) + 0 \\
+&= \sum_{k \in \mathbb{N}} \mathbb{P}(X \in A \cap \{s_k\})
+\end{align*}
+
+ayant utilisé à la seconde égalité que $0 \leq \mathbb{P}(X \in A \cap S^c) \leq \mathbb{P}(X \in S^c) = 1 - \mathbb{P}(X \in S) = 0$, et à la troisième égalité la propriété de sigma-additivité (additivité suffit dans le cas fini).
+
+Maintenant,
+
+\begin{align*}
+\sum_{k \in \mathbb{N}} \mathbb{P}(X \in A \cap \{s_k\}) &= \sum_{k \in \mathbb{N}} \mathbb{1}_A(s_k)\mathbb{P}(X = s_k) \\
+&= \sum_{k \in \mathbb{N}} \mathbb{1}_A(s_k)p_k.
+\end{align*}
+\end{proof}
+
+Intuitivement, une v.a. est discrète lorsque sa fonction de répartition $F_X$ n'évolue que par sauts, restant constante entre ces sauts — c'est-à-dire lorsque $F_X$ est une fonction en escalier. Il est délicat de formaliser cette idée de façon parfaitement générale, mais on peut néanmoins en donner une condition suffisante, énoncée dans la proposition suivante, qui couvre en pratique la quasi-totalité des situations rencontrées.
+
+\begin{mdframed}
+\begin{proposition}
+Soit $X$ une v.a.r. S'il existe une suite $(x_n)_{n \in \mathbb{Z}} \in [-\infty, +\infty]$ bi-infinie, croissante au sens large, de nombres réels $\dots \leq x_{-1} \leq x_0 \leq x_1 \leq \dots$, avec $\lim_{n \to -\infty} x_n = -\infty$ et $\lim_{n \to \infty} x_n = \infty$ (ces deux valeurs pouvant être atteintes dès un rang fini), telle que pour tout $k \in \mathbb{Z}$ pour lequel $x_k < x_{k+1}$, la restriction $(F_X)_{|]x_k, x_{k+1}[}$ soit constante, alors $X$ est discrète, d'ensemble d'atomes $S_X \subset \{x_n\}_{n \in \mathbb{Z}}$. Plus précisément :
+
+$$
+S_X = \{x_n : F_X(x_n) > F_X(x_{n-1})\}.
+$$
+\end{proposition}
+\end{mdframed}
+
+\begin{proof} 
+Soit $k \in \mathbb{Z}$ tel que $x_k < x_{k+1}$. On a $\mathbb{P}(X \in ]x_k, x_{k+1}[) = F_X(x_{k+1}^-) - F_X(x_k) = F_X(x_{k+1}^-) - F_X(x_k^+) = 0$ puisque $(F_X)_{|]x_k, x_{k+1}[}$ est constante. Maintenant,
+
+\begin{align*}
+\mathbb{P}\left(X \in \mathbb{R} \setminus \bigcup_k \{x_k\}\right) &= \mathbb{P}\left(X \in \bigcup_{k : x_k < x_{k+1}} ]x_k, x_{k+1}[\right) \\
+&= \sum_{k : x_k < x_{k+1}} (F_X(x_{k+1}^-) - F_X(x_k^+)) = 0,
+\end{align*}
+
+ayant utilisé à la deuxième égalité que l'union est au plus dénombrable. Ceci implique $\mathbb{P}\left(X \in \bigcup_k \{x_k\}\right) = 1$ et donc $X$ est donc bien discrète par définition.
+\end{proof}
+
+Précisons toutefois que la condition donnée dans la proposition précédente est suffisante mais non nécessaire: il existe en effet des ensembles dénombrables (infinis) qui ne peuvent pas s'écrire sous la forme $\{x_k\}_k$ pour une suite $(x_k)_k$ croissante — l'exemple typique étant l'ensemble $\mathbb{Q}$ des nombres rationnels, dont les éléments ne peuvent être énumérés de façon croissante. Une v.a. discrète dont le support est un tel ensemble échappe donc au critère précédent, tout en restant discrète.
+
+\paragraph{Variables aléatoires à densité}
+
+Après avoir étudié les v.a. discrètes, dont toute la masse est concentrée sur un ensemble dénombrable de points, nous nous intéressons maintenant à une classe complémentaire de v.a., à l'opposé du cas discret : celles dont la loi peut être décrite par une densité.
+
+\medskip
+
+\begin{mdframed}
+\begin{definition}
+Soit $X$ une v.a.r. On dit que $X$ est à densité si la fonction de répartition $F_X$ s'écrit sous la forme
+
+\begin{equation}\label{1.1}
+F_X(x) = \int_{-\infty}^x f_X(y)\, dy, \quad x \in \mathbb{R},
+\end{equation}
+
+pour une certaine fonction intégrable $f_X : \mathbb{R} \to \mathbb{R}_+$. Dans ce cas, on dit que $f_X$ est une densité de $X$ (ou de la loi de $X$), et que $X$ **possède** la densité $f_X$.
+\end{definition}
+\end{mdframed}
+
+Il convient d'apporter immédiatement une précision importante : la densité $f_X$ associée à une v.a. $X$ n'est en général pas unique. En effet, on peut modifier une fonction intégrable en un nombre fini, voire dénombrable, de points sans changer la valeur de son intégrale, et donc sans modifier $F_X$. En revanche, si $X$ admet une densité qui est de surcroît continue, alors cette densité est unique (plus généralement, si $X$ admet une densité continue par morceaux, celle-ci est unique en dehors de ses points de discontinuité). C'est en ce sens que parler de « la » densité d'une variable aléatoire constitue, à proprement parler, un léger abus de langage.
+
+Remarquons également que la densité $f_X$ s'intègre nécessairement à $1$ sur $\mathbb{R}$ tout entier, puisque
+
+$$
+\int_{-\infty}^{+\infty} f_X(y)\, dy = \lim_{x \to +\infty} F_X(x) = 1.
+$$
+
+La densité joue, pour les v.a. à densité, un rôle tout à fait analogue à celui que joue la fonction de masse pour les v.a. discrètes. L'intuition sous-jacente est la suivante : pour un « élément infinitésimal » $dx$ autour d'un point $x$, on a heuristiquement
+
+$$
+\text{« } \mathbb{P}(X \in dx) = f_X(x)\, dx \text{ »},
+$$
+
+c'est-à-dire que $f_X(x)$ représente une sorte de « densité de probabilité » au voisinage de $x$, par analogie avec une densité de masse en physique. L'exercice suivant permet de donner un sens rigoureux à cette égalité, encore purement heuristique sous cette forme.
+
+\begin{exercice}
+Soit $X$ une variable aléatoire à densité, dont la densité $f_X$ est continue au point $x$. Montrer (à l'aide de l'égalité des accroissements finis par exemple) que
+
+$$
+\lim_{\varepsilon \to 0} \frac{\mathbb{P}(X \in [x - \varepsilon/2, x + \varepsilon/2])}{\varepsilon} = f_X(x)
+$$
+\end{exercice}
+
+\newpage
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Nous venons d'introduire les variables aléatoires à densité comme une classe s'opposant, en un sens, en tout point aux v.a. discrètes. Il est alors naturel de commencer par confronter ces deux mondes sur le terrain des atomes : là où une v.a. discrète concentre toute sa masse en ses atomes, on s'attend, pour une v.a. à densité, à ce que la probabilité soit répartie de façon continue, sans qu'aucun point isolé ne porte de masse strictement positive. C'est précisément ce que confirme le lemme suivant.
+
+\medskip
+
+\begin{mdframed}
+\begin{lemme}
+Soit $X$ une v.a.r. à densité. Alors l'ensemble des atomes $S_X$ de la loi de $X$ est vide, autrement dit la loi de $X$ est sans atome.
+\end{lemme}
+\end{mdframed}
+
+Ce lemme n'admet pas de réciproque, et il convient d'insister sur ce point, plus subtil qu'il n'y paraît : il existe des variables aléatoires sans aucun atome qui ne sont pourtant pas à densité. Nous y reviendrons plus loin, mais indiquons dès maintenant la traduction de ce phénomène en termes de fonctions de répartition — il existe des fonctions continues et croissantes qui ne peuvent s'écrire comme la primitive de leur propre dérivée (là où cette dérivée est définie). En d'autres termes, la continuité de $F_X$ et l'existence d'une densité ne sont pas des propriétés synonymes.
+
+\begin{proof}
+La relation (\ref{1.1}) exprime $F_X$ comme une primitive ; celle-ci est donc en particulier continue sur $\mathbb{R}$. Il s'ensuit que, pour tout $x \in \mathbb{R}$,
+
+$$
+\mathbb{P}(X = x) = F_X(x) - F_X(x^-) = 0,
+$$
+
+ce qui signifie exactement que $x$ n'est pas un atome. Comme $x$ était arbitraire, l'ensemble $S_X$ est vide et la loi de $X$ est sans atome.
+\end{proof}
+
+Ce résultat met en lumière une opposition frappante entre les deux classes de v.a. rencontrées jusqu'ici. Pour une v.a. à densité, on a $\mathbb{P}(X \in S_X) = 0$, tandis que pour une v.a. discrète on avait au contraire $\mathbb{P}(X \in S_X) = 1$ : les deux situations réalisent donc les deux valeurs extrêmes possibles de la quantité $\mathbb{P}(X \in S_X)$. Cette opposition va d'ailleurs bien au-delà des seuls atomes. Si $X$ est à densité, alors pour n'importe quel ensemble au plus dénombrable $T \subset \mathbb{R}$ on a $\mathbb{P}(X \in T) = 0$ : un tel ensemble, si volumineux soit-il du point de vue du cardinal, reste pour ainsi dire « invisible » aux yeux d'une v.a. à densité. C'est là toute la différence de nature entre v.a.r. discrète et v.a.r. à densité.
+
+Comme dans le cas discret, où la fonction de masse résumait à elle seule toute la loi, la densité caractérise entièrement la fonction de répartition de $X$, et donc sa loi. On peut du reste exprimer directement cette loi au moyen de la densité, par une formule qui fait écho à celle établie pour les v.a. discrètes.
+
+\medskip
+
+\begin{mdframed}
+\begin{proposition}
+Si $X$ est une v.a. à densité, de densité $f_X$, alors pour tout ensemble $A$,
+
+$$
+\mathbb{P}(X \in A) = \int_{-\infty}^{\infty} f_X(x)\, \mathbb{1}_A(x)\, dx.
+$$
+\end{proposition}
+\end{mdframed}
+
+\begin{remarque}
+Le résultat s'étend en réalité à tous les ensembles $A$ mesurables au sens de Lebesgue. Notons toutefois une différence avec le cas discret : on ne peut plus ici considérer des ensembles $A$ tout à fait quelconques. Cette restriction est cependant sans conséquence pratique, tant il est difficile — et le mot est faible — de construire explicitement un ensemble non mesurable.
+\end{remarque}
+
+\begin{proof}
+Fixons $a, b \in [-\infty, +\infty]$ et vérifions d'abord la formule pour $A = ]a, b]$. Par définition de la fonction de répartition,
+
+\begin{align*}
+\mathbb{P}(a < X \leq b) &= F_X(b) - F_X(a) \\
+&= \int_a^b f_X(x)\, dx \\
+&= \int_{-\infty}^{+\infty} f_X(x)\, \mathbb{1}_A(x)\, dx.
+\end{align*}
+
+Les autres types d'intervalles bornés se traitent de la même manière. En effet, $F_X$ étant continue (lemme précédent), on a $F_X(x) = F_X(x^-)$ en tout point réel, de sorte que le fait d'ouvrir ou de fermer l'une ou l'autre des bornes ne modifie en rien la probabilité :
+
+\begin{align*}
+\mathbb{P}(a \leq X \leq b) &= \mathbb{P}(a \leq X < b) \\
+&= \mathbb{P}(a < X < b) \\
+&= \mathbb{P}(a < X \leq b)  \\
+&= \int_a^b f_X(x)\, dx,
+\end{align*}
+
+ces égalités restant d'ailleurs valables pour $a = -\infty$ et $b = +\infty$. Enfin, si $A$ est une réunion finie d'intervalles disjoints, la linéarité de l'intégrale permet de sommer les contributions de chacun d'eux, et l'on obtient encore
+
+$$
+\mathbb{P}(X \in A) = \int_A f_X(x)\, dx = \int_{-\infty}^{+\infty} \mathbb{1}_A(x)\, f_X(x)\, dx.
+$$
+\end{proof}
+
+Il nous reste à traiter une question de nature plus pratique : étant donnée la fonction de répartition d'une v.a., comment reconnaître qu'elle est à densité, et le cas échéant en exhiber une densité ? La proposition suivante fournit un critère commode, valable dans la grande majorité des situations rencontrées.
+
+\medskip
+
+\begin{mdframed}
+\begin{proposition}
+Soit $X$ une v.a.r. dont la fonction de répartition $F_X$ est continue sur $\mathbb{R}$ (de classe $C^0(\mathbb{R})$) et $C^1$ par morceaux — c'est-à-dire qu'il existe un nombre fini de points $x_1 < x_2 < \dots < x_n$ tels que $F_X$ soit de classe $C^1$ sur chacun des intervalles $]-\infty, x_1[$, $]x_1, x_2[$, $\dots$, $]x_{n-1}, x_n[$, $]x_n, +\infty[$. Alors $X$ est une v.a. à densité, et une densité de $X$ est donnée par $F_X'$.
+\end{proposition}
+\end{mdframed}
+
+\begin{proof}
+Les hypothèses faites sur $F_X$ autorisent à écrire, pour tous $x, y \in [-\infty, +\infty]$,
+
+$$
+F_X(y) - F_X(x) = \int_x^y F_X'(z)\, dz.
+$$
+
+En particulier, en prenant $x = -\infty$, on obtient pour tout $y \in \mathbb{R}$
+
+$$
+F_X(y) = \int_{-\infty}^y F_X'(z)\, dz,
+$$
+
+ce qui est exactement dire que $F_X'$ est une densité de $X$.
+\end{proof}
+
+On recourt fréquemment à cette proposition pour établir qu'une v.a. est à densité. Il existe cependant une alternative, qui dispense de vérifier les hypothèses de continuité et de régularité par morceaux : mettre directement $F_X$ sous la forme (\ref{1.1}). Du point de vue de la rédaction, cette seconde voie est souvent la plus économique — même si, en pratique, pour deviner l'intégrande, on n'échappe pas au calcul de la dérivée de la fonction de répartition, exactement comme dans la proposition ci-dessus. L'exercice suivant met en regard les deux approches sur un même exemple.
+
+\begin{exercice}
+On pose $F(x) = x^2 \mathbb{1}_{[0, 1/2[}(x) + (1 - 3(1 - x)^2) \mathbb{1}_{[1/2, 1[}(x) + \mathbb{1}_{[1, +\infty[}(x)$.
+
+\begin{enumerate}
+\item Appliquer la proposition précédente pour montrer que $F$ est la fonction de répartition d'une variable aléatoire dont on précisera la densité.
+\item Vérifier que $F(x) = \int_{-\infty}^x \left[ 2t\, \mathbb{1}_{[0, 1/2]}(t) + 6(1 - t)\, \mathbb{1}_{[1/2, 1]}(t) \right] dt$, et conclure comme précédemment.
+\end{enumerate}
+\end{exercice}
+
+\newpage
+
+Toutes les v.a.r. à densité que nous croiserons dans ce cours auront une fonction de répartition du type précédent, à savoir continue sur $\mathbb{R}$ et $C^1$ par morceaux. Il faut toutefois se garder de croire que ce cas épuise la définition générale : la forme (\ref{1.1}) autorise en réalité des fonctions de répartition de v.a.r. à densité qui ne sont pas de ce type. En effet, l'ensemble des fonctions qui s'écrivent comme primitive d'une fonction intégrable est strictement plus vaste que celui des fonctions $C^0(\mathbb{R})$ et $C^1$ par morceaux : il s'agit de la classe des fonctions dites \emph{absolument continues}. Nous n'en aurons pas l'usage dans la suite, mais le lecteur curieux est invité à la découvrir par ses propres moyens — il en existe plusieurs caractérisations équivalentes, aisément accessibles par une recherche.
+
+\paragraph{Les autres variables aléatoires.}
+
+La quasi-totalité des variables aléatoires que nous rencontrerons dans ce cours relèvent de l'une des deux classes précédentes : discrètes d'un côté, à densité de l'autre. Il serait cependant trompeur de laisser penser que ces deux familles recouvrent tous les cas possibles. 
+
+Un premier type de v.a. échappant à cette dichotomie est constitué des « mélanges » des deux, c'est-à-dire des v.a. dont une partie de la masse est portée par des atomes et le reste réparti selon une densité. L'exercice ci-dessous en fournit un exemple explicite.
+
+On peut par ailleurs se poser une question plus fine : existe-t-il des fonctions de répartition qui soient continues, mais qui ne s'écrivent malgré tout comme la primitive d'aucune fonction — de sorte que la v.a. correspondante ne serait ni discrète (puisque sans atome), ni à densité ? La réponse est oui, mais la construction d'un tel objet dépasse le cadre de ce cours. Une ouvertur possible est une recherche sur l'« escalier de Cantor », que son étrangeté a fait aussi surnommer l'« escalier du diable ».
+
+Voici, comme annoncé, un exemple de v.a. combinant les deux types.
+
+\begin{exercice}
+Soit $X$ une v.a.r. de fonction de répartition
+
+$$
+F_X(t) = \frac{1 + t}{2}\, \mathbb{1}_{[0, 1[}(t) + \mathbb{1}_{[1, +\infty[}(t).
+$$
+
+\begin{enumerate}
+\item Vérifier qu'il s'agit bien d'une fonction de répartition.
+\item Vérifier que $\mathbb{P}(X \in S_X) = 1/2$.
+\item La v.a. $X$ est-elle discrète ? Est-elle à densité ?
+\item Soit $y \in [0, 1]$. Construire une variable aléatoire $Y$ telle que $\mathbb{P}(Y \in S_Y) = y$ (on pourra considérer une généralisation simple de $F_X$).
+\end{enumerate}
+\end{exercice}
+
+\newpage
+
+\newpage
+
+\section{Loi d'une fonction d'une variable aléatoire}
+
+Il est fréquent, une fois que l'on dispose d'une variable aléatoire $X$, de s'intéresser non pas à $X$ elle-même mais à une quantité qui s'en déduit. Si $\phi : \mathbb{R} \to \mathbb{R}$ est une fonction, alors $\phi(X)$ est encore un nombre décrivant le résultat d'une expérience aléatoire : il est donc naturel de le considérer à son tour comme une variable aléatoire. Plus généralement, il n'est même pas nécessaire que $\phi$ soit définie partout : il suffit qu'elle le soit sur un ensemble $E \subset \mathbb{R}$ dans lequel $X$ prend ses valeurs, au sens où $\mathbb{P}(X \in E^c) = 0$. Dans ce cas encore, la quantité $\phi(X)$ a un sens.
+
+Reste à préciser ce que l'on entend par là, c'est-à-dire à définir $\mathbb{P}(\phi(X) \in A)$ pour tout ensemble $A$. Or il n'y a ici qu'une seule définition raisonnable, et elle est en quelque sorte imposée par la logique : dire que $\phi(X)$ tombe dans $A$, c'est exactement dire que $X$ tombe dans l'ensemble des antécédents de $A$ par $\phi$. Autrement dit, les événements $\{\phi(X) \in A\}$ et $\{X \in \phi^{-1}(A)\}$ coïncident. On pose donc, pour tout ensemble $A \subset \mathbb{R}$ réunion finie d'intervalles disjoints,
+
+$$
+\mathbb{P}(\phi(X) \in A) := \mathbb{P}(X \in \phi^{-1}(A)),
+$$
+
+où $\phi^{-1}(A)$ désigne la préimage de $A$ par $\phi$. Pour que le membre de droite ait un sens dans notre cadre, on suppose que $\phi^{-1}(A)$ est lui aussi une réunion finie d'intervalles disjoints. Il s'agit là d'une hypothèse portant sur $\phi$, mais anodine en pratique : elle est satisfaite par toute fonction « raisonnable ». On vérifie alors (exercice) que la fonction $A \mapsto \mathbb{P}(\phi(X) \in A)$ ainsi définie satisfait encore aux axiomes 1 à 4, si bien que $\phi(X)$ est bel et bien une variable aléatoire.
+
+Retenons enfin l'aspect pratique de cette construction : pour déterminer la fonction de répartition de $\phi(X)$, tout se ramène au calcul des préimages $\phi^{-1}(]-\infty, x])$.
+
+\subsection{Fonction discrète d'une v.a.r.}
+
+Un cas particulièrement commode se présente lorsque $\phi$ envoie le support de $X$ sur un ensemble au plus dénombrable. La variable $\phi(X)$ est alors discrète — et ce, remarquablement, même lorsque $X$ ne l'était pas : une fonction bien choisie peut ainsi « discrétiser » une v.a. qui ne l'était pas au départ. Sa loi est dès lors entièrement décrite par sa fonction de masse. Plutôt que d'énoncer un théorème général, dont la formulation serait plus lourde qu'éclairante, il nous a paru préférable d'exposer la méthode sur une série d'exemples, du plus élémentaire au plus élaboré.
+
+\begin{exemple}
+$\phi : \mathbb{R} \to \{0, 1\}$, $\phi(x) = \mathbb{1}_{x \geq 0}$, avec $X$ une v.a. quelconque. La fonction $\phi$ ne prend que les deux valeurs $0$ et $1$ ; la v.a. $\phi(X) = \mathbb{1}_{X \geq 0}$ est donc discrète, de fonction de masse
+
+$$
+\mathbb{P}(\mathbb{1}_{X \geq 0} = 1) = \mathbb{P}(X \geq 0), \quad \mathbb{P}(\mathbb{1}_{X \geq 0} = 0) = \mathbb{P}(X < 0).
+$$
+
+Autrement dit, $\mathbb{1}_{X \geq 0}$ suit la loi de Bernoulli de paramètre $p = \mathbb{P}(X \geq 0)$.
+\end{exemple}
+
+Passons à une fonction qui, cette fois, « tronque » la variable au-delà d'un certain seuil.
+
+\begin{exemple}
+$\phi : \mathbb{R}_+ \to \mathbb{R}_+$, $\phi(x) = \min(x, N)$ (avec $N \in \mathbb{N}$), et $X$ une v.a. discrète à valeurs dans $\mathbb{N}$. Comme $X$ est discrète, $\phi(X)$ l'est aussi. Sa fonction de masse s'obtient en distinguant selon que l'on est en deçà du seuil ou exactement au seuil :
+
+$$
+\mathbb{P}(\min(X, N) = n) = \begin{cases} \mathbb{P}(X = n), & n \in \{0, \dots, N - 1\}, \\[4pt] \mathbb{P}(X \geq N) = \displaystyle\sum_{k=N}^\infty \mathbb{P}(X = k), & n = N. \end{cases}
+$$
+
+Toute la masse située à partir de $N$ vient ainsi se concentrer sur la valeur $N$.
+\end{exemple}
+
+Les deux exemples suivants illustrent le phénomène de discrétisation annoncé plus haut : partant d'une v.a. \emph{à densité}, on obtient une v.a. discrète.
+
+\begin{exemple}
+$\phi : [0, 1] \to \mathbb{N}$, $\phi(x) = \lfloor Nx \rfloor$ (avec $N \in \mathbb{N}$), et $X \sim \mathcal{U}(0, 1)$. La fonction $\phi$ est à valeurs dans $\{0, \dots, N - 1\}$, de sorte que $\phi(X)$ est discrète. Pour tout $n \in \{0, \dots, N - 1\}$,
+
+\begin{align*}
+\mathbb{P}(\lfloor NX \rfloor = n) &= \mathbb{P}\!\left(\tfrac{n}{N} \leq X < \tfrac{n + 1}{N}\right) \\
+&= \int_{n/N}^{(n+1)/N} 1 \, dx \\
+&= \frac{1}{N}.
+\end{align*}
+
+La v.a. $\lfloor NX \rfloor$ suit donc la loi uniforme sur $\{0, \dots, N - 1\}$ : découper $[0, 1]$ en $N$ tranches égales et repérer dans laquelle tombe $X$ revient bien à tirer un entier au hasard, uniformément.
+\end{exemple}
+
+\begin{exemple}
+$\phi : \mathbb{R}_+ \to \mathbb{N}$, $\phi(x) = \lfloor x \rfloor$, et $X \sim \mathcal{E}(\lambda)$. La fonction $\phi$ étant à valeurs dans $\mathbb{N}$, la v.a. $\phi(X)$ est discrète. Pour tout $n \in \mathbb{N}$,
+
+\begin{align*}
+\mathbb{P}(\lfloor X \rfloor = n) &= \mathbb{P}(n \leq X < n + 1) \\
+&= \int_n^{n+1} \lambda e^{-\lambda x} \, dx \\
+&= e^{-\lambda n} - e^{-\lambda(n+1)} \\
+&= e^{-\lambda n}(1 - e^{-\lambda}).
+\end{align*}
+
+On reconnaît là une loi géométrique : $\lfloor X \rfloor$ suit la loi $\mathcal{G}_{\mathbb{N}}(1 - e^{-\lambda})$.
+\end{exemple}
+
+Ce dernier résultat n'est pas un hasard, et l'exercice suivant invite à l'éclairer autrement, par le biais d'une propriété structurelle commune aux lois exponentielle et géométrique.
+
+\begin{exercice}
+Retrouver le résultat ci-dessus sur la partie entière d'une v.a. de loi $\mathcal{E}(\lambda)$ en comparant les propriétés d'absence de mémoire, satisfaites respectivement par les lois $\mathcal{G}$ et $\mathcal{E}$.
+\end{exercice}
+
+\newpage
+
+\subsection{Fonction régulière d'une variable aléatoire à densité}
+
+Nous abordons à présent la situation complémentaire de celle du paragraphe précédent : $X$ est cette fois à densité, et la fonction $\phi$ est supposée suffisamment régulière pour ne pas venir concentrer la masse en des points isolés. Sous ces hypothèses, $\phi(X)$ demeure une v.a. à densité, et la marche à suivre est invariablement la même : on calcule d'abord la fonction de répartition de $\phi(X)$, puis on en déduit la densité, soit par dérivation, soit par mise sous forme intégrale. Ici encore, plutôt qu'un énoncé général, nous procédons par l'exemple. Commençons par un cas générique, où $X$ est laissée quelconque.
+
+\begin{exemple}
+$\phi : \mathbb{R} \to \mathbb{R}$, $\phi(x) = x^2$, avec $X$ une v.a.r. On calcule d'abord la fonction de répartition de $\phi(X)$. Pour $x \geq 0$,
+
+\begin{align*}
+F_{X^2}(x) &= \mathbb{P}(X^2 \leq x) \\
+&= \mathbb{P}(-\sqrt{x} \leq X \leq \sqrt{x}) \\
+&= F_X(\sqrt{x}) - F_X((-\sqrt{x})^-),
+\end{align*}
+
+soit, en tenant compte du cas $x < 0$ (où $X^2 \leq x$ est impossible),
+
+$$
+F_{X^2}(x) = \begin{cases} F_X(\sqrt{x}) - F_X((-\sqrt{x})^-), & x \geq 0, \\ 0, & x < 0. \end{cases}
+$$
+
+Supposons maintenant $X$ à densité, de densité $f_X$. On peut alors réécrire la différence des fonctions de répartition comme l'intégrale de $f_X$ sur l'intervalle symétrique correspondant :
+
+\begin{align*}
+F_X(\sqrt{x}) - F_X((-\sqrt{x})^-) &= \int_{-\infty}^{\sqrt{x}} f_X(y)\, dy - \int_{-\infty}^{-\sqrt{x}} f_X(y)\, dy \\
+&= \int_{-\sqrt{x}}^{\sqrt{x}} f_X(y)\, dy.
+\end{align*}
+
+À ce stade, deux voies mènent à la conclusion — elles aboutissent bien entendu au même résultat, et il est instructif de les avoir toutes deux à l'esprit.
+
+\begin{itemize}
+\item \emph{Par dérivation.} On observe que $x \mapsto F_{X^2}(x)$ est de classe $C^1$ sur $]-\infty, 0[ \cup ]0, +\infty[$. Il suffit alors de la dériver — dérivation d'une fonction composée — pour conclure que $X^2$ est à densité, de densité
+
+$$
+f_{X^2}(x) = \begin{cases} \dfrac{1}{2\sqrt{x}} \big(f_X(\sqrt{x}) + f_X(-\sqrt{x})\big), & x > 0, \\[6pt] 0, & \text{sinon.} \end{cases}
+$$
+
+\item \emph{Par mise sous forme intégrale directe.} On coupe l'intégrale en son milieu, puis on ramène chaque morceau sur $[0, \sqrt{x}]$, avant un dernier changement de variable $y = \sqrt{z}$ :
+
+\begin{align*}
+\int_{-\sqrt{x}}^{\sqrt{x}} f_X(y)\, dy &= \int_{-\sqrt{x}}^0 f_X(y)\, dy + \int_0^{\sqrt{x}} f_X(y)\, dy \\
+&= \int_0^{\sqrt{x}} \big(f_X(-y) + f_X(y)\big)\, dy \\
+&= \int_0^x \big[f_X(-\sqrt{z}) + f_X(\sqrt{z})\big] \frac{1}{2\sqrt{z}}\, dz.
+\end{align*}
+
+On retrouve, comme intégrande, la densité obtenue par la première méthode : les deux approches se rejoignent.
+\end{itemize}
+\end{exemple}
+
+Le deuxième exemple est de nature un peu différente : $X$ y suit une loi explicite, et surtout les ensembles de niveaux en jeu ne sont plus de simples intervalles mais des réunions \emph{infinies} d'intervalles. C'est l'occasion de voir la sigma-additivité entrer en scène dans un calcul concret.
+
+\begin{exemple}
+$\phi : \mathbb{R} \to [0, 1[$, $\phi(x) = x - \lfloor x \rfloor$ (partie fractionnaire), avec $X \sim \mathcal{E}(\lambda)$. On calcule la fonction de répartition de $\phi(X)$. Pour tout $x \in [0, 1]$, en décomposant selon la valeur de $\lfloor X \rfloor$,
+
+\begin{align*}
+F_{\phi(X)}(x) &= \mathbb{P}(\phi(X) \leq x) \\
+&= \mathbb{P}(0 \leq X - \lfloor X \rfloor \leq x) \\
+&= \mathbb{P}(\lfloor X \rfloor \leq X \leq \lfloor X \rfloor + x) \\
+&= \mathbb{P}\left(\{\lfloor X \rfloor \leq X \leq \lfloor X \rfloor + x\} \cap \bigcup_{k \in \mathbb{N}} \{\lfloor X \rfloor = k\}\right) \\
+&= \sum_{k \in \mathbb{N}} \mathbb{P}\big(\{\lfloor X \rfloor \leq X \leq \lfloor X \rfloor + x\} \cap \{\lfloor X \rfloor = k\}\big) \\
+&= \sum_{k \in \mathbb{N}} \mathbb{P}(k \leq X \leq k + x) \\
+&= \sum_{k \in \mathbb{N}} \int_k^{k+x} \lambda e^{-\lambda y}\, dy \\
+&= \sum_{k \in \mathbb{N}} e^{-\lambda k}(1 - e^{-\lambda x}) \\
+&= \frac{1 - e^{-\lambda x}}{1 - e^{-\lambda}},
+\end{align*}
+
+la dernière égalité résultant de la sommation de la série géométrique de raison $e^{-\lambda} \in {]0, 1[}$. En rassemblant les différents cas, on obtient
+
+$$
+F_{\phi(X)}(x) = \frac{1 - e^{-\lambda x}}{1 - e^{-\lambda}}\, \mathbb{1}_{[0,1[}(x) + \mathbb{1}_{[1,\infty[}(x).
+$$
+
+Il ne reste plus qu'à identifier la densité, ce que l'on fait en mettant $F_{\phi(X)}$ sous forme intégrale :
+
+$$
+F_{\phi(X)}(x) = \int_{-\infty}^x \frac{\lambda e^{-\lambda y}}{1 - e^{-\lambda}}\, \mathbb{1}_{[0,1]}(y)\, dy.
+$$
+
+La partie fractionnaire d'une v.a. exponentielle possède donc une densité, proportionnelle sur $[0, 1]$ à celle de la loi exponentielle elle-même, renormalisée par le facteur $1 - e^{-\lambda}$.
+
+Signalons enfin qu'une troisième voie existe, dite \emph{méthode de la fonction muette}, elle aussi fondée sur le changement de variable. Nous l'étudierons au chapitre suivant.
+\end{exemple}
+
+\newpage
+
+\section{Simulation de lois}
+
+Pour clore ce chapitre, présentons une méthode de simulation reposant entièrement sur la fonction de répartition. L'idée de départ est simple : si l'on savait « inverser » $F_X$, on pourrait fabriquer une variable aléatoire de loi prescrite à partir d'un unique tirage uniforme. La difficulté est que $F_X$ n'est en général pas inversible au sens usuel — elle peut présenter des paliers, sur lesquels elle n'est pas injective, aussi bien que des sauts, où elle n'est pas surjective. On contourne cet obstacle en lui associant un inverse « généralisé ».
+
+\medskip
+
+\begin{mdframed}
+\begin{definition}
+On appelle fonction quantile l'inverse généralisé de la fonction de répartition, défini par
+
+$$
+F_X^{-1}(y) = \inf \{x : F_X(x) \geq y\}, \quad y \in ]0, 1[.
+$$
+\end{definition}
+\end{mdframed}
+
+Avant d'en venir à la méthode de simulation proprement dite, établissons quelques propriétés de la fonction quantile. Précisons d'emblée qu'elles ne sont pas indispensables à la suite : le lecteur pressé pourra les sauter en première lecture et passer directement à la proposition de simulation.
+
+\medskip
+
+\begin{mdframed}
+\begin{proposition}
+La fonction quantile $F_X^{-1}$ est croissante, continue à gauche, et admet des limites à droite.
+\end{proposition}
+\end{mdframed}
+
+On observera que les rôles de la continuité à gauche et à droite sont ici échangés par rapport à ceux de la fonction de répartition $F_X$ (croissante et continue à droite). Notons par ailleurs que la démonstration, purement analytique, ne fait appel qu'aux deux seules hypothèses de croissance et de continuité à droite de $F_X$.
+
+\begin{proof}
+Soient $y \leq z$ deux réels de $]0, 1[$. L'inclusion d'ensembles 
+
+$$
+\{x : F_X(x) \geq y\} \supset \{x : F_X(x) \geq z\}
+$$
+ 
+entraîne aussitôt $F_X^{-1}(y) \leq F_X^{-1}(z)$ : c'est la croissance. 
+
+Montrons à présent la continuité à gauche. Soit $(y_n)_n$ une suite croissante de $]0, 1[$, de limite $y = \lim_n y_n \in ]0, 1[$, et posons $z = \lim_n F_X^{-1}(y_n)$ (limite qui existe, la suite étant croissante). Pour tout $\epsilon > 0$, on a 
+
+$$
+F_X(z + \epsilon) \geq y_n
+$$ 
+
+pour tout $n$, donc 
+
+$$
+F_X(z + \epsilon) \geq y
+$$ 
+
+par passage à la limite ; il s'ensuit $z + \epsilon \geq F_X^{-1}(y)$, puis $z \geq F_X^{-1}(y)$ en faisant tendre $\epsilon$ vers $0$. 
+
+La croissance de $(y_n)_n$ et de $F_X^{-1}$ fournit l'inégalité inverse $z \leq F_X^{-1}(y)$, d'où l'égalité $z = F_X^{-1}(y)$, c'est-à-dire la continuité à gauche. Enfin, l'existence des limites à droite est une conséquence directe de la croissance.
+\end{proof}
+
+Il est instructif de voir sur un cas concret que la continuité à droite, elle, fait bien défaut en général. Supposons que l'on puisse trouver $y \in ]0, 1[$ ainsi que $x_1 < x_2$ tels que $F_X(x_1) = F_X(x_2) = y$ — autrement dit que $[x_1, x_2]$ soit un intervalle sur lequel $F_X$ reste constante. Alors, pour toute suite $(y_n)_n$ strictement décroissante de limite $y$, on a $F_X^{-1}(y_n) \geq x_2$ tandis que $F_X^{-1}(y) \leq x_1$, si bien que
+
+$$
+F_X^{-1}(y_n) - F_X^{-1}(y) \geq x_2 - x_1 > 0.
+$$
+
+La limite à droite en $y$ ne peut donc pas valoir $F_X^{-1}(y)$ : un palier de $F_X$ se traduit par un saut de $F_X^{-1}$.
+
+Venons-en maintenant au résultat qui motive tout ce paragraphe. Tout l'intérêt de la fonction quantile est qu'elle permet de simuler la loi de $X$ de façon remarquablement économique.
+
+\medskip
+
+\begin{mdframed}
+\begin{proposition}
+Soient $U$ une variable aléatoire de loi uniforme $\text{Unif}(0, 1)$ et $X$ une v.a.r. Alors $F_X^{-1}(U)$ suit la loi de $X$.
+\end{proposition}
+\end{mdframed}
+
+La force de cette méthode tient à sa généralité : elle vaut pour n'importe quelle variable aléatoire réelle $X$, sans hypothèse aucune, puisqu'elle ne mobilise que la fonction de répartition. Dès lors qu'on sait produire des tirages uniformes sur $]0, 1[$ — ce que toute machine sait faire — et qu'on dispose de $F_X^{-1}$, on sait simuler $X$.
+
+\begin{proof}
+Tout repose sur l'équivalence suivante, que l'on établit par double inclusion : pour tous $u \in ]0, 1[$ et $x \in \mathbb{R}$,
+
+$$
+F_X^{-1}(u) \leq x \iff u \leq F_X(x).
+$$
+
+Admise un instant, elle donne l'égalité d'événements $\{F_X^{-1}(U) \leq x\} = \{U \leq F_X(x)\}$, d'où, en prenant les probabilités,
+
+$$
+\mathbb{P}(F_X^{-1}(U) \leq x) = \mathbb{P}(U \leq F_X(x)) = F_X(x),
+$$
+
+la dernière égalité venant de ce que $U$ est uniforme sur $]0, 1[$. Ainsi $F_X^{-1}(U)$ a pour fonction de répartition $F_X$, ce qui suffit à identifier sa loi à celle de $X$.
+
+Il reste à prouver l'équivalence. Supposons d'abord $F_X^{-1}(u) \leq x$ et posons $y = F_X^{-1}(u)$. Pour tout $\epsilon > 0$ on a $F_X(y + \epsilon) \geq u$ ; par continuité à droite de $F_X$, on en déduit $F_X(y) = F_X(y^+) \geq u$. Comme $y \leq x$ entraîne $F_X(y) \leq F_X(x)$ par croissance, on obtient bien $u \leq F_X(x)$. Réciproquement, si $u \leq F_X(x)$, alors $x$ appartient à $\{z : F_X(z) \geq u\}$, et $F_X^{-1}(u) \leq x$ résulte directement de la définition de $F_X^{-1}$ comme borne inférieure de cet ensemble.
+\end{proof}
+
+\begin{remarque}
+Attention à ne pas croire que $F_X^{-1}$ soit une réciproque au sens strict. On n'a pas toujours $F_X \circ F_X^{-1}(u) = u$ — penser au cas où $F_X(x^-) < u < F_X(x)$, c'est-à-dire à un saut de $F_X$ — ni toujours $F_X^{-1} \circ F_X(x) = x$ — penser cette fois au cas où il existe $w < x$ avec $F_X(w) = F_X(x)$, c'est-à-dire à un palier. Nous invitons le lecteur à faire un dessin dans chacune de ces deux situations : tout y devient limpide.
+\end{remarque}
+
+Au-delà de la simulation, le calcul de $F_X^{-1}$ a une autre vertu : il éclaire souvent la manière dont une loi dépend de ses paramètres. Les deux exemples suivants l'illustrent.
+
+\begin{exemple}
+$X \sim \mathcal{E}(\lambda)$. Pour $y \in ]0, 1[$, on trouve $F_X^{-1}(y) = \dfrac{-\log(1 - y)}{\lambda}$. Ainsi $\dfrac{-\log(1 - U)}{\lambda}$ — ou encore $\dfrac{-\log(U)}{\lambda}$, qui suit la même loi puisque $U$ et $1 - U$ ont même loi — suit la loi $\mathcal{E}(\lambda)$. On lit au passage la dépendance en $\lambda$ : le paramètre agit par simple facteur d'échelle, et $\lambda X \sim \mathcal{E}(1)$.
+\end{exemple}
+
+\begin{exemple}
+$X \sim \mathcal{C}(a)$. Pour $y \in ]0, 1[$, on trouve $F_X^{-1}(y) = a \tan\!\left(\pi\left(y - \tfrac{1}{2}\right)\right)$. Ainsi $a \tan\!\left(\pi\left(U - \tfrac{1}{2}\right)\right)$ — ou encore $a \tan(\pi U)$, qui suit la même loi — suit la loi $\mathcal{C}(a)$. Là encore, $a$ n'est qu'un facteur d'échelle, et $X/a \sim \mathcal{C}(1)$.
+\end{exemple}
+
+Terminons par une mise en garde d'ordre pratique. Le calcul numérique de $F_X^{-1}$ peut se révéler coûteux — et la question se pose d'ailleurs jusque dans les fonctions élémentaires qui y apparaissent : comment une machine calcule-t-elle un logarithme, au juste ? Lorsque cette inversion devient trop lourde, on lui préfère d'autres approches, telle la méthode dite du rejet.
