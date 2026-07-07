@@ -1,0 +1,103 @@
+% Auth: Nicklas Vraa
+% Docs: https://github.com/NicklasVraa/LiX
+% Everything you need to know about this template is found in on the github repository above. Stars are very appreciated.
+
+\documentclass{novel}
+
+% ===== PACKAGES POUR LE CONTENU SCIENTIFIQUE =====
+% Mathématiques avancées
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{mathtools}
+\usepackage{bm} % pour les vecteurs en gras
+\usepackage{mdframed}
+
+% Figures et graphiques
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{wrapfig}
+\usepackage{float}
+
+% Tableaux améliorés
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{longtable}
+\usepackage{pdfpages}
+
+% ===== PACKAGES POUR LA MODÉLISATION =====
+% Algorithmes et pseudo-code
+\usepackage{algorithm}
+\usepackage{algorithmic}
+
+% Diagrammes et schémas
+\usepackage{tikz}
+\usetikzlibrary{arrows, positioning, shapes}
+
+% Listings de code (si nécessaire)
+\usepackage{listings}
+\usepackage{xcolor}
+
+% Numérotation des équations par chapitre
+\numberwithin{equation}{chapter}
+
+% ===== COMMANDES PERSONNALISÉES =====
+
+% Environnements théoriques
+\theoremstyle{definition}
+\newtheorem{definition}{Définition}[chapter]
+\newtheorem{exemple}{Exemple}[chapter]
+\newtheorem{notation}{Notation}[chapter]
+
+\theoremstyle{plain}
+\newtheorem{theoreme}{Théorème}[chapter]
+\newtheorem{corollaire}{Corollaire}[chapter]
+\newtheorem{proposition}{Proposition}[chapter]
+\newtheorem{lemme}{Lemme}[chapter]
+\newtheorem{proprietes}{Propriété}[chapter]
+\newtheorem{exercice}{Exercice}[chapter]
+
+\theoremstyle{remark}
+\newtheorem{remarque}{Remarque}[chapter]
+\newtheorem{objectif}{Objectif}[chapter]
+%\newtheorem{note}{Note}[chapter]
+
+\theoremstyle{proof}
+\newtheorem{solution}{Solution}[chapter]
+
+
+\lang      {french}
+\title     {Probabilité}
+\subtitle  {Fondements, caractérisation et analyse des variables aléatoires réelles.}
+\authors   {Lorenzo Segoni}
+\cover     {resources1/novel_front.pdf}{resources1/novel_back.pdf}
+%\license   {CC}{by-nc-sa}{3.0}
+%\isbn      {978-0201529838}
+%\publisher {NV Publishing Company}
+%\edition   {1}{2023}
+%\dedicate  {Myself}{Because I'm cool}
+%\thank     {Thank you to me for being the best}
+%\keywords  {fiction, template, packages}
+
+%\note{Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent porttitor est arcu, sed euismod metus imperdiet iaculis. Quisque vestibulum molestie nulla, non consectetur tellus mollis a. Nunc commodo magna a elit commodo dignissim.}
+
+\blurb{Ce cours présente les fondements de la théorie des probabilités centrés sur l'étude d'une variable aléatoire réelle unique. On y étudie d'abord le cadre axiomatique, la fonction de répartition et les propriétés des grandes classes de lois (discrètes et à densité), ainsi que les méthodes pour déterminer la loi d'une fonction d'une variable et simuler ces comportements. Le cours approfondit ensuite les notions d'espérance et de moments (variance), introduisant la fonction génératrice comme outil de caractérisation analytique. Enfin, on aborde les inégalités probabilistes incontournables (Markov, Bienaymé-Tchebychev, Jensen) et les définitions avancées de l'espérance selon Lebesgue et Riemann-Stieltjes. Le fil conducteur est la construction d'un cadre théorique et calculatoire rigoureux avant d'étendre l'analyse à plusieurs variables.}
+
+\begin{document}
+
+\toc
+
+
+\input{Cours1/Ch1} %FINIS
+\input{Cours1/Exo0} %FINIS
+\input{Cours1/Exo1} %FINIS
+\input{Cours1/Exo2} %FINIS
+\input{Cours1/Exo3} %FINIS
+\input{Cours1/Ch2} %FINIS
+\input{Cours1/Exo4} %FINIS
+\input{Cours1/Exo5} %FINIS
+
+\appendix
+\input{Cours1/An1}
+\input{Cours1/An2}
+  
+\end{document}
