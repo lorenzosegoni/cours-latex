@@ -1,0 +1,667 @@
+\chapter{Variables aléatoires continue}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%=====================================================================
+\section{Loi uniforme (continue)}
+%=====================================================================
+
+Analogue continu de la loi uniforme discrète~: c'est cette fois la
+\emph{densité} qui est constante sur un intervalle.
+
+\medskip
+
+\begin{mdframed}
+\begin{definition}[Loi uniforme continue]
+Soit $I\subset\mathbb{R}$ un intervalle borné, de bornes $a=\inf I$ et $b=\sup I$
+($a<b$), de longueur $|I|=b-a$. On dit que $X$ \emph{suit la loi uniforme sur
+$I$}, et l'on note $X\sim\mathcal{U}(a,b)$, si $X$ admet la densité
+\[
+  f_X(x)=\frac{1}{b-a}\,\mathbb{1}_{[a,b]}(x).
+\]
+\end{definition}
+\end{mdframed}
+
+\medskip
+
+\begin{mdframed}
+\begin{proposition}[Fonction de répartition]
+Pour $X\sim\mathcal{U}(a,b)$,
+\[
+  F_X(t)=
+  \begin{cases}
+    0, & t<a,\\[2pt]
+    \dfrac{t-a}{b-a}, & a\le t\le b,\\[6pt]
+    1, & t>b.
+  \end{cases}
+\]
+La notation $\mathcal{U}(a,b)$ ne précise pas si les bornes sont incluses~: cela n'a
+aucune incidence, un point étant de probabilité nulle.
+\end{proposition}
+\end{mdframed}
+
+\medskip
+
+\begin{mdframed}
+\begin{proposition}[Espérance, variance, moments]
+\label{prop:unifc-moments}
+Si $X\sim\mathcal{U}(a,b)$, alors
+
+\begin{itemize}
+\item $\mathbb{E}[X]=\frac{a+b}{2}$,
+\item $\mathbb{V}(X)=\frac{(b-a)^2}{12}$,
+\item $M_X(t)=\frac{e^{tb}-e^{ta}}{t(b-a)}$ avec $t\ne0$.
+\item Plus généralement $\displaystyle\mathbb{E}[X^n]=\frac{b^{n+1}-a^{n+1}}{(n+1)(b-a)}$.
+\end{itemize}
+\end{proposition}
+\end{mdframed}
+
+\begin{proof}
+$$
+\mathbb{E}[X]=\frac1{b-a}\int_a^b x\,dx=\frac{b^2-a^2}{2(b-a)}=\frac{a+b}{2}
+$$ 
+
+et
+$$
+\mathbb{E}[X^2]=\frac1{b-a}\int_a^b x^2\,dx=\frac{b^3-a^3}{3(b-a)}
+=\frac{a^2+ab+b^2}{3}. 
+$$
+
+D'où
+
+\begin{align*}
+  \mathbb{V}(X)&=\frac{a^2+ab+b^2}{3}-\frac{(a+b)^2}{4} \\
+  &=\frac{4(a^2+ab+b^2)-3(a+b)^2}{12} \\
+&=\frac{(b-a)^2}{12}.
+\end{align*}
+
+Enfin $M_X(t)=\frac1{b-a}\int_a^b e^{tx}\,dx=\frac{e^{tb}-e^{ta}}{t(b-a)}$.
+\end{proof}
+
+\begin{remarque}[L'intervalle est nécessairement borné]
+On ne peut pas prendre $a=-\infty$ ou $b=+\infty$~: il n'existe pas de loi
+uniforme sur $\mathbb{R}$ tout entier (de même qu'il n'existe pas de loi uniforme sur
+$\mathbb{N}$).
+\end{remarque}
+
+\begin{exercice}
+\label{ex:unif-affine}
+Soit $X\sim\mathcal{U}(0,1)$ et $a,b\in\mathbb{R}$ avec $a\ne0$. Déterminer la loi de
+$aX+b$. \emph{(Réponse~: $\mathcal{U}$ des bornes $b$ et $a+b$.)}
+\end{exercice}
+
+\newpage
+%=====================================================================
+\section{Loi normale (ou gaussienne)}
+%=====================================================================
+
+\medskip
+
+\begin{mdframed}
+\begin{definition}[Loi normale]
+Soient $\mu\in\mathbb{R}$ et $\sigma^2>0$. On dit que $X$ \emph{suit la loi normale
+(ou gaussienne) de moyenne $\mu$ et variance $\sigma^2$}, et l'on note
+$X\sim\mathcal N(\mu,\sigma^2)$, si $X$ admet la densité
+\[
+  f_X(x)=\frac{1}{\sqrt{2\pi\sigma^2}}\;\exp\!\left(-\frac{(x-\mu)^2}{2\sigma^2}\right).
+\]
+Si $\mu=0$, $X$ est dite \emph{centrée}~; si de plus $\sigma^2=1$, \emph{réduite}.
+\end{definition}
+\end{mdframed}
+
+\medskip
+
+\begin{mdframed}
+\begin{proposition}[$f_X$ est bien une densité]
+On a $\int_\mathbb{R} f_X=1$. Par le changement de variable $t=(x-\mu)/(\sigma\sqrt2)$
+on se ramène à l'intégrale de Gauss $\int_\mathbb{R} e^{-t^2}\,dt=\sqrt\pi$.
+\end{proposition}
+\end{mdframed}
+
+\medskip
+
+\begin{mdframed}
+\begin{notation}[Fonction $\Phi$]
+La fonction de répartition de la loi \emph{centrée réduite} $\mathcal N(0,1)$
+est notée
+\[
+  \Phi(t)=\int_{-\infty}^{t}\frac{1}{\sqrt{2\pi}}\,e^{-y^2/2}\,dy.
+\]
+Elle n'a pas d'expression élémentaire (elle est reliée à la fonction d'erreur
+$\operatorname{erf}(x)=\frac{2}{\sqrt\pi}\int_0^x e^{-y^2}\,dy$), mais elle est tabulée et
+disponible dans tout logiciel de calcul.
+\end{notation}
+\end{mdframed}
+
+\medskip
+
+\begin{mdframed}
+\begin{lemme}[Transformation affine --- \textnormal{à retenir}]
+\label{lem:normale-affine}
+Si $N\sim\mathcal N(0,1)$ et $\mu,\sigma\in\mathbb{R}$ avec $\sigma\ne0$, alors
+$\mu+\sigma N\sim\mathcal N(\mu,\sigma^2)$.
+\end{lemme}
+\end{mdframed}
+
+\begin{proof}
+Cas $\sigma>0$. Pour $t\in\mathbb{R}$,
+
+\begin{align*}
+  \mathbb{P}(\mu+\sigma N\le t) &=\mathbb{P}\!\Big(N\le\tfrac{t-\mu}{\sigma}\Big) \\
+  &=\int_{-\infty}^{(t-\mu)/\sigma}\frac{e^{-y^2/2}}{\sqrt{2\pi}}\,dy \\
+  &=\int_{-\infty}^{t}\frac{1}{\sqrt{2\pi\sigma^2}}\,
+  e^{-(z-\mu)^2/(2\sigma^2)}\,dz,
+\end{align*}
+
+après le changement de variable affine $y=(z-\mu)/\sigma$. On reconnaît
+$F_{\mathcal N(\mu,\sigma^2)}$. Pour $\sigma<0$, on note que $N$ et $-N$ ont
+même loi, donc $\mu+\sigma N$ et $\mu-\sigma N$ aussi.
+\end{proof}
+
+\medskip
+
+\begin{mdframed}
+\begin{proposition}[Espérance, variance, moments]
+Si $X\sim\mathcal N(\mu,\sigma^2)$, alors
+
+\begin{itemize}
+\item $\mathbb{E}[X]=\mu$, 
+\item $\mathbb{V}(X)=\sigma^2$,
+\item $M_X(t)=\exp\!\Big(\mu t+\tfrac12\sigma^2 t^2\Big)$, avec $t\in\mathbb{R}$.
+\end{itemize}
+
+Les moments centrés sont, pour $N\sim\mathcal N(0,1)$:
+
+\begin{itemize}
+\item $\mathbb{E}[N^{2k+1}]=0$ 
+\item $\mathbb{E}[N^{2k}]=(2k-1)!!=\dfrac{(2k)!}{2^k\,k!}$.
+\end{itemize}
+\end{proposition}
+\end{mdframed}
+
+\begin{proof}
+Écrivons $X=\mu+\sigma N$. Par imparité, $\mathbb{E}[N]=0$; 
+
+une intégration par parties donne $\mathbb{E}[N^2]=\int y^2\frac{e^{-y^2/2}}{\sqrt{2\pi}}\,dy=1$. 
+
+Donc $\mathbb{E}[X]=\mu$ et $\mathbb{V}(X)=\sigma^2\mathbb{V}(N)=\sigma^2$. Pour la FGM,
+
+\[
+  M_N(t)=\int_\mathbb{R} e^{ty}\frac{e^{-y^2/2}}{\sqrt{2\pi}}\,dy
+  =e^{t^2/2}\int_\mathbb{R}\frac{e^{-(y-t)^2/2}}{\sqrt{2\pi}}\,dy=e^{t^2/2},
+\]
+
+d'où $M_X(t)=e^{\mu t}M_N(\sigma t)=e^{\mu t+\sigma^2t^2/2}$. Les moments de
+$N$ s'obtiennent en identifiant le développement en série de $e^{t^2/2}$.
+\end{proof}
+
+\medskip
+
+\begin{mdframed}
+\begin{proposition}[Convention $\sigma=0$]
+On pose $\mathcal N(\mu,0):=\delta_\mu$ (loi de Dirac en $\mu$) : ce n'est plus
+une loi à densité.
+\end{proposition}
+\end{mdframed}
+
+\begin{remarque}[Forme de la densité]
+La densité est la « courbe en cloche » de Gauss, symétrique autour de $\mu$,
+croissante puis décroissante~; plus $\sigma^2$ est petit, plus elle est
+resserrée autour de $\mu$.
+\end{remarque}
+
+\begin{exercice}[Encadrement de la queue gaussienne]
+\label{ex:queue-gauss}
+Soit $N\sim\mathcal N(0,1)$. Montrer, par intégrations par parties successives
+de $1-\mathbb{P}hi(t)$, l'encadrement (excellent pour $t$ grand)~:
+\[
+  \Big(\frac1t-\frac1{t^3}\Big)e^{-t^2/2}\le \sqrt{2\pi}\,\mathbb{P}(N\ge t)
+  \le \frac1t\,e^{-t^2/2},\qquad t>0.
+\]
+\end{exercice}
+
+\newpage
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsection{Approximation gaussienne de la loi binomiale}
+
+\medskip
+
+\begin{mdframed}
+\begin{theoreme}[de Moivre-Laplace]
+\label{th:moivre-laplace}
+Soit $p\in\,]0,1[$ et, pour tout $n$, $X_n\sim\mathcal{B}(n,p)$. Alors pour
+tous $-\infty\le a<b\le+\infty$,
+\[
+  \mathbb{P}\!\Big(np+a\sqrt{np(1-p)}\le X_n\le np+b\sqrt{np(1-p)}\Big)
+  \xrightarrow[n\to\infty]{}\ \Phi(b)-\Phi(a).
+\]
+\end{theoreme}
+\end{mdframed}
+
+\begin{remarque}[Heuristique]
+Le théorème dit qu'à $p$ fixé et $n$ grand,
+\[
+  X_n\approx np+\sqrt{np(1-p)}\;N,\qquad N\sim\mathcal N(0,1),
+\]
+c'est-à-dire qu'on approche $\mathcal{B}(n,p)$ par
+$\mathcal N\big(np,\,np(1-p)\big)$. Historiquement, de Moivre traita le cas
+$p=1/2$ (1733), Laplace le cas général (1812)~; c'est un cas particulier du
+théorème central limite. En pratique, l'approximation est jugée bonne dès que
+$np(1-p)\ge10$.
+\end{remarque}
+
+\begin{remarque}[Correction de continuité]
+Pour approcher $\mathbb{P}(a\le X_n\le b)$ avec $a,b$ \emph{entiers}, on approche
+chaque atome par un intervalle de largeur $1$ centré en lui~:
+$\mathbb{P}(X_n=k)\approx\mathbb{P}(k-\tfrac12<X\le k+\tfrac12)$ avec
+$X\sim\mathcal N(np,np(1-p))$. En sommant sur $k\in\{a,\dots,b\}$ et en posant
+$N\sim\mathcal N(0,1)$,
+\[
+  \mathbb{P}(a\le X_n\le b)\approx
+  \Phi\!\left(\frac{b+\tfrac12-np}{\sqrt{np(1-p)}}\right)
+  -\Phi\!\left(\frac{a-\tfrac12-np}{\sqrt{np(1-p)}}\right).
+\]
+Les demi-entiers $a-\tfrac12$ et $b+\tfrac12$ (au lieu de $a,b$) constituent
+la \emph{correction de continuité}~; elle améliore sensiblement
+l'approximation.
+\end{remarque}
+
+%=====================================================================
+\section{Loi exponentielle}
+%=====================================================================
+
+Analogue continu de la loi géométrique.
+
+\medskip
+
+\begin{mdframed}
+\begin{definition}[Loi exponentielle]
+Soit $\lambda>0$. On dit que $X\sim\mathcal{E}(\lambda)$ si $X$ admet la densité
+\[
+  f_X(x)=\lambda\,e^{-\lambda x}\,\mathbb{1}_{\mathbb{R}_+}(x).
+\]
+\end{definition}
+\end{mdframed}
+
+\medskip
+
+\begin{mdframed}
+\begin{proposition}[Fonction de répartition et queue]
+Pour $X\sim\mathcal{E}(\lambda)$,
+
+$$
+  F_X(t)=\big(1-e^{-\lambda t}\big)\,\mathbb{1}_{\mathbb{R}_+}(t),
+$$
+
+Et en particulier
+
+$$
+  \mathbb{P}(X>t)=e^{-\lambda t} \qquad (t\ge0).
+$$
+\end{proposition}
+\end{mdframed}
+
+\medskip
+
+\begin{mdframed}
+\begin{proposition}[Espérance, variance, moments]
+Si $X\sim\mathcal{E}(\lambda)$, alors
+
+\begin{itemize}
+\item $\mathbb{E}[X]=\frac1\lambda$,
+\item $\mathbb{V}(X)=\frac1{\lambda^2}$,
+\item $\mathbb{E}[X^n]=\frac{n!}{\lambda^n}$,
+\item $M_X(t)=\frac{\lambda}{\lambda-t}$ avec $t<\lambda$.
+\end{itemize}
+\end{proposition}
+\end{mdframed}
+
+\begin{proof}
+$$
+\mathbb{E}[X^n]=\int_0^\infty x^n\lambda e^{-\lambda x}\,dx=\frac{n!}{\lambda^n}
+$$
+
+(intégrale gamma). En particulier 
+
+$$
+\mathbb{E}[X]=1/\lambda, \qquad \mathbb{E}[X^2]=2/\lambda^2,
+$$
+
+d'où 
+
+$$
+\mathbb{V}(X)=2/\lambda^2-1/\lambda^2=1/\lambda^2. 
+$$
+
+Enfin
+
+$$
+M_X(t)=\int_0^\infty e^{tx}\lambda e^{-\lambda x}\,dx=\frac{\lambda}{\lambda-t}
+$$
+
+si $t<\lambda$.
+\end{proof}
+
+\medskip
+
+\begin{mdframed}
+\begin{proposition}[Absence de mémoire --- \textnormal{caractérisation à retenir}]
+\label{prop:exp-memoire}
+Soit $X$ une v.a.r. Alors $X\sim\mathcal{E}(\lambda)$ pour un certain $\lambda>0$ si
+et seulement si
+\[
+  \mathbb{P}(X\in\mathbb{R}_+)=1
+  \quad\text{et}\quad
+  \mathbb{P}(X>t+s\mid X>t)=\mathbb{P}(X>s),\qquad \forall\,t,s\in\mathbb{R}_+.
+\]
+C'est l'exact analogue continu de la loi géométrique.
+\end{proposition}
+\end{mdframed}
+
+\begin{proof}
+La condition s'écrit $g(t+s)=g(t)g(s)$ avec $g(t)=\mathbb{P}(X>t)$. Pour $p,q\in\mathbb{N}^*$,
+
+$$
+g(p/q)=g(1/q)^p=g(1)^{p/q};
+$$ 
+
+comme $g$ est décroissante, on prolonge à tout $t\in\mathbb{R}_+$ : 
+
+$$
+g(t)=g(1)^t=e^{-\lambda t} \quad \text{avec} \quad \lambda=-\log g(1)\ge0.
+$$ 
+
+On reconnaît la queue de $\mathcal{E}(\lambda)$. La réciproque est un calcul direct:
+
+$$
+\frac{\mathbb{P}(X>t+s)}{\mathbb{P}(X>t)}=\frac{e^{-\lambda(t+s)}}{e^{-\lambda t}}=e^{-\lambda s}.
+$$
+\end{proof}
+
+\medskip
+
+\begin{mdframed}
+\begin{lemme}[Changement d'échelle]
+Si $X\sim\mathcal{E}(\lambda)$ et $\mu>0$, alors $\mu X\sim\mathcal{E}(\lambda/\mu)$.
+\end{lemme}
+\end{mdframed}
+
+\begin{proof}
+Pour $x\ge0$, 
+
+$$
+F_{\mu X}(x)=\mathbb{P}(X\le x/\mu)=1-e^{-(\lambda/\mu)x}, 
+$$
+
+qui est la fonction de répartition de $\mathcal{E}(\lambda/\mu)$.
+\end{proof}
+
+%=====================================================================
+\section{Loi gamma}
+%=====================================================================
+
+\medskip
+
+\begin{mdframed}
+\begin{definition}[Loi gamma]
+Soient $\alpha,\beta>0$. On dit que $X\sim\Gamma(\alpha,\beta)$ si $X$ admet
+la densité
+\[
+  f_X(x)=\frac{\beta^\alpha}{\Gamma(\alpha)}\,x^{\alpha-1}e^{-\beta x}
+  \,\mathbb{1}_{]0,+\infty[}(x),
+\]
+où $\displaystyle\Gamma(\alpha)=\int_0^\infty x^{\alpha-1}e^{-x}\,dx$ est la
+fonction gamma d'Euler, qui vérifie $\Gamma(n)=(n-1)!$ pour $n\in\mathbb{N}^*$ et
+interpole donc la factorielle.
+\end{definition}
+\end{mdframed}
+
+\medskip
+
+\begin{mdframed}
+\begin{proposition}[Espérance, variance, moments]
+\label{prop:gamma-moments}
+Si $X\sim\Gamma(\alpha,\beta)$, alors
+
+\begin{itemize}
+\item $\mathbb{E}[X]=\frac{\alpha}{\beta}$,
+\item $\mathbb{V}(X)=\frac{\alpha}{\beta^2}$,
+\item $\mathbb{E}[X^n]=\frac{\Gamma(\alpha+n)}{\Gamma(\alpha)\,\beta^n} =\frac{\alpha(\alpha+1)\cdots(\alpha+n-1)}{\beta^n}$,
+\item $M_X(t)=\big(1-t/\beta\big)^{-\alpha}$ pour $t<\beta$.
+\end{itemize}
+
+La fonction de répartition n'a pas de forme close simple.
+\end{proposition}
+\end{mdframed}
+
+\begin{proof}
+Par définition de $\Gamma$,
+\[
+  \mathbb{E}[X^n]=\frac{\beta^\alpha}{\Gamma(\alpha)}\int_0^\infty x^{\alpha+n-1}
+  e^{-\beta x}\,dx
+  =\frac{\beta^\alpha}{\Gamma(\alpha)}\cdot\frac{\Gamma(\alpha+n)}{\beta^{\alpha+n}}
+  =\frac{\Gamma(\alpha+n)}{\Gamma(\alpha)\beta^n}.
+\]
+Pour $n=1,2$ on obtient $\mathbb{E}[X]=\alpha/\beta$ et
+$\mathbb{E}[X^2]=\alpha(\alpha+1)/\beta^2$, d'où $\mathbb{V}(X)=\alpha/\beta^2$. Le calcul de
+$M_X$ est identique en remplaçant $\beta$ par $\beta-t$.
+\end{proof}
+
+\begin{mdframed}
+\begin{proposition}[Lien avec l'exponentielle]
+On a $\Gamma(1,\beta)=\mathcal{E}(\beta)$. Plus généralement, si $\alpha=r\in\mathbb{N}^*$ et
+$X_1,\dots,X_r$ sont indépendantes de loi $\mathcal{E}(\beta)$, alors
+$X_1+\dots+X_r\sim\Gamma(r,\beta)$.
+\end{proposition}
+\end{mdframed}
+
+\begin{remarque}
+Les valeurs \emph{non entières} de $\alpha$ donnent un sens à des « sommes non
+entières » de lois $\mathcal{E}(\beta)$, tout comme $\Gamma$ interpole la factorielle.
+La loi gamma est aussi reliée à la loi de Poisson, d'où de nombreuses
+applications (files d'attente, fiabilité).
+\end{remarque}
+
+%=====================================================================
+\section{Loi de Cauchy}
+%=====================================================================
+\medskip
+
+\begin{mdframed}
+\begin{definition}[Loi de Cauchy]
+Soit $a>0$. On dit que $X\sim\mathcal{C}(a)$ si $X$ admet la densité
+\[
+  f_X(x)=\frac{a}{\pi}\,\frac{1}{a^2+x^2},\qquad x\in\mathbb{R}.
+\]
+\end{definition}
+\end{mdframed}
+
+\medskip
+
+\begin{mdframed}
+\begin{proposition}[Fonction de répartition]
+Pour $X\sim\mathcal{C}(a)$,
+\[
+  F_X(t)=\int_{-\infty}^t\frac a\pi\frac{dx}{a^2+x^2}
+  =\frac12+\frac1\pi\arctan\!\Big(\frac ta\Big).
+\]
+\end{proposition}
+\end{mdframed}
+
+\medskip
+
+\begin{mdframed}
+\begin{proposition}[Aucun moment n'existe]
+\label{prop:cauchy-moments}
+Si $X\sim\mathcal{C}(a)$, alors $\mathbb{E}[|X|]=+\infty$~: l'espérance \emph{n'existe pas}
+(et \emph{a fortiori} ni la variance, ni la FGM). La fonction caractéristique
+vaut néanmoins $\mathbb{E}[e^{itX}]=e^{-a|t|}$.
+\end{proposition}
+\end{mdframed}
+
+\begin{proof}
+$$
+\displaystyle\int_\mathbb{R} |x|\,\frac a\pi\frac{dx}{a^2+x^2}
+=\frac{2a}\pi\int_0^\infty\frac{x}{a^2+x^2}\,dx
+$$
+
+diverge (l'intégrande se comporte en $1/x$ à l'infini). Donc $X$ n'est pas intégrable.
+\end{proof}
+
+\begin{remarque}
+La densité de Cauchy a elle aussi une allure « en cloche », mais à
+\emph{queues lourdes}~: elle décroît en $1/x^2$, bien plus lentement que la
+gaussienne, ce qui explique la non-existence des moments.
+\end{remarque}
+
+\begin{exercice}[Loi de l'inverse]
+
+\begin{enumerate}
+  \item Montrer que $\arctan(t)+\arctan(1/t)=\dfrac\pi2\big(\mathbb{1}_{t>0}-\mathbb{1}_{t<0}\big)$
+        pour tout $t\ne0$.
+  \item Soit $X\sim\mathcal{C}(a)$ (on a $\mathbb{P}(X\ne0)=1$). En déduire la loi de
+        $1/X$. \emph{(Réponse~: $1/X\sim\mathcal{C}(1/a)$.)}
+\end{enumerate}
+\end{exercice}
+
+\newpage
+%=====================================================================
+\section{Autres lois à densité}
+%=====================================================================
+
+Comme dans le cas discret, ces lois ne sont pas à connaître par c\oe ur.
+
+\subsection{Loi de Weibull}
+
+\medskip
+
+\begin{mdframed}
+\begin{definition}[Loi de Weibull]
+Soient $\alpha,\beta>0$. On dit que $X\sim\mathrm{Weibull}(\alpha,\beta)$ si sa fonction de
+répartition est
+\[
+  F_X(x)=
+  \begin{cases}
+    1-\exp\!\big(-(x/\alpha)^\beta\big), & x\ge0,\\[2pt]
+    0, & x<0,
+  \end{cases}
+\]
+soit, en dérivant, la densité
+$f_X(x)=\dfrac\beta\alpha\Big(\dfrac x\alpha\Big)^{\beta-1}
+\exp\!\big(-(x/\alpha)^\beta\big)\mathbb{1}_{x\ge0}$.
+\end{definition}
+\end{mdframed}
+
+\medskip
+
+\begin{mdframed}
+\begin{proposition}[Premiers moments]
+Si $X\sim\mathrm{Weibull}(\alpha,\beta)$, alors
+\[
+  \mathbb{E}[X]=\alpha\,\Gamma\!\Big(1+\tfrac1\beta\Big),\qquad
+  \mathbb{V}(X)=\alpha^2\!\left[\Gamma\!\Big(1+\tfrac2\beta\Big)
+  -\Gamma\!\Big(1+\tfrac1\beta\Big)^2\right].
+\]
+\end{proposition}
+\end{mdframed}
+
+\begin{remarque}
+La loi de Weibull généralise l'exponentielle~: pour $\beta=1$ on retrouve
+$\mathcal{E}(1/\alpha)$. Selon que $\beta<1$, $\beta=1$ ou $\beta>1$, le « taux de
+panne » décroît, reste constant ou croît avec le temps~: d'où son usage en
+modélisation de l'usure de pièces et en fiabilité.
+\end{remarque}
+
+\end{document}
+
+\begin{mdframed}
+A
+\end{mdframed}

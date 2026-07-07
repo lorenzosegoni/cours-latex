@@ -1,0 +1,881 @@
+\chapter{Lois discrètes usuelles : formulaire raisonné}
+\section{Loi de Dirac}
+
+C'est la loi la plus simple qui soit : elle décrit une variable \textit{constante}.
+
+\medskip
+
+\begin{mdframed}
+\begin{definition}[Loi de Dirac]
+Soit $x\in \mathbb{R}$. On dit que $X$ \emph{suit la loi de Dirac en $x$}, et l'on note $X\sim\delta_x$, si
+
+$$
+ \mathbb{P}(X=x)=1.
+$$
+
+On dit alors aussi que $X$ est \emph{presque sûrement} ($p.s.$) égale à $x$.
+\end{definition}
+\end{mdframed}
+
+\medskip
+
+\begin{mdframed}
+\begin{proposition}[Loi et fonction de répartition]
+Si $X\sim\delta_x$, alors pour toute partie $A\subset \mathbb{R}$,
+
+$$
+   \mathbb{P}(X\in A)=\mathbb{1}_A(x)=
+  \begin{cases}1 & \text{si } x\in A,\\[2pt] 0 & \text{si } x\notin A,\end{cases}
+  \qquad\text{et}
+$$
+
+Et
+
+$$
+  F_X(y)=\\mathbb{1}_{[x,+\infty[}(y)=
+  \begin{cases}0 & \text{si } y<x,\\[2pt] 1 & \text{si } y\ge x.\end{cases}
+$$
+
+En particulier $\delta_x$ est la loi discrète d'ensemble d'atomes $S_X=\{x\}$, l'unique atome portant nécessairement la masse $1$.
+\end{proposition}
+\end{mdframed}
+
+\medskip
+
+\begin{mdframed}
+\begin{proposition}[Espérance, variance, moments]
+Si $X\sim\delta_x$, alors
+
+\begin{itemize}
+\item $\mathbb{E}[X]=x$,
+\item $ \mathbb{V}[X]=0$,
+\item $\mathbb{E}[X^n]=x^n$ avec $n\in \mathbb{N}$, 
+\item $M_X(t)=e^{tx}$ avec $t\in \mathbb{R}$.
+\end{itemize}
+\end{proposition}
+\end{mdframed}
+
+\begin{proof}
+$X$ est constante, donc $\mathbb{E}[g(X)]=g(x)$ pour toute fonction $g$ ; il suffit de prendre $g(u)=u$, $g(u)=u^n$, puis $g(u)=e^{tu}$. La variance vaut $\mathbb{E}[(X-x)^2]=0$.
+\end{proof}
+
+\begin{mdframed}
+\begin{proposition}[Caractérisation par la variance]
+Une v.a.r. $X$ de carré intégrable vérifie $\mathbb{V}(X)=0$ si et seulement s'il existe $x\in \mathbb{R}$ tel que $X\sim\delta_x$ (c'est-à-dire $X=\mathbb{E}[X]$ $p.s.$). 
+
+Autrement dit, les lois de Dirac sont \emph{exactement} les lois de variance nulle.
+\end{proposition}
+\end{mdframed}
+
+\begin{remarque}
+La loi de Dirac sert de « brique » élémentaire : toute loi discrète s'écrit comme une combinaison convexe de Dirac,
+
+$$
+\mathbb{P}_X=\sum_{x\in S_X}p_X(x)\,\delta_x.
+$$
+\end{remarque}
+
+\section{Loi uniforme (sur un ensemble fini)}
+
+C'est la loi la plus simple d'une v.a. prenant un nombre \emph{fini} de valeurs.
+
+\begin{mdframed}
+\begin{definition}[Loi uniforme]
+Soit $S\subset \mathbb{R}$ une partie finie non vide. On dit que $X$ \emph{suit la loi uniforme sur $S$}, et l'on note $X\sim \mathcal{U}(S)$, si pour tout $x\in S$ :
+
+$$
+\mathbb{P}(X=x)=\frac{1}{\text{Card}(S)}.
+$$
+\end{definition}
+\end{mdframed}
+
+\medskip
+
+\begin{mdframed}
+\begin{proposition}[Loi et fonction de répartition]
+Si $X\sim \mathcal{U}(S)$, alors pour toute partie $A\subset \mathbb{R}$,
+
+$$
+\mathbb{P}(X\in A)=\frac{\text{Card}(A\cap S)}{\text{Card}(S)},
+$$
+
+Et
+
+$$
+  F_X(x)=\frac{\text{Card} \big(]-\infty,x]\cap S\big)}{\text{Card}(S)}.
+$$
+
+La loi $\mathcal{U}(S)$ est la loi discrète d'ensemble d'atomes $S$ dont la fonction de masse est \emph{constante} sur $S$.
+\end{proposition}
+\end{mdframed}
+
+\medskip
+
+\begin{mdframed}
+\begin{proposition}[Espérance et variance sur $\{1,\dots,n\}$]
+Dans le cas particulier $S=\{1,\dots,n\}$,
+
+\begin{itemize}
+\item $\mathbb{E}[X]=\frac{n+1}{2}$,
+\item $\mathbb{E}[X^2]=\frac{(n+1)(2n+1)}{6}$,
+\item $\mathbb{V}[X]=\frac{n^2-1}{12}$.
+\end{itemize}
+\end{proposition}
+\end{mdframed}
+
+\begin{proof}
+On utilise $\sum_{k=1}^n k=\tfrac{n(n+1)}{2}$ et $\sum_{k=1}^n k^2=\tfrac{n(n+1)(2n+1)}{6}$. On a:
+
+$$
+\mathbb{E}[X]=\frac1n\sum_{k=1}^n k=\frac{n+1}{2},
+$$
+
+Et
+
+$$
+\mathbb{E}[X^2]=\frac1n\sum_{k=1}^n k^2=\frac{(n+1)(2n+1)}{6}.
+$$
+
+Puis, par la formule de Koenig--Huygens,
+
+\begin{align*}
+\mathbb{V}[X] &=\mathbb{E}[X^2]-\mathbb{E}[X]^2 \\
+& =\frac{(n+1)(2n+1)}{6}-\frac{(n+1)^2}{4} \\
+& =(n+1)\,\frac{2(2n+1)-3(n+1)}{12} \\
+&  =\frac{(n+1)(n-1)}{12}. 
+\end{align*}
+\end{proof}
+
+\begin{remarque}[Cas général]
+Pour $S=\{x_1,\dots,x_N\}$ quelconque, 
+\begin{itemize}
+\item $\mathbb{E}[X]=\frac{1}{N} \sum_i x_i$ est la moyenne arithmétique des valeurs, 
+\item $\mathbb{V}(X)=\frac1N\sum_i x_i^2-\big(\frac1N\sum_i x_i\big)^2$ leur variance empirique.
+\end{itemize}
+\end{remarque}
+
+\medskip
+
+\begin{mdframed}
+\begin{proposition}[Lien avec Bernoulli]
+La loi $\mathcal{U}(\{0,1\})$ coïncide avec $\mathcal{B}(1/2)$.
+\end{proposition}
+\end{mdframed}
+
+\begin{remarque}
+La loi uniforme modélise les situations d'équiprobabilité : lancer d'un dé équilibré, tirage d'une carte, etc.
+\end{remarque}
+
+\section{Loi de Bernoulli}
+
+\medskip
+
+\begin{mdframed}
+\begin{definition}[Loi de Bernoulli]
+Soit $p\in[0,1]$. On dit que $X$ \emph{suit la loi de Bernoulli de paramètre $p$}, et l'on note $X\sim \mathcal{B}(p)$, si
+
+$$
+\mathbb{P}(X=1)=p,\qquad \mathbb{P}(X=0)=1-p.
+$$
+\end{definition}
+\end{mdframed}
+
+\medskip
+
+\begin{mdframed}
+\begin{proposition}[Fonction de répartition]
+Si $X\sim \mathcal{B}(p)$, alors
+
+$$
+  F_X(x)=
+  \begin{cases}
+    0, & x<0,\\
+    1-p, & 0\le x<1,\\
+    1, & x\ge 1.
+  \end{cases}
+$$
+\end{proposition}
+\end{mdframed}
+
+\medskip
+
+\begin{mdframed}
+\begin{proposition}[Espérance, variance, moments]
+Si $X\sim \mathcal{B}(p)$, alors
+
+\begin{itemize}
+\item $\mathbb{E}[X]=p$,
+\item $\mathbb{V}(X)=p(1-p)$,
+\item $\mathbb{E}[X^n]=p$ avec $n\ge1$,
+\item $M_X(t)=1-p+p\,e^{t}$.
+\end{itemize}
+\end{proposition}
+\end{mdframed}
+
+\begin{proof}
+On a
+
+$$
+\mathbb{E}[X]=1\cdot p+0\cdot(1-p)=p. 
+$$
+
+Comme $X\in\{0,1\}$ on a $X^n=X$ pour tout $n\ge1$, d'où 
+$$
+\mathbb{E}[X^n]=p;
+$$ 
+
+en particulier $\mathbb{E}[X^2]=p$ et
+
+$$
+\mathbb{V}(X)=p-p^2=p(1-p).
+$$
+
+Enfin 
+
+$$
+M_X(t)=e^{t}p+e^{0}(1-p)=1-p+pe^t.
+$$
+\end{proof}
+
+\begin{remarque}[Interprétation]
+La loi de Bernoulli code une \emph{expérience à deux issues} (succès/échec): on pose $X=1$ en cas de succès (de probabilité $p$) et $X=0$ sinon. 
+
+C'est la brique de base de toute la section : la variance $p(1-p)$ est maximale en $p=1/2$ et nulle aux bornes $p\in\{0,1\}$ (cas dégénérés de Dirac).
+\end{remarque}
+
+\begin{mdframed}
+\begin{proposition}[Fonction indicatrice]
+Pour tout événement $B$, la variable $\mathbb{1}_B$ suit la loi $\mathcal{B}(\mathbb{P}(B))$.
+
+Réciproquement, toute variable de Bernoulli est $p.s$ égale à une indicatrice.
+\end{proposition}
+\end{mdframed}
+
+\section{Loi binomiale}
+
+Généralisation fondamentale de la loi de Bernoulli.
+
+\medskip
+
+\begin{mdframed}
+\begin{definition}[Loi binomiale]
+Soient $n\in \mathbb{N}$ et $p\in[0,1]$. On dit que $X$ \textit{suit la loi binomiale de paramètres $n$ et $p$}, et l'on note $X\sim \mathcal{B}(n,p)$, si
+
+$$
+  \mathbb{P}(X=k)=\binom{n}{k}p^k(1-p)^{n-k},\qquad k\in\{0,\dots,n\},
+$$
+
+où $\binom{n}{k}=\frac{n!}{k!\,(n-k)!}$.
+\end{definition}
+\end{mdframed}
+
+\medskip
+
+\begin{mdframed}
+\begin{proposition}[Fonction de répartition]
+La fonction de répartition n'admet pas d'expression plus simple que
+
+$$
+F_X(x)=\sum_{k\le x}\binom{n}{k}p^k(1-p)^{n-k}.
+$$ 
+
+On a $\mathbb{B}(1,p)=\mathbb{B}(p)$.
+\end{proposition}
+\end{mdframed}
+
+\medskip
+
+\begin{mdframed}
+\begin{proposition}[La fonction de masse est une probabilité]
+On a bien 
+
+$$
+\sum_{k=0}^n\binom nk p^k(1-p)^{n-k}=1,
+$$ 
+conséquence du binôme de Newton 
+
+$$
+\big(a+b\big)^n=\sum_{k=0}^n\binom nk a^k b^{n-k}
+$$
+ 
+appliqué à $a=p$, $b=1-p$.
+\end{proposition}
+\end{mdframed}
+
+\begin{proof}
+Développer $(a+b)^n$ revient à choisir, dans chacun des $n$ facteurs, le terme $a$ ou le terme $b$ ; les configurations donnant $a^k b^{n-k}$ correspondent aux parties $I\subset\{1,\dots,n\}$ de cardinal $k$, au nombre de $\binom nk$. D'où
+
+$$
+(a+b)^n=\sum_{k=0}^n\binom nk a^k b^{n-k},
+$$ 
+
+et l'on conclut avec $a=p$, $b=1-p$ (donc $a+b=1$).
+\end{proof}
+
+\begin{mdframed}
+\begin{proposition}[Espérance, variance, moments]
+Si $X \sim \mathcal{B}(n,p)$, alors
+
+\begin{itemize}
+\item $\mathbb{E}[X]=np$,
+\item $\mathbb{V}(X)=np(1-p)$,
+\item $ M_X(t)=\big(1-p+p\,e^t\big)^n$.
+\end{itemize}
+
+Plus généralement les \textit{moments factoriels} valent 
+
+$$
+\mathbb{E}\big[X(X-1)\cdots(X-j+1)\big]=n(n-1)\cdots(n-j+1)\,p^{\,j}
+$$ 
+
+pour $0\le j\le n$.
+\end{proposition}
+\end{mdframed}
+
+\begin{proof}
+On utilise l'identité $k\binom nk=n\binom{n-1}{k-1}$~:
+
+\begin{align*}
+\mathbb{E}[X] &=\sum_{k=1}^n k\binom nk p^kq^{n-k} \\
+&=np\sum_{k=1}^n\binom{n-1}{k-1}p^{k-1}q^{n-k} \\
+&=np\,(p+q)^{n-1}=np.
+\end{align*}
+
+De même, $k(k-1)\binom nk=n(n-1)\binom{n-2}{k-2}$ donne
+
+$$
+\mathbb{E}[X(X-1)]=n(n-1)p^2(p+q)^{n-2}=n(n-1)p^2,
+$$ 
+
+d'où
+
+$$
+\mathbb{E}[X^2]=n(n-1)p^2+np
+$$
+
+Et 
+
+\begin{align*}
+\mathbb{V}(X) &= n(n-1)p^2+np-(np)^2 \\
+&np-np^2 \\
+&= np(1-p).
+\end{align*}
+
+Le calcul général des moments factoriels est identique. Enfin
+
+$$
+M_X(t)=\sum_k\binom nk (pe^t)^k q^{n-k}=(q+pe^t)^n.
+$$
+\end{proof}
+
+\begin{mdframed}
+\begin{proposition}[Somme de Bernoulli et stabilité]
+Si $X_1,\dots,X_n$ sont des v.a. indépendantes de loi $\mathcal{B}(p)$, alors $X_1+\dots+X_n\sim \mathcal{B}(n,p)$. Plus généralement, si $X\sim \mathcal{B}(n,p)$ et $Y\sim \mathcal{B}(m,p)$ sont \textit{indépendantes} et de \textit{même} $p$, alors
+
+$$
+  X+Y\sim \mathcal{B}(n+m,p).
+$$
+\end{proposition}
+\end{mdframed}
+
+\begin{proof}
+Pour la stabilité, par la formule de Vandermonde $\sum_{j}\binom nj\binom{m}{k-j}=\binom{n+m}{k}$ :
+
+\begin{align*}
+\mathbb{P}(X+Y=k) &= \sum_{j=0}^k\binom nj p^jq^{n-j}\binom{m}{k-j}p^{k-j}q^{m-k+j} \\
+&=p^kq^{n+m-k}\binom{n+m}{k}. 
+\end{align*}
+\end{proof}
+
+\begin{remarque}[Interprétation]
+$\mathcal{B}(n,p)$ est le \textit{nombre de succès} lors de $n$ répétitions indépendantes d'une expérience de Bernoulli de probabilité de succès $p$.
+\end{remarque}
+
+\begin{exercice}
+Soit $X=(X_1,\dots,X_n)$ une variable uniforme sur l'ensemble fini $\{0,1\}^n$ des mots binaires de longueur $n$. Pour $x\in\{0,1\}^n$, on pose $\phi(x)=\sum_{i=1}^n x_i$. Montrer que $\phi(X)\sim\mathcal{B}(n,1/2)$.
+\end{exercice}
+
+\newpage
+
+\section{Loi de Poisson}
+
+\medskip
+\begin{mdframed}
+\begin{definition}[Loi de Poisson]
+Soit $\lambda\ge0$. On dit que $X$ \emph{suit la loi de Poisson de paramètre $\lambda$}, et l'on note $X\sim\mathcal{P}(\lambda)$, si pour tout $k\in\mathbb{N}$ :
+
+$$
+  \mathbb{P}(X=k)=e^{-\lambda}\frac{\lambda^k}{k!}.
+$$
+\end{definition}
+\end{mdframed}
+
+\medskip
+
+\begin{mdframed}
+\begin{proposition}[La fonction de masse est une probabilité]
+On a $\sum_{k\ge0}e^{-\lambda}\frac{\lambda^k}{k!}=1$, conséquence du développement en série entière de l'exponentielle, $e^{z}=\sum_{k\ge0}\frac{z^k}{k!}$ appliqué à $z=\lambda$. La fonction de répartition n'admet pas de forme close plus simple.
+\end{proposition}
+\end{mdframed}
+
+\medskip
+
+\begin{mdframed}
+\begin{proposition}[Espérance, variance, moments]
+Si $X\sim\mathcal{P}(\lambda)$, alors
+
+\begin{itemize}
+\item $\mathbb{E}[X]=\lambda$,
+\item $\mathbb{V}(X)=\lambda$, 
+\item $M_X(t)=\exp\!\big(\lambda(e^t-1)\big)$, avec $t\in\mathbb{R}$.
+\end{itemize}
+
+Les \emph{moments factoriels} sont particulièrement simples~:
+
+$$
+  \mathbb{E}\big[X(X-1)\cdots(X-j+1)\big]=\lambda^{\,j},\qquad j\in\mathbb{N}^*.
+$$
+\end{proposition}
+\end{mdframed}
+
+\begin{proof}
+On calcule
+
+\begin{align*}
+  \mathbb{E}[X] &=\sum_{k\ge1}k\,e^{-\lambda}\frac{\lambda^k}{k!} \\
+  &=\lambda e^{-\lambda}\sum_{k\ge1}\frac{\lambda^{k-1}}{(k-1)!} \\
+  &=\lambda e^{-\lambda}e^{\lambda}=\lambda.
+\end{align*}
+
+Plus généralement
+
+\begin{align*}
+\mathbb{E}[X(X-1)\cdots(X-j+1)] &=\sum_{k\ge j}\frac{k!}{(k-j)!}e^{-\lambda}\frac{\lambda^k}{k!} \\
+&=\lambda^j e^{-\lambda}\sum_{k\ge j}\frac{\lambda^{k-j}}{(k-j)!}=\lambda^j.
+\end{align*}
+
+En particulier $\mathbb{E}[X(X-1)]=\lambda^2$, donc $\mathbb{E}[X^2]=\lambda^2+\lambda$ et $\mathbb{V}(X)=\lambda$. Enfin
+
+\begin{align*}
+M_X(t) &=\sum_k e^{tk}e^{-\lambda}\frac{\lambda^k}{k!} \\
+&=e^{-\lambda}\sum_k\frac{(\lambda e^t)^k}{k!}=e^{-\lambda}e^{\lambda e^t} \\
+&=e^{\lambda(e^t-1)}.
+\end{align*}
+\end{proof}
+
+\begin{mdframed}
+\begin{proposition}[Stabilité par addition --- \textnormal{à retenir}]
+Si $X\sim\mathcal{P}(\lambda)$ et $Y\sim\mathcal{P}(\mu)$ sont indépendantes, alors $X+Y\sim\mathcal{P}(\lambda+\mu)$.
+\end{proposition}
+\end{mdframed}
+
+\begin{proof}
+\begin{align*}
+  \mathbb{P}(X+Y=k) &=\sum_{j=0}^k e^{-\lambda}\frac{\lambda^j}{j!}\, e^{-\mu}\frac{\mu^{k-j}}{(k-j)!} \\
+  &=\frac{e^{-(\lambda+\mu)}}{k!}\sum_{j=0}^k\binom kj\lambda^j\mu^{k-j} \\
+  &=e^{-(\lambda+\mu)}\frac{(\lambda+\mu)^k}{k!}. \qedhere
+\end{align*}
+\end{proof}
+
+\begin{mdframed}
+\begin{theoreme}[Approximation de Poisson de la loi binomiale ; Prokhorov, Stein]
+\label{th:poisson-binom}
+Pour tout $n\in\mathbb{N}$ et $p\in[0,1]$,
+
+$$
+  \sum_{k\in\mathbb{N}}\left|\binom nk p^k(1-p)^{n-k}-e^{-np}\frac{(np)^k}{k!}\right|
+  \le \min\{2np^2,\,3p\}.
+$$
+
+En conséquence, si $X_n\sim\mathcal{B}(n,p)$ et $X\sim\mathcal{P}(np)$, alors pour tout $J\subset\mathbb{N}$,
+
+$$
+  \big|\mathbb{P}(X_n\in J)-\mathbb{P}(X\in J)\big|\le \min\{2np^2,\,3p\}.
+$$
+\end{theoreme}
+\end{mdframed}
+
+\begin{proof}[Démonstration de la conséquence]
+Par inégalité triangulaire,
+
+\begin{align*}
+  \big|\mathbb{P}(X_n\in J)-\mathbb{P}(X\in J)\big| &=\Big|\sum_{k\in J}\big(\mathbb{P}(X_n=k)-\mathbb{P}(X=k)\big)\Big| \\
+  &\le\sum_{k\in J}\big|\mathbb{P}(X_n=k)-\mathbb{P}(X=k)\big|\\
+  &\le\sum_{k\in\mathbb{N}}\big|\mathbb{P}(X_n=k)-\mathbb{P}(X=k)\big|,
+\end{align*}
+
+et cette dernière somme est majorée par $\min\{2np^2,3p\}$ d'après le premier énoncé.
+\end{proof}
+
+\begin{remarque}
+Ce résultat montre que $\mathcal{P}(\lambda)$ avec $\lambda=np$ approche bien $\mathcal{B}(n,p)$ dès que $p$ est petit, \emph{et ce indépendamment de $n$} (résultat souvent méconnu). C'est la « loi des petits nombres »~: on retrouve en particulier, à $\lambda\ge0$ et $k$ fixés,
+
+$$
+  \binom nk\Big(\frac\lambda n\Big)^k\Big(1-\frac\lambda n\Big)^{n-k}
+  \xrightarrow[n\to\infty]{}\ e^{-\lambda}\frac{\lambda^k}{k!}.
+$$
+\end{remarque}
+
+\section{Loi géométrique}
+
+\medskip
+
+\begin{mdframed}
+\begin{definition}[Loi géométrique sur $\mathbb{N}^*$]
+Soit $p\in\,]0,1]$. On dit que $X$ \emph{suit la loi géométrique de paramètre $p$}, et l'on note $X\sim\mathcal{G}(p)$, si
+
+$$
+  \mathbb{P}(X=k)=p\,(1-p)^{k-1},\qquad k\in\mathbb{N}^*=\{1,2,\dots\}.
+$$
+\end{definition}
+\end{mdframed}
+
+\medskip
+
+\begin{mdframed}
+\begin{proposition}[Fonction de répartition et queue]
+Pour $X\sim\mathcal{G}(p)$, avec $\lfloor\cdot\rfloor$ la partie entière,
+
+$$
+  F_X(x)=
+  \begin{cases}
+    1-(1-p)^{\lfloor x\rfloor}, & x\ge 0,\\[2pt]
+    0, & x<0,
+  \end{cases}
+$$
+
+Et en particulier
+
+$$
+ \mathbb{P}(X>k)=(1-p)^k \qquad (k\in\mathbb{N}).
+$$
+\end{proposition}
+\end{mdframed}
+
+\begin{proof}
+Pour $k\in\mathbb{N}^*$,
+
+\begin{align*}
+\mathbb{P}(X>k) &=\sum_{j>k}p q^{j-1} \\
+&=pq^{k}\sum_{i\ge0}q^i \\
+&=pq^k\cdot\frac1{1-q} \\
+&=q^k,
+\end{align*}
+
+avec $q=1-p$. On en déduit $F_X(k)=1-q^k$, puis la forme avec la partie entière.
+\end{proof}
+
+\begin{mdframed}
+\begin{proposition}[La fonction de masse est une probabilité]
+On a
+
+$$
+\sum_{k\ge1}p(1-p)^{k-1}=1, 
+$$
+
+conséquence de la série géométrique: pour $|z|<1$, $\sum_{k\ge0}z^k=\frac1{1-z}$, d'où
+
+$$
+\sum_{k\ge1}q^{k-1}=\frac1{1-q}=\frac1p.
+$$
+\end{proposition}
+\end{mdframed}
+
+\begin{proof}
+Pour tout $z\ne1$, $\sum_{k=0}^n z^k(1-z)=1-z^{n+1}$ donne
+
+$$
+\sum_{k=0}^n z^k=\frac{1-z^{n+1}}{1-z}; 
+$$
+
+on passe à la limite pour $|z|<1$. Avec $z=q$ : $\sum_{k\ge1}q^{k-1}=\frac1{1-q}=\frac1p$, donc
+
+$$
+\sum_{k\ge1}pq^{k-1}=1.
+$$
+\end{proof}
+
+\begin{mdframed}
+\begin{proposition}[Espérance, variance, moments]
+Si $X\sim\mathcal{G}(p)$, alors
+
+\begin{itemize}
+\item $\mathbb{E}[X]=\frac1p$,
+\item $\mathbb{V}(X)=\frac{1-p}{p^2}$,
+\item $M_X(t)=\frac{p\,e^t}{1-(1-p)e^t}$, pour $e^t(1-p)<1$.
+\end{itemize}
+\end{proposition}
+\end{mdframed}
+
+\begin{proof}
+En dérivant $\sum_{k\ge0}q^k=\frac1{1-q}$ on obtient
+
+$$
+\sum_{k\ge1}kq^{k-1}=\frac1{(1-q)^2}=\frac1{p^2},
+$$ 
+
+d'où
+
+$$
+\mathbb{E}[X]=p\sum_{k\ge1}kq^{k-1}=\frac1p.
+$$ 
+
+En dérivant une seconde fois,
+
+$$
+\sum_{k\ge2}k(k-1)q^{k-2}=\frac2{(1-q)^3},
+$$ 
+
+donc
+
+$$
+\mathbb{E}[X(X-1)]=pq\sum_{k\ge2}k(k-1)q^{k-2}=\frac{2q}{p^2};
+$$ 
+
+ainsi
+
+$$
+\mathbb{E}[X^2]=\frac{2q}{p^2}+\frac1p
+$$ 
+
+et
+
+$$
+\mathbb{V}(X)=\frac{2q}{p^2}+\frac1p-\frac1{p^2}=\frac{q}{p^2}=\frac{1-p}{p^2}.
+$$
+
+Enfin 
+
+$$
+M_X(t)=\sum_{k\ge1}e^{tk}pq^{k-1}=pe^t\sum_{k\ge1}(qe^t)^{k-1}
+=\frac{pe^t}{1-qe^t}
+$$ 
+
+dès que $qe^t<1$.
+\end{proof}
+
+\begin{remarque}[Interprétation]
+$X\sim\mathcal{G}(p)$ modélise le \emph{rang du premier succès} dans une suite d'expériences de Bernoulli indépendantes de probabilité de succès $p$ : la probabilité d'échouer aux $k-1$ premiers essais puis de réussir au $k$-ième vaut exactement $(1-p)^{k-1}p$.
+\end{remarque}
+
+\medskip
+
+\begin{mdframed}
+\begin{proposition}[Absence de mémoire]
+Soit $X$ une v.a.r. Alors $X\sim\mathcal{G}(p)$ pour un certain $p\in\,]0,1]$ si et seulement si $X$ vérifie la \emph{propriété d'absence de mémoire} :
+
+$$
+  \mathbb{P}(X\in\mathbb{N}^*)=1
+  \quad\text{et}\quad
+  \mathbb{P}(X-k>\ell\mid X>k)=\mathbb{P}(X>\ell),\qquad \forall\,k,\ell\in\mathbb{N}.
+$$
+
+Autrement dit, conditionnellement à $\{X>k\}$, la loi de $X-k$ est celle de $X$ : si $X$ est un temps de vie, il n'y a pas de vieillissement.
+\end{proposition}
+\end{mdframed}
+
+\begin{proof}
+\emph{Sens direct.} Supposons l'absence de mémoire. En prenant $k=1$ et par récurrence sur $\ell\in\mathbb{N}^*$, on obtient $\mathbb{P}(X>\ell)=\mathbb{P}(X>1)^\ell$. Comme $\mathbb{P}(X\in\mathbb{N}^*)=1$,
+
+\begin{align*}
+  \mathbb{P}(X=\ell) &=\mathbb{P}(X>\ell-1)-\mathbb{P}(X>\ell) \\
+  &=\mathbb{P}(X>1)^{\ell-1}\big(1-\mathbb{P}(X>1)\big) \\
+  &=(1-p)^{\ell-1}p,
+\end{align*}
+
+avec $p:=\mathbb{P}(X=1)=1-\mathbb{P}(X>1)$~; donc $X\sim\mathcal{G}(p)$.
+
+\medskip
+
+\emph{Réciproque.} Si $X\sim\mathcal{G}(p)$, alors $\mathbb{P}(X>\ell)=q^\ell$ et
+
+\begin{align*}
+  \mathbb{P}(X-k>\ell\mid X>k) &=\frac{\mathbb{P}(X>k+\ell)}{\mathbb{P}(X>k)} \\
+&=\frac{q^{k+\ell}}{q^k} \\
+&=q^\ell \\
+&=\mathbb{P}(X>\ell).
+\end{align*}
+\end{proof}
+
+\begin{remarque}[Convention sur $\mathbb{N}$]
+On rencontre aussi la \emph{loi géométrique sur $\mathbb{N}$}, simple décalage de $1$n : $Y\sim\mathcal{G}_\mathbb{N}(p)$ si $Y+1\sim\mathcal{G}(p)$, c'est-à-dire
+
+$$
+  \mathbb{P}(Y=k)=p(1-p)^k,\qquad k\in\mathbb{N}=\{0,1,2,\dots\}.
+$$
+
+On a alors $\mathbb{E}[Y]=\frac{1-p}{p}$ et $\mathbb{V}(Y)=\frac{1-p}{p^2}$. Bien préciser l'indice $\mathbb{N}$ selon la convention utilisée ; les deux sont fréquentes.
+\end{remarque}
+
+\section{Autres lois discrètes}
+
+\subsection{Loi binomiale négative}
+
+\medskip
+
+\begin{mdframed}
+\begin{definition}[Loi binomiale négative]
+Soient $r\in\mathbb{N}^*$ et $p\in\,]0,1]$. On dit que $X\sim\mathcal{N_B}(r,p)$ si
+
+$$
+  \mathbb{P}(X=n)=\binom{n-1}{r-1}p^r(1-p)^{n-r},\qquad n\in\{r,r+1,\dots\}.
+$$
+\end{definition}
+\end{mdframed}
+
+\medskip
+
+\begin{mdframed}
+\begin{proposition}[Premiers moments]
+Si $X\sim\mathcal{N_B}(r,p)$, alors
+
+\begin{itemize}
+\item $\mathbb{E}[X]=\frac rp$,
+\item $\mathbb{V}(X)=\frac{r(1-p)}{p^2}$,
+\item $M_X(t)=\left(\frac{p\,e^t}{1-(1-p)e^t}\right)^{\!r}$.
+\end{itemize}
+
+En particulier $\mathcal{N_B}(1,p)=\mathcal{G}(p)$.
+\end{proposition}
+\end{mdframed}
+
+\begin{remarque}[Interprétation]
+$X$ est le \emph{nombre d'essais} d'une suite d'expériences de Bernoulli indépendantes jusqu'à cumuler $r$ succès. Le dernier essai est nécessairement un succès~; les $r-1$ autres succès se répartissent parmi les $n-1$ premiers essais, d'où le facteur $\binom{n-1}{r-1}$, chaque configuration ayant probabilité $p^r(1-p)^{n-r}$. Ainsi $X$ est somme de $r$ variables $\mathcal{G}(p)$ indépendantes, ce qui redonne $\mathbb{E}[X]=r/p$ et $\mathbb{V}(X)=r(1-p)/p^2$.
+\end{remarque}
+
+\medskip
+
+\begin{mdframed}
+\begin{proposition}[La fonction de masse est une probabilité]
+Avec $q=1-p$, la série entière de $(1-q)^{-r}$ donne
+$(1-q)^{-r}=\sum_{k\ge0}\binom{r-1+k}{r-1}q^k$, d'où
+\[
+  \sum_{n\ge r}\binom{n-1}{r-1}(1-p)^{n-r}p^r=1.
+\]
+\end{proposition}
+\end{mdframed}
+
+\begin{proof}
+On écrit
+
+$$(1-q)^{-r}=\big(\sum_{j\ge0}q^j\big)^r =\sum_{j_1,\dots,j_r\ge0}q^{j_1+\dots+j_r}. 
+$$
+
+Le coefficient de $q^k$ compte les $r$-uplets $(j_1,\dots,j_r)$ d'entiers $\ge0$ de somme $k$~; ces uplets sont en bijection avec les chemins Nord-Est de $(0,0)$ à $(k,r-1)$, au nombre de $\binom{r-1+k}{r-1}$. En réindiçant $n=k+r$ et en posant $q=1-p$, on obtient l'identité annoncée.
+\end{proof}
+
+\begin{remarque}[Autre convention]
+On compte parfois le \emph{nombre d'échecs} $X-r$ avant d'atteindre $r$ succès~:
+\[
+  \mathbb{P}(X-r=j)=\binom{r+j-1}{r-1}p^r(1-p)^j,\qquad j\in\mathbb{N}.
+\]
+\end{remarque}
+
+\subsection{Loi hypergéométrique}
+
+\medskip
+
+\begin{mdframed}
+\begin{definition}[Loi hypergéométrique]
+Soient $n,N,m\in\mathbb{N}$ avec $n\le N$ et $m\le N$. On dit que
+$X\sim\mathcal{H_G}(n,N,m)$ si
+
+$$
+  \mathbb{P}(X=k)=\frac{\binom mk\binom{N-m}{n-k}}{\binom Nn},
+  \qquad k=0,\dots,\min\{m,n\}.
+$$
+\end{definition}
+\end{mdframed}
+
+\medskip
+
+\begin{mdframed}
+\begin{proposition}[Premiers moments]
+Si $X\sim\mathcal{H_G}(n,N,m)$, en posant $p=m/N$,
+
+\begin{itemize}
+\item $\mathbb{E}[X]=n\,\frac mN=np$,
+\item $\mathbb{V}(X)=n\,\frac mN\Big(1-\frac mN\Big)\frac{N-n}{N-1}
+         =np(1-p)\,\frac{N-n}{N-1}$.
+\end{itemize}
+\end{proposition}
+\end{mdframed}
+
+\begin{remarque}[Interprétation et « facteur de population finie »]
+On tire \emph{sans remise} $n$ boules d'une urne en contenant $N$, dont $m$ blanches ; $X$ est le nombre de boules blanches tirées. On retrouve la même espérance que la binomiale $\mathcal{B}(n,p)$, mais la variance est corrigée par le facteur $\frac{N-n}{N-1}<1$ (tirage sans remise), qui vaut $1$ quand $n=1$ et tend vers $1$ quand $N\to\infty$.
+\end{remarque}
+
+\begin{exercice}
+Soit $X_N\sim\mathcal{H_G}(n,N,m)$. On suppose $m=m_N$ avec $m_N/N\to p$ quand $N\to\infty$. Montrer que
+
+$$
+  \mathbb{P}(X_N=k)\xrightarrow[N\to\infty]{}\binom nk p^k(1-p)^{n-k},
+  \qquad k\in\{0,\dots,n\}.
+$$
+
+(Le tirage sans remise se comporte comme un tirage avec remise quand la population devient grande.)
+\end{exercice}
+
+\newpage
+
+%---------------------------------------------------------------------
+\subsection{Loi zêta (ou de Zipf)}
+%---------------------------------------------------------------------
+
+\medskip
+
+\begin{mdframed}
+\begin{definition}[Loi zêta / de Zipf]
+Soit $\alpha>0$. On dit que $X$ suit une \textit{loi zêta (ou de Zipf)} de
+paramètre $\alpha$ si
+
+$$
+  \mathbb{P}(X=k)=\frac{C}{k^{\alpha+1}},\qquad k\in\mathbb{N}^*,
+$$
+
+Avec 
+
+$$
+C=\frac{1}{\displaystyle\sum_{k\ge1}k^{-(\alpha+1)}}
+  =\frac{1}{\zeta(\alpha+1)},
+$$
+
+où $\zeta$ désigne la fonction zêta de Riemann.
+\end{definition}
+\end{mdframed}
+
+\medskip
+
+\begin{mdframed}
+\begin{proposition}[Moments : existence conditionnelle]
+Si $X$ suit la loi zêta de paramètre $\alpha$, alors
+
+$$
+  \mathbb{E}[X]=\frac{\zeta(\alpha)}{\zeta(\alpha+1)}<\infty
+  \quad\Longleftrightarrow\quad \alpha>1,
+$$
+
+Et
+
+$$
+\mathbb{E}[X^2]=\frac{\zeta(\alpha-1)}{\zeta(\alpha+1)}<\infty
+  \quad\Longleftrightarrow\quad \alpha>2.
+$$
+
+Plus généralement, le moment d'ordre $j$ est fini si et seulement si $\alpha>j$.
+\end{proposition}
+\end{mdframed}
+
+\begin{proof}
+$$
+\mathbb{E}[X^j]=C\sum_{k\ge1}k^{j}\,k^{-(\alpha+1)}=C\sum_{k\ge1}k^{-(\alpha+1-j)},
+$$
+
+série de Riemann convergente ssi $\alpha+1-j>1$, c'est-à-dire $\alpha>j$ ; sa valeur est alors $\zeta(\alpha+1-j)/\zeta(\alpha+1)$.
+\end{proof}
+
+\begin{remarque}[Queues lourdes]
+La loi de Zipf est l'archétype d'une loi à \emph{queue lourde}: contrairement aux lois précédentes, ses moments ne sont pas tous finis. Elle intervient en linguistique, en analyse des réseaux et pour les phénomènes suivant une loi de puissance.
+\end{remarque}
+
+

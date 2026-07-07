@@ -1,0 +1,1152 @@
+\chapter{Espérance et Moments}
+
+Lançons une pièce équilibrée $n$ fois, et intéressons-nous à la proportion de « pile » parmi ces $n$ lancers. La pièce n'étant pas biaisée, chaque face apparaît avec probabilité $1/2$, et l'on s'attend naturellement à ce que cette proportion se rapproche de $1/2$ lorsque $n$ tend vers l'infini. C'est là l'interprétation dite \emph{fréquentiste} des probabilités, où une probabilité se lit comme une fréquence d'apparition limite. Plus généralement, donnons-nous une variable aléatoire $X$ décrivant le résultat d'une expérience, et répétons cette expérience $n$ fois de façon indépendante, en notant $X_1, \dots, X_n$ les valeurs successivement observées (le cas de la pièce correspond à $X \sim \mathcal{B}(1/2)$).
+
+On s'attend alors à ce que la moyenne empirique $(X_1 + \dots + X_n)/n$ se stabilise, quand $n$ grandit, autour d'une constante : la somme, sur toutes les valeurs que $X$ peut prendre, de chaque valeur multipliée par sa probabilité. Cette somme pondérée — une « moyenne » de $X$, en un sens que nous préciserons — porte le nom d'\emph{espérance} de $X$ (parfois espérance mathématique), et se note $\mathbb{E}[X]$. La définition de $\mathbb{E}[X]$, et plus généralement celle de $\mathbb{E}[f(X)]$ pour une fonction $f$, est l'un des concepts les plus centraux de toute la théorie des probabilités.
+
+L'espérance ouvre la voie à la notion de \emph{moments} d'une variable aléatoire. La suite de ces moments constitue à son tour une description de la loi, souvent précieuse : dans certains cas, elle la caractérise entièrement ; surtout, elle fournit des bornes sur des probabilités d'événements que l'on ne sait pas calculer directement. C'est elle, enfin, qui permet de définir la fonction génératrice des moments — encore une autre manière de décrire la loi de $X$, au même titre que la fonction de répartition, mais dont l'expression se révèle bien souvent plus explicite (celle de $F_X$ ne se simplifiant que rarement).
+
+\section{Espérance d'une variable aléatoire}
+
+\subsection{Variable aléatoire positive ou nulle}
+
+Commençons par le cas le plus favorable, celui des variables aléatoires positives ou nulles : pour elles, l'espérance peut toujours être définie, quitte à ce qu'elle vaille $+\infty$.
+
+\medskip
+
+\begin{mdframed}
+\begin{definition}
+Soit $X$ une variable aléatoire positive ou nulle, discrète ou à densité. L'espérance de $X$, notée $\mathbb{E}[X] \in [0, \infty]$, est définie par
+
+$$
+\mathbb{E}[X] = \begin{cases} \displaystyle\sum_x x\, \mathbb{P}(X = x) & \text{si } X \text{ est discrète}, \\[8pt] \displaystyle\int_0^{+\infty} x\, f_X(x)\, dx & \text{si } X \text{ admet la densité } f_X. \end{cases}
+$$
+
+On dit que $X$ est intégrable lorsque la somme (ou l'intégrale) figurant ci-dessus est convergente.
+\end{definition}
+\end{mdframed}
+
+Intuitivement, $\mathbb{E}[X]$ est la moyenne des valeurs de $X$, pondérées par les probabilités de les atteindre. Une image mécanique éclaire bien cette idée : celle du \emph{centre de gravité}. Supposons d'abord $X$ discrète, prenant les valeurs $x_i$. Imaginons des masses disposées sur l'axe réel, l'une à chaque abscisse $x_i$, de poids $\mathbb{P}(X = x_i)$ : alors $\mathbb{E}[X]$ n'est autre que l'abscisse du centre de gravité de ce système de masses. Si $X$ est à densité, on imagine cette fois une masse totale égale à $1$, étalée continûment le long de l'axe selon la densité $f_X$ ; l'espérance $\mathbb{E}[X]$ en est, là encore, l'abscisse du centre de gravité.
+
+Soulignons un fait immédiat mais qu'il vaut la peine de nommer : l'espérance d'une variable aléatoire positive est positive. Cela ne fait que refléter la positivité des termes sommés — ou de l'intégrande —, c'est-à-dire la positivité de la somme et de l'intégrale.
+
+\begin{exemple}
+Soit $X \sim \mathcal{B}(p)$, $p \in [0, 1]$. Alors
+
+$$
+\mathbb{E}[X] = 0 \cdot (1 - p) + 1 \cdot p = p.
+$$
+
+\emph{Interprétation.} En répétant $n$ fois une expérience de Bernoulli de probabilité de succès $p$, on s'attend à ce que la proportion de succès s'approche de $p$ lorsque $n \to \infty$.
+\end{exemple}
+
+\begin{exemple}
+Soit $X \sim \mathcal{G}(p)$, $p \in ]0, 1]$. Alors
+
+$$
+\mathbb{E}[X] = \sum_{n=1}^\infty n\, p\, (1 - p)^{n-1} = \frac{1}{p}.
+$$
+
+On obtient cette somme en dérivant terme à terme la série entière $\sum_{n=0}^\infty (1 - p)^n = \dfrac{1}{p}$, à l'intérieur de son disque de convergence (soit $|1 - p| < 1$) : la dérivation donne $\sum_{n=1}^\infty n(1 - p)^{n-1} = \dfrac{1}{p^2}$, qu'il suffit alors de multiplier par $p$. \emph{Interprétation.} Lorsqu'on répète une expérience de Bernoulli de probabilité de succès $p$ jusqu'au premier succès, il faut en moyenne $1/p$ tentatives. Ainsi, une expérience réussissant avec $5\%$ de chances devra être répétée en moyenne $1/0{,}05 = 20$ fois avant d'aboutir.
+\end{exemple}
+
+\begin{exemple}
+Soit $X \sim \mathcal{E}(\lambda)$, $\lambda > 0$. Alors
+
+$$
+\mathbb{E}[X] = \int_0^\infty x\, \lambda e^{-\lambda x}\, dx = \frac{1}{\lambda}.
+$$
+
+\emph{Interprétation.} Un composant dont le taux de panne est constant, égal à $\lambda$, a une durée de vie moyenne de $1/\lambda$.
+\end{exemple}
+
+Notons pour finir que toutes les variables aléatoires des exemples précédents sont intégrables.
+
+\subsection{Variable aléatoire signée}
+
+Pour une variable aléatoire positive, l'espérance avait toujours un sens, quitte à valoir $+\infty$. La situation devient plus délicate dès que $X$ peut changer de signe : additionner ses contributions positives et négatives risque de conduire à une forme indéterminée du type « $\infty - \infty$ », dépourvue de sens. Pour écarter cet écueil, on commence par exiger que la somme (ou l'intégrale) des \emph{valeurs absolues} converge. C'est cette condition, dite d'intégrabilité, qui garantit que l'espérance est bien définie.
+
+\medskip
+
+\begin{mdframed}
+\begin{definition}
+Soit $X$ une variable aléatoire discrète ou à densité. On dit que $X$ est intégrable si
+
+$$
+\begin{cases} \displaystyle\sum_x |x|\, \mathbb{P}(X = x) < \infty & \text{si } X \text{ est discrète}, \\[8pt] \displaystyle\int_{-\infty}^{+\infty} |x|\, f_X(x)\, dx < \infty & \text{si } X \text{ admet la densité } f_X. \end{cases}
+$$
+
+Dans ce cas, on définit l'espérance de $X$ par
+
+$$
+\mathbb{E}[X] = \begin{cases} \displaystyle\sum_x x\, \mathbb{P}(X = x) & \text{si } X \text{ est discrète}, \\[8pt] \displaystyle\int_{-\infty}^{+\infty} x\, f_X(x)\, dx & \text{si } X \text{ admet la densité } f_X. \end{cases}
+$$
+\end{definition}
+\end{mdframed}
+
+\begin{remarque}
+Nous connaissons déjà une loi qui échoue à être intégrable : la loi de Cauchy. Si $X \sim \mathcal{C}(a)$, on a en effet
+
+$$
+\int_{\mathbb{R}} \frac{a}{\pi} \cdot \frac{|x|}{a^2 + x^2}\, dx = \infty,
+$$
+
+l'intégrande se comportant comme $C/x$ au voisinage de $+\infty$ (et de $-\infty$), ce qui suffit à faire diverger l'intégrale. Pour une telle loi, l'espérance n'est tout simplement pas définie.
+\end{remarque}
+
+\begin{exemple}
+Soit $X \sim \mathcal{U}(a, b)$, avec $a < b$. Alors
+
+$$
+\mathbb{E}[X] = \int_a^b \frac{x}{b - a}\, dx = \frac{1}{b - a} \left[ \frac{1}{2} x^2 \right]_a^b = \frac{a + b}{2},
+$$
+
+en utilisant $b^2 - a^2 = (a + b)(b - a)$.
+
+\emph{Interprétation.} Le centre de gravité d'une masse répartie uniformément sur $[a, b]$ se situe, sans surprise, au milieu de l'intervalle, à l'abscisse $(a + b)/2$.
+\end{exemple}
+
+\section{Espérance d'une fonction d'une variable aléatoire}
+
+Nous aurons très souvent besoin, non pas de l'espérance de $X$ elle-même, mais de celle d'une fonction $\phi(X)$. Une première approche consisterait à déterminer d'abord la loi de $\phi(X)$ — comme au chapitre précédent —, puis à lui appliquer la définition de l'espérance. La formule suivante, dite \emph{de transfert}, permet de court-circuiter cette étape : elle calcule $\mathbb{E}[\phi(X)]$ directement à partir de la loi de $X$, sans qu'il soit nécessaire d'expliciter celle de $\phi(X)$. C'est de là que lui vient son nom : elle « transfère » le calcul sur la loi de départ.
+
+\medskip
+
+\begin{mdframed}
+\begin{proposition}[Formule de transfert]
+Soit $X$ une variable aléatoire discrète ou à densité, et $\phi : \mathbb{R} \to \mathbb{R}$ une fonction. Alors $\phi(X)$ est intégrable si et seulement si
+
+$$
+\begin{cases} \displaystyle\sum_x |\phi(x)|\, \mathbb{P}(X = x) < \infty & \text{si } X \text{ est discrète}, \\[8pt] \displaystyle\int_{-\infty}^{+\infty} |\phi(x)|\, f_X(x)\, dx < \infty & \text{si } X \text{ admet la densité } f_X. \end{cases}
+$$
+
+Dans ce cas, son espérance est donnée par
+
+\begin{equation}\label{2.1}
+\mathbb{E}[\phi(X)] = \begin{cases} \displaystyle\sum_x \phi(x)\, \mathbb{P}(X = x) & \text{si } X \text{ est discrète}, \\[8pt] \displaystyle\int_{-\infty}^{+\infty} \phi(x)\, f_X(x)\, dx & \text{si } X \text{ admet la densité } f_X. \end{cases}
+\end{equation}
+\end{proposition}
+\end{mdframed}
+
+Quelques remarques avant la preuve. La condition d'intégrabilité assure l'absolue convergence de la série (ou de l'intégrale) qui définit l'espérance, de sorte que celle-ci a bien un sens. Cette formule englobe la définition de $\mathbb{E}[X]$, que l'on retrouve en choisissant pour $\phi$ l'identité $\phi(x) = x$. Elle contient aussi un cas particulièrement parlant, celui de la fonction indicatrice : en prenant $\phi = \mathbb{1}_A$,
+
+$$
+\mathbb{E}[\mathbb{1}_A(X)] = 1 \cdot \mathbb{P}(X \in A) + 0 \cdot \mathbb{P}(X \notin A) = \mathbb{P}(X \in A).
+$$
+
+On retrouve là le lien fondamental entre espérance et probabilité, cohérent du reste avec l'exemple de la loi de Bernoulli traité plus haut, puisque $\mathbb{1}_A(X)$ suit précisément une loi de Bernoulli de paramètre $\mathbb{P}(X \in A)$.
+
+\begin{proof}
+\textit{Cas discret.} Si $X$ est discrète, alors $\phi(X)$ l'est aussi, et sa fonction de masse s'obtient en regroupant les valeurs de $x$ ayant même image :
+
+$$
+\mathbb{P}(\phi(X) = y) = \sum_x \mathbb{P}(X = x)\, \mathbb{1}_{\{\phi(x) = y\}}.
+$$
+
+Traitons d'abord l'énoncé sur l'intégrabilité. Toutes les quantités étant positives, le théorème de Fubini positif autorise l'échange des sommations, et l'on écrit dans $[0, +\infty]$ :
+
+\begin{align*}
+\sum_y |y|\, \mathbb{P}(\phi(X) = y) &= \sum_y |y| \sum_x \mathbb{P}(X = x)\, \mathbb{1}_{\{\phi(x) = y\}} \\
+&= \sum_y \sum_x |\phi(x)|\, \mathbb{P}(X = x)\, \mathbb{1}_{\{\phi(x) = y\}} \\
+&= \sum_x |\phi(x)|\, \mathbb{P}(X = x) \sum_y \mathbb{1}_{\{\phi(x) = y\}} \\
+&= \sum_x |\phi(x)|\, \mathbb{P}(X = x),
+\end{align*}
+
+la dernière égalité venant de ce que $\sum_y \mathbb{1}_{\{\phi(x) = y\}} = 1$. On en tire immédiatement l'équivalence des deux conditions d'intégrabilité :
+
+$$
+\sum_y |y|\, \mathbb{P}(\phi(X) = y) < \infty \iff \sum_x |\phi(x)|\, \mathbb{P}(X = x) < \infty.
+$$
+
+Le même enchaînement de manipulations, cette fois sans les valeurs absolues (licite dès que l'intégrabilité est acquise), fournit la formule de l'espérance :
+
+\begin{align*}
+\mathbb{E}[\phi(X)] &= \sum_y y\, \mathbb{P}(\phi(X) = y) \\
+&= \sum_y y \sum_x \mathbb{P}(X = x)\, \mathbb{1}_{\{\phi(x) = y\}} \\
+&= \sum_y \sum_x \phi(x)\, \mathbb{P}(X = x)\, \mathbb{1}_{\{\phi(x) = y\}} \\
+&= \sum_x \phi(x)\, \mathbb{P}(X = x) \sum_y \mathbb{1}_{\{\phi(x) = y\}} \\
+&= \sum_x \phi(x)\, \mathbb{P}(X = x).
+\end{align*}
+
+\textit{Cas à densité.} Nous nous limitons ici au cas où $\phi$ est de classe $C^1$ et strictement croissante, au sens où $\phi'(x) > 0$ pour tout $x$. Il existe alors $-\infty \leq a < b \leq +\infty$ tels que $\text{Im}(\phi) = (a, b)$. Pour $x \in \text{Im}(\phi)$, la stricte croissance de $\phi$ donne $\{\phi(X) \leq x\} = \{X \leq \phi^{-1}(x)\}$, d'où
+
+\begin{align*}
+\mathbb{P}(\phi(X) \leq x) &= \mathbb{P}(X \leq \phi^{-1}(x)) \\
+&= \int_{-\infty}^{\phi^{-1}(x)} f_X(y)\, dy \\
+&= \int_a^x f_X(\phi^{-1}(y))\, (\phi^{-1})'(y)\, dy \\
+&= \int_{-\infty}^x f_X(\phi^{-1}(y))\, (\phi^{-1})'(y)\, \mathbb{1}_{\text{Im}\,\phi}(y)\, dy,
+\end{align*}
+
+l'avant-dernière égalité résultant du changement de variable $y = \phi(\cdot)$. L'énoncé s'étend sans peine à $x \in \mathbb{R}$, ce qui permet d'identifier $f_X(\phi^{-1}(y))\, (\phi^{-1})'(y)\, \mathbb{1}_{\text{Im}\,\phi}(y)$ comme une densité de $\phi(X)$. On conclut alors par un ultime changement de variable $x = \phi^{-1}(y)$, $dx = (\phi^{-1})'(y)\, dy$ :
+
+\begin{align*}
+\mathbb{E}[\phi(X)] &= \int_{-\infty}^{+\infty} y\, f_{\phi(X)}(y)\, dy \\
+&= \int_{-\infty}^{+\infty} y\, f_X(\phi^{-1}(y))\, (\phi^{-1})'(y)\, dy \\
+&= \int_{-\infty}^{+\infty} \phi(x)\, f_X(x)\, dx.
+\end{align*}
+\end{proof}
+
+La formule de transfert a un premier corollaire, aussi simple qu'omniprésent : la linéarité de l'espérance.
+
+\medskip
+
+\begin{mdframed}
+\begin{corollaire}[Linéarité de l'espérance]
+Si $f_1$ et $f_2$ sont deux fonctions telles que $f_1(X)$ et $f_2(X)$ soient intégrables, alors $(f_1 + f_2)(X)$ l'est aussi, et
+
+$$
+\mathbb{E}[(f_1 + f_2)(X)] = \mathbb{E}[f_1(X)] + \mathbb{E}[f_2(X)].
+$$
+
+En particulier, si $X$ est intégrable, alors pour tous réels $a, b$,
+
+$$
+\mathbb{E}[aX + b] = a\, \mathbb{E}[X] + b.
+$$
+\end{corollaire}
+\end{mdframed}
+
+\begin{proof}
+Tout repose sur le fait que l'intégrabilité de $f_1(X)$ et de $f_2(X)$ autorise à scinder la somme (ou l'intégrale) en deux. Dans le cas discret,
+
+\begin{align*}
+\mathbb{E}[(f_1 + f_2)(X)] &= \sum_x (f_1(x) + f_2(x))\, \mathbb{P}(X = x) \\
+&= \sum_x f_1(x)\, \mathbb{P}(X = x) + \sum_x f_2(x)\, \mathbb{P}(X = x) \\
+&= \mathbb{E}[f_1(X)] + \mathbb{E}[f_2(X)].
+\end{align*}
+
+De même, si $X$ est à densité, la formule (\ref{2.1}) donne
+
+\begin{align*}
+\mathbb{E}[(f_1 + f_2)(X)] &= \int_{-\infty}^{+\infty} (f_1(x) + f_2(x))\, f_X(x)\, dx \\
+&= \int_{-\infty}^{+\infty} f_1(x)\, f_X(x)\, dx + \int_{-\infty}^{+\infty} f_2(x)\, f_X(x)\, dx \\
+&= \mathbb{E}[f_1(X)] + \mathbb{E}[f_2(X)].
+\end{align*}
+
+La seconde formule s'en déduit en prenant $f_1(x) = a\,x$ et $f_2(x) = b$.
+\end{proof}
+
+En combinant transfert, linéarité et positivité, on obtient un résultat de comparaison bien commode, dont la démonstration est laissée au lecteur.
+
+\medskip
+
+\begin{mdframed}
+\begin{lemme}
+Soit $X$ une variable aléatoire à valeurs dans $I$. Si $\phi_1, \phi_2 : I \to \mathbb{R}_+$ vérifient $\phi_1 \leq \phi_2$, alors $\mathbb{E}[\phi_1(X)] \leq \mathbb{E}[\phi_2(X)]$. En particulier, si $\phi_2(X)$ est intégrable, alors $\phi_1(X)$ l'est aussi.
+\end{lemme}
+\end{mdframed}
+
+\paragraph{Lois symétriques.} Certains calculs d'espérance se simplifient considérablement lorsque la loi possède une symétrie. Formalisons cette notion.
+
+\medskip
+
+\begin{mdframed}
+\begin{definition}
+On dit que la loi de $X$ est symétrique si $X$ et $-X$ ont même loi, c'est-à-dire si, pour tout $A \subset \mathbb{R}$,
+
+$$
+\mathbb{P}(X \in A) = \mathbb{P}(-X \in A).
+$$
+
+En notant $-A = \{-x : x \in A\}$, cette égalité se réécrit aussi bien $\mathbb{P}(X \in A) = \mathbb{P}(X \in -A)$.
+\end{definition}
+\end{mdframed}
+
+En pratique, la symétrie se lit directement sur la fonction de masse ou sur la densité, comme le montre la condition suffisante suivante.
+
+\medskip
+
+\begin{mdframed}
+\begin{lemme}
+La loi de $X$ est symétrique dans chacun des deux cas suivants :
+\begin{enumerate}
+\item $X$ est discrète et sa fonction de masse est paire ;
+\item $X$ est à densité et admet une densité paire.
+\end{enumerate}
+\end{lemme}
+\end{mdframed}
+
+\begin{proof}
+Dans le cas discret, à fonction de masse paire, on réindexe la somme par $x_k \mapsto -x_k$ :
+
+\begin{align*}
+\mathbb{P}(-X \in A) &= \mathbb{P}(X \in -A) \\
+&= \sum_{x_k \in -A} \mathbb{P}(X = x_k) \\
+&= \sum_{-x_k \in A} \mathbb{P}(X = -x_k) \\
+&= \sum_{x_k \in A} \mathbb{P}(X = x_k) = \mathbb{P}(X \in A).
+\end{align*}
+
+Dans le cas à densité paire, le même rôle est joué par le changement de variable $x \mapsto -x$ :
+
+\begin{align*}
+\mathbb{P}(-X \in A) &= \mathbb{P}(X \in -A) \\
+&= \int_{\mathbb{R}} \mathbb{1}_{-A}(x)\, f_X(x)\, dx \\
+&= \int_{\mathbb{R}} \mathbb{1}_{-A}(-x)\, f_X(-x)\, dx \\
+&= \int_{\mathbb{R}} \mathbb{1}_A(x)\, f_X(x)\, dx = \mathbb{P}(X \in A).
+\end{align*}
+\end{proof}
+
+Tout l'intérêt de la symétrie apparaît dans le lemme suivant : elle annule l'espérance de toute fonction impaire de $X$.
+
+\medskip
+
+\begin{mdframed}
+\begin{lemme}
+Soit $X$ une variable aléatoire symétrique et $\phi : \mathbb{R} \to \mathbb{R}$ une fonction impaire — soit $\phi(-x) = -\phi(x)$ pour tout $x$ — telle que $\phi(X)$ soit intégrable. Alors
+
+$$
+\mathbb{E}[\phi(X)] = 0.
+$$
+\end{lemme}
+\end{mdframed}
+
+\begin{proof}
+Il suffit d'enchaîner symétrie, imparité et linéarité :
+
+\begin{align*}
+\mathbb{E}[\phi(X)] &= \mathbb{E}[\phi(-X)] & (X \overset{\text{loi}}{=} -X) \\
+&= \mathbb{E}[-\phi(X)] & (\phi \text{ impaire}) \\
+&= -\mathbb{E}[\phi(X)] & (\text{linéarité}).
+\end{align*}
+
+Une quantité égale à son opposé étant nulle, on conclut $\mathbb{E}[\phi(X)] = 0$.
+\end{proof}
+
+L'hypothèse d'intégrabilité est ici cruciale, et non un simple confort de rédaction : sans elle, $\mathbb{E}[\phi(X)]$ pourrait ne pas être défini, et l'argument « une quantité égale à son opposé est nulle » n'aurait plus de sens (on retomberait sur l'indétermination $\infty - \infty$).
+
+À titre d'illustration, toute variable aléatoire symétrique et intégrable est d'espérance nulle : il suffit d'appliquer le lemme avec $\phi(x) = x$. Introduisons enfin les parties positive et négative d'un réel,
+
+$$
+x^+ = \max\{x, 0\} = x\, \mathbb{1}_{x > 0}, \qquad x^- = \max\{-x, 0\} = -x\, \mathbb{1}_{x < 0},
+$$
+
+qui vérifient les deux identités $x = x^+ - x^-$ et $|x| = x^+ + x^-$. Elles permettent de ramener l'intégrabilité de $X$ à celle, plus élémentaire, de ses deux parties.
+
+\medskip
+
+\begin{mdframed}
+\begin{lemme}
+Soit $X$ une variable aléatoire. Les trois conditions suivantes sont équivalentes : $X$ est intégrable ; $|X|$ est intégrable ; $X^+$ et $X^-$ sont intégrables. Dans ce cas,
+
+$$
+\mathbb{E}[|X|] = \mathbb{E}[X^+] + \mathbb{E}[X^-] \quad \text{et} \quad \mathbb{E}[X] = \mathbb{E}[X^+] - \mathbb{E}[X^-].
+$$
+\end{lemme}
+\end{mdframed}
+
+\subsection{Caractérisation des lois de fonctions de variables aléatoires}
+
+La formule de transfert fournit, elle aussi, un moyen de caractériser la loi d'une fonction $g(X)$ d'une variable aléatoire. Elle vient ainsi s'ajouter à la méthode que nous connaissions déjà, fondée sur la seule fonction de répartition. Disons-le tout de suite : les deux approches sont parfaitement recevables, et le lecteur pourra retenir celle qui lui convient le mieux. La proposition suivante en énonce le principe.
+
+\medskip
+
+\begin{mdframed}
+\begin{proposition}
+Soit $X$ une v.a.r. et $g : \mathbb{R} \to \mathbb{R}$ une fonction. S'il existe une fonction $f : \mathbb{R} \to \mathbb{R}$ telle que, pour toute fonction $\phi$ bornée,
+
+$$
+\mathbb{E}[\phi(g(X))] = \int_{\mathbb{R}} \phi(y)\, f(y)\, dy,
+$$
+
+alors $f$ est une densité de probabilité, et $g(X)$ est une v.a.r. à densité, de densité $f$.
+\end{proposition}
+\end{mdframed}
+
+La fonction auxiliaire $\phi$ porte le nom de \emph{fonction test}, ou encore \emph{fonction muette} — d'où le nom de méthode de la fonction muette parfois donné à ce procédé. Précisons que, pour espérer aboutir à une expression de la forme voulue, il faut en règle générale partir d'une v.a.r. $X$ elle-même à densité.
+
+\begin{proof}
+Il suffit d'appliquer l'hypothèse à la fonction (bornée) $\phi = \mathbb{1}_{]-\infty, x]}$ :
+
+\begin{align*}
+\mathbb{P}(g(X) \leq x) &= \mathbb{E}[\mathbb{1}_{]-\infty, x]}(g(X))] \\
+&= \int_{-\infty}^{+\infty} \mathbb{1}_{]-\infty, x]}(y)\, f(y)\, dy \\
+&= \int_{-\infty}^x f(y)\, dy.
+\end{align*}
+
+La fonction de répartition de $g(X)$ est ainsi la primitive de $f$, et comme elle caractérise la loi, $g(X)$ admet bien $f$ pour densité.
+\end{proof}
+
+Cette preuve est instructive : elle montre qu'il suffit en réalité que l'égalité soit vérifiée pour la seule famille de fonctions $(\mathbb{1}_{]-\infty, x]})_{x \in \mathbb{R}}$, ce qui n'est autre que la caractérisation des lois par les fonctions de répartition. Autrement dit, sur le plan conceptuel, les deux méthodes ne diffèrent pas — et l'on pourrait même soutenir que le recours à une fonction test obscurcit quelque peu le propos par rapport à l'usage direct de $F_X$. Les exemples qui suivent aideront chacun à se forger sa préférence.
+
+\begin{exemple}
+Traitons plusieurs fonctions $g$ par la méthode de la fonction muette, $\phi$ désignant à chaque fois une fonction bornée.
+
+\begin{itemize}
+\item $g(x) = x^2$, avec $X$ à densité $f_X$. Le changement de variable $y = x^2$, effectué séparément sur chaque demi-droite, donne
+
+\begin{align*}
+\mathbb{E}[\phi(X^2)] &= \int_{\mathbb{R}} \phi(x^2)\, f_X(x)\, dx \\
+&= \int_{-\infty}^0 \phi(x^2)\, f_X(x)\, dx + \int_0^\infty \phi(x^2)\, f_X(x)\, dx \\
+&= \int_0^\infty \phi(y)\, f_X(-\sqrt{y})\, \frac{1}{2\sqrt{y}}\, dy + \int_0^\infty \phi(y)\, f_X(\sqrt{y})\, \frac{1}{2\sqrt{y}}\, dy \\
+&= \int_{\mathbb{R}} \phi(y)\, \big(f_X(-\sqrt{y}) + f_X(\sqrt{y})\big)\, \frac{1}{2\sqrt{y}}\, \mathbb{1}_{\mathbb{R}_+}(y)\, dy.
+\end{align*}
+
+On retrouve bien la densité de $X^2$ déjà obtenue au chapitre précédent par la fonction de répartition.
+
+\item $g(x) = |x|$, avec $X$ à densité $f_X$. Cette fois le changement de variable est $y = -x$ sur la demi-droite négative :
+
+\begin{align*}
+\mathbb{E}[\phi(|X|)] &= \int_{\mathbb{R}} \phi(|x|)\, f_X(x)\, dx \\
+&= \int_{-\infty}^0 \phi(-x)\, f_X(x)\, dx + \int_0^\infty \phi(x)\, f_X(x)\, dx \\
+&= \int_0^\infty \phi(y)\, f_X(-y)\, dy + \int_0^\infty \phi(x)\, f_X(x)\, dx \\
+&= \int_{\mathbb{R}} \phi(y)\, \big(f_X(-y) + f_X(y)\big)\, \mathbb{1}_{\mathbb{R}_+}(y)\, dy.
+\end{align*}
+
+\item $g(x) = x - \lfloor x \rfloor$ (partie fractionnaire), avec $X \sim \mathcal{E}(\lambda)$. On découpe l'intégrale entier par entier, puis on translate chaque morceau sur $[0, 1[$ :
+
+\begin{align*}
+\mathbb{E}[\phi(X - \lfloor X \rfloor)] &= \int_{\mathbb{R}} \phi(x - \lfloor x \rfloor)\, \lambda e^{-\lambda x}\, \mathbb{1}_{\mathbb{R}_+}(x)\, dx \\
+&= \sum_{n=0}^\infty \int_n^{n+1} \phi(x - \lfloor x \rfloor)\, \lambda e^{-\lambda x}\, dx \\
+&= \sum_{n=0}^\infty \int_0^1 \phi(x)\, \lambda e^{-\lambda(n+x)}\, dx \\
+&= \left( \sum_{n=0}^\infty e^{-\lambda n} \right) \left( \int_0^1 \phi(x)\, \lambda e^{-\lambda x}\, dx \right) \\
+&= \int_{\mathbb{R}} \phi(x)\, \left( \frac{\lambda e^{-\lambda x}}{1 - e^{-\lambda}}\, \mathbb{1}_{[0,1[}(x) \right) dx.
+\end{align*}
+
+On reconnaît, une nouvelle fois, la densité déjà calculée pour la partie fractionnaire d'une exponentielle.
+
+\item $g(x) = 1/x$, avec $X \sim \mathcal{C}(a)$. Le changement de variable $y = 1/x$ sur chaque demi-droite conduit à
+
+\begin{align*}
+\mathbb{E}[\phi(1/X)] &= \int_{\mathbb{R}} \phi\!\left(\tfrac{1}{x}\right) \frac{a}{\pi} \frac{1}{a^2 + x^2}\, dx \\
+&= \int_{-\infty}^0 \phi\!\left(\tfrac{1}{x}\right) \frac{a}{\pi} \frac{1}{a^2 + x^2}\, dx + \int_0^{+\infty} \phi\!\left(\tfrac{1}{x}\right) \frac{a}{\pi} \frac{1}{a^2 + x^2}\, dx \\
+&= \int_{-\infty}^0 \phi(y)\, \frac{a}{\pi} \frac{1}{a^2 + (1/y)^2} \frac{dy}{y^2} + \int_0^{+\infty} \phi(y)\, \frac{a}{\pi} \frac{1}{a^2 + (1/y)^2} \frac{dy}{y^2} \\
+&= \int_{\mathbb{R}} \phi(y)\, \frac{1/a}{\pi} \frac{1}{(1/a)^2 + y^2}\, dy,
+\end{align*}
+
+de sorte que $g(X) \sim \mathcal{C}(1/a)$ : l'inverse d'une variable de Cauchy de paramètre $a$ est encore une variable de Cauchy, de paramètre $1/a$.
+\end{itemize}
+\end{exemple}
+
+La proposition précédente possède naturellement un pendant discret, dont la démonstration est en tous points analogue et que nous ne reproduisons pas.
+
+\medskip
+
+\begin{mdframed}
+\begin{proposition}
+Soit $X$ une v.a.r. et $g : \mathbb{R} \to \mathbb{R}$ une fonction. S'il existe un ensemble $S$ au plus dénombrable et une fonction $p : S \to ]0, +\infty[$ telle que, pour toute fonction $\phi$ bornée,
+
+$$
+\mathbb{E}[\phi(g(X))] = \sum_{y \in S} \phi(y)\, p(y),
+$$
+
+alors $g(X)$ est une variable aléatoire discrète, de fonction de masse $p$.
+\end{proposition}
+\end{mdframed}
+
+\begin{exemple} 
+Soit $g : \mathbb{R} \to \mathbb{R}$, $g(x) = \lfloor x \rfloor$, et $X \sim \mathcal{E}(\lambda)$ une v.a.r. à densité, de densité $f_X$.
+
+\begin{align*}
+\mathbb{E}[\phi(\lfloor X \rfloor)] &= \int_{\mathbb{R}} \phi(\lfloor x \rfloor) \lambda e^{-\lambda x} \mathbb{1}_{\mathbb{R}^+}(x) \, dx \\
+&= \sum_{n=0}^\infty \int_n^{n+1} \phi(\lfloor x \rfloor) \lambda e^{-\lambda x} \, dx \\
+&= \sum_{n=0}^\infty \phi(n) \int_n^{n+1} \lambda e^{-\lambda x} \, dx \\
+&= \sum_{n=0}^\infty \phi(n) (e^{-\lambda n} - e^{-\lambda(n+1)}) \\
+&= \sum_{n=0}^\infty \phi(n) e^{-\lambda n} (1 - e^{-\lambda}) 
+\end{align*}
+
+Donc $\lfloor X \rfloor$ est une v.a.r. discrète de fonction de masse $n \in \mathbb{N} \mapsto \mathbb{P}(\lfloor X \rfloor = n) = e^{-\lambda n}(1 - e^{-\lambda})$.
+\end{exemple}
+
+\section{Moments et quantités associées}
+
+L'espérance étant en place, on peut l'appliquer non plus à $X$ mais à ses puissances successives. On accède ainsi à toute une famille de quantités, les \emph{moments}, qui résument chacune un aspect différent de la loi.
+
+\medskip
+
+\begin{mdframed}
+\begin{definition}
+Soit $X$ une variable aléatoire telle que $X^k$ soit intégrable, avec $k \in \mathbb{N}^*$. On dit alors que $X$ admet un moment d'ordre $k$, et l'on appelle $\mathbb{E}[X^k]$ le $k$-ième moment de $X$ (ou de sa loi).
+\end{definition}
+\end{mdframed}
+
+On dit aussi, de façon équivalente, que $X$ est \emph{de puissance $k$ intégrable} lorsque $X^k$ l'est. Les moments décrivent différents traits de la loi de $X$ ; mais leur intérêt majeur, sur lequel nous reviendrons plus loin dans ce chapitre, est de fournir des bornes sur des probabilités d'événements que l'on ne sait pas calculer directement. Nous concentrerons ici notre attention sur les deux premiers moments, $k = 1$ et $k = 2$, de loin les plus importants en pratique.
+
+Auparavant, quelques généralités. Notons d'abord une dissymétrie entre moments pairs et impairs : pour $k$ pair, la fonction $x \mapsto x^k$ est positive, si bien que le moment $\mathbb{E}[X^k]$ est \emph{toujours} défini, quitte à valoir $+\infty$. Notons ensuite que l'existence d'un moment élevé est une condition d'autant plus exigeante qu'elle contraint davantage les queues de la loi ; il est donc naturel qu'elle entraîne l'existence de tous les moments d'ordre inférieur, comme le précise le lemme suivant.
+
+\medskip
+
+\begin{mdframed}
+\begin{lemme}
+Soient $k < m$ deux entiers. Si $X$ admet un moment d'ordre $m$, alors $X$ admet un moment d'ordre $k$, et
+
+$$
+\mathbb{E}[|X|^k] \leq \mathbb{E}[|X|^m] + 1.
+$$
+\end{lemme}
+\end{mdframed}
+
+\begin{proof}
+Il suffit de partir de l'inégalité $|x|^k \leq 1 + |x|^m$, valable pour tout $x \in \mathbb{R}$, puis d'appliquer le lemme de comparaison.
+\end{proof}
+
+Enfin, lorsque la loi présente une symétrie, ses moments impairs sont d'un calcul immédiat : ils sont nuls.
+
+\medskip
+
+\begin{mdframed}
+\begin{lemme}
+Si la loi de $X$ est symétrique et si $X$ admet un moment d'ordre $k \in \mathbb{N}$ impair, alors $\mathbb{E}[X^k] = 0$.
+\end{lemme}
+\end{mdframed}
+
+\begin{proof}
+On applique le lemme d'annulation des fonctions impaires à $\phi(x) = x^k$, impaire puisque $k$ l'est.
+\end{proof}
+
+\subsection{Espérance}
+
+Le premier moment $\mathbb{E}[X]$ est défini pour toute v.a.r. intégrable, ainsi que pour toute v.a.r. positive ou nulle. C'est lui que l'on nomme l'espérance, ou la moyenne, de $X$. On le notera souvent $\mu = \mathbb{E}[X]$. Lorsque $\mu = 0$, on dit que $X$ est \emph{centrée}.
+
+Il est du reste toujours possible de se ramener à ce cas : il suffit de retrancher à $X$ son espérance. La variable $X - \mu$, appelée variable centrée associée à $X$, est bien d'espérance nulle, comme le confirme la linéarité de l'espérance :
+
+$$
+\mathbb{E}[X - \mu] = \mathbb{E}[X] - \mu = \mu - \mu = 0.
+$$
+
+\subsection{Variance}
+
+Le deuxième moment est $\mathbb{E}[X^2]$. Comme $X^2 \geq 0$, il est défini pour toute variable aléatoire — quitte, encore une fois, à valoir $+\infty$. C'est à partir de lui que l'on construit la variance.
+
+\medskip
+
+\begin{mdframed}
+\begin{definition}
+Soit $X$ une variable aléatoire. On dit que $X$ est de carré intégrable si $\mathbb{E}[X^2] < +\infty$. Dans ce cas, la variance de $X$ est
+
+$$
+\mathbb{V}(X) = \mathbb{E}[X^2] - \mathbb{E}[X]^2.
+$$
+\end{definition}
+\end{mdframed}
+
+Cette définition est légitime : si $X$ est de carré intégrable, elle admet d'après le lemme de domination un moment d'ordre $1$, de sorte que $\mathbb{E}[X]$ existe bel et bien. La variance admet une seconde expression, moins compacte mais plus parlante, qui la fait apparaître comme l'écart quadratique moyen à la moyenne.
+
+\medskip
+
+\begin{mdframed}
+\begin{lemme}
+Soit $X$ une variable aléatoire de carré intégrable. Alors
+
+$$
+\mathbb{V}(X) = \mathbb{E}[(X - \mathbb{E}[X])^2].
+$$
+\end{lemme}
+\end{mdframed}
+
+Sous l'une ou l'autre forme, on lit aussitôt que $\mathbb{V}(X) \geq 0$ : par l'inégalité de Jensen à partir de la définition ($\mathbb{E}[X^2] \geq \mathbb{E}[X]^2$), ou plus simplement par la positivité de la fonction carré à partir du lemme. La variance est un \emph{coefficient de dispersion} : elle mesure à quel point les valeurs de $X$ s'étalent autour de son espérance. Une variance grande signale des valeurs très dispersées ; une variance petite, des valeurs concentrées au voisinage de la moyenne.
+
+\begin{proof}
+On développe le carré,
+
+$$
+(X - \mathbb{E}[X])^2 = X^2 - 2X\, \mathbb{E}[X] + \mathbb{E}[X]^2,
+$$
+
+puis on applique la linéarité de l'espérance (en traitant $\mathbb{E}[X]$ comme la constante qu'il est) :
+
+\begin{align*}
+\mathbb{E}[(X - \mathbb{E}[X])^2] &= \mathbb{E}[X^2 - 2X\, \mathbb{E}[X] + \mathbb{E}[X]^2] \\
+&= \mathbb{E}[X^2] - 2\, \mathbb{E}[X]\, \mathbb{E}[X] + \mathbb{E}[X]^2 \\
+&= \mathbb{E}[X^2] - \mathbb{E}[X]^2.
+\end{align*}
+\end{proof}
+
+Un mot sur les \emph{dimensions}, qui éclaire le passage à l'écart-type. Si $X$ mesure une grandeur physique — mettons une longueur, en mètres —, alors la variance, définie à partir de $X^2$, s'exprime dans le carré de cette dimension (des mètres carrés). Pour retrouver une quantité homogène à $X$, on en prend la racine carrée : c'est l'\emph{écart-type}, généralement noté $\sigma \geq 0$ et défini par
+
+$$
+\sigma = \sqrt{\mathbb{V}(X)}.
+$$
+
+C'est ce qui justifie la notation courante $\sigma^2$ pour la variance. L'écart-type donne l'ordre de grandeur de la distance séparant les valeurs typiques de $X$ de son espérance $\mu$.
+
+\medskip
+
+\begin{mdframed}
+\begin{definition}
+Soit $X$ une v.a. de carré intégrable, d'espérance $\mu$ et d'écart-type $\sigma > 0$. On appelle
+
+$$
+\frac{X - \mu}{\sigma}
+$$
+
+la variable centrée réduite (ou simplement variable réduite) associée à $X$.
+\end{definition}
+\end{mdframed}
+
+Cette variable est, comme son nom l'indique, d'espérance nulle et de variance $1$ (donc d'écart-type $1$). Pour l'espérance,
+
+\begin{align*}
+\mathbb{E}\!\left[ \frac{X - \mu}{\sigma} \right] &= \frac{1}{\sigma}\, \mathbb{E}[X - \mu] \\
+&= \frac{1}{\sigma} \times 0 = 0,
+\end{align*}
+
+et pour la variance,
+
+\begin{align*}
+\mathbb{V}\!\left( \frac{X - \mu}{\sigma} \right) &= \mathbb{E}\!\left[ \left( \frac{X - \mu}{\sigma} \right)^2 \right] \\
+&= \frac{1}{\sigma^2}\, \mathbb{E}[(X - \mu)^2] \\
+&= \frac{1}{\sigma^2}\, \mathbb{V}(X) = 1.
+\end{align*}
+
+Pour boucler l'argument dimensionnel entamé plus haut : la variable centrée réduite est une grandeur \emph{sans dimension}, puisque quotient de deux quantités de même dimension. Passer à la variable centrée réduite est ainsi la façon « naturelle » de normaliser une variable aléatoire pour lui donner espérance nulle et variance $1$ — une opération dont on mesurera toute l'importance au moment d'énoncer le théorème central limite.
+
+\paragraph{Propriétés de la variance.} Rassemblons quelques propriétés fondamentales de la variance.
+
+\medskip
+
+\begin{mdframed}
+\begin{proposition}
+Soit $X$ une variable aléatoire de carré intégrable.
+\begin{enumerate}
+\item Pour tous $a, b \in \mathbb{R}$,
+
+$$
+\mathbb{V}(aX + b) = a^2\, \mathbb{V}(X)
+$$
+
+(avec la convention $0 \times \infty = 0$). En particulier, $\mathbb{V}(X + b) = \mathbb{V}(X)$.
+\item $\mathbb{V}(X) = 0$ si et seulement si $X$ est presque sûrement constante, c'est-à-dire $X \sim \delta_\mu$.
+\end{enumerate}
+\end{proposition}
+\end{mdframed}
+
+Le premier point mérite un mot d'interprétation : une translation ($b$) ne change rien à la dispersion — déplacer toutes les valeurs en bloc ne les rapproche ni ne les éloigne les unes des autres —, tandis qu'une dilatation ($a$) agit sur la variance par le carré du facteur d'échelle, conformément à ce que l'analyse dimensionnelle laissait présager. Le second point, lui, confirme l'intuition selon laquelle une dispersion nulle ne peut correspondre qu'à une variable sans aléa.
+
+\begin{proof}
+\begin{enumerate}
+\item La linéarité de l'espérance donne $\mathbb{E}[aX + b] = a\mu + b$, d'où, en repartant de la forme de la variance comme écart quadratique moyen,
+
+\begin{align*}
+\mathbb{V}(aX + b) &= \mathbb{E}\big[(aX + b - \mathbb{E}[aX + b])^2\big] \\
+&= \mathbb{E}\big[(aX + b - a\mu - b)^2\big] \\
+&= \mathbb{E}\big[a^2 (X - \mu)^2\big] \\
+&= a^2\, \mathbb{V}(X).
+\end{align*}
+
+\item Posons $Y = (X - \mu)^2$. C'est une variable positive, nulle exactement lorsque $X = \mu$. Le lemme \ref{Lemme1} ci-dessous, appliqué à $Y$, fournit alors la chaîne d'équivalences
+
+$$
+X \sim \delta_\mu \iff \mathbb{E}[Y] = 0 \iff \mathbb{V}(X) = 0. \qedhere
+$$
+\end{enumerate}
+\end{proof}
+
+\begin{mdframed}
+\begin{lemme}\label{Lemme1}
+Soit $Y$ une variable aléatoire positive. Alors $Y \sim \delta_0$ si et seulement si $\mathbb{E}[Y] = 0$.
+\end{lemme}
+\end{mdframed}
+
+L'implication directe est immédiate ; celle de la réciproque, moins évidente, reposera sur l'inégalité de Markov et sera établie plus loin.
+
+\paragraph{L'espérance, meilleure approximation constante de $X$.} Il existe une manière particulièrement éclairante d'introduire conjointement l'espérance et la variance : comme la solution et la valeur d'un même problème d'optimisation. Parmi toutes les constantes, laquelle « ressemble » le plus à $X$ ? Tout dépend de la façon dont on mesure la ressemblance ; si l'on choisit l'écart quadratique moyen, la réponse est l'espérance.
+
+\medskip
+
+\begin{mdframed}
+\begin{lemme}
+Soit $X$ une variable aléatoire de carré intégrable. Alors
+
+$$
+\mathbb{V}(X) = \min_{a \in \mathbb{R}} \mathbb{E}[(X - a)^2],
+$$
+
+et le minimum est atteint en l'unique point $a = \mathbb{E}[X]$.
+\end{lemme}
+\end{mdframed}
+
+Autrement dit, la constante qui approche le mieux $X$ au sens de la distance $(X, Y) \mapsto \mathbb{E}[(X - Y)^2]$ — celle des « moindres carrés », ou encore du « risque quadratique », terme plus volontiers employé en économie — est précisément $\mathbb{E}[X]$, et l'erreur minimale ainsi commise n'est autre que la variance de $X$.
+
+\begin{proof}
+Il suffit de développer, puis de reconnaître un carré parfait :
+
+\begin{align*}
+\mathbb{E}[(X - a)^2] &= \mathbb{E}[a^2 - 2aX + X^2] \\
+&= a^2 - 2a\, \mathbb{E}[X] + \mathbb{E}[X^2] \\
+&= (a - \mathbb{E}[X])^2 + \big(\mathbb{E}[X^2] - \mathbb{E}[X]^2\big) \\
+&= (a - \mathbb{E}[X])^2 + \mathbb{V}(X) \\
+&\geq \mathbb{V}(X),
+\end{align*}
+
+avec égalité si et seulement si $a = \mathbb{E}[X]$.
+\end{proof}
+
+Ce point de vue variationnel a une retombée immédiate et souvent utile : il borne la variance de toute variable confinée dans un intervalle.
+
+\medskip
+
+\begin{mdframed}
+\begin{corollaire}
+Soit $X$ une variable aléatoire à valeurs dans $[0, 1]$. Alors $X$ est de carré intégrable et
+
+$$
+\mathbb{V}(X) \leq \frac{1}{4}.
+$$
+\end{corollaire}
+\end{mdframed}
+
+\begin{proof}
+D'après le lemme précédent, la variance minore $\mathbb{E}[(X - y)^2]$ pour tout $y \in \mathbb{R}$ : on est donc libre de choisir le $y$ le plus avantageux. Prenons $y = 1/2$, le milieu de l'intervalle. Comme $X \in [0, 1]$, on a $|X - 1/2| \leq 1/2$, et par suite
+
+$$
+\mathbb{V}(X) \leq \mathbb{E}[(X - 1/2)^2] \leq \mathbb{E}[1/4] = \frac{1}{4}.
+$$
+\end{proof}
+
+On peut légitimement se poser la même question en remplaçant le risque quadratique par la norme $L^1$ : quelle constante $a$ minimise cette fois $a \mapsto \mathbb{E}[|X - a|]$ (l'infimum étant d'ailleurs atteint) ? La réponse est plus délicate, et met en jeu une notion différente : celle de \emph{médiane}. Nous y reviendrons.
+
+\section{Fonction génératrice des moments}
+
+Nous avions annoncé, en ouverture de ce chapitre, un outil décrivant la loi de $X$ au même titre que la fonction de répartition, mais souvent d'un maniement plus explicite. Le voici. Pour tout réel $t$, on définit la \emph{fonction génératrice des moments} de $X$ par
+
+$$
+\phi_X(t) = \mathbb{E}[e^{tX}] \in ]0, +\infty].
+$$
+
+Son nom n'est pas usurpé : elle « engendre » les moments de $X$, que l'on récupère par simple développement en série entière, comme le précise la proposition suivante.
+
+\medskip
+
+\begin{mdframed}
+\begin{proposition}
+Supposons qu'il existe $t_0 > 0$ tel que $\phi_X(t) < \infty$ pour tout $|t| < t_0$. Alors, pour tout $|t| < t_0$,
+
+$$
+\phi_X(t) = \sum_{k=0}^\infty \mathbb{E}[X^k]\, \frac{t^k}{k!},
+$$
+
+et le rayon de convergence de la série entière du membre de droite est au moins égal à $t_0$. Dans ce cas, $\phi_X$ est indéfiniment dérivable sur $]-t_0, t_0[$, et pour tout $k \in \mathbb{N}^*$,
+
+$$
+\mathbb{E}[X^k] = \phi_X^{(k)}(0).
+$$
+\end{proposition}
+\end{mdframed}
+
+Ainsi, connaître $\phi_X$ au voisinage de $0$, c'est connaître d'un coup tous les moments de $X$ : il suffit de les lire sur les coefficients de son développement, ou, ce qui revient au même, de dériver $\phi_X$ en $0$ autant de fois qu'il le faut.
+
+\begin{proof}
+Nous traitons le cas discret, celui à densité étant en tout point semblable. Montrons d'abord que $\mathbb{E}[e^{|tX|}] < \infty$ dès que $|t| < t_0$. L'encadrement $e^{|tx|} \leq e^{tx} + e^{-tx}$, valable pour tout $x$, donne en effet
+
+$$
+\mathbb{E}[e^{|tX|}] \leq \mathbb{E}[e^{tX}] + \mathbb{E}[e^{-tX}] < \infty
+$$
+
+d'après l'hypothèse (appliquée à $t$ et à $-t$, tous deux de module $< t_0$). Cela assure au passage l'intégrabilité de $e^{tX}$, et l'on peut alors écrire, pour de tels $t$,
+
+\begin{align*}
+\phi_X(t) &= \mathbb{E}[e^{tX}] \\
+&= \sum_x e^{tx}\, \mathbb{P}(X = x) \\
+&= \sum_x \left( \sum_{k=0}^\infty \frac{(tx)^k}{k!}\, \mathbb{P}(X = x) \right).
+\end{align*}
+
+C'est ici qu'intervient la majoration précédente : puisque
+
+$$
+\sum_x \left( \sum_{k=0}^\infty \frac{|tx|^k}{k!}\, \mathbb{P}(X = x) \right) = \mathbb{E}[e^{|tX|}] < \infty,
+$$
+
+le théorème de Fubini autorise l'interversion des deux sommations :
+
+$$
+\phi_X(t) = \sum_{k=0}^\infty \left( \sum_x \frac{(tx)^k}{k!}\, \mathbb{P}(X = x) \right).
+$$
+
+En particulier, cette série en $k$ converge, de somme $\phi_X(t)$. Il ne reste qu'à réorganiser chaque terme :
+
+\begin{align*}
+\phi_X(t) &= \sum_{k=0}^\infty \left( \sum_x x^k\, \mathbb{P}(X = x) \right) \frac{t^k}{k!} \\
+&= \sum_{k=0}^\infty \mathbb{E}[X^k]\, \frac{t^k}{k!}.
+\end{align*}
+
+Cette série entière convergeant pour tout $|t| < t_0$, son rayon de convergence est au moins $t_0$ ; les formules sur les dérivées successives en $0$ en découlent aussitôt, par identification des coefficients d'un développement en série entière.
+\end{proof}
+
+La fonction génératrice ne se contente pas de restituer les moments : elle détermine la loi tout entière. C'est l'objet du théorème suivant, que nous admettons.
+
+\medskip
+
+\begin{mdframed}
+\begin{theoreme}
+Supposons $\phi_X$ finie sur un voisinage de $0$. Alors la loi de $X$ est l'unique loi ayant $\phi_X$ pour fonction génératrice des moments.
+\end{theoreme}
+\end{mdframed}
+
+Passons à quelques exemples, en commençant par une propriété de transformation dont nous nous servirons à plusieurs reprises.
+
+\begin{exemple}
+Soient $a, b \in \mathbb{R}$. La fonction génératrice d'une transformation affine s'exprime très simplement à partir de celle de $X$ :
+
+\begin{align*}
+\phi_{aX+b}(t) &= \mathbb{E}[e^{t(aX+b)}] \\
+&= \mathbb{E}[e^{(at)X}]\, e^{tb} \\
+&= \phi_X(at)\, e^{tb}.
+\end{align*}
+\end{exemple}
+
+\begin{exemple}
+$X \sim \mathcal{P}(\lambda)$, $\lambda \geq 0$. Pour tout $t \in \mathbb{R}$,
+
+\begin{align*}
+\phi_X(t) &= \sum_{n=0}^\infty e^{tn}\, e^{-\lambda}\, \frac{\lambda^n}{n!} \\
+&= e^{-\lambda} \sum_{n=0}^\infty \frac{(\lambda e^t)^n}{n!} \\
+&= e^{\lambda(e^t - 1)},
+\end{align*}
+
+où l'on a reconnu, à l'avant-dernière ligne, le développement de l'exponentielle.
+\end{exemple}
+
+\begin{exemple}
+$X \sim \mathcal{N}(0, 1)$. Pour tout $t \in \mathbb{R}$, la mise sous forme canonique de l'exposant fait apparaître une gaussienne recentrée :
+
+\begin{align*}
+\phi_X(t) &= \int_{-\infty}^{+\infty} \frac{e^{-x^2/2 + tx}}{\sqrt{2\pi}}\, dx \\
+&= \int_{-\infty}^{+\infty} \frac{e^{-(x - t)^2/2 + t^2/2}}{\sqrt{2\pi}}\, dx \\
+&= e^{t^2/2} \int_{-\infty}^{+\infty} \frac{e^{-y^2/2}}{\sqrt{2\pi}}\, dy \qquad (y = x - t) \\
+&= e^{t^2/2},
+\end{align*}
+
+la dernière intégrale valant $1$ puisqu'il s'agit de l'intégrale d'une densité gaussienne. Si maintenant $Y \sim \mathcal{N}(\mu, \sigma^2)$, alors $Y \overset{\text{loi}}{=} \mu + \sigma X$, et l'exemple de la transformation affine donne
+
+$$
+\phi_Y(t) = e^{t\mu}\, \phi_X(\sigma t) = e^{t\mu + \sigma^2 t^2/2}.
+$$
+
+Revenons enfin à $X \sim \mathcal{N}(0, 1)$ : l'unicité du développement en série entière (DSE) permet d'en lire tous les moments. En effet,
+
+$$
+\phi_X(t) = \sum_{k=0}^\infty \frac{(t^2/2)^k}{k!} = \sum_{k=0}^\infty \frac{(2k)!}{2^k\, k!}\, \frac{t^{2k}}{(2k)!}.
+$$
+
+Ce développement ne comportant que des puissances paires de $t$, on en déduit $\mathbb{E}[X^{2k+1}] = 0$ pour tout $k$ (ce que la symétrie de la loi laissait d'ailleurs prévoir), tandis que
+
+$$
+\mathbb{E}[X^{2k}] = \frac{(2k)!}{2^k\, k!} = \prod_{i=1}^k (2i - 1),
+$$
+
+quantité que l'on note aussi $(2k - 1)!!$. En particulier, $\mathbb{E}[X^4] = 3$.
+\end{exemple}
+
+\begin{exemple}
+$X \sim \mathcal{E}(1)$. On calcule
+
+\begin{align*}
+\phi_X(t) &= \int_0^\infty e^{tx}\, e^{-x}\, dx \\
+&= \int_0^\infty e^{-(1 - t)x}\, dx \\
+&= \begin{cases} \dfrac{1}{1 - t}, & t < 1, \\[6pt] +\infty, & t \geq 1. \end{cases}
+\end{align*}
+
+Sur $]-1, 1[$, on reconnaît la somme d'une série géométrique, qu'il suffit de réécrire pour faire apparaître les moments :
+
+$$
+\phi_X(t) = \sum_{k=0}^\infty t^k = \sum_{k=0}^\infty k!\, \frac{t^k}{k!},
+$$
+
+d'où, par unicité du DSE, $\mathbb{E}[X^k] = k!$ pour tout $k \in \mathbb{N}$.
+\end{exemple}
+
+\section{Inégalités}
+
+Nous présentons dans cette section trois inégalités mettant en jeu l'espérance d'une variable aléatoire. Leur intérêt commun est de \emph{borner} des quantités que l'on ne sait pas calculer exactement — le plus souvent, des probabilités d'événements — au moyen de quantités plus accessibles, comme l'espérance ou la variance.
+
+\subsection{Inégalité de Markov}
+
+L'inégalité de Markov est l'inégalité fondamentale qui permet de contrôler une probabilité par une espérance. Aussi puissante soit-elle, elle repose sur une observation d'une déconcertante simplicité, portant sur des fonctions élémentaires.
+
+\medskip
+
+\begin{mdframed}
+\begin{lemme}
+Soient $y \geq 0$ et $x > 0$. Alors
+
+$$
+\mathbb{1}_{\{y \geq x\}} \leq \frac{y}{x}.
+$$
+\end{lemme}
+\end{mdframed}
+
+\begin{proof}
+On distingue deux cas. Si $y \geq x$, alors $\mathbb{1}_{\{y \geq x\}} = 1 \leq y/x$. Si $y < x$, alors $\mathbb{1}_{\{y \geq x\}} = 0 \leq y/x$, cette dernière quantité étant positive puisque $x$ et $y$ le sont.
+\end{proof}
+
+Le second ingrédient est le lien, déjà rencontré, entre probabilité et espérance d'une indicatrice.
+
+\medskip
+
+\begin{mdframed}
+\begin{lemme}
+Soient $X$ une v.a. et $B \subset \mathbb{R}$. Alors
+
+$$
+\mathbb{P}(X \in B) = \mathbb{E}[\mathbb{1}_{\{X \in B\}}].
+$$
+\end{lemme}
+\end{mdframed}
+
+\begin{proof}
+La variable $\mathbb{1}_{\{X \in B\}}$ est à valeurs dans $\{0, 1\}$ et vaut $1$ avec probabilité $\mathbb{P}(X \in B)$ : elle suit donc la loi de Bernoulli de paramètre $\mathbb{P}(X \in B)$, dont l'espérance vaut précisément $\mathbb{P}(X \in B)$.
+\end{proof}
+
+Il suffit à présent de combiner ces deux lemmes pour obtenir l'inégalité annoncée.
+
+\medskip
+
+\begin{mdframed}
+\begin{theoreme}[Inégalité de Markov]
+Soit $X$ une v.a. positive. Alors, pour tout $x > 0$,
+
+$$
+\mathbb{P}(X \geq x) \leq \frac{\mathbb{E}[X]}{x}.
+$$
+\end{theoreme}
+\end{mdframed}
+
+Intuitivement, une variable positive ne peut pas prendre des valeurs beaucoup plus grandes que sa moyenne « trop souvent » : la fréquence de tels dépassements décroît au moins comme $1/x$.
+
+\begin{proof}
+Soit $x > 0$. La variable $X$ étant positive, le premier lemme (appliqué à $y = X$) donne $\mathbb{1}_{\{X \geq x\}} \leq X/x$. En passant à l'espérance, à l'aide du second lemme puis de la linéarité et de la croissance de l'espérance,
+
+$$
+\mathbb{P}(X \geq x) = \mathbb{E}[\mathbb{1}_{\{X \geq x\}}] \leq \mathbb{E}\!\left[ \frac{X}{x} \right] = \frac{\mathbb{E}[X]}{x}.
+$$
+\end{proof}
+
+Nous pouvons maintenant nous acquitter d'une dette contractée au paragraphe sur la variance : la réciproque du lemme \ref{Lemme1}, laissée alors en suspens, découle immédiatement de l'inégalité de Markov.
+
+\begin{proof}[Démonstration du lemme \ref{Lemme1}]
+Si $Y \sim \delta_0$, alors $\mathbb{E}[Y] = 0 \times 1 = 0$. Réciproquement, supposons $Y \not\sim \delta_0$. Il existe alors $x > 0$ tel que $\mathbb{P}(Y \geq x) > 0$, et l'inégalité de Markov, lue à l'envers, donne
+
+$$
+\mathbb{E}[Y] \geq x\, \mathbb{P}(Y \geq x) > 0.
+$$
+
+Ainsi $\mathbb{E}[Y] = 0$ force $Y \sim \delta_0$, ce qui achève la preuve.
+\end{proof}
+
+\subsection{Inégalité de Bienaymé-Tchebychev}
+
+Appliquée non pas à $X$ elle-même mais à son écart à la moyenne, l'inégalité de Markov fournit un contrôle de la \emph{concentration} de $X$ autour de son espérance. C'est l'inégalité de Bienaymé-Tchebychev.
+
+\medskip
+
+\begin{mdframed}
+\begin{theoreme}[Inégalité de Bienaymé-Tchebychev]
+Soit $X$ une v.a. d'espérance finie. Alors, pour tout $x > 0$,
+
+$$
+\mathbb{P}(|X - \mathbb{E}[X]| > x) \leq \frac{\mathcal{V}(X)}{x^2}.
+$$
+\end{theoreme}
+\end{mdframed}
+
+\begin{proof}
+L'idée est de se ramener à une variable positive en passant au carré :
+
+$$
+\mathbb{P}(|X - \mathbb{E}[X]| > x) = \mathbb{P}\big((X - \mathbb{E}[X])^2 > x^2\big).
+$$
+
+La variable $(X - \mathbb{E}[X])^2$ étant positive, l'inégalité de Markov (appliquée avec le seuil $x^2$) donne
+
+$$
+\mathbb{P}(|X - \mathbb{E}[X]| > x) \leq \frac{\mathbb{E}[(X - \mathbb{E}[X])^2]}{x^2} = \frac{\mathcal{V}(X)}{x^2}.
+$$
+\end{proof}
+
+\subsection{Inégalité de Jensen}
+
+La troisième inégalité relie l'espérance à la convexité. Rappelons qu'une fonction $\phi : I \to \mathbb{R}$, définie sur un intervalle $I \subset \mathbb{R}$, est dite \emph{convexe} si, pour tous $x, y \in I$ et tout $t \in [0, 1]$,
+
+$$
+\phi(tx + (1 - t)y) \leq t\phi(x) + (1 - t)\phi(y).
+$$
+
+\begin{remarque}
+Cette définition est déjà une inégalité de Jensen déguisée. Si $X$ est la variable à deux valeurs telle que $\mathbb{P}(X = x) = t$ et $\mathbb{P}(X = y) = 1 - t$, alors $\mathbb{E}[X] = tx + (1 - t)y$ et $\mathbb{E}[\phi(X)] = t\phi(x) + (1 - t)\phi(y)$, de sorte que l'inégalité de convexité s'écrit exactement
+
+$$
+\phi(\mathbb{E}[X]) \leq \mathbb{E}[\phi(X)].
+$$
+\end{remarque}
+
+L'inégalité de Jensen n'est autre que la généralisation de cette observation à une variable aléatoire réelle intégrable quelconque. Avant de l'énoncer, rassemblons quelques rappels utiles sur la convexité.
+
+Lorsque $\phi \in C^2(I)$, la convexité équivaut à $\phi'' \geq 0$. Sont ainsi convexes les fonctions
+
+$$
+x \mapsto e^x, \qquad x \mapsto e^{-x}, \qquad x \mapsto |x|^k \ \ (k \geq 1).
+$$
+
+Une fonction $\phi$ telle que $-\phi$ soit convexe est dite \emph{concave} ; le sont par exemple
+
+$$
+x > 0 \mapsto \log x, \qquad x \geq 0 \mapsto x^k \ \ (0 \leq k \leq 1).
+$$
+
+Le fait géométrique clé, que nous admettons, est qu'une fonction convexe se situe au-dessus de chacune de ses tangentes — plus précisément, elle admet en tout point un minorant affine : pour tout $x_0 \in I$, il existe $a \in \mathbb{R}$ tel que
+
+$$
+\phi(x_0) + a(x - x_0) \leq \phi(x) \qquad \text{pour tout } x \in I.
+$$
+
+Lorsque $\phi$ est dérivable en $x_0$, on peut prendre $a = \phi'(x_0)$. Sinon, la convexité garantit l'existence de dérivées à gauche et à droite, avec $\phi'(x_0^-) \leq \phi'(x_0^+)$, et n'importe quel $a \in [\phi'(x_0^-), \phi'(x_0^+)]$ convient.
+
+\medskip
+
+\begin{mdframed}
+\begin{theoreme}[Inégalité de Jensen]
+Soit $X$ une v.a. d'espérance finie, à valeurs dans un intervalle $I \subset \mathbb{R}$, et $\phi : I \to \mathbb{R}$ convexe. Alors
+
+$$
+\phi(\mathbb{E}[X]) \leq \mathbb{E}[\phi(X)],
+$$
+
+le membre de droite pouvant être infini.
+\end{theoreme}
+\end{mdframed}
+
+\begin{proof}
+Posons $x_0 = \mathbb{E}[X]$, qui appartient bien à $I$. Le minorant affine de $\phi$ en $x_0$ fournit un réel $a$ tel que $\phi(x_0) + a(x - x_0) \leq \phi(x)$ pour tout $x \in I$. En appliquant cette inégalité à $X$ puis en prenant l'espérance,
+
+\begin{align*}
+\mathbb{E}[\phi(X)] &\geq \mathbb{E}[\phi(x_0) + a(X - x_0)] \\
+&= \phi(x_0) + a\, \mathbb{E}[X - x_0] \\
+&= \phi(x_0) + a\, (\mathbb{E}[X] - x_0) \\
+&= \phi(x_0),
+\end{align*}
+
+la dernière ligne venant de $x_0 = \mathbb{E}[X]$. Tout tient donc dans l'idée de minorer $\phi$ par sa tangente en la moyenne.
+\end{proof}
+
+\begin{exemple}
+Soit $t \in \mathbb{R}$. La fonction $x \mapsto e^{tx}$ étant convexe sur $\mathbb{R}$, on obtient pour toute v.a.r. intégrable $X$
+
+$$
+e^{t\, \mathbb{E}[X]} \leq \mathbb{E}[e^{tX}],
+$$
+
+le membre de droite pouvant valoir $+\infty$. On reconnaît une minoration de la fonction génératrice des moments.
+\end{exemple}
+
+\begin{exemple}
+Jensen permet de préciser la hiérarchie des moments entrevue plus haut. Soient $k < m$ deux entiers. Si $X$ admet un moment d'ordre $k$, la convexité de $x \mapsto x^{m/k}$ sur $]0, +\infty[$ (car $m/k > 1$) donne, appliquée à la variable positive $|X|^k$,
+
+$$
+\mathbb{E}[|X|^k]^{m/k} \leq \mathbb{E}\big[(|X|^k)^{m/k}\big] = \mathbb{E}[|X|^m],
+$$
+
+ce dernier moment pouvant être infini. On retrouve, sous forme quantitative, que l'existence d'un moment d'ordre $m$ contrôle celle des moments d'ordre inférieur.
+\end{exemple}
+
+\section{Autres définitions de l'espérance}
+
+Notre définition de l'espérance souffre pour l'instant d'un défaut d'unité : elle se scinde selon que $X$ est discrète ou à densité. On peut légitimement chercher une formulation unique, qui engloberait les deux cas. Une telle définition devrait remplir deux exigences :
+
+\begin{itemize}
+\item ne faire appel qu'à la fonction de répartition — c'est le seul objet dont nous disposions pour décrire une loi \emph{générique} ;
+\item redonner les définitions déjà connues dans les cas discret et à densité.
+\end{itemize}
+
+Nous présentons deux voies répondant à ce cahier des charges, l'une « à la Lebesgue », l'autre « à la Riemann-Stieltjes », qui partagent une même idée sous-jacente : l'intégration par parties. Cette fin de chapitre s'adresse aux étudiants désireux d'aller plus loin, et peut être omise en première lecture.
+
+\subsection{À la Lebesgue}
+
+\begin{mdframed}
+\begin{lemme}
+Soit $X$ une variable aléatoire positive ou nulle, de fonction de répartition $F_X$. On a l'égalité suivante, dans $[0, +\infty]$ :
+
+$$
+\mathbb{E}[X] = \int_0^\infty \mathbb{P}(X > t)\, dt = \int_0^\infty (1 - F_X(t))\, dt.
+$$
+\end{lemme}
+\end{mdframed}
+
+L'égalité s'entend au sens fort : les deux membres sont soit simultanément finis et égaux, soit simultanément infinis. En particulier, $X$ est intégrable si et seulement si la fonction $t \mapsto \mathbb{P}(X > t) = 1 - F_X(t)$ est intégrable au voisinage de $+\infty$.
+
+Une précision sur le statut de ce résultat. Nous ne pouvons le \emph{démontrer} que pour les variables discrètes ou à densité, seules pour lesquelles l'espérance a été définie jusqu'ici. Mais la formule, elle, a un sens dès que la fonction de répartition est disponible — c'est-à-dire pour n'importe quelle variable aléatoire positive : on pourrait donc parfaitement l'adopter comme \emph{définition} de $\mathbb{E}[X]$ dans le cas général. Si nous ne l'avons pas fait, c'est pour une raison pédagogique : cette définition n'a rien de naturel au premier abord, et l'on n'y reconnaît guère la moyenne pondérée qui donne tout son sens à l'espérance.
+
+\begin{proof}
+Traitons le cas à densité, de densité $f_X$ ; le cas discret est analogue et laissé au lecteur. Le point de départ est l'écriture $X = \int_0^\infty \mathbb{1}_{\{X > t\}}\, dt$ (l'intégrande vaut $1$ tant que $t < X$), qui ramène l'espérance à une double intégrale que le théorème de Fubini positif autorise à intervertir :
+
+\begin{align*}
+\mathbb{E}[X] &= \mathbb{E}\!\left[\int_0^\infty \mathbb{1}_{\{X > t\}}\, dt\right] \\
+&= \int_0^\infty \left(\int_0^\infty \mathbb{1}_{\{x > t\}}\, dt\right) f_X(x)\, dx \\
+&= \int_0^\infty \left(\int_0^\infty \mathbb{1}_{\{x > t\}}\, f_X(x)\, dx\right) dt \qquad \text{(Fubini positif)} \\
+&= \int_0^\infty \mathbb{E}[\mathbb{1}_{\{X > t\}}]\, dt \\
+&= \int_0^\infty \mathbb{P}(X > t)\, dt.
+\end{align*}
+\end{proof}
+
+Pour les variables à valeurs entières, cette formule se discrétise en une somme, d'un usage très courant.
+
+\medskip
+
+\begin{mdframed}
+\begin{corollaire}
+Soit $X$ une variable aléatoire à valeurs dans $\mathbb{N}$. On a, dans $[0, +\infty]$,
+
+$$
+\mathbb{E}[X] = \sum_{n \in \mathbb{N}} \mathbb{P}(X > n) = \sum_{n \in \mathbb{N}^*} \mathbb{P}(X \geq n).
+$$
+\end{corollaire}
+\end{mdframed}
+
+\begin{proof}
+Deux chemins mènent au résultat. Le premier reprend l'argument du lemme, en partant de l'identité $m = \sum_{n \in \mathbb{N}} \mathbb{1}_{\{m > n\}} = \sum_{n \in \mathbb{N}^*} \mathbb{1}_{\{m \geq n\}}$, valable pour tout entier $m$. Le second exploite le fait que $t \mapsto \mathbb{P}(X > t)$ est constante sur chaque intervalle $[n, n+1[$, où elle vaut $\mathbb{P}(X \geq n + 1)$ :
+
+$$
+\int_n^{n+1} \mathbb{P}(X > t)\, dt = \int_n^{n+1} \mathbb{P}(X \geq n + 1)\, dt = \mathbb{P}(X \geq n + 1).
+$$
+
+Il ne reste qu'à sommer ces contributions :
+
+\begin{align*}
+\int_0^\infty \mathbb{P}(X > t)\, dt &= \sum_{n \in \mathbb{N}} \int_n^{n+1} \mathbb{P}(X > t)\, dt \\
+&= \sum_{n \in \mathbb{N}} \mathbb{P}(X \geq n + 1) \\
+&= \sum_{n \in \mathbb{N}^*} \mathbb{P}(X \geq n) = \sum_{n \in \mathbb{N}} \mathbb{P}(X > n).
+\end{align*}
+\end{proof}
+
+On peut voir dans ces formules une manifestation de l'idée fondatrice de l'intégrale de Lebesgue : plutôt que de sommer les contributions à l'aire sous la courbe en découpant l'axe des \emph{abscisses} (comme le fait Riemann), on la découpe selon l'axe des \emph{ordonnées} — ici, en intégrant la « hauteur » $\mathbb{P}(X > t)$ le long de $t$.
+
+\begin{exemple}
+Si $X \sim \mathcal{G}(p)$, avec $0 < p \leq 1$, alors pour $n \in \mathbb{N}$ on a $\mathbb{P}(X > n) = (1 - p)^n$ — les $n$ premières épreuves de Bernoulli doivent toutes échouer. Le corollaire donne alors, sans le moindre calcul de moment,
+
+$$
+\mathbb{E}[X] = \sum_{n \in \mathbb{N}} (1 - p)^n = \frac{1}{p}.
+$$
+\end{exemple}
+
+\subsection{À la Riemann-Stieltjes}
+
+L'intégrale de Stieltjes — ou de Riemann-Stieltjes — est particulièrement bien accordée au calcul des probabilités : elle permet précisément d'unifier les deux cadres que nous avons jusqu'ici traités séparément, celui des variables discrètes et celui des variables à densité.
+
+Fixons $a < b$ deux réels et deux fonctions $f, g : [a, b] \to \mathbb{R}$. On appelle \emph{partition} de $[a, b]$ une suite finie $\pi = (x_0, \dots, x_n)$ avec $a = x_0 < x_1 < \dots < x_n = b$ ; l'entier $n$ en est la \emph{longueur}, et le \emph{pas} est la plus grande des largeurs $\max_{0 \leq i \leq n-1} (x_{i+1} - x_i)$. À une telle partition et à un choix de points intermédiaires $c_i \in [x_i, x_{i+1}]$, on associe la somme
+
+$$
+I(f, g, \pi) = \sum_{i=0}^{n-1} f(c_i)\, [g(x_{i+1}) - g(x_i)].
+$$
+
+Lorsque ces sommes admettent une limite quand le pas tend vers $0$, cette limite est appelée l'intégrale de Stieltjes de $f$ par rapport à $g$, notée $\int_a^b f(x)\, dg(x)$. Précisément : $A \in \mathbb{R}$ en est l'intégrale de Stieltjes si, pour tout $\varepsilon > 0$, il existe $\delta > 0$ tel que toute partition $\pi$ de pas $\leq \delta$ vérifie $|I(f, g, \pi) - A| \leq \varepsilon$, et ce quel que soit le choix des points intermédiaires $c_0, \dots, c_{n-1}$.
+
+On retrouve l'intégrale de Riemann usuelle en prenant $g(x) = x$. Et lorsque $g$ est dérivable, l'intégrale de Stieltjes se ramène elle aussi à une intégrale de Riemann, l'accroissement $dg$ devenant $g'\, dx$ :
+
+$$
+\int_a^b f(x)\, dg(x) = \int_a^b f(x)\, g'(x)\, dx.
+$$
+
+La question centrale est alors de savoir quels intégrandes $f$ et quels intégrateurs $g$ donnent lieu à une intégrale bien définie. Un résultat important assure l'existence de l'intégrale dès que $f$ est continue et $g$ à \emph{variation bornée} — c'est-à-dire que la quantité $\sum_{i=0}^{n-1} |g(x_{i+1}) - g(x_i)|$ reste uniformément majorée sur l'ensemble des partitions de $[a, b]$. Or c'est exactement le cas qui nous intéresse : si $X$ est une variable aléatoire à valeurs dans $[a, b]$ presque sûrement, on prend pour intégrateur sa fonction de répartition $g = F_X$, qui, étant croissante, est automatiquement à variation bornée. On obtient ainsi, pour toute fonction $\phi$ continue,
+
+$$
+\mathbb{E}[\phi(X)] = \int_a^b \phi(x)\, dF_X(x),
+$$
+
+formule remarquable en ce qu'elle vaut pour \emph{toute} v.a.r. $X$ — discrète, à densité, ou d'aucun de ces deux types. Précisons toutefois, comme pour l'intégrale de Lebesgue, que donner un sens à une intégrale ne dit rien de la façon de la calculer.
+
+Reste le cas des variables non bornées. On montre alors que, pour $\phi$ continue et bornée,
+
+$$
+\int_a^b \phi(x)\, dF_X(x) \xrightarrow[\;a \to -\infty,\; b \to +\infty\;]{} \int_{-\infty}^{+\infty} \phi(x)\, dF_X(x) \in \mathbb{R},
+$$
+
+et c'est cette limite que l'on adopte comme définition de $\mathbb{E}[\phi(X)]$ dans le cadre général.
