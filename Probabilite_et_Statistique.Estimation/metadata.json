@@ -1,7 +1,7 @@
 {
   "nom": "Estimation",
   "semestre": "M1S1",
-  "resume": "Maximum de vraisemblance",
+  "resume": "Ce cours présente les principes fondamentaux de la modélisation statistique et de l'estimation de paramètres inconnus à partir de données échantillonnées. Il introduit rigoureusement les propriétés essentielles que l'on attend d'un estimateur, telles que l'absence de biais, la consistance asymptotique et la minimisation du risque quadratique. Le document détaille ensuite les approches majeures de construction d'estimateurs, notamment la méthode des moments et le maximum de vraisemblance, tout en explorant les limites théoriques de leur précision via l'information de Fisher et la borne de Cramér-Rao. Enfin, le cours expose la démarche de quantification de l'incertitude à travers l'élaboration d'intervalles de confiance, qu'ils soient exacts grâce à la méthode des quantités pivotales dans les modèles gaussiens, ou asymptotiques. L'ensemble fournit ainsi un cadre mathématique solide pour interpréter des observations empiriques et maîtriser l'aléa statistique.",
   "fichiers": [
     {"nom": "Cours", "fichier": "main.pdf"},
     {"nom": "TD", "fichier": "TD.pdf"}
