@@ -1,0 +1,278 @@
+\chapter*{TD 8 - Exercices Complet}
+
+\setcounter{exercice}{0}
+
+\begin{mdframed}
+\begin{exercice}
+Soit $X_1, \dots, X_n$ un échantillon i.i.d. de loi exponentielle de densité donnée pour tout $x \in \mathbb{R}$ par
+\begin{equation*}
+f_\lambda(x) = \lambda e^{-\lambda x} \mathbf{1}_{[0, +\infty[}(x),
+\end{equation*}
+de paramètre $\lambda > 0$ inconnu.
+
+\begin{enumerate}
+    \item Calculer la fonction de répartition de $X_1$.
+    \item On note $m$ la médiane de $X_1$. Montrer que $m = \ln(2)/\lambda$.
+    \item On note $\hat{m}_n$ la médiane empirique de l'échantillon. Rappeler la définition de $\hat{m}_n$ et donner la loi limite de $\sqrt{n}(\hat{m}_n - m)$ lorsque $n \to \infty$.
+    \item On pose $\hat{\lambda}_n = \ln(2)/\hat{m}_n$. Donner la loi limite de $\sqrt{n}(\hat{\lambda}_n - \lambda)$.
+\end{enumerate}
+\end{exercice}
+\end{mdframed}
+
+\smallskip
+
+\begin{mdframed}
+\begin{exercice}
+Soit $0 < a < b$ et $\theta \in [0, 1]$, on considère un $n$-échantillon $(X_1, \dots, X_n)$ de loi ayant pour densité $p_\theta$ définie pour tout $x \in \mathbb{R}$, par
+\begin{equation*}
+p_\theta(x) = \theta \frac{1}{a}\mathbf{1}_{[0, a]}(x) + (1 - \theta) \frac{1}{b}\mathbf{1}_{[0, b]}(x).
+\end{equation*}
+Dans la suite, on suppose que les paramètres $a$ et $b$ sont connus et on cherche à estimer le paramètre $\theta$ inconnu.
+
+\begin{enumerate}
+    \item Montrer que la vraisemblance est donnée par
+    \begin{equation*}
+    L(X_1, \dots, X_n; \theta) = \left( \frac{\theta}{a} + \frac{1 - \theta}{b} \right)^N \left( \frac{1 - \theta}{b} \right)^{n - N},
+    \end{equation*}
+    où $N = \text{Card}\{i \in \{1, \dots, n\} : X_i \in [0, a]\}$.
+    \item Déterminer l'estimateur $\hat{\theta}$ du maximum de vraisemblance et calculer son biais.
+    \item Calculer $\mathbb{E}[X_1]$ et en déduire un estimateur $\tilde{\theta}$ construit à l'aide de la méthode des moments et calculer son biais.
+    \item Calculer le risque quadratique des estimateurs $\hat{\theta}$ et $\tilde{\theta}$. Comparer ces risques quadratiques quand $b = 2a$.
+\end{enumerate}
+\end{exercice}
+\end{mdframed}
+
+\smallskip
+
+\begin{mdframed}
+\begin{exercice}
+Pour tous $a \in \mathbb{R}$ et $b > 0$, on note $\mathcal{P}(a, b)$ la loi sur $\mathbb{R}$ ayant pour densité
+\begin{equation*}
+p_{a,b}(x) = \frac{b}{(x - a)^{b+1}} \mathbf{1}_{[a+1, +\infty[}(x).
+\end{equation*}
+
+\subsection*{Partie I : Préliminaires}
+\begin{enumerate}
+    \item Vérifier que $p_{a,b}$ est bien une densité de probabilité sur $\mathbb{R}$.
+    \item Calculer la fonction de répartition $F_{a,b}$ de $\mathcal{P}(a, b)$.
+    \item Montrer que si $X \sim \mathcal{P}(a, b)$, alors $\ln(X - a)$ suit une loi exponentielle de paramètre $b$.
+\end{enumerate}
+
+\subsection*{Partie II : Estimation de $b$ dans le cas où $a$ est connu}
+Dans cette partie, on considère un $n$-échantillon $(X_1, \dots, X_n)$ de loi $\mathcal{P}(a, b)$ et on suppose que $a$ est connu et $b$ inconnu.
+\begin{enumerate}
+    \setcounter{enumi}{3}
+    \item Montrer que l'estimateur du maximum de vraisemblance de $b$ est donné par
+    \begin{equation*}
+    \hat{b}_n = \frac{n}{\sum_{i=1}^n \ln(X_i - a)}.
+    \end{equation*}
+    \item Justifier que $\hat{b}_n$ est consistant.
+    \item Donner la limite en loi de $\sqrt{n}(\hat{b}_n - b)$ lorsque $n \to + \infty$.
+\end{enumerate}
+
+\subsection*{Partie III : Estimation de $a$ dans le cas où $b$ est connu}
+Dans cette partie, on suppose que $a$ est inconnu et $b$ est connu et on cherche à estimer le paramètre $a$.
+\begin{enumerate}
+    \setcounter{enumi}{6}
+    \item Montrer que l'estimateur du maximum de vraisemblance de $a$ est donné par
+    \begin{equation*}
+    \hat{a}_n = \min(X_1, \dots, X_n) - 1.
+    \end{equation*}
+    \item Calculer la fonction de répartition de $\hat{a}_n - a$. En déduire que $\hat{a}_n$ est consistant.
+    \item En utilisant la question précédente, donner un intervalle de confiance non asymptotique de niveau $1 - \alpha$, $\alpha \in \, ]0, 1[$, pour estimer $a$.
+\end{enumerate}
+\end{exercice}
+\end{mdframed}
+
+\smallskip
+
+\begin{mdframed}
+\begin{exercice}
+Soient $X_1, \dots, X_n$, des variables aléatoires i.i.d. de densité donnée pour tout $x \in \mathbb{R}$ par
+\begin{equation*}
+f(x) = \frac{\theta}{x^{\theta+1}} \mathbf{1}_{\{x \ge 1\}},
+\end{equation*}
+où $\theta$ est un paramètre inconnu.
+
+\begin{enumerate}
+    \item Dans cette question, on suppose d'abord que l'ensemble des paramètres est $\Theta = \{\theta > 1\}$. Calculer $\mathbb{E}_\theta[X_1]$ puis estimer $\theta$ par la méthode des moments.
+    \item Dans cette question, on suppose désormais que l'ensemble des paramètres est $\Theta = \{\theta > 0\}$.
+    \begin{enumerate}
+        \item[i--] Montrer qu'il n'existe pas de $r > 0$ tel que la fonction $\theta \in \mathbb{R}_+^* \mapsto \mathbb{E}_\theta[X_1^r]$ soit injective.
+        \item[ii--] Montrer que $\mathbb{E}_\theta\left[ \frac{1}{X_1} \right] = \frac{\theta}{\theta+1}$ puis estimer $\theta$ par la méthode des moments. On notera $\hat{\theta}_n^{MM}$ l'estimateur obtenu.
+        \item[iii--] $\hat{\theta}_n^{MM}$ est-il consistant ?
+        \item[iv--] Donner la loi asymptotique de $\sqrt{n}(\hat{\theta}_n^{MM} - \theta)$ lorsque $n \to +\infty$.
+        \item[v--] Montrer que l'estimateur du maximum de vraisemblance $\hat{\theta}_n^{MV}$ vaut
+        \begin{equation*}
+        \hat{\theta}_n^{MV} = \frac{n}{\sum_{i=1}^n \ln(X_i)}.
+        \end{equation*}
+        \item[vi--] $\hat{\theta}_n^{MV}$ est-il consistant ?\\
+        \textit{Indication : on pourra utiliser le changement de variables $u = \ln(x)$.}
+    \end{enumerate}
+\end{enumerate}
+\end{exercice}
+\end{mdframed}
+
+\smallskip
+
+\begin{mdframed}
+\begin{exercice}
+Soient $X_1, \dots, X_n$ des variables aléatoires i.i.d. de densité donnée pour tout $x \in \mathbb{R}$ par
+\begin{equation*}
+f(x) = \frac{1}{2\sqrt{x\theta}} \mathbf{1}_{]0, \theta]}(x),
+\end{equation*}
+où $\theta > 0$ est un paramètre inconnu.
+
+\begin{enumerate}
+    \item Calculer $\mathbb{E}_\theta[X_1]$.
+    \item En déduire un estimateur $\hat{\theta}_n$ par la méthode des moments.
+    \item Déterminer l'estimateur $\tilde{\theta}_n$ de $\theta$ par maximum de vraisemblance.
+    \item Déterminer la loi de $\tilde{\theta}_n$.
+    \item Montrer que le risque quadratique de $\tilde{\theta}_n$ tend vers 0 quand $n$ tend vers $+\infty$.
+    \item Comparer les risques quadratiques de $\hat{\theta}_n$ et de $\tilde{\theta}_n$.
+    \item Préciser la loi asymptotique de $\sqrt{n}(\hat{\theta}_n - \theta)$ et de $n(\theta - \tilde{\theta}_n)$.
+    \item Montrer que la médiane de $X_1$ est $F_\theta^{-1}(1/2) = \theta/4$. En déduire un estimateur $\hat{\theta}_n^m$ consistant pour l'estimation de $\theta$.
+    \item Donner la loi limite de $\hat{\theta}_n^m - \theta$ après une renormalisation convenable.
+\end{enumerate}
+\end{exercice}
+\end{mdframed}
+
+\smallskip
+
+\begin{mdframed}
+\begin{exercice}
+Soient $X_1, \dots, X_n$ des variables aléatoires i.i.d. de densité donnée pour tout $x \in \mathbb{R}$ par
+\begin{equation*}
+f(x) = e^{-\theta} \mathbf{1}_{]0, e^\theta]}(x),
+\end{equation*}
+où $\theta > 0$ est un paramètre inconnu.
+
+\begin{enumerate}
+    \item Déterminer l'estimateur du maximum de vraisemblance de $\theta$.
+    \item Montrer que $\theta - \ln(X_{(n)})$ suit une loi exponentielle de paramètre $n$ (où $X_{(n)} = \max(X_1, \dots, X_n)$).
+    \item Soit $0 < \alpha < 1$. Montrer que 
+    \begin{equation*}
+    \left[ \ln(X_{(n)}) \, , \, \ln(X_{(n)}) - \frac{1}{n} \ln(\alpha) \right]
+    \end{equation*}
+    est un intervalle de confiance pour $\theta$ de niveau $1 - \alpha$.
+\end{enumerate}
+\end{exercice}
+\end{mdframed}
+
+\smallskip
+
+\begin{mdframed}
+\begin{exercice}
+
+\textbf{Rappels}
+
+\smallskip
+
+\begin{itemize}
+\item Une v.a.  de loi exponentielle $A \sim \mathcal{E}(\theta)$ , $\theta >0$ admet pour densité :
+
+$$
+f_A(x) = \theta e^{-\theta x} \mathbb{1}_{x>0}
+$$
+\item Soit $A_1,\cdots,A_n$ un $n$-échantillon i.i.d. de loi $\mathcal{E}(\theta)$. Alors $S = \sum_{i=1}^n A_i$ suit une loi Gamma $\Gamma(n,\theta)$ de densité donnée par
+
+$$
+f_S(x) = \frac{\theta^n}{\Gamma(n)} x^{n-1} e^{- \theta x} \mathbb{1}_{x>0}
+$$
+
+où $\Gamma$ désigne la fonction Gamma. 
+\item Pour tout entier entier $n \in \mathbb{N}^*$, $\Gamma(n) = (n-1)!$
+\end{itemize}
+
+\smallskip
+
+\textbf{Questions préliminaires}
+
+\smallskip
+
+\begin{enumerate}
+\item Soit $A \sim \mathcal{E}(\theta)$ avec $\theta > 0$. Soit $A_1, \cdots A_n$, $n$ copies i.i.d. de $A$. Donner la vraisemblance associée aux observation $A_1, \cdots A_n$.
+\item Soit $B \sim \mathcal{B}(p)$ avec $p \in ]0,1[$. Soit $B_1, \cdots B_n$, $n$ copies i.i.d. de $B$. Donner la vraisemblance associée aux observation $B_1, \cdots B_n$.
+\end{enumerate}
+
+\smallskip
+
+\textbf{Problème}
+
+\smallskip
+
+On s'interesse à la durée de vie de deux composants électroniques se trouvant dans un système solidaire. Si l'un des deux composants tombe en panne, le système tout entier doit être changé.
+
+Les durée de vie des deux composants sont modélisés par des variables aléatoires exponentielles de paramètres $\lambda > 0$ et $\mu > 0$ indépendantes. Pour $n$ systèmes, on a donc un $n$-échatillon i.i.d. $X_1,\cdots,X_n$ de loi $\mathcal{E}(\lambda)$ et un $n$-échantillon i.i.d. $Y_1, \cdots , Y_n$ de loi $\mathcal{E}(\mu)$, indépendant du précédent.
+
+Cépendant, on observe uniquement la durée de vie du commposant tombé en panne, ce qui veut dire que l'on observe uniquement le $n$-échantillon 
+
+$(Z_1,W_1) , \cdots , (Z_n,W_n)$, où pour tout $i \in 1 , \cdots , n$,
+
+$$
+Z_i = \min (X_i,Y_i) \qquad W_i = \mathbb{1}_{Z_i = X_i} = \mathbb{1}_{X_i \leq Y_i}   
+$$
+
+\smallskip
+
+\begin{enumerate}
+\item Calculer la fonction de répartition de $Z_i$ et en déduire $Z_i \sim \mathcal{E} (\lambda + \mu )$
+\item Montrer que $W_i \sim \mathcal{B}( \frac{\lambda}{\lambda + \mu} )$
+\item
+\begin{enumerate}
+\item Soit $z \geq 0$. Montrer que $\mathbb{P}(Z_i \leq z , W_i = 1) = \frac{\lambda}{\lambda + \mu} \mathbb{P}(Z_i \leq z_i)$.
+\item En conclure que les v.a. $Z_i$ et $W_i$ sont indépendantes.
+\end{enumerate}
+\end{enumerate}
+
+On rappelle que par indépendance entre les $Z_i$ et les $X_i$, la vraisemblance du $n$-échantillon i.i.d. $(Z_1,W_1) , \cdots , (Z_n,W_n)$ est définie comme le produit de la vraisemblance du $n$-échantillon $Z_1 , \cdots , Z_n$ par la vraisemblance du $n$-échantillon $W_1 , \cdots , W_n$. On suppose désormais que le paramètre $\mu$ \textbf{est connu.}
+
+\begin{enumerate}
+\item Déterminer l'EMV $\hat{\lambda}_n$ de $\lambda$.
+\item Montrer que $\hat{\lambda}_n$ est consistant.
+\item Calculer le biais de $\hat{\lambda}_n$ puis montrer qu'il tend ver 0 lorsque $n \to \infty$.
+\item Déterminer la loi asymptotique de $\sqrt{n} ( \hat{\lambda}_n - \lambda)$ lorsque $n \to \infty$.
+\item Donner un intervalle de confiance bilatéral symétrique asymptotique de niveau $1 - \alpha$ pour $\lambda$. Dans la question suivantee on suppose que $\lambda$ et $\mu$ \textbf{sont inconnus.}
+\item Déterminer l'EMV $(\hat{\lambda}_n,\hat{\mu}_n)$ de $( \lambda , \mu)$.
+\end{enumerate}
+\end{exercice}
+\end{mdframed}
+
+\smallskip
+
+\begin{mdframed}
+\begin{exercice}
+Soit $X_1, \cdots, X_n$ des variables aléatoires i.i.d. de deinsité donnée, pour tout $x \in \mathbb{R}$, par :
+
+$$
+f_\theta(x) = C_\theta x^2 \mathbb{1}_{]0,\theta]} (x)
+$$
+
+où $\theta > 0$ est un paramètre inconnu, et $C_\theta$ une constante ne dépendant que de $\theta$.
+
+\begin{enumerate}
+\item Justifier que $C_\theta = \frac{3}{\theta^3}$.
+\item 
+\begin{enumerate}
+\item Calculer $\mathbb{E}_\theta [X_1]$
+\item En déduire un estimateur $\hat{\theta}^{MM}_n$ par la méthode des moments.
+\item Calculer le risque quadratique de $\hat{\theta}^{MM}_n$.
+\item Donner la loi limite de $\hat{\theta}^{MM}_n - \theta$ après une renormalisation convenable.
+\end{enumerate}
+\item Calculer la fonction de répartition de $X_1$ notée $F_\theta$.
+\item
+\begin{enumerate}
+\item Montrer que la médiane de $X_1$ est $x_{\frac{1}{2}} := F_\theta^{-1} (\frac{1}{2}) = 2^{-\frac{1}{3}} \theta$. En déduire une estimateur $\hat{\theta}^{m}_n$ consistant pour l'estimation de $\theta$.
+\item Donner la loi limite de $\hat{\theta}^{m}_n - \theta$ après une renormalisation convenable.
+\end{enumerate}
+\item
+\begin{enumerate}
+\item Déterminer l'estimateur $\hat{\theta}^{MV}_n$ de $\theta$ par maximum de vraisemblance.
+\item Déterminer la fonction de répartition de $v\hat{\theta}^{MV}_n$.
+\item Montrer que $n(\theta-\hat{\theta}^{MV}_n)$ tend en loi vers une loi exponentielle dont on précisera le paramètre.
+\end{enumerate}
+\item Parmi les trois estimateurs, lequel faut-il privilégeir et porquoi?
+\item Soit $\alpha \in ]0,1[$ Utiliser l'estimateur choisi pour construire un intervalle de confiance (asymptotique ou non) de niveau de condiance $1-\alpha$.
+\end{enumerate}
+\end{exercice}
+\end{mdframed}

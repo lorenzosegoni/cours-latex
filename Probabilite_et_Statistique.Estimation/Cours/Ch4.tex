@@ -1,0 +1,456 @@
+\chapter{Intervalles de confiance}
+
+\section{Définition et interprétation}
+
+On se place dans un modèle statistique $\{P_\theta, \theta \in \Theta\}$ avec $\Theta \subset \mathbb R$. On observe $X$ et on souhaite non plus seulement estimer $\theta$ par une valeur ponctuelle $\hat\theta$, mais \textit{quantifier l'incertitude} autour de cet estimateur.
+
+\medskip
+
+\begin{mdframed}
+\begin{definition}[Intervalle de confiance]
+Soit $\alpha \in\, ]0,1[$. Un \textit{intervalle de confiance} (IC) de niveau $1-\alpha$ pour $\theta$ est un intervalle aléatoire $I(X) = [\,T_-(X),\, T_+(X)\,]$ tel que
+
+$$
+\forall\,\theta \in \Theta, \qquad P_\theta\big(\theta \in I(X)\big) \ge 1-\alpha.
+$$
+
+Le réel $1-\alpha$ est le \textit{niveau de confiance}, $\alpha$ le \textit{risque}.
+\end{definition}
+\end{mdframed}
+
+\begin{remarque}[Interprétation fréquentiste] 
+L'interprétation correcte est la suivante : si l'on répète l'expérience un grand nombre de fois et que l'on construit à chaque fois l'intervalle $I(X)$, alors au moins une proportion $1-\alpha$ de ces intervalles contient la vraie valeur $\theta$.
+
+Il est \textit{incorrect} de dire que « $\theta$ appartient à $I(x)$ avec probabilité $1-\alpha$ » une fois l'observation $x$ fixée : à ce stade, $\theta$ est une constante déterministe (inconnue) et $I(x)$ un intervalle fixé. C'est avant l'observation que l'intervalle est aléatoire.
+\end{remarque}
+
+\begin{remarque}[Confiance vs précision]
+Le risque $\alpha$ est typiquement petit : $\alpha = 0{,}05$ (niveau $95\%$) ou $\alpha = 0{,}01$ (niveau $99\%$). Plus $\alpha$ est petit, plus le niveau de confiance est élevé, mais plus l'intervalle est large : c'est un arbitrage inévitable entre \textit{confiance} et \textit{précision}.
+\end{remarque}
+
+\begin{remarque}[Bilatéral vs unilatéral]
+L'intervalle $[T_-, T_+]$ est dit \textit{bilatéral}. On rencontre aussi des intervalles \textit{unilatéraux}, de la forme $]-\infty,\, T_+(X)]$ (borne de confiance supérieure) ou $[\,T_-(X),\, +\infty[$ (borne de confiance inférieure), utiles lorsqu'on ne s'intéresse qu'à une majoration ou une minoration de $\theta$ (§4.3).
+\end{remarque}
+
+\begin{remarque}[Exact vs asymptotique] 
+Lorsque la loi exacte des bornes $T_\pm$ est connue sous $P_\theta$, on parle d'IC \textit{exact}. Sinon, on construit des IC \textit{asymptotiques}, pour lesquels la garantie de niveau n'est valable qu'à la limite :
+
+$$
+P_\theta\big(\theta \in I_n(X)\big) \xrightarrow[n\to+\infty]{} 1-\alpha.
+$$
+\end{remarque}
+
+\section{Quantiles}
+
+Toute la construction des intervalles de confiance repose sur les \textbf{quantiles} des lois de probabilité usuelles. On les définit d'abord de façon générale.
+
+\medskip
+
+\begin{mdframed}
+\begin{definition}[Fonction quantile] 
+Soit $Z$ une variable aléatoire réelle de fonction de répartition $F(z) = P(Z \le z)$. Pour $p \in\, ]0,1[$, le \textit{quantile d'ordre $p$} de $Z$ est
+
+$$
+q_p = \inf\{z \in \mathbb R : F(z) \ge p\}.
+$$
+
+Lorsque $F$ est continue et strictement croissante (cas des lois à densité qui nous intéressent), $q_p$ est l'unique solution de $F(q_p) = p$, soit $q_p = F^{-1}(p)$.
+\end{definition}
+\end{mdframed}
+
+\textit{Interprétation : } Le quantile $q_p$ est le seuil en-dessous duquel $Z$ tombe avec probabilité $p$ :
+
+$$
+P(Z \le q_p) = p, \qquad P(Z > q_p) = 1-p.
+$$
+
+\medskip
+
+\begin{mdframed}
+\begin{proposition}[Encadrement par quantiles] 
+Pour une loi continue et $\alpha \in\, ]0,1[$,
+
+$$
+P\big(q_{\alpha/2} \le Z \le q_{1-\alpha/2}\big) = 1-\alpha,
+$$
+
+c'est-à-dire qu'on laisse une masse $\alpha/2$ dans chaque queue. C'est ce découpage \textit{symétrique en probabilité} qui sert par défaut à fabriquer un IC bilatéral.
+\end{proposition}
+\end{mdframed}
+
+\begin{proof}
+$P(q_{\alpha/2} \le Z \le q_{1-\alpha/2}) = F(q_{1-\alpha/2}) - F(q_{\alpha/2}) = (1-\alpha/2) - \alpha/2 = 1-\alpha.$ $\square$
+\end{proof}
+
+\medskip
+
+\begin{mdframed}
+\begin{notation}[Quantiles des lois usuelles]
+On adopte les notations suivantes pour le quantile d'ordre $p$ :
+
+\begin{itemize}
+\item $z_p$ :  Normale centrée réduite $\mathcal N(0,1)$
+\item $t_{k,p}$ :  Student à $k$ degrés de liberté $\mathcal T(k)$
+\item $\chi^2_{k,p}$ :  Khi-deux à $k$ degrés de liberté $\chi^2(k)$
+\end{itemize}
+
+Ces valeurs se lisent dans des tables ou se calculent numériquement.
+\end{notation}
+\end{mdframed}
+
+\begin{remarque}[Lois symétriques] 
+Les lois $\mathcal N(0,1)$ et $\mathcal T(k)$ sont \textbf{symétriques} par rapport à $0$, donc leurs quantiles vérifient
+
+$$
+q_{1-p} = -\,q_p.
+$$
+
+En particulier $z_{1-\alpha/2} = -z_{\alpha/2}$ et $t_{k,1-\alpha/2} = -t_{k,\alpha/2}$. C'est ce qui permet d'écrire l'encadrement bilatéral sous la forme $\pm z_{\alpha/2}$ (resp. $\pm t_{k,\alpha/2}$), où par convention $z_{\alpha/2}$ désigne le quantile d'ordre $1-\alpha/2$, positif. Pour $\alpha = 0{,}05$ : $z_{\alpha/2} = z_{0{,}975} \approx 1{,}96$.
+\end{remarque}
+
+\begin{remarque}[Loi du $\chi^2$] 
+La loi $\chi^2(k)$ n'est \textbf{pas symétrique} (elle est portée par $\mathbb R_+$). On ne peut donc pas résumer ses deux quantiles par un seul $\pm$ : il faut conserver $\chi^2_{k,\alpha/2}$ et $\chi^2_{k,1-\alpha/2}$ séparément. C'est la source de l'asymétrie des IC pour la variance (§4.6).
+\end{remarque}
+
+\section{Construction par pivot}
+
+\subsection{Méthode générale}
+
+\medskip
+
+\begin{mdframed}
+\begin{definition}[Pivot]
+Une statistique $Z(X,\theta)$ est un \textit{pivot} (ou \textit{quantité pivotale}) si sa loi sous $P_\theta$ ne dépend pas de $\theta$.
+
+\textbf{Méthode :}
+
+\begin{enumerate}
+\item \textbf{Pivot :} identifier $Z(X,\theta)$ de loi connue (par exemple $\mathcal N(0,1)$, $\mathcal T(k)$ ou $\chi^2_k$).
+\item \textbf{Encadrement :} à l'aide des quantiles, écrire $P\big(q_{\alpha/2} \le Z(X,\theta) \le q_{1-\alpha/2}\big) = 1-\alpha$.
+\item \textbf{Inversion :} résoudre l'encadrement en $\theta$ pour obtenir $T_-(X) \le \theta \le T_+(X)$.
+\end{enumerate}
+\end{definition}
+\end{mdframed}
+
+\subsection{Cas gaussien, variance connue}
+
+\begin{exemple}
+Soit $(X_1,\dots,X_n)$ i.i.d. de loi $\mathcal N(\theta,\sigma^2)$ avec $\sigma^2$ connue.
+
+\textit{Pivot.} Comme $\overline X_n \sim \mathcal N\!\big(\theta,\sigma^2/n\big)$,
+
+$$
+Z = \frac{\sqrt n\,(\overline X_n - \theta)}{\sigma} \sim \mathcal N(0,1),
+$$
+
+loi indépendante de $\theta$ : c'est un pivot.
+
+\textit{Encadrement et inversion.}
+
+$$
+P_\theta\!\left(-z_{\alpha/2} \le \frac{\sqrt n\,(\overline X_n - \theta)}{\sigma} \le z_{\alpha/2}\right) = 1-\alpha,
+$$
+
+d'où l'\textbf{IC exact bilatéral de niveau $1-\alpha$} :
+
+$$
+\boxed{\ I(X) = \left[\,\overline X_n - z_{\alpha/2}\,\frac{\sigma}{\sqrt n}\,,\ \overline X_n + z_{\alpha/2}\,\frac{\sigma}{\sqrt n}\,\right].\ }
+$$
+\end{exemple}
+
+\begin{remarque}
+La demi-longueur $z_{\alpha/2}\,\sigma/\sqrt n$ décroît en $1/\sqrt n$ : diviser la largeur par $2$ exige de multiplier $n$ par $4$.
+\end{remarque}
+
+\subsection{Cas gaussien, variance inconnue}
+
+Quand $\sigma^2$ est inconnue, le pivot précédent tombe (il contient $\sigma$). On remplace $\sigma$ par un estimateur.
+
+\medskip
+
+\begin{mdframed}
+\begin{definition}[Variance empirique corrigée]
+$$
+S_n^2 = \frac{1}{n-1}\sum_{i=1}^n (X_i - \overline X_n)^2.
+$$
+
+Le dénominateur $n-1$ (et non $n$) assure que $S_n^2$ est **sans biais** : $\mathbb E_\theta[S_n^2] = \sigma^2$.
+\end{definition}
+\end{mdframed}
+
+\medskip
+
+\begin{mdframed}
+\begin{proposition}[Loi de Student]
+Pour $(X_1,\dots,X_n)$ i.i.d. de loi $\mathcal N(\theta,\sigma^2)$, $\sigma^2$ inconnue,
+
+$$
+T_n = \frac{\sqrt n\,(\overline X_n - \theta)}{S_n} \sim \mathcal T(n-1).
+$$
+
+La loi de $T_n$ ne dépend pas de $(\theta,\sigma^2)$ : c'est un pivot.
+\end{proposition}
+\end{mdframed}
+
+\begin{exemple}[IC de Student]
+Par symétrie de $\mathcal T(n-1)$, on obtient l'\textbf{IC exact bilatéral} :
+
+$$
+\boxed{\ I(X) = \left[\,\overline X_n - t_{n-1,\alpha/2}\,\frac{S_n}{\sqrt n}\,,\ \overline X_n + t_{n-1,\alpha/2}\,\frac{S_n}{\sqrt n}\,\right].\ }
+$$
+\end{exemple}
+
+\begin{remarque}
+Comme $t_{n-1,\alpha/2} > z_{\alpha/2}$, l'IC de Student est toujours plus large que celui à variance connue : c'est le prix de l'ignorance de $\sigma^2$. L'écart s'estompe quand $n \to +\infty$, car $\mathcal T(n-1) \to \mathcal N(0,1)$.
+\end{remarque}
+
+\subsection{Intervalles unilatéraux}
+
+Lorsqu'on ne cherche qu'une \textbf{majoration} ou une \textbf{minoration} de $\theta$, on rejette toute la masse $\alpha$ dans une seule queue plutôt que $\alpha/2$ dans chacune. On utilise alors le quantile d'ordre $1-\alpha$ (et non $1-\alpha/2$).
+
+\begin{exemple}[Bornes de confiance, cas gaussien à variance connue] 
+Partant du même pivot $Z = \sqrt n\,(\overline X_n - \theta)/\sigma \sim \mathcal N(0,1)$ :
+
+\begin{itemize}
+\item \textbf{Borne de confiance supérieure} : $P_\theta(Z \ge -z_\alpha) = 1-\alpha$ donne
+
+$$
+P_\theta\!\left(\theta \le \overline X_n + z_\alpha\,\frac{\sigma}{\sqrt n}\right) = 1-\alpha,
+\qquad
+I(X) = \left]-\infty,\ \overline X_n + z_\alpha\,\frac{\sigma}{\sqrt n}\right].
+$$
+\item \textbf{Borne de confiance inférieure} :
+
+$$
+I(X) = \left[\,\overline X_n - z_\alpha\,\frac{\sigma}{\sqrt n},\ +\infty\right[.
+$$
+\end{itemize}
+
+Ici $z_\alpha$ est le quantile d'ordre $1-\alpha$ (pour $\alpha = 0{,}05$ : $z_\alpha \approx 1{,}645$, à comparer à $z_{\alpha/2} \approx 1{,}96$).
+\end{exemple}
+
+\begin{remarque} 
+Une borne unilatérale est \textbf{plus resserrée} du côté considéré que l'IC bilatéral, puisque $z_\alpha < z_{\alpha/2}$. On l'emploie quand la question est directionnelle (« $\theta$ dépasse-t-il un seuil ? »). Le même principe s'applique avec les quantiles de Student ou du $\chi^2$.
+\end{remarque}
+
+\section{Intervalles de confiance asymptotiques}
+
+\subsection{Construction par normalité asymptotique}
+
+Quand la loi exacte de l'estimateur est inconnue, on exploite la normalité asymptotique et les quantiles de $\mathcal N(0,1)$.
+
+\medskip
+
+\begin{mdframed}
+\begin{proposition}[IC asymptotique] 
+Soit $\hat\theta_n$ asymptotiquement normal :
+
+$$
+\sqrt n\,(\hat\theta_n - \theta) \xrightarrow[n\to+\infty]{\text{loi}} \mathcal N\big(0,\sigma^2(\theta)\big),
+$$
+
+et $\hat\sigma_n^2$ un estimateur consistant de $\sigma^2(\theta)$. Alors, pour tout $\theta \in \Theta$,
+
+$$
+P_\theta\!\left(\theta \in \left[\hat\theta_n - z_{\alpha/2}\,\frac{\hat\sigma_n}{\sqrt n},\ \hat\theta_n + z_{\alpha/2}\,\frac{\hat\sigma_n}{\sqrt n}\right]\right) \xrightarrow[n\to+\infty]{} 1-\alpha.
+$$
+\end{proposition}
+\end{mdframed}
+
+\begin{proof}
+Normalité asymptotique + consistance de $\hat\sigma_n$ + lemme de Slutsky donnent $Z_n = \sqrt n\,(\hat\theta_n - \theta)/\hat\sigma_n \to \mathcal N(0,1)$ en loi. Donc $P_\theta(|Z_n| \le z_{\alpha/2}) \to P(|Z| \le z_{\alpha/2}) = 1-\alpha$, et on isole $\theta$. $\square$
+\end{proof}
+
+\begin{remarque}
+La qualité de l'approximation dépend de la vitesse de convergence de $Z_n$ vers $\mathcal N(0,1)$. Pour $n$ petit ou une loi très asymétrique, elle peut être médiocre ; le *bootstrap* permet alors d'améliorer la précision.
+\end{remarque}
+
+\begin{exemple}[Proportion dans un modèle de Bernoulli]
+Soit $(X_1,\dots,X_n)$ i.i.d. de loi $\mathcal B(\theta)$, $\theta \in\, ]0,1[$, et $\hat\theta_n = \overline X_n$. Par le TCL,
+
+$$
+\sqrt n\,(\hat\theta_n - \theta) \xrightarrow[n\to+\infty]{\text{loi}} \mathcal N\big(0,\ \theta(1-\theta)\big).
+$$
+
+On remplace la variance asymptotique $\sigma^2(\theta) = \theta(1-\theta)$ par le plug-in consistant $\hat\sigma_n^2 = \hat\theta_n(1-\hat\theta_n)$ :
+
+$$
+I_n = \left[\,\hat\theta_n - z_{\alpha/2}\sqrt{\frac{\hat\theta_n(1-\hat\theta_n)}{n}}\,,\ \hat\theta_n + z_{\alpha/2}\sqrt{\frac{\hat\theta_n(1-\hat\theta_n)}{n}}\,\right].
+$$
+
+Pour $\alpha = 0{,}05$, $z_{\alpha/2} \approx 1{,}96$.
+\end{exemple}
+
+\begin{remarque}
+Très utilisé (sondages, essais cliniques). La largeur est maximale en $\theta = 1/2$, d'où la borne conservative : demi-largeur $\le z_{\alpha/2}/(2\sqrt n)$. Pour $n = 1000$ cela donne $\approx 0{,}031$, nettement plus fin que la borne grossière $0{,}0707$ de Tchebychev au chapitre 1.
+\end{remarque}
+
+\section{Longueur d'un intervalle et borne de Cramér-Rao}
+
+Cette section relie la précision d'un IC à la borne de Cramér-Rao du chapitre 3.
+
+La demi-longueur d'un IC asymptotique est
+
+$$
+\ell_n = z_{\alpha/2}\,\sqrt{\frac{\sigma^2(\theta)}{n}}.
+$$
+
+Deux leviers agissent sur elle :
+
+\begin{itemize}
+\item La taille d'échantillon : $\ell_n$ décroît en $1/\sqrt n$ (précision lente).
+\item La variance asymptotique : à $n$ et $\alpha$ fixés, plus $\sigma^2(\theta)$ est petite, plus l'IC est court. 
+
+Minimiser $\sigma^2(\theta)$, c'est produire l'IC le plus précis.
+\end{itemize}
+
+\textit{Lien avec Cramér-Rao.} Dans un modèle régulier (hypothèses (H1)–(H4) du chapitre 3), tout estimateur régulier vérifie
+
+$$
+\sigma^2(\theta) \ge \frac{1}{I(\theta)},
+$$
+
+où $I(\theta)$ est l'information de Fisher d'une observation. Donc
+
+$$
+\ell_n \ge \frac{z_{\alpha/2}}{\sqrt{n\,I(\theta)}}.
+$$
+
+\medskip
+
+\begin{mdframed}
+\begin{definition}[Efficacité asymptotique] 
+Un estimateur est \textit{asymptotiquement efficace} s'il atteint cette borne, $\sigma^2(\theta) = 1/I(\theta)$. Son IC asymptotique est alors le **plus court possible** à niveau donné :
+
+$$
+I_n = \left[\,\hat\theta_n - \frac{z_{\alpha/2}}{\sqrt{n\,I(\hat\theta_n)}}\,,\ \hat\theta_n + \frac{z_{\alpha/2}}{\sqrt{n\,I(\hat\theta_n)}}\,\right].
+$$
+\end{definition}
+\end{mdframed}
+
+\begin{remarque}
+Sous conditions de régularité, l'EMV est asymptotiquement efficace : $\sqrt n\,(\hat\theta_{\text{EMV}} - \theta) \to \mathcal N\big(0, 1/I(\theta)\big)$. C'est la justification profonde de son usage : il fournit asymptotiquement l'IC le plus précis. Une information de Fisher grande (log-vraisemblance « pointue ») donne un IC court, une information faible un IC large.
+\end{remarque}
+
+\begin{exemple}[Bernoulli, suite] 
+Ici 
+
+$$
+I(\theta) = 1/[\theta(1-\theta)],
+$$ 
+
+donc 
+
+$$
+1/I(\theta) = \theta(1-\theta) = \sigma^2(\theta)
+$$ 
+
+La moyenne empirique est efficace et son IC asymptotiquement optimal.
+\end{exemple}
+
+\section{Intervalles de confiance dans les modèles gaussiens}
+
+\subsection{Vecteur gaussien}
+
+\medskip
+
+\begin{mdframed}
+\begin{definition}
+Un vecteur aléatoire $X$ à valeurs dans $\mathbb R^k$ est un \textit{vecteur gaussien} ssi toute combinaison linéaire de ses coordonnées est une variable aléatoire réelle gaussienne : pour tout $c \in \mathbb R^k$, $c^\top X = \sum_{i=1}^k c_i X_i \sim \mathcal N(\mu,\sigma^2)$ pour certains $\mu \in \mathbb R$, $\sigma^2 \in \mathbb R_+$.
+\end{definition}
+\end{mdframed}
+
+\medskip
+
+\begin{mdframed}
+\begin{proposition}
+Un vecteur gaussien $X$ est caractérisé par son vecteur des espérances $\mathbb E[X]$ et sa matrice de covariance $V = \mathbb V[X]$, d'élément $(i,j)$ égal à $V_{i,j} = \mathrm{Cov}(X_i,X_j)$. On note $X \sim \mathcal N\big(\mathbb E[X], V\big)$.
+\end{proposition}
+\end{mdframed}
+
+\begin{remarque}
+Un $n$-échantillon i.i.d. de loi $\mathcal N(\mu,\sigma^2)$ est un vecteur gaussien de loi $\mathcal N(\mu\,\mathbf 1_n,\ \sigma^2 I_n)$, où $\mathbf 1_n = (1,\dots,1)^\top \in \mathbb R^n$ : ses $n$ composantes sont indépendantes, d'espérance $\mu$ et de variance $\sigma^2$.
+\end{remarque}
+
+\subsection{Théorème de Cochran}
+
+Soit $(X_1,\dots,X_n)$ i.i.d. de loi $\mathcal N(\mu,\sigma^2)$. On pose
+$$
+\overline X_n = \frac{1}{n}\sum_{i=1}^n X_i,
+\qquad
+S_n^2 = \frac{1}{n-1}\sum_{i=1}^n (X_i - \overline X_n)^2.
+$$
+
+\medskip
+
+\begin{mdframed}
+\begin{theoreme}[Cochran]
+\begin{enumerate}
+\item $\overline X_n \sim \mathcal N\!\big(\mu,\ \sigma^2/n\big)$ ;
+\item $\dfrac{(n-1)S_n^2}{\sigma^2} \sim \chi^2(n-1)$ ;
+\item $\overline X_n$ et $S_n^2$ sont \textit{indépendants}.
+\end{enumerate}
+\end{theoreme}
+\end{mdframed}
+
+\begin{proof}[Idée]
+$X = (X_1,\dots,X_n)$ est gaussien, de loi $\mathcal N(\mu\mathbf 1_n,\sigma^2 I_n)$. Soit $D$ la droite dirigée par $\mathbf 1_n$ et $H = D^\perp$ son orthogonal. La projection de $X$ sur $D$ fait apparaître $\overline X_n$, celle sur $H$ les résidus $(X_i - \overline X_n)_i$. Deux projections d'un vecteur gaussien sur des sous-espaces orthogonaux sont indépendantes et gaussiennes (d'où le point 3). La norme au carré de la projection sur $H$ vaut $\sum_i (X_i - \overline X_n)^2/\sigma^2 = (n-1)S_n^2/\sigma^2$, somme des carrés de $\dim H = n-1$ variables $\mathcal N(0,1)$ indépendantes : c'est une loi $\chi^2(n-1)$ (point 2). Le point 1 est immédiat par linéarité. $\square$
+\end{proof}
+
+\medskip
+
+\begin{mdframed}
+\begin{corollaire}[Pivot de Student]
+En combinant les trois points et en normalisant par $S_n$ au lieu de $\sigma$ :
+
+$$
+\frac{\sqrt n\,(\overline X_n - \mu)}{S_n} \sim \mathcal T(n-1),
+$$
+\end{corollaire}
+\end{mdframed}
+
+\subsection{Intervalles de confiance pour $\mu$}
+
+\begin{itemize}
+\item $\sigma^2$ connue (pivot $\mathcal N(0,1)$, point 1 de Cochran) :
+
+$$
+I(X) = \left[\,\overline X_n - z_{\alpha/2}\,\frac{\sigma}{\sqrt n}\,,\ \overline X_n + z_{\alpha/2}\,\frac{\sigma}{\sqrt n}\,\right].
+$$
+
+\item $\sigma^2$ inconnue (pivot de Student) :
+
+$$
+I(X) = \left[\,\overline X_n - t_{n-1,\alpha/2}\,\frac{S_n}{\sqrt n}\,,\ \overline X_n + t_{n-1,\alpha/2}\,\frac{S_n}{\sqrt n}\,\right].
+$$
+\end{itemize}
+
+\subsection{Intervalles de confiance pour $\sigma^2$}
+
+Le point 2 de Cochran fournit un pivot pour $\sigma^2$ :
+
+$$
+Z = \frac{(n-1)S_n^2}{\sigma^2} \sim \chi^2(n-1),
+$$
+
+de loi indépendante de $(\mu,\sigma^2)$. La loi du $\chi^2$ étant \textbf{asymétrique}, on prend deux quantiles distincts :
+
+$$
+P_\theta\!\left(\chi^2_{n-1,\,\alpha/2} \le \frac{(n-1)S_n^2}{\sigma^2} \le \chi^2_{n-1,\,1-\alpha/2}\right) = 1-\alpha.
+$$
+
+On isole $\sigma^2$ (l'inversion \textbf{renverse} les inégalités, $\sigma^2$ étant au dénominateur) :
+
+$$
+\boxed{\ I(X) = \left[\ \frac{(n-1)S_n^2}{\chi^2_{n-1,\,1-\alpha/2}}\,,\ \frac{(n-1)S_n^2}{\chi^2_{n-1,\,\alpha/2}}\ \right].\ }
+$$
+
+En prenant les racines des bornes (positives), on obtient l'IC pour l'écart-type $\sigma$ :
+
+$$
+I(X) = \left[\ \sqrt{\frac{(n-1)S_n^2}{\chi^2_{n-1,\,1-\alpha/2}}}\,,\ \sqrt{\frac{(n-1)S_n^2}{\chi^2_{n-1,\,\alpha/2}}}\ \right].
+$$
+
+\begin{remarque}
+Contrairement au cas de $\mu$, cet intervalle n'est **pas symétrique** autour de $S_n^2$, du fait de l'asymétrie de la loi du $\chi^2$. Le découpage symétrique en probabilité ($\alpha/2$ dans chaque queue) est le choix standard, mais pas celui qui minimise strictement la longueur.
+\end{remarque}

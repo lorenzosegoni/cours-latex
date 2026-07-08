@@ -1,0 +1,114 @@
+\chapter*{TD 4 - Méthodes d'estimation - 3ème partie}
+
+\setcounter{exercice}{0}
+
+\begin{mdframed}
+\begin{exercice}
+Reprendre l’Exercice 4 du TD2. Soit $X$ une v.a. symétrique de variance $\sigma^2$ et de fonction de répartition $F$. Soit $(X_i)_{i \ge 1}$ une suite de v.a. i.i.d. de fonction de répartition donnée pour tout $x \in \mathbb{R}$ par $F_{\theta_0}(x) = F(x - \theta_0)$. C’est-à-dire $X_1$ a même loi que $X + \theta_0$. On s’intéresse à l’estimation de $\theta_0$.
+
+\begin{enumerate}
+    \item Montrer que si $F$ est continue et strictement croissante sur un voisinage de 0, alors sa médiane vaut 0. En déduire que $\theta = F_\theta^{-1}(1/2)$.
+    \item Reprendre la question 2 de l’Exercice 4 du TD2 et calculer les estimateurs de $\theta$ à partir de la médiane empirique dans chacun des 3 cas. Comparez les variances des lois limites entre ces estimateurs et ceux des EMV.
+\end{enumerate}
+\end{exercice}
+\end{mdframed}
+
+\smallskip
+
+\begin{mdframed}
+\begin{exercice}
+Un statisticien observe $n$ variables aléatoires indépendantes et identiquement distribuées, de loi $\mathcal{U}_{[0,\theta]}$, et veut estimer $\theta > 0$. Il propose les trois estimateurs suivants :
+\begin{equation*}
+\hat{\theta}_1 = 2\bar{X}_n, \quad \hat{\theta}_2 = 2\hat{F}_n^{-1}(1/2), \quad \hat{\theta}_3 = \sup_{1 \le i \le n} X_i,
+\end{equation*}
+où $\hat{F}_n^{-1}$ est l’inverse (généralisée) de la fonction de répartition empirique.
+
+\begin{enumerate}
+    \item Expliquer les idées conduisant à proposer chacun de ces estimateurs.
+    \item Donner la loi limite de $a_{i,n} (\hat{\theta}_i - \theta)$, $i = 1, 2, 3$, où les suites $a_{i,n}$ sont choisies de sorte que l’on obtienne des lois limites non dégénérées.
+    \item Quel(s) estimateur(s) préférez-vous ?
+\end{enumerate}
+\end{exercice}
+\end{mdframed}
+
+\smallskip
+
+\begin{mdframed}
+\begin{exercice}
+On observe $n$ variables aléatoires réelles i.i.d. $X_i$, suivant la loi de Cauchy de centrage $m$ dont la densité est donnée par :
+\begin{equation*}
+f(x) = \frac{1}{\pi} \frac{1}{1 + (x - m)^2}.
+\end{equation*}
+
+\begin{enumerate}
+    \item Un statisticien propose la moyenne empirique $\bar{X}_n$ comme estimateur de $m$.
+    \begin{enumerate}
+        \item[i--] Quelle est la loi de $\bar{X}_n$ ?
+        \item[ii--] Étudier la convergence de $\bar{X}_n$ en moyenne quadratique, en probabilité et en loi.
+        \item[iii--] Que pensez-vous de cet estimateur ?
+    \end{enumerate}
+    
+    \item Un autre statisticien a l’idée suivante. Il classe les observations par valeurs croissantes et note $X_{(1)} < X_{(2)} < \dots < X_{(n)}$ les valeurs ainsi obtenues. Pour estimer $m$, il propose :
+    \begin{equation*}
+    \hat{m}_n = \begin{cases}
+    X_{(k+1)} & \text{si } n = 2k + 1, \\
+    \frac{1}{2}(X_{(k)} + X_{(k+1)}) & \text{si } n = 2k.
+    \end{cases}
+    \end{equation*}
+    \begin{enumerate}
+        \item[i--] Montrer que $F_n(\hat{m}_n) \xrightarrow[n \to +\infty]{\text{p.s.}} 1/2$, où $F_n$ est la fonction de répartition empirique.
+        \item[ii--] Montrer que, pour la loi considérée, $\mathbb{P}(X_1 < m) = 1/2$. Expliquez l’idée du statisticien.
+        \item[iii--] À l’aide du théorème de Glivenko-Cantelli, montrer que $\hat{m}_n \xrightarrow[n \to +\infty]{\text{p.s.}} m$. Commenter.\\
+        \textit{Indication : on pourra démontrer que $F(\hat{m}_n) - F(m) \to 0$ p.s. où $F$ désigne la fonction de répartition de $X_1$.}
+    \end{enumerate}
+\end{enumerate}
+\end{exercice}
+\end{mdframed}
+
+\smallskip
+
+\begin{mdframed}
+\begin{exercice}
+Soit $(X_i)_{i \ge 1}$ une suite de v.a. i.i.d. de loi gamma $\Gamma(p, \theta)$, où $p > 0$ et $\theta > 0$. On rappelle si $X \sim \Gamma(p, \theta)$ alors la densité de $X$ est donnée par
+\begin{equation*}
+f(x) = \frac{\theta^p}{\Gamma(p)} x^{p-1} \exp(-\theta x) \mathbf{1}_{[0,+\infty[}(x),
+\end{equation*}
+où pour tout $\alpha > 0$,
+\begin{equation*}
+\Gamma(a) = \int_0^{+\infty} x^{\alpha-1} \exp(-x) dx.
+\end{equation*}
+On rappelle également que $\mathbb{E}[X] = p/\theta$ et $\text{Var}(X) = p/\theta^2$.
+
+\begin{enumerate}
+    \item On suppose $p$ connu et $\theta$ inconnu. Proposer un estimateur consistant de $\theta$.
+    \item On suppose $\theta$ connu et $p$ inconnu. Proposer un estimateur consistant de $p$.
+    \item On suppose $\theta$ et $p$ inconnus. Proposer des estimateurs consistants de $\theta$ et $p$.
+\end{enumerate}
+\end{exercice}
+\end{mdframed}
+
+\smallskip
+
+\begin{mdframed}
+\begin{exercice}
+Soit $\theta > 0$ un paramètre inconnu. On considère la densité $f_\theta$ définie sur $\mathbb{R}$ par
+\begin{equation*}
+f_\theta(x) = \frac{1}{2\theta} \left( \mathbf{1}_{[0,\theta]}(x) + \mathbf{1}_{[2\theta,3\theta]}(x) \right).
+\end{equation*}
+Soit $(X_i)_{i \ge 1}$ une suite de v.a. i.i.d. de loi de densité $f_\theta$.
+
+\begin{enumerate}
+    \item Calculer $\mathbb{E}_\theta[X_1]$ et $\text{Var}_\theta(X_1)$. En déduire un estimateur $\hat{\theta}_n^{MM}$ de $\theta$ par la méthode des moments. Préciser la loi limite de $\hat{\theta}_n^{MM} - \theta$ après une renormalisation convenable.
+    \item Calculer la fonction de répartition $F_\theta$ de $X_1$. Représenter $f_\theta$ et $F_\theta$.
+    \item Que vaut $q = x_{1/4} = F_\theta^{-1}(1/4)$ ? En déduire un estimateur $\hat{\theta}_n^q$ consistant pour $\theta$ et préciser la loi limite de $\hat{\theta}_n^q - \theta$ après une renormalisation convenable.
+    \item Que vaut $Q = x_{3/4} = F_\theta^{-1}(3/4)$ ? En déduire un estimateur $\hat{\theta}_n^Q$ consistant pour $\theta$ et préciser la loi limite de $\hat{\theta}_n^Q - \theta$ après une renormalisation convenable.
+    \item Quels estimateurs choisiriez-vous asymptotiquement ?
+    \item Soit $X_{(n)} = \max_{1 \le i \le n} X_i$. Pour $0 < x < \theta$, que vaut $\mathbb{P}_\theta(X_{(n)} \le 3\theta - x)$ ? En déduire un estimateur $\hat{\theta}_n^M$ consistant pour $\theta$.
+    \item Montrer que $\mathbb{P}_\theta(\hat{\theta}_n^M \le \theta - t/n)$ converge pour tout $t \ge 0$ vers une limite non nulle que l'on calculera. Préciser la loi limite de $n(\theta - \hat{\theta}_n^M)$.
+    \item Toujours asymptotiquement, quels estimateurs choisiriez-vous ?
+    \item Que vaut $m = x_{1/2} = F_\theta^{-1}(1/2)$ ? Que dire de la médiane empirique comme estimateur de $\theta$ ?
+\end{enumerate}
+\end{exercice}
+\end{mdframed}
+
+\smallskip

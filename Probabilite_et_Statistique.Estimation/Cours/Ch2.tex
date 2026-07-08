@@ -1,0 +1,291 @@
+\chapter{Méthode de estimation}
+
+\section{Méthode des moments}
+
+\smallskip
+
+\begin{mdframed}
+\begin{definition}[Estimateur par la méthode des moments]
+
+\begin{itemize}
+    \item Soit un échantillon $X_1, \ldots, X_n$ de loi $\mathbb{P}_\theta$, $\theta \in \Theta$.
+    \item Soit $\phi$ une fonction telle que $\mathbb{E}_\theta\left[\|\phi(X_1)\|\right] < +\infty$.
+\end{itemize}
+On souhaite estimer
+\[
+g(\theta) = \mathbb{E}_\theta[\phi(X_1)].
+\]
+On appelle \textbf{estimateur par la méthode des moments} :
+\[
+\hat{g}_n = \frac{1}{n} \sum_{i=1}^n \phi(X_i).
+\]
+\end{definition}
+\end{mdframed}
+
+
+\begin{notation}
+\begin{itemize}
+    \item $\hat{g}_n$ est consistant (fortement) par la loi des grands nombres.
+    \item $\hat{g}_n$ est sans biais (par linéarité de l'espérance).
+    \item Plus généralement, si $\hat{g}_n$ est construit par la méthode des moments comme ci-dessus, et si $h$ est une fonction, on dira aussi que
+    \[
+    h(\hat{g}_n)
+    \]
+    est un estimateur par la \textbf{méthode des moments} pour l'estimation de $h(g(\theta))$.
+\end{itemize}
+\end{notation}
+
+
+\begin{remarque}
+À priori, on ne connaît pas les propriétés de cet estimateur (biais, variance, normalité asymptotique). Il faudra étudier ces propriétés au cas par cas, éventuellement en utilisant la méthode delta.
+\end{remarque}
+
+\begin{exemple}
+\begin{enumerate}
+    \item \textbf{Probabilité d'un événement}
+    
+    Soit $A$ un événement. On souhaite estimer
+    \[
+    g(\theta) = \mathbb{P}_\theta(X_1 \in A) = \mathbb{E}_\theta[\mathbb{1}_{X_1 \in A}],
+    \]
+    où
+    \[
+    \mathbb{1}_{X_1 \in A} = \begin{cases}
+    1 & \text{si } X_1 \in A, \\
+    0 & \text{sinon}.
+    \end{cases}
+    \]
+    
+    Par la méthode des moments :
+    \[
+    \hat{g}_{A,n} = \frac{1}{n} \sum_{i=1}^n \mathbb{1}_{X_i \in A}.
+    \]
+    
+    Cet estimateur est la fréquence empirique de l'événement $A$.
+    
+    \item \textbf{Loi uniforme}
+    
+    Soit $X_i$ pour $i \in [ 1, n ]$ de loi $\mathcal{U}([\theta-1 , \theta+1])$ avec $\theta \in \mathbb{R}$.
+    
+    Alors
+    \[
+    \mathbb{E}_\theta[X_1] = \theta = g(\theta).
+    \]
+    
+    Par la méthode des moments :
+    \[
+    \hat{g}_n = \overline{X}_n = \frac{1}{n} \sum_{i=1}^n X_i,
+    \]
+\end{enumerate}
+\end{exemple}
+
+
+
+
+\section{Méthode du maximum de vraisemblance}
+
+On se place dans le cadre de l'estimation de $g(\theta)=\theta$.
+
+\smallskip
+
+\begin{mdframed}
+\begin{definition}
+On appelle vraisemblance associée à l'observation $X$ la fonction
+
+$$
+L : 
+\begin{cases}
+\Theta \to \mathbb{R} \\
+\theta \mapsto L(\theta,X)
+\end{cases}
+$$
+
+définie par
+
+\begin{itemize}
+\item Si $X$ v.a. discrète
+
+$$
+L(\theta,X) = P_\theta (X) = \mathbb{P}_\theta (X=x)
+$$
+\item Si $X$ v.a. à densité
+
+$$
+L(\theta,X) = f_\theta(X)
+$$
+
+où $f_\theta$ est la densité de $X$ sous $\mathbb{P}_\theta$
+\end{itemize}
+\end{definition}
+\end{mdframed}
+
+\begin{remarque}
+Si $X=(X_1,\cdots,X_n)$ est un $n$-échantillon i.i.d.
+
+\begin{itemize}
+\item $X_i$ discret :
+
+$$
+L(\theta,X) = \prod_{i=1}^{n} P_\theta (X_i)
+$$
+\item $X_i$ à densité :
+
+$$
+L(\theta,X) = \prod_{i=1}^{n} f_\theta(X_i)
+$$
+\end{itemize}
+\end{remarque}
+
+\begin{exemple}
+On considère $X \sim \mathcal{B}(15,p)$ avec $p$ inconnue. On observe $x=5$.
+
+La fonction de vraisemblance est
+
+$$
+L(p,5) = \mathbb{P}_p (X=5) = \binom{15}{5} p^5 (1-p)^{10}
+$$
+
+C'est la probabilité d'observer $5$ quand le paramètre est $p$.
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+$p$ & 0,1 & 0,2 & 0,3 & 0,4 & 0,5 \\
+\hline
+$L(p,5)$ & 0,01 & 0,1 & 0,21 & 0,19 & 0,09 \\
+\hline
+\end{tabular}
+\end{center}
+
+Quand $p=0,3$ il y a $21$ chances sur $100$ d'observer $x=5$.
+
+Il est donc plus « vraisemblable » que le vrai $p$ soit égal à $0,3$ plutôt qu'à $0,1$.
+
+En suivant ce raisonnement, la valeur de $p$ la plus vraisemblable est celle qui maximise la probabilité d'observer $5$.
+
+C'est donc la valeur qui maximise la vraisemblance.
+
+Pour trouver ce maximum, on utilise la log-vraisemblance :
+
+\begin{align*}
+l(p,x) &= \ln L(p,x) = \ln \binom{15}{x} + x\ln(p) + (15-x)\ln(1-p)
+\end{align*}
+
+On dérive par rapport à $p$ :
+
+\begin{align*}
+\frac{\partial l}{\partial p}(p,x)
+&= \frac{x}{p} - \frac{15-x}{1-p}\\
+&= \frac{x(1-p) - (15-x)p}{p(1-p)}\\
+&= \frac{x-15p}{p(1-p)}
+\end{align*}
+
+Cette dérivée s'annule en $p=\frac{x}{15}$.
+
+On vérifie qu'il s'agit bien d'un maximum :
+
+$$
+\frac{\partial^2 l}{\partial p^2}(p,x) = -\frac{x}{p^2} - \frac{15-x}{(1-p)^2} < 0
+$$
+
+Ici avec $x=5$ on a $\hat{p}=\frac{5}{15}=\frac{1}{3}$.
+
+La valeur de $p$ la plus vraisemblable au vu de l'observation $x=5$ est $p=\frac{1}{3}$.
+\end{exemple}
+
+\smallskip
+
+\begin{mdframed}
+\begin{definition}
+On appelle estimateur du maximum de vraisemblance (E.M.V.) de $\theta$ toute quantité $\hat{\theta}$ satisfaisant :
+
+$$
+\hat{\theta}^{\text{EMV}} \in \arg \max_{\theta \in \Theta} L(\theta,X)
+$$
+
+Souvent on considère la log-vraisemblance :
+
+$$
+\hat{\theta} \in \arg \max_{\theta \in \Theta} l(\theta,X)
+$$
+
+où $l(\theta,X) = \ln L(\theta,X)$.
+\end{definition}
+\end{mdframed}
+
+\begin{proposition}[Méthode pratique de calcul]
+Si $L(\theta, X)$ (ou $l(\theta,X)$) est dérivable par rapport à $\theta$ et si le maximum est atteint à l'intérieur de $\Theta$, alors $\hat{\theta}$ vérifie l'équation de vraisemblance :
+$$
+\frac{\partial l}{\partial \theta}(\hat{\theta}, X) = 0
+$$
+avec la condition du second ordre :
+$$
+\frac{\partial^2 l}{\partial \theta^2}(\hat{\theta}, X) < 0
+$$
+ou, en dimension supérieure, la hessienne doit être définie négative.
+\end{proposition}
+
+\begin{theoreme}[Principe d'invariance]
+Si $\hat{\theta}$ est un EMV de $\theta$ et $g : \Theta \to \mathbb{R}$ une fonction, alors $g(\hat{\theta})$ est un EMV de $g(\theta)$.
+\end{theoreme}
+
+\begin{exemple}
+Soit $X_1, \ldots, X_n$ un $n$-échantillon i.i.d. de loi $\mathcal{N}(\theta, 1)$ avec $\theta \in \mathbb{R}$ inconnu.
+La vraisemblance est :
+$$
+L(\theta, X) = \prod_{i=1}^{n} \frac{1}{\sqrt{2\pi}} e^{-\frac{(X_i-\theta)^2}{2}} = (2\pi)^{-n/2} e^{-\frac{1}{2}\sum_{i=1}^{n}(X_i-\theta)^2}
+$$
+La log-vraisemblance est :
+$$
+l(\theta, X) = -\frac{n}{2}\ln(2\pi) - \frac{1}{2}\sum_{i=1}^{n}(X_i-\theta)^2
+$$
+On dérive :
+$$
+\frac{\partial l}{\partial \theta}(\theta, X) = \sum_{i=1}^{n}(X_i-\theta) = n\bar{X}_n - n\theta
+$$
+Cette dérivée s'annule en $\theta = \bar{X}_n$. Comme $\frac{\partial^2 l}{\partial \theta^2} = -n < 0$, il s'agit bien d'un maximum.
+
+Donc l'EMV de $\theta$ est : $\hat{\theta} = \bar{X}_n$.
+
+Par le principe d'invariance, l'EMV de $\theta^2$ est $(\bar{X}_n)^2$.
+\end{exemple}
+
+\begin{exemple}
+Soit $X_1, \ldots, X_n$ un $n$-échantillon i.i.d. de loi exponentielle $\mathcal{E}(\lambda)$ de densité $f_\lambda(x) = \lambda e^{-\lambda x} \mathbb{1}_{x \geq 0}$, avec $\lambda > 0$ inconnu.
+
+La vraisemblance est :
+$$
+L(\lambda, X) = \prod_{i=1}^{n} \lambda e^{-\lambda X_i} = \lambda^n e^{-\lambda \sum_{i=1}^{n} X_i}
+$$
+La log-vraisemblance est :
+$$
+l(\lambda, X) = n\ln(\lambda) - \lambda \sum_{i=1}^{n} X_i
+$$
+On dérive :
+$$
+\frac{\partial l}{\partial \lambda}(\lambda, X) = \frac{n}{\lambda} - \sum_{i=1}^{n} X_i
+$$
+Cette dérivée s'annule en $\lambda = \frac{n}{\sum_{i=1}^{n} X_i} = \frac{1}{\bar{X}_n}$.
+
+Comme $\frac{\partial^2 l}{\partial \lambda^2} = -\frac{n}{\lambda^2} < 0$, il s'agit bien d'un maximum.
+
+Donc l'EMV de $\lambda$ est : $\hat{\lambda} = \frac{1}{\bar{X}_n}$.
+\end{exemple}
+
+\begin{remarque}[Avantages et inconvénients]
+\textbf{Avantages :}
+\begin{itemize}
+\item Méthode générale applicable à de nombreux modèles statistiques.
+\item Interprétation intuitive : on choisit le paramètre qui rend l'observation la plus probable.
+\item Bonnes propriétés asymptotiques (convergence, normalité asymptotique, efficacité).
+\item Le principe d'invariance facilite l'estimation de fonctions de paramètres.
+\end{itemize}
+
+\textbf{Inconvénients :}
+\begin{itemize}
+\item L'EMV peut ne pas être unique.
+\item L'EMV peut ne pas exister.
+\item L'EMV peut être difficile à exhiber (pas de forme explicite).
+\item Peut être biaisé en échantillon fini (même si asymptotiquement sans biais).
+\end{itemize}
+\end{remarque}

@@ -1,0 +1,205 @@
+\chapter*{TD 1 - Révisions de probabilité}
+
+\setcounter{exercice}{0}
+
+\begin{mdframed}
+\begin{exercice}
+\begin{enumerate}
+    \item Soit $X \sim \mathcal{E}(\lambda)$. Donner la loi de la variable $Y = 1 + \lfloor X \rfloor$, où $\lfloor \cdot \rfloor$ désigne la partie entière.
+    \item Soit $U \sim \mathcal{U}([0, 1])$. Donner la loi de $Y = U^2$.
+    \item Soit $U \sim \mathcal{U}([0, 1])$. Donner la loi de $Y = \lfloor 1/U \rfloor$.
+    \item Soit $X \sim \mathcal{N}(0, 1)$. Donner la loi de $Y = X^2$.
+\end{enumerate}
+\end{exercice}
+\end{mdframed}
+
+\smallskip
+
+\begin{mdframed}
+\begin{exercice}
+Soit $X_1, \dots, X_n$ des v.a. indépendantes, centrées, telles que pour tout $i \in \{1, \dots, n\}$, il existe des réels $c_i > 0$ vérifiant, $|X_i| \le c_i$ p.s.. On note
+\begin{equation*}
+S_n = \sum_{i=1}^n X_i, \quad \text{et} \quad C_n = \sum_{i=1}^n c_i^2.
+\end{equation*}
+L'objectif est de prouver l'inégalité suivante (appelée inégalité de Hoeffding) : pour tout $x \ge 0$,
+\begin{equation*}
+\mathbb{P}(|S_n| \ge x) \le 2 \exp \left( -\frac{x^2}{2C_n} \right).
+\end{equation*}
+\begin{enumerate}
+    \item Soit $X$ une v.a.r. On définit pour tout $t \ge 0$ et tout $x \ge 0$,
+    \begin{equation*}
+    \ell_X(t) = \log \mathbb{E}\left[e^{tX}\right], \quad \ell_X^*(x) = \sup_{t \ge 0} \{xt - \ell_X(t)\}.
+    \end{equation*}
+    Montrer que pour tout $x \ge 0$,
+    \begin{equation*}
+    \mathbb{P}(X \ge x) \le \exp\left(-\ell_X^*(x)\right).
+    \end{equation*}
+    
+    \item Montrer que pour tout $t \ge 0$,
+    \begin{equation*}
+    \ell_{S_n}(t) = \sum_{i=1}^n \ell_{X_i}(t).
+    \end{equation*}
+    
+    \item Soit $X$ une v.a. centrée telle que $|X| \le 1$ p.s. Soit $\theta$ une v.a. de loi de Rademacher (i.e. prenant les valeurs $-1$ et $1$ avec probabilité $1/2$). Vérifier que pour toute fonction convexe $\phi : \mathbb{R} \to \mathbb{R}$,
+    \begin{equation*}
+    \mathbb{E}[\phi(X)] \le \mathbb{E}[\phi(\theta)].
+    \end{equation*}
+    En déduire que pour tout $x \ge 0$,
+    \begin{equation*}
+    \ell_X(t) \le \frac{t^2}{2}.
+    \end{equation*}
+    
+    \item Montrer que pour tout $x \ge 0$,
+    \begin{equation*}
+    \mathbb{P}(S_n \ge x) \le \exp \left(-\frac{x^2}{2C_n}\right).
+    \end{equation*}
+    \item Conclure.
+\end{enumerate}
+\end{exercice}
+\end{mdframed}
+
+\smallskip
+
+\begin{mdframed}
+\begin{exercice}
+\begin{enumerate}
+    \item Soit $X$ une v.a. à valeurs dans $\mathbb{N}$. Montrer que
+    \begin{equation*}
+    \mathbb{E}[X] = \sum_{n \ge 0} \mathbb{P}(X > n).
+    \end{equation*}
+    \item Soit $X$ une v.a. positive p.s. Montrer que pour tout $\alpha > 0$,
+    \begin{equation*}
+    \mathbb{E}[X^\alpha] = \alpha \int_0^{+\infty} t^{\alpha-1} \mathbb{P}(X > t) dt.
+    \end{equation*}
+\end{enumerate}
+\end{exercice}
+\end{mdframed}
+
+\smallskip
+
+\begin{mdframed}
+\begin{exercice}
+Soit $(X_n)_n$ une suite de v.a.r. i.i.d. de carrés intégrables. Démontrer que
+\begin{equation*}
+\mathbb{E}[\bar{X}_n] = \mathbb{E}[X_1] \quad \text{et} \quad \text{Var}(\bar{X}_n) = \frac{\text{Var}(X_1)}{n}.
+\end{equation*}
+\end{exercice}
+\end{mdframed}
+
+\smallskip
+
+\begin{mdframed}
+\begin{exercice}
+Soit $(U_i)_{i \in \mathbb{N}}$ une suite de variables aléatoires indépendantes et identiquement distribuées de loi uniforme sur $[a, b]$, $a < b$.
+\begin{enumerate}
+    \item Déterminer la loi de $M_n = \sup_{1 \le i \le n} U_i$.
+    \item Même question pour l'infimum : $m_n = \inf_{1 \le i \le n} U_i$.
+    \item Étudier $\mathbb{P}(n(b - M_n) > x)$ lorsque $n$ tend vers l'infini. Que peut-on en déduire ?
+\end{enumerate}
+\end{exercice}
+\end{mdframed}
+
+\smallskip
+
+\begin{mdframed}
+\begin{exercice}
+Soit $(X_i)_{i \ge 1}$ une suite de variables aléatoires indépendantes, identiquement distribuées, centrées et réduites. Par le théorème central limite on a
+\begin{equation*}
+Z_n = \frac{1}{\sqrt{n}} \sum_{i=1}^n X_i \xrightarrow[n \to +\infty]{\text{loi}} Z \sim \mathcal{N}(0, 1).
+\end{equation*}
+Le but de cet exercice est de montrer que $Z_n$ ne peut pas converger en probabilité.
+\begin{enumerate}
+    \item Décomposer la variable $Z_{2n}$ en fonction de $Z_n$ et d'une variable indépendante de $Z_n$.
+    \item Calculer la fonction caractéristique de $Z_{2n} - Z_n$ et montrer que cette différence converge en loi.
+    \item En raisonnant par l'absurde, en déduire que $Z_n$ ne converge pas en probabilité. \textit{Indication : on pourra démontrer le résultat suivant : }
+    \begin{quote}
+    \textbf{Lemme 1} Soit $(U_n)_n$ une suite de v.a.r. convergeant en probabilité vers $U$ et $(V_n)_n$ une suite de v.a.r. convergeant en probabilité vers $V$. Soit $a \in \mathbb{R}$. Alors
+    \begin{equation*}
+    aU_n + V_n \xrightarrow[n \to +\infty]{\mathbb{P}} aU + V.
+    \end{equation*}
+    \end{quote}
+\end{enumerate}
+\end{exercice}
+\end{mdframed}
+
+\smallskip
+
+\begin{mdframed}
+\begin{exercice}
+On rappelle que l'on dit qu'un couple de v.a.r. $Z = (X, Y)$ suit la loi uniforme sur une partie (mesurable) $B \subset \mathbb{R}^2$ si la densité de $Z$ est donnée par $f_Z(z) = \frac{\mathbf{1}_B(z)}{\text{Vol}(B)}$, où $\text{Vol}(B)$ est le volume de $B$.
+\begin{enumerate}
+    \item Soit $X, Y$ un point tiré au hasard (uniformément) sur le carré unité de $\mathbb{R}^2$. Montrer que $X$ et $Y$ sont indépendantes et de loi uniforme sur $[0, 1]$.
+    \item Soit $(X, Y)$ un point tiré au hasard (uniformément) sur le disque unité de $\mathbb{R}^2$. Déterminer la loi marginale de $X$.
+\end{enumerate}
+\end{exercice}
+\end{mdframed}
+
+\smallskip
+
+\begin{mdframed}
+\begin{exercice}
+\begin{enumerate}
+    \item On coupe un bâton au hasard en trois morceaux en utilisant deux v.a. indépendantes et uniformes sur $[0, 1]$ pour déterminer les points de coupe. Vérifier que les longueurs des trois morceaux ainsi obtenus sont des v.a. de même loi. Sont-elles indépendantes ? Quelle est la probabilité de pouvoir fabriquer un triangle avec ces trois morceaux ?
+    \item Deux amis se donnent rendez-vous entre 12h et 13h, et arrivent indépendamment uniformément entre ces deux horaires. Calculer le temps moyen d'attente du premier arrivé.
+\end{enumerate}
+\end{exercice}
+\end{mdframed}
+
+\smallskip
+
+\begin{mdframed}
+\begin{exercice}
+Écrire un programme pour simuler $n$ v.a. i.i.d., $X_1, \dots, X_n$, telles que :
+\begin{enumerate}
+    \item $X_1$ est une v.a. discrète à valeurs dans $\{w_1, \dots, w_r\}$ avec pour tout $1 \le i \le r$,
+    \begin{equation*}
+    \mathbb{P}(X_1 = w_i) = p_i.
+    \end{equation*}
+    Les valeurs $w_1, \dots, w_r$, et $p_1, \dots, p_r$ sont des arguments du programme.
+    \item $X_1$ suit une loi de Laplace, de densité sur $\mathbb{R}$ donnée par $x \mapsto \frac{1}{2} e^{-|x|}$.
+    \item $X_1$ suit une loi de Cauchy, de densité sur $\mathbb{R}$ donnée par $x \mapsto \frac{1}{\pi} \frac{1}{1+x^2}$.
+\end{enumerate}
+\end{exercice}
+\end{mdframed}
+
+\smallskip
+
+\begin{mdframed}
+\begin{exercice}
+Soit $Z$ une variable aléatoire gaussienne centrée réduite.
+\begin{enumerate}
+    \item Montrer que pour tout $\lambda \in \mathbb{R}$, $M_Z(\lambda) := \mathbb{E}[e^{\lambda Z}] = e^{\lambda^2/2}$.
+    \item En déduire que $\mathbb{E}[Z^n] = 0$ si $n$ est impair et $\mathbb{E}[Z^{2k}] = \frac{(2k)!}{2^k k!}$ pour tout $k \ge 0$.
+    \item Conclure que $\varphi_Z(t) := \mathbb{E}[e^{itZ}] = e^{-t^2/2}$, pour tout $t \in \mathbb{R}$.
+\end{enumerate}
+\end{exercice}
+\end{mdframed}
+
+\smallskip
+
+\begin{mdframed}
+\begin{exercice}
+Soit $X_n, n \in \mathbb{N}$, et $X$ des variables aléatoires à valeurs dans $\mathbb{N}$.
+\begin{enumerate}
+    \item On suppose maintenant que pour tout $n \in \mathbb{N}$, $X_n \sim \mathcal{B}(n, p_n)$, avec $p_n \in [0, 1]$ tel que $np_n \xrightarrow[n \to +\infty]{} \lambda > 0$. Montrer que $\mathbb{P}(X_n = k) \xrightarrow[n \to +\infty]{} \mathbb{P}(X = k)$ avec $X$ de loi de Poisson de paramètre $\lambda$. Conclure.
+    \item Retrouver le résultat précédent en utilisant le théorème de Lévy.
+\end{enumerate}
+\end{exercice}
+\end{mdframed}
+
+\smallskip
+
+\begin{mdframed}
+\begin{exercice}
+Dans cet exercice, on présente une preuve rapide de la loi forte des grands nombres sous une hypothèse de moment d'ordre 4 fini.\\
+Soit $(X_n)_{n \ge 1}$ une suite de v.a.r. i.i.d. telles que $\mathbb{E}[|X_1|^4] < \infty$. On pose pour tout $n \in \mathbb{N}$, $S_n = \sum_{k=1}^n X_k$ et on note $m = \mathbb{E}[X_1]$.
+
+\begin{enumerate}
+    \item Montrer qu'il existe une constante $K > 0$ telle que, pour tout $n \ge 1$
+    \begin{equation*}
+    \mathbb{E}[(S_n - nm)^4] \le Kn^2.
+    \end{equation*}
+    \item En déduire que $\frac{S_n}{n} \xrightarrow[n \to +\infty]{\text{p.s.}} m$.
+\end{enumerate}
+\end{exercice}
+\end{mdframed}

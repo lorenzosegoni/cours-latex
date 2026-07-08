@@ -1,0 +1,188 @@
+\chapter*{TD 2 - Méthodes d'estimation - 1ère partie}
+
+\setcounter{exercice}{0}
+
+\begin{mdframed}
+\begin{exercice}
+Les familles de lois suivantes sont-elles identifiables ?
+\begin{enumerate}
+    \item $\{\mathcal{E}(\lambda), \, \lambda \in (0, +\infty)\}$.
+    \item $\{\mathcal{E}(\lambda_1 \lambda_2), \, (\lambda_1, \lambda_2) \in (0, +\infty)^2\}$.
+    \item $\{\mathcal{B}(p), \, p \in (0, 1)\}$.
+    \item $\{\mathcal{N}(0, \sigma^2), \, \sigma \in \mathbb{R}\}$.
+    \item $\{\mathcal{N}(0, \sigma^2), \, \sigma^2 \in (0, +\infty)\}$.
+\end{enumerate}
+\end{exercice}
+\end{mdframed}
+
+\smallskip
+
+\begin{mdframed}
+\begin{exercice}
+Soit $(X_i)_{i \ge 1}$ une suite de variables aléatoires indépendantes et identiquement distribuées. On note $m = \mathbb{E}[X_1]$ et $\sigma^2 = \text{Var}(X_1)$. Vérifier que
+\begin{equation*}
+\bar{X}_n \quad \text{et} \quad S_n = \frac{1}{n} \sum_{i=1}^n (X_i - \bar{X}_n)^2
+\end{equation*}
+sont des estimateurs consistants de $m$ et de $\sigma^2$. Calculer leur biais et en déduire un estimateur sans biais de $\sigma^2$.
+\end{exercice}
+\end{mdframed}
+
+\smallskip
+
+\begin{mdframed}
+\begin{exercice}
+Soit $(X_i)_{i \ge 1}$ une suite de variables aléatoires indépendantes et identiquement distribuées. On note $m = \mathbb{E}[X_1]$ et $\sigma^2 = \text{Var}(X_1)$. On propose comme estimateurs de $m$, $\bar{X}_n$ et
+\begin{equation*}
+T_{n,1} = \frac{1}{2}(X_n + X_{n-1}).
+\end{equation*}
+
+\begin{enumerate}
+    \item Montrer que $T_{n,1}$ est sans biais.
+    \item Lequel des deux estimateurs $\bar{X}_n$ et $T_{n,1}$ choisiriez-vous pour estimer $m$ ?
+    \item Que pensez-vous de l'estimateur $T_{n,2} = 0$ pour l'estimation de $m$ ?
+\end{enumerate}
+\end{exercice}
+\end{mdframed}
+
+\smallskip
+
+\begin{mdframed}
+\begin{exercice}
+Lors du contrôle d’une chaîne de médicaments, on s’intéresse au nombre de comprimés défectueux dans un lot. On note $X_i$ le nombre de comprimés défectueux dans le lot $i$. On suppose que ces variables aléatoires sont i.i.d. de loi de probabilité inconnue, d’espérance $\mu$ et de variance $\sigma^2$.
+
+Le contrôle effectué sur 20 lots choisis au hasard ont donné les résultats suivants :
+
+$$
+1\quad 0 \quad 0 \quad 3 \quad 2 \quad 0 \quad 5 \quad 2 \quad 0 \quad 0 \quad 1 \quad 2 \quad 1 \quad 3 \quad 0 \quad 1 \quad 0 \quad 0 \quad 2 \quad 7
+$$
+
+\begin{enumerate}
+    \item On considère quatre estimateurs pour $\mu$ :
+    $$
+    T_1 = X_1 \quad \frac{X_1 + X_2}{2} \quad T_3 = \frac{X_1 + X_2}{3} \quad T_4 = \frac{\sum_i^{20} X_i}{20}
+    $$
+    \begin{enumerate}
+        \item[(a)] Calculer le biais et la variance de chacun des estimateurs.
+        \item[(b)] Quel est le meilleur estimateur ?
+        \item[(c)] Quelle est l’estimation correspondante (c’est-à-dire sa valeur observée) ?
+    \end{enumerate}
+    \item Proposer un estimateur de la probabilité qu’un lot contienne au moins un comprimé défectueux et calculer
+l’estimation correspondante.
+\end{enumerate}
+\end{exercice}
+\end{mdframed}
+
+\smallskip
+
+\begin{mdframed}
+\begin{exercice}
+Soit $X_1, \cdots , X_n$ un échantillon i.i.d. de loi de probabilité $\mathbb{P}(X = 1) = \theta = 1 - \mathbb{P}(X = -1)$. On se propose d’estimer le paramètre $\theta \in [0 , 1]$ par l’estimateur $\hat{\theta} = \frac{\bar{X} + 1}{2}$.
+
+\begin{enumerate}
+    \item Calculer $\mathbb{E}[X]$ et en déduire que $\hat{\theta}$ est un estimateur sans biais de $\theta$.
+    \item Montrer que $\hat{\theta}$ est un estimateur consistant de $\theta$.
+    \item Déterminer le risque quadratique de $\hat{\theta}$.
+\end{enumerate}
+\end{exercice}
+\end{mdframed}
+
+\smallskip
+
+\begin{mdframed}
+\begin{exercice}
+Soit $(X_i)_{i \ge 1}$ une suite de variables aléatoires indépendantes et identiquement distribuées de loi normale de moyenne $m$ et de variance $\sigma^2$.
+
+\begin{enumerate}
+    \item Calculer la loi de $\bar{X}_n$.
+    \item On suppose que $\sigma$ est connu.
+    \begin{enumerate}
+        \item[i--] Donner un majorant de $\mathbb{P}_m\left( |\bar{X}_n - m|/\sigma > t \right)$ au moyen de l'inégalité de Bienaymé-Tchebychev. En déduire un majorant du nombre d'observations minimal nécessaire pour que cette probabilité soit inférieure à $0.05$. Donner la valeur pour $t = 0.01$.
+        \item[ii--] Calculer ce nombre minimal en utilisant la vraie loi. Donner l'application numérique associée. Que remarquez-vous ?
+        \item[iii--] En déduire la valeur de $\mathbb{P}_m\left( m \in \left[ \bar{X}_n - 1.96 \frac{\sigma}{\sqrt{n}}, \, \bar{X}_n + 1.96 \frac{\sigma}{\sqrt{n}} \right] \right)$.
+        \item[iv--] Comment s'interprète l'intervalle $I = \left[ \bar{X}_n - 1.96 \frac{\sigma}{\sqrt{n}}, \, \bar{X}_n + 1.96 \frac{\sigma}{\sqrt{n}} \right]$ ?
+    \end{enumerate}
+\end{enumerate}
+\end{exercice}
+\end{mdframed}
+
+\smallskip
+
+\begin{mdframed}
+\begin{exercice}
+Soit $(X_i)_{i \ge 1}$ une suite de variables aléatoires indépendantes et identiquement distribuées de loi exponentielle $\mathcal{E}(\theta)$, $\theta > 0$.
+
+\begin{enumerate}
+    \item Un statisticien propose d'estimer $\theta$ par :
+    \begin{equation*}
+    \hat{\theta}_n = \frac{1}{\bar{X}_n}.
+    \end{equation*}
+    \begin{enumerate}
+        \item[i--] Justifier que $\hat{\theta}_n$ est bien définie.
+        \item[ii--] Calculer $\mathbb{E}_\theta[X_1]$ et expliquer le choix du statisticien.
+        \item[iii--] Donner la loi limite de $\sqrt{n}(\hat{\theta}_n - \theta)$.
+        \item[iv--] Donner la loi de $\sum_{i=1}^n X_i$. Calculer $\mathbb{E}_\theta[\hat{\theta}_n]$, $\text{Var}_\theta(\hat{\theta}_n)$, et $\mathbb{E}_\theta[(\hat{\theta}_n - \theta)^2]$.
+    \end{enumerate}
+    
+    \item Un statisticien propose d'utiliser
+    \begin{equation*}
+    \hat{\theta}_n^{(2)} = \frac{n-1}{n} \hat{\theta}_n.
+    \end{equation*}
+    \begin{enumerate}
+        \item[i--] L'estimateur $\hat{\theta}_n^{(2)}$ vérifie-t-il toujours des propriétés asymptotiques similaires à $\hat{\theta}_n$ ?
+        \item[ii--] Calculer $\mathbb{E}_\theta[\hat{\theta}_n^{(2)}]$, $\text{Var}_\theta(\hat{\theta}_n^{(2)})$, et $\mathbb{E}_\theta[(\hat{\theta}_n^{(2)} - \theta)^2]$. Quel estimateur préférez-vous ?
+    \end{enumerate}
+\end{enumerate}
+\end{exercice}
+\end{mdframed}
+
+\smallskip
+
+\begin{mdframed}
+\begin{exercice}
+Soit $(X_i)_{i \ge 1}$ une suite de variables aléatoires indépendantes et identiquement distribuées de loi de densité sur $\mathbb{R}$ donnée par
+\begin{equation*}
+f_\theta(x) = \frac{2x}{\theta^2} \mathbf{1}_{[0, \theta]}(x),
+\end{equation*}
+où $\theta > 0$ est un paramètre inconnu.
+
+\begin{enumerate}
+    \item On pose $X_{(n)} = \max_{1 \le i \le n} X_i$.
+    \begin{enumerate}
+        \item[i--] Donner la densité de $X_{(n)}$.
+        \item[ii--] Calculer $\mathbb{E}_\theta[X_{(n)}]$, $\mathbb{E}_\theta[X_{(n)}^2]$, puis en déduire $\text{Var}_\theta(X_{(n)})$.
+        \item[iii--] Montrer que $X_{(n)}$ est consistant pour l'estimation de $\theta$.
+    \end{enumerate}
+    \item Calculer $\mathbb{E}_\theta[X_1]$ puis en déduire un estimateur $\hat{\theta}_n$ consistant de $\theta$.
+    \item Qui de $X_{(n)}$ ou $\hat{\theta}_n$ choisiriez-vous pour estimer $\theta$ ?
+\end{enumerate}
+\end{exercice}
+\end{mdframed}
+
+\smallskip
+
+\begin{mdframed}
+\begin{exercice}
+Soit $(X_i)_{i \ge 1}$ une suite de variables aléatoires indépendantes et identiquement distribuées de loi de densité sur $\mathbb{R}$ donnée par
+\begin{equation*}
+f_\theta(x) = \frac{1}{\theta} \exp\left( -\frac{x - \theta}{\theta} \right) \mathbf{1}_{[\theta, +\infty[}(x),
+\end{equation*}
+où $\theta > 0$ est un paramètre inconnu.
+
+\begin{enumerate}
+    \item Montrer que $X_1/\theta - 1$ suit une loi exponentielle $\mathcal{E}(1)$.
+    \item 
+    \begin{enumerate}
+        \item[i--] Déterminer la fonction de répartition de $X_{(1)} = \min_{1 \le i \le n} X_i$.
+        \item[ii--] Calculer le risque quadratique de $X_{(1)}$ pour l'estimation de $\theta$ puis analyser la consistance de cet estimateur.
+    \end{enumerate}
+    \item 
+    \begin{enumerate}
+        \item[i--] Estimer $\theta$ par la méthode des moments.
+        \item[ii--] Quelle est la loi limite de l'estimateur $\hat{\theta}$ ainsi obtenu ? Étudier également sa convergence en moyenne quadratique.
+    \end{enumerate}
+    \item Comparer les deux estimateurs.
+\end{enumerate}
+\end{exercice}
+\end{mdframed}
+
+\smallskip

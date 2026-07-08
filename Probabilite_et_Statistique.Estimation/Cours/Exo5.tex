@@ -1,0 +1,154 @@
+\chapter*{TD 5 - Exercices Complet}
+
+\setcounter{exercice}{0}
+
+\begin{mdframed}
+\begin{exercice}
+On considère une suite de variables aléatoires $(X_i)_{i \ge 1}$ indépendantes et identiquement distribuées de densité $f_\theta$ définie sur $\mathbb{R}$ par
+\begin{equation*}
+f_{\theta_0}(x) = C(\theta_0)(x - \theta_0)^2 \mathbf{1}_{[\theta_0, \theta_0 + 1]} (x),
+\end{equation*}
+où $C(\theta_0)$ est une constante (dépendant uniquement de $\theta_0$) et $\theta_0 > 0$ est un paramètre inconnu.
+
+\begin{enumerate}
+    \item Montrer que $C(\theta_0) = 3$.
+    \item Calculer la fonction de répartition de $X_1$.
+    \item Calculer $\mathbb{E}_\theta[X_1 - \theta]$ et en déduire que $\mathbb{E}_\theta[X_1] = \theta + 3/4$.
+    \item Calculer $\mathbb{E}_\theta[(X_1 - \theta)^2]$ et en déduire que $\sigma^2 = \text{Var}_\theta(X_1)$ ne dépend pas de $\theta$.
+    \item 
+    \begin{enumerate}
+        \item[i--] À partir de la question 3, définir un estimateur $\hat{\theta}_n$ de $\theta$ par la méthode des moments.
+        \item[ii--] $\hat{\theta}_n$ est-il sans biais ? consistant ?
+        \item[iii--] Calculer $R(\hat{\theta}_n, \theta)$, le risque quadratique de $\hat{\theta}_n$.
+        \item[iv--] Justifier que $\sqrt{n}(\hat{\theta}_n - \theta)$ converge en loi vers une limite que l'on précisera.
+        \item[v--] Soit $\alpha \in \, ]0, 1[$ fixé et $t_\alpha = q_{1-\alpha/2}$ le quantile d'ordre $1 - \alpha/2$ de la loi $\mathcal{N}(0, 1)$. Donner la limite de
+        \begin{equation*}
+        \mathbb{P}_\theta \left( \theta \in \left[ \hat{\theta}_n - \frac{\sigma}{\sqrt{n}}t_\alpha \, ; \, \hat{\theta}_n + \frac{\sigma}{\sqrt{n}}t_\alpha \right] \right).
+        \end{equation*}
+    \end{enumerate}
+    
+    \item Dans cette question, on étudie l'estimateur $\tilde{\theta}_n = \max(X_1, \dots, X_n) - 1$.
+    \begin{enumerate}
+        \item[i--] Calculer la fonction de répartition de $\tilde{\theta}_n$. En déduire que la densité de $\tilde{\theta}_n$ est donnée pour tout $x \in \mathbb{R}$, par
+        \begin{equation*}
+        f_{\tilde{\theta}_n}(x) = 3n(x + 1 - \theta)^{3n-1} \mathbf{1}_{[\theta-1, \theta]} (x).
+        \end{equation*}
+        \item[ii--] Montrer que $\mathbb{E}_\theta[\tilde{\theta}_n] = \theta - \frac{1}{3n+1}$. L'estimateur est-il sans biais ?
+        \item[iii--] Calculer le risque quadratique de $\tilde{\theta}_n$. En déduire que $\tilde{\theta}_n$ est consistant.
+        \item[iv--] Justifier que $\varepsilon_n := 3n(\theta - \tilde{\theta}_n)$ converge en loi vers une limite que l'on précisera. On étudiera pour cela la convergence de la fonction de répartition de $\varepsilon_n$ quand $n \to \infty$.
+    \end{enumerate}
+    \item Des deux estimateurs $\hat{\theta}_n$ et $\tilde{\theta}_n$ lequel est préférable ? Justifier.
+\end{enumerate}
+\end{exercice}
+\end{mdframed}
+
+\smallskip
+
+\begin{mdframed}
+\begin{exercice}
+On considère une suite $(U_i)_{i \ge 1}$ de variables aléatoires indépendantes et identiquement distribuées de loi uniforme sur $[0, 1]$. Pour tout $n \ge 1$, on pose
+\begin{equation*}
+V_n = (U_1 \cdots U_n)^{1/n}.
+\end{equation*}
+
+\begin{enumerate}
+    \item Montrer qu'avec probabilité 1, $V_n > 0$.
+    \item Montrer que $(V_n)_{n \ge 1}$ converge presque sûrement vers une constante qu'on déterminera.\\
+    \textit{Indication : on pourra étudier dans un premier temps la convergence de la suite $W_n = \ln(V_n)$, $n \ge 1$.}
+    \item On considère maintenant la suite de variables aléatoires $X_n = (e V_n)^{\sqrt{n}}$, $n \ge 1$. Montrer que $X_n$ converge en loi vers une variable aléatoire qu'on déterminera.\\
+    \textit{Indication : on considérera $\ln(X_n)$ et on utilisera $\int_0^1 (\ln u)^2 du = 2$.}
+\end{enumerate}
+\end{exercice}
+\end{mdframed}
+
+\smallskip
+
+\begin{mdframed}
+\begin{exercice}
+On observe $X_1, \dots, X_n$, un $n$-échantillon (v.a. indépendantes et identiquement distribuées) de loi de Poisson de paramètre $\lambda > 0$ inconnu. On rappelle que pour tout $k \in \mathbb{N}$,
+\begin{equation*}
+\mathbb{P}_\lambda(X_1 = k) = \frac{\lambda^k}{k!} e^{-\lambda}.
+\end{equation*}
+Le but de cet exercice est d'étudier deux estimateurs du paramètre $p = e^{-\lambda}$.
+
+\begin{enumerate}
+    \item On définit pour tout $n \ge 1$, $Y_n = \mathbf{1}_{\{X_n = 0\}}$, et on pose $\bar{Y}_n = \frac{1}{n}\sum_{k=1}^n Y_k$.
+    \begin{enumerate}
+        \item[i--] Justifier que $\bar{Y}_n$ est un estimateur sans biais et convergeant de $p$.
+        \item[ii--] Montrer que $\text{Var}_\lambda(\bar{Y}_n) = \frac{p(1 - p)}{n}$.
+    \end{enumerate}
+    
+    \item On pose $S_n = X_1 + \dots + X_n$, et on considère $N_n = \left( 1 - \frac{1}{n} \right)^{S_n}$.
+    \begin{enumerate}
+        \item[i--] Montrer que $N_n$ est un estimateur sans biais de $p$.
+        \item[ii--] Montrer que $\text{Var}_\lambda(N_n) = e^{-2\lambda}\left( e^{\lambda/n} - 1 \right)$. En déduire que l'estimateur $N_n$ est consistant.
+    \end{enumerate}
+    
+    \item Comparer les risques quadratiques de $\bar{Y}_n$ et $N_n$. Quel estimateur choisiriez-vous ?\\
+    On pourra utiliser pour cela l'inégalité suivante : pour tout $\lambda \in \mathbb{R}$, pour tout $n \in \mathbb{N}$,
+    \begin{equation}
+    n(e^{\lambda/n} - 1) \le e^\lambda - 1.
+    \end{equation}
+    \textit{Question facultative : démontrer l'inégalité.}
+    
+    \item On étudie dans cette question le caractère asymptotiquement gaussien de $N_n$.
+    \begin{enumerate}
+        \item[i--] On rappelle que $\mathbb{E}_\lambda[X_1] = \text{Var}_\lambda(X_1) = \lambda$. Justifier que
+        \begin{equation*}
+        \sqrt{n}\left( \frac{S_n}{n} - \lambda \right) \xrightarrow[n \to +\infty]{\text{loi}} \sqrt{\lambda}Z
+        \end{equation*}
+        avec $Z \sim \mathcal{N}(0, 1)$.
+        \item[ii--] On pose $\alpha_n = n \ln(1 - 1/n)$. On rappelle le développement asymptotique suivant lorsque $n \to +\infty$ :
+        \begin{equation*}
+        \alpha_n = -1 - \frac{1}{2n} + o\left(\frac{1}{n}\right).
+        \end{equation*}
+        En déduire que
+        \begin{equation*}
+        \sqrt{n}\left( \frac{S_n}{n}\alpha_n + \lambda \right) \xrightarrow[n \to +\infty]{\text{loi}} -\sqrt{\lambda}Z.
+        \end{equation*}
+        \textit{Indication : on fera intervenir la quantité $\sqrt{n}\left( \frac{S_n}{n} - \lambda \right)\alpha_n$.}
+        \item[iii--] Montrer que
+        \begin{equation*}
+        \sqrt{n}(N_n - p) \xrightarrow[n \to +\infty]{\text{loi}} e^{-\lambda}\sqrt{\lambda}Z.
+        \end{equation*}
+        \item[iv--] Soit $\alpha > 0$. En déduire un intervalle $I$ de la forme $[N_n \pm U_n]$ tel que $U_n$ dépend uniquement de $n$, $N_n$ et $\alpha$ vérifiant
+        \begin{equation*}
+        \mathbb{P}_\lambda(p \in I) \xrightarrow[n \to +\infty]{} 1 - \alpha.
+        \end{equation*}
+    \end{enumerate}
+\end{enumerate}
+\end{exercice}
+\end{mdframed}
+
+\smallskip
+
+\begin{mdframed}
+\begin{exercice}
+On observe $X_1, \dots, X_n$, un $n$-échantillon de densité donnée pour tout $x \in \mathbb{R}$, par
+\begin{equation*}
+f_\theta(x) = \frac{1}{\theta}(1 - x)^{\frac{1}{\theta} - 1} \mathbf{1}_{]0, 1[}(x),
+\end{equation*}
+où $\theta > 0$ est un paramètre inconnu.
+
+\begin{enumerate}
+    \item Vérifier que, pour tout $\theta > 0$, $f_\theta$ est bien une densité sur $]0, 1[$.
+    \item Calculer la fonction de répartition de $X_1$.
+    \item 
+    \begin{enumerate}
+        \item[i--] Calculer $\mathbb{E}_\theta[X_1]$. En déduire un estimateur $\hat{\theta}_n$ de $\theta$ par la méthode des moments.\\
+        On pourra utiliser l'égalité $\mathbb{E}_\theta[X_1] = \int_0^{+\infty} \mathbb{P}_\theta(X_1 > t)dt$.
+        \item[ii--] Justifier que $\hat{\theta}_n$ est consistant.
+        \item[iii--] Justifier que $\hat{\theta}_n$ est biaisé (on ne demande pas de calculer son biais).\\
+        \textit{Indication : on pourra utiliser l'inégalité de Jensen.}
+    \end{enumerate}
+    \item On définit, pour tout $i \ge 1$, la variable $Y_i = -\log(1 - X_i)$. Montrer que $Y_1$ suit la loi exponentielle de paramètre $1/\theta$.
+    \item 
+    \begin{enumerate}
+        \item[i--] Montrer que $\tilde{\theta}_n = \bar{Y}_n$ est l'estimateur du maximum de vraisemblance du paramètre $\theta$.
+        \item[ii--] Justifier que $\tilde{\theta}_n$ est consistant.
+        \item[iii--] Montrer que $\tilde{\theta}_n$ est sans biais et calculer son risque quadratique.
+        \item[iv--] Déterminer la limite en loi de $\sqrt{n}(\tilde{\theta}_n - \theta)$ quand $n \to +\infty$.
+    \end{enumerate}
+\end{enumerate}
+\end{exercice}
+\end{mdframed}

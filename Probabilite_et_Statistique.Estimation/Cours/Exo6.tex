@@ -1,0 +1,169 @@
+\chapter*{TD 6 - Optimalité}
+
+\section*{Rappels}
+La condition d’échange entre intégrale et dérivation est typiquement garantie par l’existence pour tout $\theta$ d’un voisinage ouvert $V$ tel que $T sup_{\theta^\prime V} \frac{\partial}{\partial \theta} f_{\theta^\prime}$ soit intégrable ; le théorème de dérivation des intégrales à paramètres assure alorsla que la condition est vérifiée.
+
+Dans les TD, la borne de Cramer Rao et information de Fisher ne seront évoquées que si cette condition
+est implicitement satisfaite.
+
+\medskip
+
+\setcounter{exercice}{0}
+
+\begin{mdframed}
+\begin{exercice}
+Soit $X_1, \dots, X_n$ un $n$-échantillon de densité 
+
+$$
+f(x) = \frac{1}{\theta} \exp\left(-\frac{x}{\theta}\right) \mathbb{1}_{[0,+\infty[}(x)
+$$
+
+\begin{enumerate}
+    \item Montrer qe l'estimateur du maximum de vraisemblance de $\theta$ est $\hat{\theta} = \bar{X}$
+    \item Déterminer l'information de Fisher du modèle.
+    \item L'estimateur $\hat{\theta}$ est-il efficace pour estimer $\theta$ ?
+\end{enumerate}
+\end{exercice}
+\end{mdframed}
+
+\medskip
+
+\begin{mdframed}
+\begin{exercice}
+Soit $(X_1, \dots, X_n)$ un $n$-échantillon de densité 
+
+$$
+f(x) = 2\theta x e^{-\theta x^2} \mathbb{1}_{x>0},
+$$
+
+où $\theta > 0$. On pourra admettre que si $Z \sim \Gamma(\alpha, \beta)$, alors :
+
+\begin{itemize}
+\item $\mathbb{E}[Z] = \frac{\alpha}{\beta}$, 
+\item $\mathbb{E}[Z^2] = \frac{\alpha(\alpha+1)}{\beta^2}$, 
+\item $\mathbb{E}\left[\frac{1}{Z}\right] = \frac{\beta}{\alpha-1}$, 
+\item $\mathbb{E}\left[\frac{1}{Z^2}\right] = \frac{\beta^2}{(\alpha-1)(\alpha-2)}$
+\end{itemize}
+
+(propriétés à savoir retrouver).
+\begin{enumerate}
+    \item Calculer l'estimateur du maximum de vraisemblance $\hat{\theta}$ de $\theta$.
+    \item Montrer que $Y_i = \theta X_i^2$ suit la loi exponentielle de paramètre $1$. En déduire la loi de $Z = \sum_{i=1}^n \theta X_i^2$.
+\item Retrouver les propriétés de $Z$.
+\item Déterminer l'information de Fisher du modèle.
+    \item L'EMV est-il biaisé ? En déduire un estimateur $\hat{\theta}_1$ non biaisé.
+    \item Calculer la variance de $\hat{\theta}_1$. L'estimateur $\hat{\theta}_1$ est-il efficace pour estimer $\theta$ ?
+\end{enumerate}
+\end{exercice}
+\end{mdframed}
+
+\medskip
+
+\begin{mdframed}
+\begin{exercice}
+Soit $(X_1, \dots, X_n)$ $n$ variables i.i.d. suivant une loi de Poisson de paramètre $\theta$. On rappelle les propriétés suivantes de cette loi :
+
+\begin{itemize}
+    \item Sa fonction génératrice des moments est $M(t) = \exp(\theta(e^t - 1))$ pour $t \in \mathbb{R}$.
+    \item $\mathbb{E}[X] = \theta$ ; $\mathbb{E}[X^2] = \theta^2 + \theta$ ; $\mathbb{E}[X^3] = \theta^3 + 3\theta^2 + \theta$ ; $\mathbb{E}[X^4] = \theta^4 + 6\theta^3 + 7\theta^2 + \theta$.
+    \item $\sum_{i=1}^n X_i$ suit la loi de Poisson de paramètre $n\theta$.
+\end{itemize}
+
+On rappelle également :
+
+\begin{itemize}
+    \item L'estimateur du maximum de vraisemblance de $\theta$ est la moyenne empirique $\bar{X}$.
+    \item L'information de Fisher du modèle vaut $I_n(\theta) = \frac{n}{\theta}$.
+    \item L'estimateur $\bar{X}$ atteint la borne de Cramér--Rao : $\text{Var}(\bar{X}) = \frac{\theta}{n} = \frac{1}{I_n(\theta)}$ et est donc efficace pour estimer $\theta$.
+\end{itemize}
+
+\begin{enumerate}
+    \item Dans cette question, on cherche à estimer $g(\theta) = e^{-\theta}$. On pose $Y_i = \mathbb{1}_{\{X_i=0\}}$ et $\bar{Y} = \frac{1}{n}\sum_{i=1}^n Y_i$.
+    \begin{enumerate}
+        \item Vérifier que $\bar{Y}$ est un estimateur sans biais de $g(\theta)$.
+        \item Calculer la borne de Cramér--Rao pour $\bar{Y}$.
+        \item Cet estimateur est-il efficace pour estimer $g(\theta)$ ?
+    \end{enumerate}
+    \item Dans cette question, on cherche à estimer $h(\theta) = \theta^2$. On pose $T_n = \bar{X}^2 - \frac{1}{n}\bar{X}$.
+    \begin{enumerate}
+        \item Vérifiez que $T_n$ est un estimateur sans biais de $h(\theta)$.
+        \item Calculer la borne de Cramér--Rao pour $T_n$.
+        \item Cet estimateur est-il efficace pour estimer $h(\theta)$ ?
+    \end{enumerate}
+\end{enumerate}
+\end{exercice}
+\end{mdframed}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\medskip
+
+\begin{mdframed}
+\begin{exercice}
+Soit $\theta > 0$ et $(X_1, \dots, X_n)$ un $n$-échantillon de densité :
+
+$$
+f_\theta(x) = \begin{cases} 
+\frac{1}{\theta} x^{\frac{1}{\theta} - 1} & \text{si } 0 < x < 1, \\ 
+0 & \text{sinon.} 
+\end{cases} 
+$$
+
+\begin{enumerate}
+    \item Calculer l'estimateur du maximum de vraisemblance $\hat{\theta}$ de $\theta$.
+    \item Cet estimateur est-il biaisé ? \\
+    \textit{Indication :} déterminer la loi de probabilité de $Y_i = -\frac{1}{\theta} \log X_i$ puis de $Z = \sum_{i=1}^n Y_i$.
+    \item Calculer la variance de $\hat{\theta}$.
+    \item Montrer que $\ell'(\theta) = \frac{n}{\theta^2}(\hat{\theta} - \theta)$, où $\ell(\theta)$ désigne la log-vraisemblance des observations.
+    \item En déduire que l'estimateur $\hat{\theta}$ atteint la borne de Cramér-Rao.
+\end{enumerate}
+\end{exercice}
+\end{mdframed}
+
+\medskip
+
+\begin{mdframed}
+\begin{exercice}
+On considère le modèle des lois $P_\theta$ de densité $f_\theta$, pour $\theta > 0$, données par :
+
+$$
+f_\theta(x) = \frac{\theta \exp\left(-\theta(\sqrt{x} - 1)\right)}{2\sqrt{x}} \mathbb{1}_{x \ge 1} 
+$$
+
+\begin{enumerate}
+    \item Si $X$ est de loi $P_\theta$, quelle est la loi de $\sqrt{X}$ ?
+    \item Vérifier que la variable aléatoire $\frac{\partial \ln f_\theta(X)}{\partial \theta}$ est centrée sous $P_\theta$.
+    \item Calculer l'information de Fisher du modèle.
+    \item On considère un $n$-échantillon $X_1, \dots, X_n$ de loi $P_\theta$. Montrer qu'il existe un unique estimateur du maximum de vraisemblance $\hat{\theta}_n$ et le calculer.
+    \item Soit $g$ la fonction donnée par $g(u) = \frac{1}{u}$ pour tout $u > 0$. Écrire l'inégalité de Cramér-Rao pour l'estimation de $g(\theta)$.
+    \item Montrer qu'il existe un estimateur sans biais efficace de $g(\theta)$.
+\end{enumerate}
+\end{exercice}
+\end{mdframed}

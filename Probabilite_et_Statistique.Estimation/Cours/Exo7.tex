@@ -1,0 +1,138 @@
+\chapter*{TD 7 - Intervalles de confiance}
+
+\setcounter{exercice}{0}
+
+\section*{Rappels}
+\begin{enumerate}
+    \item On dit qu'une variable aléatoire $U$ suit la loi du $\chi^2$ à $d$ degrés de liberté, si
+    \begin{equation*}
+    U \overset{\text{(loi)}}{=} Z_1^2 + \dots + Z_d^2
+    \end{equation*}
+    où les $Z_i$ sont i.i.d de loi $\mathcal{N}(0, 1)$. On note dans ce cas $U \sim \chi^2(d)$.\\
+    On peut montrer (voir l'exercice ci-dessous) que si $U \sim \chi^2(d)$, alors $U$ admet pour densité
+    \begin{equation*}
+    f_U(x) = C_d \exp(-x/2) x^{d/2 - 1}, \quad \forall x \ge 0.
+    \end{equation*}
+    
+    \item On dit qu'une variable aléatoire $T$ suit la loi de Student à $d$ degrés de liberté si
+    \begin{equation*}
+    T \overset{\text{(loi)}}{=} \frac{Z}{\sqrt{U/d}}
+    \end{equation*}
+    où $Z \sim \mathcal{N}(0, 1)$ et $U \sim \chi^2(d)$ sont indépendantes. On peut montrer que dans ce cas $T$ admet pour densité
+    \begin{equation*}
+    f_T(x) = C'_d \left( 1 + \frac{x^2}{d} \right)^{-(d+1)/2}, \quad \forall x \in \mathbb{R}.
+    \end{equation*}
+\end{enumerate}
+
+\smallskip
+
+\begin{mdframed}
+\begin{exercice}
+Soit $X$ une variable aléatoire à valeurs dans $\mathbb{N}$ définie comme l'instant de premier succès dans un schéma de Bernoulli de paramètre $q \in \, ]0, 1[$. On dispose de $X_1, \dots, X_n$ un échantillon indépendant de taille $n$ de même loi que $X$.
+
+\begin{enumerate}
+    \item Donner la loi de $X$.
+    \item Déterminer $\hat{q}_n$, l'estimateur du maximum de vraisemblance de $q$.
+    \item Montrer que l'estimateur du maximum de vraisemblance est asymptotiquement normal.
+    \item Donner un intervalle de confiance pour $q$ de niveau $1 - \alpha$.
+    \item Une société de transport en commun par bus veut estimer le nombre de passagers ne validant pas leur titre de transport sur une ligne de bus déterminée. Elle dispose pour cela, pour un jour de semaine moyen, du nombre $n_0$ de tickets compostés sur la ligne et des résultats de l'enquête suivante : à chacun des arrêts de bus de la ligne, des contrôleurs comptent le nombre de passagers sortant des bus et ayant validé leur ticket jusqu'à la sortie du premier fraudeur. On a les données (simulées) suivantes :
+    \begin{center}
+    \begin{tabular}{cccccccccc}
+    44 & 07 & 26 & 34 & 09 & 21 & 219 & 05 & 11 & 90 \\
+    02 & 07 & 59 & 38 & 57 & 15 & 81  & 01 & 11 & 06 \\
+    44 & 15 & 24 & 129& 19 & 22 & 69  & 14 & 89 & 29 \\
+    12 & 18 & 10 & 19 & 21 & 02 & 24  & 37 & 28 & 156
+    \end{tabular}
+    \end{center}
+    \item Estimer la probabilité de fraude. Donner un intervalle de confiance de niveau 0.95\%. Estimer le nombre de fraudeurs si $n_0 = 20000$.
+\end{enumerate}
+\end{exercice}
+\end{mdframed}
+
+\smallskip
+
+\begin{mdframed}
+\begin{exercice}
+Soit $X_1, \dots, X_n$ une suite de variables aléatoires indépendantes et identiquement distribuées de loi de Bernoulli $p \in [0, 1]$. On pose $\hat{p}_n = \frac{1}{n} \sum_{i=1}^n X_i$.
+
+\begin{enumerate}
+    \item Montrer l'inégalité $\text{Var}(\hat{p}_n) \le \frac{1}{4n}$.
+    \item Un institut de sondage souhaite estimer avec une précision de 3 points (à droite et à gauche) la probabilité qu'un individu vote pour le maire actuel aux prochaines élections. Combien de personnes est-il nécessaire de sonder ?
+    \item Sur un échantillon représentatif de 1000 personnes, on rapporte les avis favorables pour un homme politique. En novembre, il y avait 38\% d'avis favorables, en décembre 36\%. Un éditorialiste dans son journal prend très au sérieux cette chute de 2 points d'un futur candidat. Confirmer ou infirmer la position du journaliste.
+    \item Reprendre la question 2, et établir un intervalle de confiance à l'aide de l'inégalité de Hoeffding : si $X_1, \dots, X_n$ sont des variables aléatoires i.i.d à valeurs dans $[a, b]$, alors
+    \begin{equation}
+    \mathbb{P}(|\bar{X}_n - \mathbb{E}[X_1]| > t) \le 2 \exp \left( -\frac{2nt^2}{(b - a)^2} \right), \quad \forall t > 0.
+    \end{equation}
+\end{enumerate}
+\end{exercice}
+\end{mdframed}
+
+\smallskip
+
+\begin{mdframed}
+\begin{exercice}
+\begin{enumerate}
+    \item Soit $U$ une variable aléatoire suivant la loi du $\chi^2$ à $d$ degrés de libertés. Donner l'espérance de $U$. Montrer que $U$ admet la densité suivante
+    \begin{equation*}
+    f_U(y) = C_d \exp(-y/2) y^{d/2 - 1}, \quad \forall y \ge 0,
+    \end{equation*}
+    où $C_d$ est une constante de renormalisation.\\
+    \textit{Indication : utiliser la propriété de stabilité des lois Gamma.}
+    
+    \item Soit $X_1, \dots, X_n$ des variables aléatoires gaussiennes i.i.d de loi $\mathcal{N}(m, \sigma^2)$.\\
+    Le but de cette question est de montrer que les variables $\bar{X}$ et $V$ définies par
+    \begin{equation*}
+    \bar{X} = \frac{1}{n}\sum_{i=1}^n X_i \quad \text{et} \quad V = \frac{1}{n}\sum_{i=1}^n (X_i - \bar{X})^2
+    \end{equation*}
+    sont indépendantes et que $\frac{n}{\sigma^2}V$ suit une loi du $\chi^2$ à $n - 1$ degrés de liberté.
+    \begin{enumerate}
+        \item[i--] Montrer qu'on peut se ramener au cas où $m = 0$ et $\sigma^2 = 1$.\\
+        On suppose désormais que $m = 0$ et $\sigma^2 = 1$.
+        \item[ii--] Montrer que
+        \begin{equation*}
+        V = \frac{1}{n} \left( \sum_{i=1}^n X_i^2 - \left( \frac{1}{\sqrt{n}} \sum_{i=1}^n X_i \right)^2 \right).
+        \end{equation*}
+        \item[iii--] On se donne une matrice $M$ de taille $n \times n$ orthogonale (i.e. $M^t \cdot M = I$) telle que la première ligne de $M$ soit $[\frac{1}{\sqrt{n}}, \dots, \frac{1}{\sqrt{n}}]$. On pose $Y = MX$, avec $X = [X_1, \dots, X_n]^t$. Montrer que $Y$ est un vecteur gaussien standard et que $\sum_{i=1}^n Y_i^2 = \sum_{i=1}^n X_i^2$.
+        \item[iv--] Conclure.
+    \end{enumerate}
+\end{enumerate}
+\end{exercice}
+\end{mdframed}
+
+\smallskip
+
+\begin{mdframed}
+\begin{exercice}
+Soit $X_1, \dots, X_n$ un échantillon de loi $\mathcal{N}(m, \sigma^2)$ avec $m$ et $\sigma^2$ inconnus. On pose
+\begin{equation*}
+\bar{X} = \frac{1}{n}\sum_{i=1}^n X_i \quad \text{et} \quad \hat{\sigma}^2 = \frac{1}{n-1}\sum_{i=1}^n (X_i - \bar{X})^2
+\end{equation*}
+
+\begin{enumerate}
+    \item Montrer que la variable $T$ définie par
+    \begin{equation*}
+    T = \sqrt{n} \frac{\bar{X} - m}{\hat{\sigma}}
+    \end{equation*}
+    suit une loi de Student à $n - 1$ degrés de liberté.
+    \item Montrer que si $t_\alpha$ est tel que $\mathbb{P}(|T| \le t_\alpha) = 1 - \alpha$, alors
+    \begin{equation*}
+    \mathbb{P}\left( m \in \left[ \bar{X} - \frac{\hat{\sigma}t_\alpha}{\sqrt{n}}, \bar{X} + \frac{\hat{\sigma}t_\alpha}{\sqrt{n}} \right] \right) = 1 - \alpha.
+    \end{equation*}
+\end{enumerate}
+\end{exercice}
+\end{mdframed}
+
+\smallskip
+
+\begin{mdframed}
+\begin{exercice}
+On désire estimer la production d'une nouvelle espèce de pommier. On suppose que la production d'un pommier de cette espèce suit une loi normale d'espérance $\mu$ et d'écart-type $\sigma$ inconnus.
+
+\begin{enumerate}
+    \item Rappeler les estimateurs de $\mu$ et de $\sigma^2$ dans ce modèle, et indiquer les méthodes qui y conduisent.
+    \item Sur un échantillon de 15 pommiers, on a observé une récolte moyenne de 52 kg avec un écart-type empirique de 5 kg. Donner un intervalle de confiance pour la production moyenne des pommiers de cette espèce, de niveau 0.95 puis 0.99.
+    \item Donner un intervalle de confiance pour l'écart-type $\sigma$, de niveau 0.95.
+    \item Sur un échantillon de 80 pommiers, on observe une récolte moyenne de 51.5 kg avec un écart-type de 4.5 kg. Donner un intervalle de confiance pour la production de cette espèce, de niveau 0.95 puis 0.99.
+\end{enumerate}
+\end{exercice}
+\end{mdframed}

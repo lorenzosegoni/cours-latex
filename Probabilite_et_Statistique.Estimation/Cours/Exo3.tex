@@ -1,0 +1,153 @@
+\chapter*{TD 3 - Méthodes d'estimation - 2ème partie}
+
+\setcounter{exercice}{0}
+
+\begin{mdframed}
+\begin{exercice}
+Soit $(X_1, \dots, X_n)$ un $n$-échantillon d'une loi de Bernoulli de paramètre $\theta \in \, ]0, 1[$.
+\begin{enumerate}
+    \item Déterminer un estimateur de $\theta$ par la méthode des moments et donner ses propriétés.
+    \item Déterminer l'estimateur du maximum de vraisemblance de $\theta$.
+\end{enumerate}
+\end{exercice}
+\end{mdframed}
+
+\smallskip
+
+\begin{mdframed}
+\begin{exercice}
+Soit $X$ une v.a. de loi exponentielle $\mathcal{E}(\theta)$, $\theta > 0$. Soit $(X_1, \dots, X_n)$ un $n$-échantillon de même loi que $X$. On veut estimer $\theta$.
+\begin{enumerate}
+    \item Calculer l'estimateur du maximum de vraisemblance $\hat{\theta}_n$ de $\theta$.
+    \item En reprenant l'exercice 5, rappeler le biais de $\hat{\theta}_n$, un estimateur sans biais $\hat{\theta}_n^*$ et son risque quadratique.
+    \item Déterminer un estimateur $\hat{\theta}_n^\circ$ qui minimise le risque quadratique parmi les estimateurs s'écrivant :
+    \begin{equation*}
+    \hat{\theta}_n(c) = \frac{c}{\sum_{i=1}^n X_i},
+    \end{equation*}
+    où $c > 0$.
+    \item Lequel préférez-vous ?
+\end{enumerate}
+\end{exercice}
+\end{mdframed}
+
+\smallskip
+
+\begin{mdframed}
+\begin{exercice}
+Soit $X$ une v.a. de loi de densité donnée pour tout $x \in \mathbb{R}$, par
+\begin{equation*}
+f_\theta(x) = \exp(-(x - \theta))\mathbf{1}_{[\theta, +\infty[} (x),
+\end{equation*}
+où $\theta > 0$ est un paramètre inconnu. Soit $(X_1, \dots, X_n)$ un $n$-échantillon de même loi que $X$. On veut estimer $\theta$.
+\begin{enumerate}
+    \item Calculer l'estimateur du maximum de vraisemblance de $\theta$ que l'on notera $\hat{\theta}_n$.
+    \item Calculer pour tout $t \in \mathbb{R}$, $\mathbb{P}(\hat{\theta}_n > t)$, et en déduire la densité de $\hat{\theta}_n$.
+    \item En déduire la loi de $n(\hat{\theta}_n - \theta)$.
+    \item Calculer le risque quadratique de $\hat{\theta}_n$.
+\end{enumerate}
+\end{exercice}
+\end{mdframed}
+
+\smallskip
+
+\begin{mdframed}
+\begin{exercice}
+Soit $X$ une v.a. symétrique de variance $\sigma^2$ et de fonction de répartition $F$. Soit $(X_i)_{i \ge 1}$ une suite de v.a. i.i.d. de fonction de répartition donnée pour tout $x \in \mathbb{R}$ par $F_\theta(x) = F(x - \theta)$. C'est-à-dire $X_1$ a même loi que $X + \theta$. On s'intéresse à l'estimation de $\theta$.
+\begin{enumerate}
+    \item Calculer $\mathbb{E}[X]$ et en déduire $\mathbb{E}_\theta[X_1]$.
+    \item Dans chacun des cas suivants, calculer l'EMV de $\theta$ :
+    \begin{enumerate}
+        \item[i--] $F$ est la fonction de répartition de $\mathcal{N}(0, \sigma^2)$.
+        \item[ii--] La densité de $X$ est donnée par $f(x) = \frac{3}{4}(1 - x^2)\mathbf{1}_{[-1, 1]}(x)$.
+        \item[iii--] La densité de $X$ est donnée sur $\mathbb{R}$ par $f(x) = \frac{1}{2} e^{-|x|}$.
+    \end{enumerate}
+\end{enumerate}
+\end{exercice}
+\end{mdframed}
+
+\smallskip
+
+\begin{mdframed}
+\begin{exercice}
+Soit $X$ une v.a. de loi $\mathbb{P}_\theta$ avec $\theta \in \, ]0, 1[$. Pour tout $\theta \in \, ]0, 1[$, $\mathbb{P}_\theta$ est définie pour tout $k \in \mathbb{N}$, par
+\begin{equation*}
+\mathbb{P}_\theta(k) = (k + 1)(1 - \theta)^2 \theta^k.
+\end{equation*}
+On donne
+\begin{equation*}
+\mathbb{E}_\theta[X] = \frac{2\theta}{1-\theta} \quad \text{et} \quad \text{Var}_\theta(X) = \frac{2\theta}{(1 - \theta)^2}.
+\end{equation*}
+Soit $X_1, \dots, X_n$ un $n$-échantillon de même loi que $X$.
+\begin{enumerate}
+    \item Donner un estimateur $\hat{\theta}_n$ de $\theta$ par la méthode des moments.
+    \item L'estimateur du maximum de vraisemblance $\tilde{\theta}_n$ de $\theta$ est-il bien défini ?
+    \item Étudier la consistance de $\hat{\theta}_n$ et déterminer sa loi limite.
+\end{enumerate}
+\end{exercice}
+\end{mdframed}
+
+\smallskip
+
+\begin{mdframed}
+\begin{exercice}
+\begin{enumerate}
+    \item On définit pour tout $\theta \in \mathbb{R}$, la fonction $f_\theta$ par
+    \begin{equation*}
+    f_\theta(x) = \begin{cases}
+    1 - \theta & \text{si } x \in \, ]{-1/2}, 0], \\
+    1 + \theta & \text{si } x \in \, ]0, 1/2], \\
+    0 & \text{sinon},
+    \end{cases}
+    \end{equation*}
+    où $\theta$ est un paramètre réel. À quelle condition sur $\theta$, $f_\theta$ est-elle bien une densité sur $\mathbb{R}$ ? On suppose cette condition vérifiée dans la suite.\\
+    Soit $X$ une v.a. de loi à densité donnée par $f_\theta$. Soit $(X_1, \dots, X_n)$ un $n$-échantillon de même loi que $X$.
+    
+    \item Déterminer l'estimateur du maximum de vraisemblance $\hat{\theta}_n$.\\
+    \textit{Indication : On pourra faire intervenir la variable aléatoire $Y_n$ égale au nombre de réalisations comprises entre 0 et $1/2$ dans l'échantillon $(X_1, \dots, X_n)$.}
+    
+    \item $\hat{\theta}_n$ est-il sans biais ? est-il consistant ?
+    \item Quelle est la loi limite de $\sqrt{n}(\hat{\theta}_n - \theta)$ ?
+\end{enumerate}
+\end{exercice}
+\end{mdframed}
+
+\smallskip
+
+\begin{mdframed}
+\begin{exercice}
+Soit $X$ une v.a. de loi $\mathbb{P}_\theta$ avec $\theta \in \, ]0, 1[$. Pour tout $\theta \in \, ]0, 1[$, $\mathbb{P}_\theta$ est définie par
+\begin{equation*}
+\mathbb{P}_\theta(0) = 1 - \theta, \quad \text{et} \quad \mathbb{P}_\theta(1) = \mathbb{P}_\theta(-1) = \frac{\theta}{2}.
+\end{equation*}
+\begin{enumerate}
+    \item Trouver une expression simple de $\mathbb{P}_\theta(k)$.\\
+    \textit{Indication : Penser aux lois de Bernoulli.}
+    \item Soit $(X_1, \dots, X_n)$ un $n$-échantillon de même loi que $X$. Déterminer l'EMV $\hat{\theta}_n$ de $\theta$. On note respectivement $T$, $U$ et $V$ le nombre de $X_i$ égales à 0, 1 et $-1$.
+    \item $\hat{\theta}_n$ est-il sans biais ?
+\end{enumerate}
+\end{exercice}
+\end{mdframed}
+
+\smallskip
+
+\begin{mdframed}
+\begin{exercice}
+La hauteur maximale $H$ de la crue annuelle d'un fleuve est observée. Une crue supérieure à 6 mètres serait catastrophique. On modélise $H$ par une variable de Rayleigh : $H$ a une densité donnée par
+\begin{equation*}
+f(x) = \frac{x}{a} e^{-\frac{x^2}{2a}} \mathbf{1}_{\mathbb{R}_+}(x)
+\end{equation*}
+où $a > 0$ est un paramètre inconnu. Durant une période de 8 ans, on a observé les hauteurs de crue suivantes en mètres :
+\begin{center}
+\begin{tabular}{cccccccc}
+2.5 & 1.8 & 2.9 & 0.9 & 2.1 & 1.7 & 2.2 & 2.8
+\end{tabular}
+\end{center}
+
+\begin{enumerate}
+    \item Donner l'estimateur du maximum de vraisemblance, $\hat{a}_n$, de $a$.
+    \item Montrer que si $X$ suit une loi de Rayleigh de paramètre $a$, alors $X^2$ suit une loi exponentielle de paramètre $1/(2a)$.
+    \item Cet estimateur est-il sans biais ? Asymptotiquement normal ?
+    \item Une compagnie d'assurance estime qu'une catastrophe n'arrive qu'au plus une fois tous les mille ans. Ceci peut-il être justifié par les observations ?
+\end{enumerate}
+\end{exercice}
+\end{mdframed}
